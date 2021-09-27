@@ -4,16 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_11_Image_Processing"
-        xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" x:Class="_11_Image_Processing.MainWindow"
+        xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" xmlns:syncfusion="http://schemas.syncfusion.com/wpf" x:Class="_11_Image_Processing.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button x:Name="ButtonOpenClearPdf" Content="Open file to add boxes" HorizontalAlignment="Left" Margin="79,61,0,0" VerticalAlignment="Top" FontSize="20" Click="ButtonOpenClearPdf_Click"/>
-        <Button Content="Save file for fill in" HorizontalAlignment="Left" Margin="309,61,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Button Name="Edit" Content="Edit file" HorizontalAlignment="Left" Margin="79,111,0,0" VerticalAlignment="Top" FontSize="20" Click="Edit_Click"/>
-        <Button Content="Open filled scans" HorizontalAlignment="Left" Margin="310,111,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="ButtonOpen"             Content="Open"                      HorizontalAlignment="Left" Margin="91,61,0,0"       VerticalAlignment="Top" FontSize="20" Click="ButtonOpen_Click" Grid.Column="1" Height="31" Width="53"/>
+        <Button x:Name="ButtonSavePdf"          Content="Save"                      HorizontalAlignment="Left" Margin="183,251,0,0"     VerticalAlignment="Top" FontSize="20" Click="ButtonSave_Click" Grid.Column="1" Height="31" Width="45"/>
+        <Button x:Name="Edit"                   Content="Edit"                      HorizontalAlignment="Left" Margin="183,307,0,0"     VerticalAlignment="Top" FontSize="20" Click="Edit_Click"        Grid.Column="1" Height="31" Width="38"/>
+        <Button                                 Content="jjjj"                      HorizontalAlignment="Left" Margin="183,176,0,0"     VerticalAlignment="Top" FontSize="20" Grid.Column="1" Height="31" Width="23"/>
+        <Button x:Name="ButtonOpenDraftPdf"     Content="new"                       HorizontalAlignment="Left" Margin="30,61,0,0"       VerticalAlignment="Top" FontSize="20" Click="ButtonNew_Click" Grid.Column="1" Height="31" Width="40"/>
 
-        <PdfViewer:PdfViewerControl Name="PDFViewer" ItemSource="{Binding DocumentStream}" Visibility="Collapsed"/>
+
 
     </Grid>
 </Window>

@@ -13,7 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+//using System.Windows.Shapes;
 using PdfSharp;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
@@ -27,29 +27,48 @@ namespace _11_Image_Processing
     /// </summary>
     public partial class MainWindow : Window
     {
-        string tempPdf;
-        string tempSetting;
+        string filePath;
 
         public MainWindow()
         {
+            //licencing PDFSharp and Syncfusion.PDFViewer
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NDc1MjU5QDMxMzkyZTMyMmUzMG5MSnFGODNPRngxVVVMcm9zRzVMRi9lZnRJc3JESzRtTEY4T2xMMi9USzg9");
+
             InitializeComponent();
-            tempPdf = System.IO.Path.GetTempFileName();
-            HelloWorld();
+        }
+        private void ButtonNew_Click(object sender, RoutedEventArgs e)
+        {
+
+            PdfEditW W = new(null);
+            W.Show();
         }
 
-        private void ButtonOpenClearPdf_Click(object sender, RoutedEventArgs e)
+        private void ButtonOpen_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() != true) return;
-            var f=openFileDialog.FileName;
+            filePath=openFileDialog.FileName;
+
+            PdfEditW W = new(openFileDialog.FileName);
+            W.Show();
 
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            this.DataContext = new ViewModel();
-            PDFViewer.Visibility = Visibility.Visible;
+            if (filePath == null) { MessageBox.Show("no file to edit"); return; }
+            PdfEditW W = new(filePath);
+            W.Show();
+
+        }
+
+ 
+
+
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
+        {
+            HelloWorld();
         }
 
         private void HelloWorld()
@@ -58,11 +77,13 @@ namespace _11_Image_Processing
             PdfPage page = doc.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
             XFont font = new("Arial", 20);
-            gfx.DrawString("Hello, World!", font, XBrushes.Black,new XRect(0, 0, page.Width, page.Height),XStringFormats.Center);
-            string filename = "HelloWorld.pdf";
-            doc.Save(filename);
+            gfx.DrawString("Hello, World!", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
+            //string filename = "HelloWorld.pdf";
+            filePath = Path.GetTempFileName();
+            doc.Save(filePath);
             //Process.Start(filename);
 
         }
+
     }
 }
