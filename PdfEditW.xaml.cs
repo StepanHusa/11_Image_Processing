@@ -18,7 +18,7 @@ using System.Diagnostics;
 using Syncfusion.Windows.PdfViewer;
 using Syncfusion.Pdf.Parsing;
 
-namespace _11_Image_Processing
+namespace _13_Testing_Software_PNGused
 {
     /// <summary>
     /// Interaction logic for PdfEditW.xaml
@@ -38,28 +38,17 @@ namespace _11_Image_Processing
                 fileName = tempPdf;
             }
 
-            InitializeComponent();
 
+            
 
-            //PdfDocument doc = PdfSharp.Pdf.IO.PdfReader.Open(fileName);
-            //PdfPage page = doc.AddPage();
-            //XGraphics gfx = XGraphics.FromPdfPage(page);
-            //XFont font = new("Arial", 20);
-            //gfx.DrawString("Hello, World!", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-            //doc.Save(fileName);
-
-            //this.DataContext = new ViewModel(tempPdf);
-            //PDFViewer.Visibility = Visibility.Visible;
-
-            this.Title = Path.GetFileName(fileName);
+                       this.Title = Path.GetFileName(fileName);
             Debug.WriteLine(new FileInfo(fileName).Length);
             if (new FileInfo(fileName).Length < Math.Pow(10, 6))
             {
                 PdfLoadedDocument pdf = new PdfLoadedDocument(fileName);
                 
-                pdfwcontrol.Load(pdf);
             }
-            else pdfwcontrol.Load(fileName);
+
         }
         private void NewPdfDoc(string path)
         {
@@ -71,10 +60,11 @@ namespace _11_Image_Processing
             doc.Save(path);
         }
 
-        //private void DeleteTemp()
-        //{
-        //    if(tempPdf!=null) { File.Delete(tempPdf);tempPdf = null; }
-        //}
+        private void pdfwcontrol_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var sen = (PdfViewerControl)sender;
+            var t=e.GetPosition(sen);
+        }
 
     }
 }

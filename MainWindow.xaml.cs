@@ -20,7 +20,7 @@ using PdfSharp.Drawing;
 using System.Diagnostics;
 using System.Drawing;
 
-namespace _11_Image_Processing
+namespace _13_Testing_Software_PNGused
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -36,6 +36,11 @@ namespace _11_Image_Processing
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NDc1MjU5QDMxMzkyZTMyMmUzMG5MSnFGODNPRngxVVVMcm9zRzVMRi9lZnRJc3JESzRtTEY4T2xMMi9USzg9");
 
             InitializeComponent();
+
+            //debug speedup
+            ButtonNew_Click(ButtonNew,new RoutedEventArgs());
+            this.WindowState = WindowState.Minimized;
+
         }
         private void ButtonNew_Click(object sender, RoutedEventArgs e)
         {
@@ -85,5 +90,11 @@ namespace _11_Image_Processing
 
         }
 
+        private void ButtonRun_Click(object sender, RoutedEventArgs e)
+        {
+            Rectangle rectangle = new(1, 1,2,2);
+            bool a = rectangle.Logical();
+            
+        }
     }
 }
