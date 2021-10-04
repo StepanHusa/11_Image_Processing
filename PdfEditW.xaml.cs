@@ -37,18 +37,18 @@ namespace _13_Testing_Software_PNGused
                 NewPdfDoc(tempPdf);
                 fileName = tempPdf;
             }
-
-
-            
-
-                       this.Title = Path.GetFileName(fileName);
+            else if (!File.Exists(fileName)) { MessageBox.Show("File not fount");this.Close(); }
+  
+            this.Title = Path.GetFileName(fileName);
             Debug.WriteLine(new FileInfo(fileName).Length);
-            if (new FileInfo(fileName).Length < Math.Pow(10, 6))
-            {
-                PdfLoadedDocument pdf = new PdfLoadedDocument(fileName);
-                
-            }
 
+
+            //BitmapImage bitmap = new();
+            //bitmap.BeginInit();
+            //bitmap.UriSource = new Uri(fileName);
+            //bitmap.EndInit();
+            //ImageControl.Source = bitmap;
+            
         }
         private void NewPdfDoc(string path)
         {
