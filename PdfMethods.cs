@@ -106,6 +106,7 @@ namespace _11_Image_Processing
             List<bool[]> output = new();
             Bitmap[] pageImages = doc.ExportAsImage(0, doc.Pages.Count - 1, 300, 300);
             SizeF size = new(sizeInt, sizeInt);
+            double treshold = 0.7;
 
             if (list.Count > doc.Pages.Count) throw new Exception("not a correct sizes of lists (RecognizeTaggedBoxes)");
 
@@ -121,7 +122,7 @@ namespace _11_Image_Processing
                 var sI = pageImages[pgCount].Size; //2479 3508 size image
                 double r = sI.Height / s.Height; //4.16627 racio
 
-
+                int pointCount=0;
                 foreach (var point in points)
                 {
                     pageImages[0].SetPixel((int)Math.Ceiling(point.X * r), (int)Math.Ceiling(point.Y * r), Color.Green);
@@ -140,11 +141,21 @@ namespace _11_Image_Processing
                     I.Height = (int)Math.Round(r * b.Height);
 
 
+
+                    int c = I.Width* I.Height;//count of pixels
+                    float cc = 0;
                     for (int i = I.X; i < I.X + I.Width; i++)
                         for (int j = I.Y; j < I.Y + I.Height; j++)
                         {
-                            pageImages[0].SetPixel(i, j, Color.Blue);
+                            //pageImages[0].SetPixel(i, j, Color.Blue);
+                            //var pix=pageImages[pgCount].GetPixel(i,j);
+                            //var x = pix.GetBrightness();
+                            cc+= pageImages[pgCount].GetPixel(i, j).GetBrightness();
                         }
+                    float av = cc / c;
+
+                    if (av < treshold) pageArray[pointCount] = true;
+                    pointCount++;
                 }
 
                 output.Add(pageArray);

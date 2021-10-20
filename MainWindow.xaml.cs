@@ -86,13 +86,13 @@ namespace _11_Image_Processing
 
 
 
-                var p = new Process();
-                p.StartInfo.UseShellExecute = true;
-                p.StartInfo.FileName = d01;
-                p.Start();
+                //var p = new Process();
+                //p.StartInfo.UseShellExecute = true;
+                //p.StartInfo.FileName = d01;
+                //p.Start();
 
-                p.StartInfo.FileName = Path.ChangeExtension(d01, "jpg");
-                p.Start();
+                //p.StartInfo.FileName = Path.ChangeExtension(d01, "jpg");
+                //p.Start();
 
             }
         }
