@@ -19,7 +19,7 @@ using Syncfusion.Pdf.Graphics;
 using System.Drawing;
 using Syncfusion.Pdf;
 
-namespace _13_Testing_Software_PNGused
+namespace _11_Image_Processing
 {
     /// <summary>
     /// Interaction logic for PdfEditW.xaml
@@ -51,13 +51,6 @@ namespace _13_Testing_Software_PNGused
 
                     this.Title = Path.GetFileName(fileName);
                 }
-            if (fileName == null)
-            {
-                tempPdf = Path.ChangeExtension(Path.GetTempFileName(), "pdf");
-                NewPdfDoc(tempPdf);
-                fileName = tempPdf;
-            }
-            else if (!File.Exists(fileName)) { MessageBox.Show("File not fount");this.Close(); }
   
             this.Title = Path.GetFileName(fileName);
             Debug.WriteLine(new FileInfo(fileName).Length);
@@ -300,13 +293,9 @@ namespace _13_Testing_Software_PNGused
                     FileMenuItem.Visibility = System.Windows.Visibility.Collapsed;
                 if (FileMenuItem.Name == "PART_PrintMenuItem")
                     FileMenuItem.Visibility = System.Windows.Visibility.Collapsed;
-        private void pdfwcontrol_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var sen = (PdfViewerControl)sender;
-            var t=e.GetPosition(sen);
-        }
 
             }
         }
+
     }
 }

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace _13_Testing_Software_PNGused
+namespace _11_Image_Processing
 {
     /// <summary>
     /// Interaction logic for App.xaml
