@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:_11_Image_Processing"       
-        xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" x:Class="_11_Image_Processing.PdfEditW"       
+        xmlns:local="clr-namespace:_13_Testing_Software_PNGused"       
+        xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" x:Class="_13_Testing_Software_PNGused.PdfEditW"       
         mc:Ignorable="d"
         Title="PdfEditW" Height="450" Width="800">
     <PdfViewer:PdfViewerControl x:Name="pdfwcontrol"/>
