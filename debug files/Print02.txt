@@ -1,0 +1,69 @@
+%PDF-1.7
+
+4 0 obj
+<<
+/Filter /FlateDecode
+/Length 246
+>>
+stream
+xœ‘1n!D{NÁbÙÆ8Æ?C¤$[$÷/bF›b©ÆoÅìx@(íDÄS¼İ¿U!hŒ(ß¯ğèvi‰ŸÏÀÅ¦ÒZ-‘r…œ›éxn
+eèêy?xÍÀC·Áç_á#¼|Š»˜)x¹*‘é<Sp²=ï¯ìÒ9Ïo)şíBX€Ô‰”dò
+’jµ!{Ş®
+,SöÃÇóg][ÃãIøï¶¥º\7ï×:öO3ÅöñüY*¶ƒÕWRd,»-kgÇûÁ“ìtŞÇóg]¨Øöè…"î.Tërİ¼<ÑŞÙûx>R¼Â/«Šª<
+endstream
+endobj
+5 0 obj
+<<
+>>
+endobj
+3 0 obj
+<<
+/Contents [ 4 0 R ]
+/CropBox [ 0.0 0.0 595.32001 841.92004 ]
+/MediaBox [ 0.0 0.0 595.32001 841.92004 ]
+/Parent 2 0 R
+/Resources 5 0 R
+/Rotate 0
+/Type /Page
+>>
+endobj
+2 0 obj
+<<
+/Count 1
+/Kids [ 3 0 R ]
+/Type /Pages
+>>
+endobj
+1 0 obj
+<<
+/Pages 2 0 R
+/Type /Catalog
+>>
+endobj
+6 0 obj
+<<
+/Author (stepa)
+/CreationDate (D:20211013092937+02'00')
+/ModDate (D:20211013092937+02'00')
+/Producer (Microsoft: Print To PDF)
+/Title (document)
+>>
+endobj
+xref
+0 7
+0000000000 65535 f
+0000000584 00000 n
+0000000525 00000 n
+0000000348 00000 n
+0000000009 00000 n
+0000000327 00000 n
+0000000633 00000 n
+trailer
+<<
+/Info 6 0 R
+/Root 1 0 R
+/Size 7
+>>
+startxref
+800
+%%EOF

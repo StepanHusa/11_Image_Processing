@@ -8,11 +8,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BitMiracle.Docotic.Pdf" Version="8.2.12561" />
+    <PackageReference Include="Pdfium.Net.SDK" Version="4.61.2704" />
     <PackageReference Include="PDFsharp-wpf" Version="1.50.5147" />
     <PackageReference Include="QRCoder" Version="1.4.1" />
     <PackageReference Include="Syncfusion.Licensing" Version="19.2.0.44" />
     <PackageReference Include="Syncfusion.PdfViewer.WPF" Version="19.2.0.44" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

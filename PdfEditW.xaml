@@ -7,11 +7,6 @@
         xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" x:Class="_11_Image_Processing.PdfEditW"       
         mc:Ignorable="d"
         Title="PdfEditW" Height="450" Width="800">
-
-    <Window.DataContext>
-        <local:ViewModel/>
-    </Window.DataContext>
-    <PdfViewer:PdfViewerControl Name="pdfwcontrol" ItemSource="{Binding DocumentStream}" />
-
+    <PdfViewer:PdfViewerControl x:Name="pdfwcontrol"/>
 
 </Window>
