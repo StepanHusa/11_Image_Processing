@@ -2,8 +2,10 @@
 using Syncfusion.Pdf.Graphics;
 using Syncfusion.Pdf.Parsing;
 using System;
+//using System.Windows;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -115,48 +117,45 @@ namespace _11_Image_Processing
             foreach (var points in list)
             {
                 pgCount++;
-
                 bool[] pageArray = new bool[points.Count];
 
                 var s = doc.Pages[pgCount].Size; //595 842 size
                 var sI = pageImages[pgCount].Size; //2479 3508 size image
                 double r = sI.Height / s.Height; //4.16627 racio
 
-                int pointCount=0;
+                int pointCount = 0;
                 foreach (var point in points)
                 {
-                    pageImages[0].SetPixel((int)Math.Ceiling(point.X * r), (int)Math.Ceiling(point.Y * r), Color.Green);
-
                     RectangleF b = new RectangleF(point, size); //bounds
                     Rectangle I = new(); //Int Rectangle
 
-                    b.X += w;
-                    b.Y += w;
-                    b.Width -= 2 * w;
-                    b.Height -= 2 * w;
 
-                    I.X = (int)Math.Round(r * b.X);
-                    I.Y = (int)Math.Round(r * b.Y);
-                    I.Width = (int)Math.Round(r * b.Width);
-                    I.Height = (int)Math.Round(r * b.Height);
+                    b.Size -= new SizeF(w*2, w*2);
+                    b.Location += new SizeF(w, w);
+                    b.Size*= (float)r;
+                    b.Location= b.Location.ScalePoint((float)r);
 
 
+                    I=Rectangle.Round(b);
 
-                    int c = I.Width* I.Height;//count of pixels
+
+
+                    int c = I.Width * I.Height;//count of pixels
                     float cc = 0;
                     for (int i = I.X; i < I.X + I.Width; i++)
                         for (int j = I.Y; j < I.Y + I.Height; j++)
                         {
-                            //pageImages[0].SetPixel(i, j, Color.Blue);
+                            pageImages[0].SetPixel(i, j, Color.Blue);
                             //var pix=pageImages[pgCount].GetPixel(i,j);
                             //var x = pix.GetBrightness();
-                            cc+= pageImages[pgCount].GetPixel(i, j).GetBrightness();
+                            cc += pageImages[pgCount].GetPixel(i, j).GetBrightness();
                         }
                     float av = cc / c;
 
                     if (av < treshold) pageArray[pointCount] = true;
                     pointCount++;
                 }
+
 
                 output.Add(pageArray);
             }
@@ -166,6 +165,35 @@ namespace _11_Image_Processing
             return output;
 
         }
+
+
+        private static PointF[] TranslatePoints(this PointF[] points, float dx, float dy)
+        {
+            Matrix translateMatrix = new Matrix(1, 0, 0, 1, dx, dy);
+            translateMatrix.TransformPoints(points); //this modifies myPointArray
+
+            return points;
+        }
+
+        private static PointF[] ScalePoints(this PointF[] points, float scale) 
+        { 
+            Matrix scaleMatrix = new Matrix(scale, 0, 0, scale, 0, 0);
+            scaleMatrix.TransformPoints(points);       //this modifies myPointArray
+
+            return points;
+        }
+
+        private static PointF ScalePoint(this PointF point, float scale)
+        {
+            PointF[] points = { point };
+
+            Matrix scaleMatrix = new Matrix(scale, 0, 0, scale, 0, 0);
+            scaleMatrix.TransformPoints(points);       //this modifies myPointArray
+
+            return points[0];
+        }
+
+
     }
 
 

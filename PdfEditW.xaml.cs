@@ -29,35 +29,22 @@ namespace _11_Image_Processing
         string tempPdf;
         double offset;
 
-        public PdfEditW(string fileName)
+        public PdfEditW()
         {
             InitializeComponent();
 
-            //load (create if needed) pdf file
-            {
-                string dir = Path.GetTempPath() + "Stepan_Husa_Is_The_Genius\\";
-                if (!Directory.Exists(dir))
-                    Directory.CreateDirectory(dir);
-                tempPdf = dir + "tmp" + Path.GetRandomFileName().Remove(8) + ".pdf";
-                if (fileName == null)
-                {
-                    PdfMethods.NewPdfDoc(tempPdf);
 
-                    this.Title = "*untitled";
-                }
-                else if (File.Exists(fileName))
-                {
-                    File.Copy(fileName, tempPdf);
+            if (ST.fileName != null)
+                this.Title = ST.fileName;
+            else this.Title = "*Untitled";
+            tempPdf = ST.tempFile;
+            //Debug.WriteLine(new FileInfo(fileName).Length);
 
-                    this.Title = Path.GetFileName(fileName);
-                }
-  
-            this.Title = Path.GetFileName(fileName);
-            Debug.WriteLine(new FileInfo(fileName).Length);
+            pdfViewControl.Load(ST.document);
 
-                pdfwcontrol.Load(tempPdf);
+                
 
-            }
+            
             {//PdfDocument doc = PdfSharp.Pdf.IO.PdfReader.Open(fileName);
              //PdfPage page = doc.AddPage();
              //XGraphics gfx = XGraphics.FromPdfPage(page);
@@ -73,19 +60,19 @@ namespace _11_Image_Processing
                 //{
                 //    PdfLoadedDocument pdf = new PdfLoadedDocument(tempPdf);
 
-                //    pdfwcontrol.Load(pdf);
+                //    pdfViewControl.Load(pdf);
                 //}
                 //else
             }
 
 
 
-            pdfwcontrol.MouseDoubleClick += Pdfwcontrol_MouseDoubleClick;
-            pdfwcontrol.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
+            pdfViewControl.MouseDoubleClick += Pdfwcontrol_MouseDoubleClick;
+            pdfViewControl.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
 
-            pdfwcontrol.ScrollChanged += Pdfwcontrol_ScrollChanged1;
+            pdfViewControl.ScrollChanged += Pdfwcontrol_ScrollChanged1;
 
-            //pdfwcontrol.LoadedDocument.AddSquareAt(0, new System.Drawing.Point(10, 20), 10);
+            //pdfViewControl.LoadedDocument.AddSquareAt(0, new System.Drawing.Point(10, 20), 10);
         }
 
         private void Pdfwcontrol_ScrollChanged1(object sender, ScrollChangedEventArgs args)
@@ -119,27 +106,27 @@ namespace _11_Image_Processing
 
         private void A_Click(object sender, RoutedEventArgs e)
         {
-            pdfwcontrol.PageClicked += Pdfwcontrol_PageClicked_A;
+            pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_A;
         }
         private void B_Click(object sender, RoutedEventArgs e)
         {
-            var doc = pdfwcontrol.LoadedDocument.AddSquareAt(0, new System.Drawing.Point(20, 20), 10);
-            doc.Save(tempPdf);
-            Debug.WriteLine(tempPdf);
-            pdfwcontrol.Load(tempPdf);
+            //var doc = pdfViewControl.LoadedDocument.AddSquareAt(0, new System.Drawing.Point(20, 20), 10);
+            //doc.Save(tempPdf);
+            //Debug.WriteLine(tempPdf);
+            //pdfViewControl.Load(tempPdf);
         }
         private void C_Click(object sender, RoutedEventArgs e)
         {
-            pdfwcontrol.PageClicked += Pdfwcontrol_PageClicked_C;
+            pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_C;
         }
 
 
         private void Pdfwcontrol_PageClicked_A(object sender, PageClickedEventArgs args)
         {
-            pdfwcontrol.Save(tempPdf);
+            //this.pdfViewControl.Save(tempPdf);
 
             var sen = sender as PdfViewerControl;
-            var doc = pdfwcontrol.LoadedDocument;
+            var doc = ST.document;
             int pindex = args.PageIndex;
             double zoom = sen.ZoomPercentage / 100.0;
 
@@ -147,13 +134,14 @@ namespace _11_Image_Processing
             int size = 20;
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
             doc.AddSquareAt(pindex, point, size);
+            doc.Pages.Add();
 
+            
+            //doc.Save(tempPdf);
+            //pdfViewControl.Load(ST.document);
 
-            doc.Save(tempPdf);
-            pdfwcontrol.Load(tempPdf);
-
-            pdfwcontrol.ScrollTo(offset);
-            pdfwcontrol.Zoom = zoom * 100;
+            //pdfViewControl.ScrollTo(offset);
+            //pdfViewControl.Zoom = zoom * 100;
 
 
         }
@@ -197,7 +185,7 @@ namespace _11_Image_Processing
         private void HideTools()
         {
             //Get the instance of the toolbar using its template name.
-            DocumentToolbar toolbar = pdfwcontrol.Template.FindName("PART_Toolbar", pdfwcontrol) as DocumentToolbar;
+            DocumentToolbar toolbar = pdfViewControl.Template.FindName("PART_Toolbar", pdfViewControl) as DocumentToolbar;
 
             //Get the instance of the open file button using its template name.
             
@@ -275,7 +263,7 @@ namespace _11_Image_Processing
         private void HideMenuTool()
         {
             //Get the instance of the toolbar using its template name.
-            DocumentToolbar toolbar = pdfwcontrol.Template.FindName("PART_Toolbar", pdfwcontrol) as DocumentToolbar;
+            DocumentToolbar toolbar = pdfViewControl.Template.FindName("PART_Toolbar", pdfViewControl) as DocumentToolbar;
 
             //Get the instance of the file menu button using its template name.
             var MenuItem = (System.Windows.Controls.Primitives.ToggleButton)toolbar.Template.FindName("PART_FileToggleButton", toolbar);

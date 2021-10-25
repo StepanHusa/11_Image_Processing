@@ -28,7 +28,8 @@ namespace _11_Image_Processing
     /// </summary>
     public partial class MainWindow : Window
     {
-        string filePath;
+        public string fileNameGlobal;
+        public string tempFileGlobal;
 
         public MainWindow()
         {
@@ -45,6 +46,9 @@ namespace _11_Image_Processing
 
                 //ButtonNew_Click(ButtonNew, new RoutedEventArgs());
                 this.WindowState = WindowState.Minimized;
+                New_Click(new object(), new RoutedEventArgs());
+                MenuEditOptions_AddBoxex_Click(new object(), new RoutedEventArgs());
+
 
                 //PdfModifyW m = new(null);
                 //m.Show();
@@ -86,8 +90,9 @@ namespace _11_Image_Processing
 
 
 
-                //var p = new Process();
-                //p.StartInfo.UseShellExecute = true;
+                var p = new Process();
+                p.StartInfo.UseShellExecute = true;
+
                 //p.StartInfo.FileName = d01;
                 //p.Start();
 
@@ -96,40 +101,32 @@ namespace _11_Image_Processing
 
             }
         }
-        private void ButtonNew_Click(object sender, RoutedEventArgs e)
-        {
-
-            PdfEditW W = new(null);
-            W.Show();
-        }
-
-        private void ButtonOpen_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "JPEG(*.jpg)|*.jpg",Title="Open JPG" };
-            if (openFileDialog.ShowDialog() != true) return;
-            filePath=openFileDialog.FileName;
-
-            
-
-            PdfEditW W = new(openFileDialog.FileName);
-            W.Show();
-
-        }
-
-        private void Edit_Click(object sender, RoutedEventArgs e)
-        {
-            if (filePath == null) { MessageBox.Show("no file to edit"); return; }
-            PdfEditW W = new(filePath);
-            W.Show();
-        }
-
- 
 
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
             throw new NotImplementedException();
         }
+        private void ButtonRun_Click(object sender, RoutedEventArgs e)
+        {
+            Rectangle rectangle = new(1, 1,2,2);
+            bool a = rectangle.Logical();
+
+        }
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "PDF(*.pdf)|*.pdf", Title = "Open PDF" };
+            if (openFileDialog.ShowDialog() != true) return;
+            var fileName = openFileDialog.FileName;
+
+            LoadDocument(fileName);
+        }
+        private void New_Click(object sender, RoutedEventArgs e)
+        {
+            LoadDocument(null);
+        }
+
+
 
         //private void HelloWorld()
         //{
@@ -145,16 +142,39 @@ namespace _11_Image_Processing
 
         //}
 
-        private void ButtonRun_Click(object sender, RoutedEventArgs e)
+        private void LoadDocument (string fileName)
         {
-            Rectangle rectangle = new(1, 1,2,2);
-            bool a = rectangle.Logical();
-            
+            var dir = ST.tempDirectoryName;
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            string tempPdf = dir + "tmp" + Path.GetRandomFileName().Remove(8) + ".pdf";
+            if (fileName == null)
+            {
+                PdfMethods.NewPdfDoc(tempPdf);
+
+                this.Title = "*untitled";
+            }
+            else if (File.Exists(fileName))
+            {
+                File.Copy(fileName, tempPdf);
+
+                this.Title = Path.GetFileName(fileName);
+            }
+
+
+            ST.tempFile = tempPdf;
+            ST.fileName = fileName;
+            ST.document = new(tempPdf);
+
+            MenuEditOptions.IsEnabled = true;
+            MenuSaveOptions.IsEnabled = true;
+
         }
 
-        private void Modify_Click(object sender, RoutedEventArgs e)
+
+        private void MenuEditOptions_AddBoxex_Click(object sender, RoutedEventArgs e)
         {
-            var m = new PdfModifyW(filePath);
+            PdfEditW m = new();
             m.Show();
         }
     }
