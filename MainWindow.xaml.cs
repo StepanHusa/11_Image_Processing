@@ -20,6 +20,7 @@ using PdfSharp;
 using System.Diagnostics;
 using System.Drawing;
 using Syncfusion.Pdf.Parsing;
+using WordToPDF;
 
 namespace _11_Image_Processing
 {
@@ -28,14 +29,13 @@ namespace _11_Image_Processing
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string fileNameGlobal;
-        public string tempFileGlobal;
-
         public MainWindow()
         {
             //licencing PDFSharp and Syncfusion.PDFViewer
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NDc1MjU5QDMxMzkyZTMyMmUzMG5MSnFGODNPRngxVVVMcm9zRzVMRi9lZnRJc3JESzRtTEY4T2xMMi9USzg9");
+            //Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NDc1MjU5QDMxMzkyZTMyMmUzMG5MSnFGODNPRngxVVVMcm9zRzVMRi9lZnRJc3JESzRtTEY4T2xMMi9USzg9");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NTI2OTM3QDMxMzkyZTMzMmUzMGZrd0Izb241N05UeDB4Nk5PZUJweldpaG5CQUxkdDlMdnVuZXVWeG9SVXM9");
+
             BitMiracle.Docotic.LicenseManager.AddLicenseData("49YKU-QSUJS-1T3EP-28V4L-FIFQY");
 
             InitializeComponent();
@@ -44,7 +44,6 @@ namespace _11_Image_Processing
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
 
-                //ButtonNew_Click(ButtonNew, new RoutedEventArgs());
                 this.WindowState = WindowState.Minimized;
                 New_Click(new object(), new RoutedEventArgs());
                 MenuEditOptions_AddBoxex_Click(new object(), new RoutedEventArgs());
@@ -86,7 +85,7 @@ namespace _11_Image_Processing
                 }
                 
 
-                var value = doc.RecognizeTaggedBoxes(d01,listOfPages);
+                var value = doc.RecognizeTaggedBoxesDebug(d01,listOfPages);
 
 
 
@@ -115,9 +114,9 @@ namespace _11_Image_Processing
         }
         private void Open_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "PDF(*.pdf)|*.pdf", Title = "Open PDF" };
-            if (openFileDialog.ShowDialog() != true) return;
-            var fileName = openFileDialog.FileName;
+            OpenFileDialog open = new OpenFileDialog() { Filter = "PDF(*.pdf)|*.pdf", Title = "Open PDF" };
+            if (open.ShowDialog() != true) return;
+            var fileName = open.FileName;
 
             LoadDocument(fileName);
         }
@@ -168,6 +167,7 @@ namespace _11_Image_Processing
 
             MenuEditOptions.IsEnabled = true;
             MenuSaveOptions.IsEnabled = true;
+            MenuPrintOptions.IsEnabled = true;
 
         }
 
@@ -176,6 +176,40 @@ namespace _11_Image_Processing
         {
             PdfEditW m = new();
             m.Show();
+        }
+
+        private void Word_Click(object sender, RoutedEventArgs e)
+        {
+            var open = new OpenFileDialog() { Title = "Open Word Doc",Filter= "Word Document(*.doc;*docx)|*.doc;*docx" };
+            if (!(bool)open.ShowDialog()) return;
+
+            Word2Pdf objWorPdf = new Word2Pdf();
+
+            string FromLocation = open.FileName;
+            string FileExtension = Path.GetExtension(FromLocation);
+            string ToLocation = Path.GetDirectoryName(FromLocation) + "\\" + Path.GetFileNameWithoutExtension(FromLocation) + "_(ConvertedFromWord)" + ".pdf";
+
+
+            if (FileExtension == ".doc" || FileExtension == ".docx")
+            {
+                objWorPdf.InputLocation = FromLocation;
+                objWorPdf.OutputLocation = ToLocation;
+                objWorPdf.Word2PdfCOnversion();
+            }
+            else { MessageBox.Show("Invalid Input");return; }
+
+            LoadDocument(ToLocation);
+        }
+
+
+        private void MenuPrintOptions_ToJPEG_Click(object sender, RoutedEventArgs e)
+        {
+            var b =ST.document.RecognizeTaggedBoxes(ST.pagesList);
+        }
+
+        private void MenuSaveOptions_Template_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -103,14 +103,14 @@ namespace _11_Image_Processing
             doc.Save(path);
         }
 
-        public static List<bool[]> RecognizeTaggedBoxes(this PdfLoadedDocument doc, string fileName, List<List<PointF>> list, int sizeInt = 20, float w = 2)
+        public static List<bool[]> RecognizeTaggedBoxesDebug(this PdfLoadedDocument doc, string fileName, List<List<PointF>> list, int sizeInt = 20, float w = 2)
         {
             List<bool[]> output = new();
             Bitmap[] pageImages = doc.ExportAsImage(0, doc.Pages.Count - 1, 300, 300);
             SizeF size = new(sizeInt, sizeInt);
             double treshold = 0.7;
 
-            if (list.Count > doc.Pages.Count) throw new Exception("not a correct sizes of lists (RecognizeTaggedBoxes)");
+            if (list.Count > doc.Pages.Count) throw new Exception("not a correct sizes of lists (RecognizeTaggedBoxesDebug)");
 
 
             int pgCount = -1;
@@ -165,6 +165,69 @@ namespace _11_Image_Processing
             return output;
 
         }
+        public static List<bool[]> RecognizeTaggedBoxes(this PdfLoadedDocument doc,  List<PointF>[] lists, int sizeInt = 20, float w = 2, string fileName= @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\02.pdf")
+        {
+            List<bool[]> output = new();
+            Bitmap[] pageImages = doc.ExportAsImage(0, doc.Pages.Count - 1, 300, 300);
+            SizeF size = new(sizeInt, sizeInt);
+            double treshold = 0.7;
+
+            if (lists.Length > doc.Pages.Count) throw new Exception("not a correct sizes of lists (RecognizeTaggedBoxes)");
+
+
+            int pgCount = -1;
+            foreach (var points in lists)
+            {
+                pgCount++;
+                bool[] pageArray = new bool[points.Count];
+
+                var s = doc.Pages[pgCount].Size; //595 842 size
+                var sI = pageImages[pgCount].Size; //2479 3508 size image
+                double r = sI.Height / s.Height; //4.16627 racio
+
+                int pointCount = 0;
+                foreach (var point in points)
+                {
+                    RectangleF b = new RectangleF(point, size); //bounds
+                    Rectangle I = new(); //Int Rectangle
+
+
+                    b.Size -= new SizeF(w * 2, w * 2);
+                    b.Location += new SizeF(w, w);
+                    b.Size *= (float)r;
+                    b.Location = b.Location.ScalePoint((float)r);
+
+
+                    I = Rectangle.Round(b);
+
+
+
+                    int c = I.Width * I.Height;//count of pixels
+                    float cc = 0;
+                    for (int i = I.X; i < I.X + I.Width; i++)
+                        for (int j = I.Y; j < I.Y + I.Height; j++)
+                        {
+                            //pageImages[0].SetPixel(i, j, Color.Blue);
+                            //var pix=pageImages[pgCount].GetPixel(i,j);
+                            //var x = pix.GetBrightness();
+                            cc += pageImages[pgCount].GetPixel(i, j).GetBrightness();
+                        }
+                    float av = cc / c;
+
+                    if (av < treshold) pageArray[pointCount] = true;
+                    pointCount++;
+                }
+
+
+                output.Add(pageArray);
+            }
+
+            pageImages[0].Save(Path.ChangeExtension(fileName, "jpg"));
+
+            return output;
+
+        }
+
 
 
         private static PointF[] TranslatePoints(this PointF[] points, float dx, float dy)

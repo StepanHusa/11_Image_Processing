@@ -69,7 +69,6 @@ namespace _11_Image_Processing
 
             pdfViewControl.MouseDoubleClick += Pdfwcontrol_MouseDoubleClick;
             pdfViewControl.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
-
             pdfViewControl.ScrollChanged += Pdfwcontrol_ScrollChanged1;
 
             //pdfViewControl.LoadedDocument.AddSquareAt(0, new System.Drawing.Point(10, 20), 10);
@@ -82,31 +81,27 @@ namespace _11_Image_Processing
 
         private void Pdfwcontrol_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ContextMenu cm = new();
-            MenuItem a, b, c;
 
-            cm.Items.Add(a = new());
-            cm.Items.Add(b = new());
-            cm.Items.Add(c = new());
 
-            a.Header = "Add check box";
+
             //a.Icon = Properties.Resources.checked_checkbox;
+            ContextMenu cm = (ContextMenu)Resources["contextMenu"];
+            cm.IsOpen = true;
+            //cm=(ContextMenu)Resources["contextMenu"];
+            
 
-            b.Header = "test";
-
-            c.Header = "Add to new layer";
 
             //show
-            cm.IsOpen = true;
-            a.Click += A_Click;
-            b.Click += B_Click;
-            c.Click += C_Click;
         }
 
 
         private void A_Click(object sender, RoutedEventArgs e)
         {
-            pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_A;
+            if((sender as MenuItem).IsChecked) 
+                pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_A;
+            else
+                pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_A;
+
         }
         private void B_Click(object sender, RoutedEventArgs e)
         {
@@ -123,7 +118,6 @@ namespace _11_Image_Processing
 
         private void Pdfwcontrol_PageClicked_A(object sender, PageClickedEventArgs args)
         {
-            //this.pdfViewControl.Save(tempPdf);
 
             var sen = sender as PdfViewerControl;
             var doc = ST.document;
@@ -134,14 +128,30 @@ namespace _11_Image_Processing
             int size = 20;
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
             doc.AddSquareAt(pindex, point, size);
-            doc.Pages.Add();
 
-            
+
+            while (ST.pagesList.Length <= pindex)
+                Array.Resize(ref ST.pagesList, pindex+1);
+            if (ST.pagesList[pindex] == null)
+                ST.pagesList[pindex] = new();
+            ST.pagesList[pindex].Add(point);
+
             //doc.Save(tempPdf);
             //pdfViewControl.Load(ST.document);
 
-            //pdfViewControl.ScrollTo(offset);
-            //pdfViewControl.Zoom = zoom * 100;
+
+
+            MemoryStream stream = new MemoryStream();
+            doc.Save(stream);
+            doc.Close();
+            doc.Dispose();
+            pdfViewControl.Load(stream);
+            ST.document = pdfViewControl.LoadedDocument;
+
+            //pdfViewControl.Save(tempPdf);
+
+            pdfViewControl.ScrollTo(offset);
+            pdfViewControl.Zoom = zoom * 100;
 
 
         }
@@ -285,5 +295,9 @@ namespace _11_Image_Processing
             }
         }
 
+        private void b_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

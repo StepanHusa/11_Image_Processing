@@ -7,9 +7,13 @@
         xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" x:Class="_11_Image_Processing.PdfEditW"       
         mc:Ignorable="d"
         Title="PdfEditW" Height="800" Width="1200">
-    <Window.DataContext>
-        <local:ViewModel/>
-    </Window.DataContext>
-    <PdfViewer:PdfViewerControl x:Name="pdfViewControl" ItemSource="{Binding DocumentStream}"/>
 
+    <PdfViewer:PdfViewerControl x:Name="pdfViewControl" />
+    <Window.Resources>
+        <ContextMenu x:Key="contextMenu">
+            <MenuItem x:Name="a"  Header="a" IsCheckable="True" Click="A_Click"/>
+            <MenuItem x:Name="b"  Header="b" IsCheckable="True" Click="B_Click"/>
+
+        </ContextMenu>
+    </Window.Resources>
 </Window>

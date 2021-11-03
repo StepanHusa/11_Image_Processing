@@ -13,12 +13,12 @@
             <ColumnDefinition Width="429*"/>
         </Grid.ColumnDefinitions>
 
-        <Button x:Name="ButtonOpen"             Content="Open"                      HorizontalAlignment="Left" Margin="91,61,0,0"       VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="53"/>
+        <!--<Button x:Name="ButtonOpen"             Content="Open"                      HorizontalAlignment="Left" Margin="91,61,0,0"       VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="53"/>
         <Button x:Name="ButtonSavePdf"          Content="Save"                      HorizontalAlignment="Left" Margin="183,251,0,0"     VerticalAlignment="Top" FontSize="20" Click="ButtonSave_Click"  Grid.Column="0" Height="31" Width="45"/>
         <Button x:Name="Edit"                   Content="Edit in Viewer"            HorizontalAlignment="Left" Margin="168,61,0,0"      VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="38"/>
         <Button x:Name="ButtonRun"              Content="Run"                       HorizontalAlignment="Left" Margin="183,176,0,0"     VerticalAlignment="Top" FontSize="20" Click="ButtonRun_Click"   Grid.Column="0" Height="31" Width="45"/>
         <Button x:Name="ButtonNew"              Content="new"                       HorizontalAlignment="Left" Margin="30,61,0,0"       VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="40"/>
-        <Button x:Name="Modify"                 Content="Modify"                    HorizontalAlignment="Left" Margin="34,61,0,0"       VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="71"/>
+        <Button x:Name="Modify"                 Content="Modify"                    HorizontalAlignment="Left" Margin="34,61,0,0"       VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="71"/>-->
 
         <PdfViewer:PdfDocumentView ItemSource="{Binding DocumentStream}" Grid.Column="1" HorizontalAlignment="Left" Margin="108,61,0,0" VerticalAlignment="Top" Height="221" Width="202"/>
 
@@ -26,16 +26,20 @@
         <Menu VerticalAlignment="Top" Height="20">
             <MenuItem Header="_Load">
                 <MenuItem x:Name="New"      Header="_New PDF File"          Click="New_Click"/>
-                <MenuItem x:Name="Open"     Header="_Open Existing File"    Click="Open_Click"/>  
+                <MenuItem x:Name="Open"     Header="_Open Existing PDF"    Click="Open_Click"/>  
                 <MenuItem x:Name="Load"     Header="_Load From Template"/>
+                <MenuItem x:Name="Word"     Header="_Open Word Document" Click="Word_Click"/>
 
             </MenuItem>
             <MenuItem x:Name="MenuSaveOptions" Header="_Save" IsEnabled="False" >
-                <MenuItem Header="_Save Template"/>
+                <MenuItem x:Name="MenuSaveOptions_Template" Header="_Save Template" Click="MenuSaveOptions_Template_Click"/>
                 <MenuItem Header="_Save PDF"/>
             </MenuItem>
-            <MenuItem x:Name="MenuEditOptions" Header="_Edit" Visibility="Visible" IsEnabled="False">
+            <MenuItem x:Name="MenuEditOptions" Header="_Edit" IsEnabled="False">
                 <MenuItem x:Name="MenuEditOptions_AddBoxex" Header="_Add Boxes" Click="MenuEditOptions_AddBoxex_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="MenuPrintOptions" Header="_Print" IsEnabled="False">
+                <MenuItem x:Name="MenuPrintOptions_ToJPEG" Header="_Print To JPEG" Click="MenuPrintOptions_ToJPEG_Click"/>
             </MenuItem>
         </Menu>
 
