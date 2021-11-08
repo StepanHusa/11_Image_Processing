@@ -15,8 +15,12 @@ namespace _11_Image_Processing
         internal static string fileName;
         internal static string tempFile;
         internal static PdfLoadedDocument document;
-        internal static string tempDirectoryName = Path.GetTempPath() + "Stepan_Husa_Is_A_Genius\\";
         internal static List<PointF>[] pagesList = new List<PointF>[0]; //Pages array of lists containing points
+
+        internal static readonly string fileInfoCode = "008800ff001100aa"; //8 bytes file format conformation
+        internal static readonly string ext = ".st0r"; //templateExtension
+        internal static string tempDirectoryName = Path.GetTempPath() + "Stepan_Husa_Is_A_Genius\\";
+
 
 
     }

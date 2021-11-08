@@ -120,7 +120,7 @@ namespace _11_Image_Processing
         {
 
             var sen = sender as PdfViewerControl;
-            var doc = ST.document;
+            var doc = sen.LoadedDocument;
             int pindex = args.PageIndex;
             double zoom = sen.ZoomPercentage / 100.0;
 
@@ -147,6 +147,7 @@ namespace _11_Image_Processing
             doc.Dispose();
             pdfViewControl.Load(stream);
             ST.document = pdfViewControl.LoadedDocument;
+            ST.document.Save(ST.tempFile);
 
             //pdfViewControl.Save(tempPdf);
 
@@ -179,13 +180,6 @@ namespace _11_Image_Processing
         }
 
 
-        private void pdfwcontrol_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var sen = (PdfViewerControl)sender;
-            var t=e.GetPosition(sen);
-            HideTools();
-            HideMenuTool();
-        }
 
 
         //private void DeleteTemp()
@@ -295,9 +289,26 @@ namespace _11_Image_Processing
             }
         }
 
-        private void b_Click_1(object sender, RoutedEventArgs e)
-        {
 
+        private void Menu_NewPage_Click(object sender, RoutedEventArgs e)
+        {
+            double zoom = pdfViewControl.ZoomPercentage / 100.0;
+            var doc = pdfViewControl.LoadedDocument;
+
+            doc.Pages.Add();
+
+            MemoryStream stream = new MemoryStream();
+            doc.Save(stream);
+            doc.Close();
+            doc.Dispose();
+            pdfViewControl.Load(stream);
+            ST.document = pdfViewControl.LoadedDocument;
+            ST.document.Save(ST.tempFile);
+
+            //pdfViewControl.Save(tempPdf);
+
+            pdfViewControl.ScrollTo(offset);
+            pdfViewControl.Zoom = zoom * 100;
         }
     }
 }

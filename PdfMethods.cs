@@ -207,7 +207,7 @@ namespace _11_Image_Processing
                     for (int i = I.X; i < I.X + I.Width; i++)
                         for (int j = I.Y; j < I.Y + I.Height; j++)
                         {
-                            //pageImages[0].SetPixel(i, j, Color.Blue);
+                            pageImages[0].SetPixel(i, j, Color.Blue);
                             //var pix=pageImages[pgCount].GetPixel(i,j);
                             //var x = pix.GetBrightness();
                             cc += pageImages[pgCount].GetPixel(i, j).GetBrightness();
