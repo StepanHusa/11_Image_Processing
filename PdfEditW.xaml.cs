@@ -28,14 +28,16 @@ namespace _11_Image_Processing
     {
         string tempPdf;
         double offset;
+        private bool drawingRectangle;
+        private PageMouseMoveEventArgs argsFirstVertex;
 
         public PdfEditW()
         {
             InitializeComponent();
 
 
-            if (ST.fileName != null)
-                this.Title = ST.fileName;
+            if (ST.projectFileName != null)
+                this.Title = ST.projectFileName;
             else this.Title = "*Untitled";
             tempPdf = ST.tempFile;
             //Debug.WriteLine(new FileInfo(fileName).Length);
@@ -68,7 +70,7 @@ namespace _11_Image_Processing
 
 
             pdfViewControl.MouseDoubleClick += Pdfwcontrol_MouseDoubleClick;
-            pdfViewControl.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
+            //pdfViewControl.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
             pdfViewControl.ScrollChanged += Pdfwcontrol_ScrollChanged1;
 
             //pdfViewControl.LoadedDocument.AddSquareAt(0, new System.Drawing.Point(10, 20), 10);
@@ -109,11 +111,14 @@ namespace _11_Image_Processing
             //doc.Save(tempPdf);
             //Debug.WriteLine(tempPdf);
             //pdfViewControl.Load(tempPdf);
+
+            if ((sender as MenuItem).IsChecked)
+                pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_B;
+            else
+                pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_B;
+
         }
-        private void C_Click(object sender, RoutedEventArgs e)
-        {
-            pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_C;
-        }
+
 
 
         private void Pdfwcontrol_PageClicked_A(object sender, PageClickedEventArgs args)
@@ -125,16 +130,16 @@ namespace _11_Image_Processing
             double zoom = sen.ZoomPercentage / 100.0;
 
 
-            int size = 20;
+
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
-            doc.AddSquareAt(pindex, point, size);
+            doc.AddSquareAt(pindex, point);
 
 
-            while (ST.pagesList.Length <= pindex)
-                Array.Resize(ref ST.pagesList, pindex+1);
-            if (ST.pagesList[pindex] == null)
-                ST.pagesList[pindex] = new();
-            ST.pagesList[pindex].Add(point);
+            while (ST.pagesPoints.Length <= pindex)
+                Array.Resize(ref ST.pagesPoints, pindex+1);
+            if (ST.pagesPoints[pindex] == null)
+                ST.pagesPoints[pindex] = new();
+            ST.pagesPoints[pindex].Add(point);
 
             //doc.Save(tempPdf);
             //pdfViewControl.Load(ST.document);
@@ -156,10 +161,101 @@ namespace _11_Image_Processing
 
 
         }
-        private void Pdfwcontrol_PageClicked_C(object sender, PageClickedEventArgs args)
+        private void Pdfwcontrol_PageClicked_B(object sender, PageClickedEventArgs args)
         {
-            throw new NotImplementedException();
+            drawingRectangle ^= true;
+            if (drawingRectangle)
+            {
+                argsFirstVertex = args;
+                //pdfViewControl.PageMouseMove += PdfViewControl_PageMouseMove;
+            }
+            else
+            {
+                SaveRectangle(sender,args);
+                pdfViewControl.PageMouseMove -= PdfViewControl_PageMouseMove;
+            }
         }
+
+
+        private void SaveRectangle(object sender, PageClickedEventArgs args)
+        {
+            var sen = sender as PdfViewerControl;
+            var doc = sen.LoadedDocument;
+            int pindex = args.PageIndex;
+            double zoom = sen.ZoomPercentage / 100.0;
+
+
+            RectangleF rect = new();
+            rect.Location= new((float)(argsFirstVertex.Position.X * 0.75 / zoom), (float)(argsFirstVertex.Position.Y * 0.75 / zoom));
+            rect.Size = new((float)((args.Position.X - argsFirstVertex.Position.X) * 0.75 / zoom), (float)((args.Position.Y - argsFirstVertex.Position.Y) * 0.75 / zoom));
+
+
+            doc.AddRectangleAt(pindex, rect);
+
+
+            while (ST.pagesFields.Length <= pindex)
+                Array.Resize(ref ST.pagesFields, pindex + 1);
+            if (ST.pagesFields[pindex] == null)
+                ST.pagesFields[pindex] = new();
+            ST.pagesFields[pindex].Add(rect);
+
+            //doc.Save(tempPdf);
+            //pdfViewControl.Load(ST.document);
+
+
+
+            MemoryStream stream = new MemoryStream();
+            doc.Save(stream);
+            doc.Close();
+            doc.Dispose();
+            pdfViewControl.Load(stream);
+            ST.document = pdfViewControl.LoadedDocument;
+            ST.document.Save(ST.tempFile);
+
+            //pdfViewControl.Save(tempPdf);
+
+            pdfViewControl.ScrollTo(offset);
+            pdfViewControl.Zoom = zoom * 100;
+        }
+
+        private void PdfViewControl_PageMouseMove(object sender, PageMouseMoveEventArgs args)
+        {
+
+            var sen = sender as PdfViewerControl;
+            var doc = sen.LoadedDocument;
+            int pindex = args.PageIndex;
+            double zoom = sen.ZoomPercentage / 100.0;
+
+            PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
+            doc.AddSquareAt(pindex, point);
+
+
+            while (ST.pagesPoints.Length <= pindex)
+                Array.Resize(ref ST.pagesPoints, pindex + 1);
+            if (ST.pagesPoints[pindex] == null)
+                ST.pagesPoints[pindex] = new();
+            ST.pagesPoints[pindex].Add(point);
+
+            //doc.Save(tempPdf);
+            //pdfViewControl.Load(ST.document);
+
+
+
+            MemoryStream stream = new MemoryStream();
+            doc.Save(stream);
+            doc.Close();
+            doc.Dispose();
+            pdfViewControl.Load(stream);
+            ST.document = pdfViewControl.LoadedDocument;
+            ST.document.Save(ST.tempFile);
+
+            //pdfViewControl.Save(tempPdf);
+
+            pdfViewControl.ScrollTo(offset);
+            pdfViewControl.Zoom = zoom * 100;
+
+        }
+
 
         private double Pdfwcontrol_ScrollChanged(object sender, ScrollChangedEventArgs args)
         {
@@ -182,17 +278,35 @@ namespace _11_Image_Processing
 
 
 
-        //private void DeleteTemp()
-        //{
-        //    if(tempPdf!=null) { File.Delete(tempPdf);tempPdf = null; }
-        //}7
+
+
+        private void Menu_NewPage_Click(object sender, RoutedEventArgs e)
+        {
+            double zoom = pdfViewControl.ZoomPercentage / 100.0;
+            var doc = pdfViewControl.LoadedDocument;
+
+            doc.Pages.Add();
+
+            MemoryStream stream = new MemoryStream();
+            doc.Save(stream);
+            doc.Close();
+            doc.Dispose();
+            pdfViewControl.Load(stream);
+            ST.document = pdfViewControl.LoadedDocument;
+            ST.document.Save(ST.tempFile);
+
+            //pdfViewControl.Save(tempPdf);
+
+            pdfViewControl.ScrollTo(offset);
+            pdfViewControl.Zoom = zoom * 100;
+        }
         private void HideTools()
         {
             //Get the instance of the toolbar using its template name.
             DocumentToolbar toolbar = pdfViewControl.Template.FindName("PART_Toolbar", pdfViewControl) as DocumentToolbar;
 
             //Get the instance of the open file button using its template name.
-            
+
             var Filetoolkl = (System.Windows.Controls.Primitives.ToggleButton)toolbar.Template.FindName("PART_FileToggleButton", toolbar);
             var Navigationtoolsseparatorkl = (System.Windows.Shapes.Rectangle)toolbar.Template.FindName("Part_NavigationToolsSeparator", toolbar);
             var Firstpagetoolkl = (System.Windows.Controls.Button)toolbar.Template.FindName("PART_ButtonGoToFirstPage", toolbar);
@@ -289,26 +403,9 @@ namespace _11_Image_Processing
             }
         }
 
-
-        private void Menu_NewPage_Click(object sender, RoutedEventArgs e)
+        private void c_Click(object sender, RoutedEventArgs e)
         {
-            double zoom = pdfViewControl.ZoomPercentage / 100.0;
-            var doc = pdfViewControl.LoadedDocument;
 
-            doc.Pages.Add();
-
-            MemoryStream stream = new MemoryStream();
-            doc.Save(stream);
-            doc.Close();
-            doc.Dispose();
-            pdfViewControl.Load(stream);
-            ST.document = pdfViewControl.LoadedDocument;
-            ST.document.Save(ST.tempFile);
-
-            //pdfViewControl.Save(tempPdf);
-
-            pdfViewControl.ScrollTo(offset);
-            pdfViewControl.Zoom = zoom * 100;
         }
     }
 }

@@ -39,6 +39,7 @@ namespace _11_Image_Processing
             BitMiracle.Docotic.LicenseManager.AddLicenseData("49YKU-QSUJS-1T3EP-28V4L-FIFQY");
 
             InitializeComponent();
+            
 
             //debug
             {
@@ -65,7 +66,7 @@ namespace _11_Image_Processing
                 {
                     pointsPage1.Add(new PointF(20, 20 + 40 * i));
                 }
-                d01.DebugCreateFile(pointsPage1,colors);
+                //d01.DebugCreateFile(pointsPage1,colors);
 
                 List < List < PointF > >listOfPages = new();
                 listOfPages.Add(pointsPage1);
@@ -102,10 +103,6 @@ namespace _11_Image_Processing
         }
 
 
-        private void ButtonSave_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
         private void ButtonRun_Click(object sender, RoutedEventArgs e)
         {
             Rectangle rectangle = new(1, 1,2,2);
@@ -124,16 +121,6 @@ namespace _11_Image_Processing
         {
             LoadDocument(null);
         }
-
-        private void ShowLoadedDocumentInfoAndEditView()
-        {
-            MenuEditOptions.IsEnabled = true;
-            MenuSaveOptions.IsEnabled = true;
-            MenuPrintOptions.IsEnabled = true;
-            pdfDocumentView.Load(ST.document);
-            pdfDocumentView.MinimumZoomPercentage -= 20;
-        }
-
 
 
         //private void HelloWorld()
@@ -158,7 +145,7 @@ namespace _11_Image_Processing
             string tempPdf = dir + "tmp" + Path.GetRandomFileName().Remove(8) + ".pdf";
             if (fileName == null)
             {
-                PdfMethods.NewPdfDoc(tempPdf);
+                PdfExtensions.NewPdfDoc(tempPdf);
 
                 this.Title = "*untitled";
             }
@@ -173,8 +160,8 @@ namespace _11_Image_Processing
             ST.tempFile = tempPdf;
             ST.fileName = fileName;
             ST.document = new(tempPdf);
-
-            ShowLoadedDocumentInfoAndEditView();
+            
+            ReloadWindowContent();
         }
 
 
@@ -208,39 +195,67 @@ namespace _11_Image_Processing
             LoadDocument(ToLocation);
         }
 
-
         private void MenuPrintOptions_ToJPEG_Click(object sender, RoutedEventArgs e)
         {
-            var b = ST.document.RecognizeTaggedBoxes(ST.pagesList);
+            var b = ST.document.RecognizeTaggedBoxes(ST.pagesPoints);
+            throw new NotImplementedException();
         }
 
-        private void MenuSaveOptions_Template_Click(object sender, RoutedEventArgs e)
+        private void Menu_Save_ProjectAs_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog save = new() { Title = "Save Template", Filter = $"File Template(*{ST.ext})|*{ST.ext}" };
+            ST.versions.Add(DateTime.Now);
+
+            SaveFileDialog save = new() { Title = "Save Template", Filter = $"File Template(*{ST.ext})|*{ST.ext}", FileName=ST.projectName};
             if (save.ShowDialog() == false) return;
 
             ST.document.Save(ST.tempFile);
 
             SaveDataToFile(save.FileName);
 
+            ReloadWindowContent();
 
+            Menu_Save_Project.IsEnabled = true;
         }
-        private void MenuLoadOptions_Load_Click(object sender, RoutedEventArgs e)
+        private void Menu_Save_Project_Click(object sender, RoutedEventArgs e)
+        {
+            ST.versions.Add(DateTime.Now);
+
+            ST.document.Save(ST.tempFile);
+
+            SaveDataToFile(ST.projectFileName);
+
+            ReloadWindowContent();
+        }
+
+        private void Menu_Save_PDF_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog save = new() { Title = "Save PDF", Filter = $"File Template(*.PDF)|*.PDF", FileName = ST.projectName };
+            if (save.ShowDialog() == false) return;
+
+            ST.document.Save(save.FileName);
+        }
+
+
+        private void Menu_Open_Project_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog open =new() { Title = "Open Template", Filter = $"File Template(*{ST.ext})|*{ST.ext}" };
             if (open.ShowDialog() == false) return;
 
             LoadDataFromFile(open.FileName);
 
+            Menu_Save_Project.IsEnabled = true;
+
         }
 
         void SaveDataToFile(string fileName)
         {
-            byte[] FormatCode = ST.fileInfoCode.StringToByteArray(); //8 Byte identification code
+            byte[] FormatCode = ST.fileCode; //8 Byte identification code
             byte[] documentpdf = File.ReadAllBytes(ST.tempFile);
-            byte[] listOfPointFsArray = ST.pagesList.PointListArrayToByteArray();
+            byte[] listOfPointFsArray = ST.pagesPoints.PointListArrayToByteArray();
+            byte[] listOfFieldsArray = ST.pagesFields.RectangleListArrayToByteArray();
 
-            int listLength = listOfPointFsArray.Length; //int 32
+            int listPLength = listOfPointFsArray.Length; //int 32
+            int listFLength = listOfFieldsArray.Length;//int 32
             int docLength = documentpdf.Length; //int32
 
 
@@ -249,8 +264,10 @@ namespace _11_Image_Processing
                 using(BinaryWriter bw = new(ms))
                 {
                     bw.Write(FormatCode);
-                    bw.Write(listLength);
+                    bw.Write(listPLength);
                     bw.Write(listOfPointFsArray);
+                    bw.Write(listFLength);
+                    bw.Write(listOfFieldsArray);
                     bw.Write(docLength);
                     bw.Write(documentpdf);
                     bw.Write(ms.ToArray().GetHashSHA1()); //closes file with hashcode to check if the file is the same and if we got to the end at the right time
@@ -263,16 +280,17 @@ namespace _11_Image_Processing
 
 
         }
-
         void LoadDataFromFile(string filename)
         {
             //declare components
             byte[] FormatCode;
             byte[] documentpdf;
             byte[] listOfPointFsArray;
+            byte[] listOfFieldsArray;
             byte[] hash;
 
-            int listLength;
+            int listPLength;
+            int listFLength;
             int docLength;
 
             //load components from file
@@ -280,16 +298,23 @@ namespace _11_Image_Processing
             {
                 using (BinaryReader br = new(fs))
                 {
-                    FormatCode = br.ReadBytes(8);
-                    if (!FormatCode.SequenceEqual(ST.fileInfoCode.StringToByteArray())) { MessageBox.Show("Open Template file wasn`t generated by this program"); return; }
+                    try
+                    {
+                        FormatCode = br.ReadBytes(8);
+                        if (!FormatCode.SequenceEqual(ST.fileCode)) { MessageBox.Show("Open Template file wasn`t generated by this program"); return; }
 
-                    listLength = br.ReadInt32();
-                    listOfPointFsArray = br.ReadBytes(listLength);
+                        listPLength = br.ReadInt32();
+                        listOfPointFsArray = br.ReadBytes(listPLength);
 
-                    docLength = br.ReadInt32();
-                    documentpdf = br.ReadBytes(docLength);
+                        listFLength = br.ReadInt32();
+                        listOfFieldsArray = br.ReadBytes(listFLength);
 
-                    hash = br.ReadBytes(20);
+                        docLength = br.ReadInt32();
+                        documentpdf = br.ReadBytes(docLength);
+
+                        hash = br.ReadBytes(20);
+                    }
+                    catch { MessageBox.Show("Not able to load thos file"); return; }
                 }
             }
             //get hash of created files
@@ -299,11 +324,13 @@ namespace _11_Image_Processing
                 using (BinaryWriter bw = new(ms))
                 {
                     bw.Write(FormatCode);
-                    bw.Write(listLength);
+                    bw.Write(listPLength);
                     bw.Write(listOfPointFsArray);
+                    bw.Write(listFLength);
+                    bw.Write(listOfFieldsArray);
                     bw.Write(docLength);
                     bw.Write(documentpdf);
-                    hashNew=ms.ToArray().GetHashSHA1();
+                    hashNew = ms.ToArray().GetHashSHA1();
                 }
 
             }
@@ -325,87 +352,79 @@ namespace _11_Image_Processing
             File.WriteAllBytes(tempPdf, documentpdf);
 
             ST.tempFile = tempPdf;
-            ST.fileName = filename;
+            ST.projectFileName = filename;
             ST.document = new(tempPdf);
-            ST.pagesList = listOfPointFsArray.ByteArrayToPointFListArray();
+            ST.pagesPoints = listOfPointFsArray.ByteArrayToPointFListArray();
 
 
 
-            ShowLoadedDocumentInfoAndEditView();
+            ReloadWindowContent();
         }
 
-    }
-    static class ByteExtensions
-    {
-        public static byte[] Combine(this byte[] first, byte[] second)
+        private void projecttext_LostFocus(object sender, RoutedEventArgs e)
         {
-            byte[] bytes = new byte[first.Length + second.Length];
-            Buffer.BlockCopy(first, 0, bytes, 0, first.Length);
-            Buffer.BlockCopy(second, 0, bytes, first.Length, second.Length);
-            return bytes;
+            ST.projectName = projecttext.Text;
         }
-        public static byte[] StringToByteArray(this string hex)
+
+        private void reloadButton_Click(object sender, RoutedEventArgs e)
         {
-            return Enumerable.Range(0, hex.Length)
-                             .Where(x => x % 2 == 0)
-                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
-                             .ToArray();
+            ReloadWindowContent();
         }
-        public static byte[] PointListArrayToByteArray(this List<PointF>[] array)
+        private void ReloadWindowContent()
         {
+            Menu_Edit.IsEnabled = true;
+            Menu_Save.IsEnabled = true;
+            Menu_Print.IsEnabled = true;
+            reloadButton.IsEnabled = true;
 
-            byte[] data;
+            pdfDocumentView.Load(ST.tempFile);
+            loadedPdfLabel.Content = Path.GetFileName(ST.fileName);
+            pdfDocumentView.MinimumZoomPercentage = (int)Math.Ceiling(pdfDocumentView.MinimumZoomPercentage * 0.95);
+            pdfDocumentView.ZoomTo(-1);
 
-            using (var ms = new MemoryStream())
-            {
-                using (var bw = new BinaryWriter(ms))
-                {
-                    bw.Write(array.Length);
-                    foreach (var l in array)
-                    {
-                        bw.Write(l.Count);
+            Title = ST.appName + " -- " + ST.projectName;
 
-                        foreach (var p in l)
-                        {
-                            bw.Write(p.X);
-                            bw.Write(p.Y);
-                        }
-                    }
-                }
-                data = ms.ToArray();
-            }
+            projecttext.Text = ST.projectName;
+            projectfilenametext.Text = Path.GetFileName(ST.projectFileName);
+            locationtext.Text = Path.GetDirectoryName(ST.projectFileName);
+            pagecounttext.Text = ST.document.Pages.Count.ToString();
+            int i = 0;
+            foreach (var pointFs in ST.pagesPoints)
+                i += pointFs.Count;
+            boxcounttext.Text = i.ToString();
+            i = 0;
+            foreach (var rectangleFs in ST.pagesFields)
+                i += rectangleFs.Count;
+            fieldcounttext.Text = i.ToString();
 
-            return data;
+            versioncombobox.Items.Clear();
+            foreach (var item in ST.versions)
+                versioncombobox.Items.Add(item);
+
+            if (ST.versions.Count == 0)
+                dateoflastsavetext.Text = DateTime.Now.ToString();
+            else dateoflastsavetext.Text = "not saved yet";
+
+            //dateoflastsavetext.Text = ST.versions.Last().ToStringOfRegularFormat();
         }
-        public static List<PointF>[] ByteArrayToPointFListArray(this byte[] bArray)
+
+
+        private void Menu_Help_Click(object sender, RoutedEventArgs e)
         {
-            List<PointF>[] listsArray;
-            using (var ms = new MemoryStream(bArray))
-            {
-                using (var r = new BinaryReader(ms))
-                {
-                    int lengthOfArray = r.ReadInt32();
-                    listsArray = new List<PointF>[lengthOfArray];
-                    for (int i = 0; i != lengthOfArray; i++)
-                    {
-                        int Count = r.ReadInt32();
-                        listsArray[i] = new();
-                        for (int j = 0; j != Count; j++)
-                        {
-                            listsArray[i].Add(new PointF(r.ReadSingle(), r.ReadSingle()));
-                        }
-                    }
-                }
-            }
-            return listsArray;
+            throw new NotImplementedException();
         }
-        public static byte[] GetHashSHA1(this byte[] data)
+
+        private void Menu_Settings_Click(object sender, RoutedEventArgs e)
         {
-            using (var sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider())
-            {
-                var hash= sha1.ComputeHash(data);
-                return hash;
-            }
+            if (ST.settingsWindow == null)
+                ST.settingsWindow = new();
+            ST.settingsWindow.Show();
+        }
+
+        private void Menu_Load_PNG_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+
         }
     }
 }

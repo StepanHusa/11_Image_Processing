@@ -1,4 +1,5 @@
-﻿using Syncfusion.Pdf.Parsing;
+﻿using Syncfusion.Pdf.Graphics;
+using Syncfusion.Pdf.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,18 +11,41 @@ using System.Windows.Controls;
 
 namespace _11_Image_Processing
 {
-    public static class ST //"Static Variables
+    public class ST //"Static Variables
     {
+
+        //unchanging
+        internal static string appName = "Application Name";
+
+        //settings
+        internal static string templateProjectName = "*Untitled";
+
+        internal static PdfPen boundPen = new(Color.White, boundWidth);
+        internal static float boundWidth = 2;
+        internal static SizeF sizeOfBox = new(20, 20);
+
+        internal static string tempDirectoryName = Path.GetTempPath() + "Stepan_Husa_Is_A_Genius\\";
+        internal static string ext = ".st0r"; //templateExtension
+        internal static byte[] fileCode = "008800ff001100aa".StringToByteArray(); //8 bytes file format conformation
+
+        //file specified info
+        internal static string projectName = templateProjectName;
+        internal static string projectFileName;
         internal static string fileName;
         internal static string tempFile;
+
+        internal static List<DateTime> versions =new();
+
+
+        //changing variables
         internal static PdfLoadedDocument document;
-        internal static List<PointF>[] pagesList = new List<PointF>[0]; //Pages array of lists containing points
-
-        internal static readonly string fileInfoCode = "008800ff001100aa"; //8 bytes file format conformation
-        internal static readonly string ext = ".st0r"; //templateExtension
-        internal static string tempDirectoryName = Path.GetTempPath() + "Stepan_Husa_Is_A_Genius\\";
+        internal static List<PointF>[] pagesPoints = new List<PointF>[0]; //Pages array of lists containing points
+        internal static List<RectangleF>[] pagesFields = new List<RectangleF>[0]; //Pages array of lists containing fields
 
 
 
+
+
+        internal static SettingsW settingsWindow;
     }
 }

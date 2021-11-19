@@ -1,0 +1,55 @@
+﻿<Window x:Class="_11_Image_Processing.SettingsW"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_11_Image_Processing"
+        mc:Ignorable="d"
+        Title="SettingsW" Height="450" Width="800" Closing="Window_Closing">
+    <Grid >
+        <!--ShowGridLines="True"-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="68*"/>
+            <ColumnDefinition Width="125*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="template project name"                 Grid.Row="0" Grid.Column="0"/>
+        <TextBlock Text="bound pen"                             Grid.Row="1" Grid.Column="0"/>
+        <TextBlock Text="bound width"                           Grid.Row="2" Grid.Column="0"/>
+        <TextBlock Text="box size"                              Grid.Row="3" Grid.Column="0"/>
+        
+        <TextBlock Text="Advanced"                              Grid.Row="4" Grid.Column="0"/>
+        <TextBlock Text="tempory file folder"                   Grid.Row="5" Grid.Column="0"/>
+        <TextBlock Text="extension"                             Grid.Row="6" Grid.Column="0"/>
+        <TextBlock Text="file control code (8byte)"             Grid.Row="7" Grid.Column="0"/>
+
+
+
+
+
+
+        <TextBox x:Name="aa"         Grid.Row="0" Grid.Column="1" KeyDown="a_KeyDown"/>
+        <TextBox x:Name="ab"        Grid.Row="1" Grid.Column="1" KeyDown="a_KeyDown"/>
+        <TextBox x:Name="ac"        Grid.Row="2" Grid.Column="1" KeyDown="a_KeyDown"/>
+        <TextBox x:Name="ad"       Grid.Row="3" Grid.Column="1" KeyDown="a_KeyDown"/>
+        
+        <TextBox x:Name="ae"        Grid.Row="5" Grid.Column="1" KeyDown="a_KeyDown"/>
+        <TextBox x:Name="af"      Grid.Row="6" Grid.Column="1" KeyDown="a_KeyDown"/>
+        <TextBox x:Name="ag"           Grid.Row="7" Grid.Column="1" KeyDown="ag_KeyDown" MaxLength="8" LostFocus="ag_LostFocus"    />
+
+
+
+
+    </Grid>
+</Window>
