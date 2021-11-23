@@ -11,6 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using ImageProcessor;
+using ImageProcessor.Imaging;
 
 namespace _11_Image_Processing
 {
@@ -63,13 +65,13 @@ namespace _11_Image_Processing
         {
             var page = doc.Pages[pageint];
 
-            PdfSolidBrush brush =new(Color.White);
-            RectangleF bounds = rect;
+            //PdfSolidBrush brush =new(Color.White);
+            //RectangleF bounds = rect;
 
 
-            page.Graphics.DrawRectangle(brush, bounds);
+            //page.Graphics.DrawRectangle(brush, bounds);
 
-            //doc.DrawRectangleBounds(rect, pageint);
+            doc.DrawRectangleBounds(rect, pageint);
 
             return doc;
 
@@ -394,6 +396,74 @@ namespace _11_Image_Processing
 
                 return sw.ToString();
             }
+        }
+    }
+    static class Conversions
+    {
+        public static Rectangle EvaluateInPositiveSize(this Rectangle rect)
+        {
+            int X, Y, W, H;
+            if (rect.Size.Width < 0)
+            {
+                X = rect.X + rect.Size.Width;
+                W = 0 - rect.Size.Width;
+            }
+            else
+            {
+                X = rect.X;
+                W = rect.Size.Width;
+            }
+
+            if (rect.Size.Height < 0)
+            {
+                Y = rect.Y+ rect.Size.Height;
+                H = 0 - rect.Size.Height;
+            }
+            else
+            {
+                Y = rect.Y;
+                H = rect.Size.Height;
+            }
+
+            rect = new(X, Y, W, H);
+            return rect;
+        }
+        public static RectangleF EvaluateInPositiveSize(this RectangleF rect)
+        {
+            float X, Y, W, H;
+            if (rect.Size.Width < 0)
+            {
+                X = rect.X + rect.Size.Width;
+                W = 0 - rect.Size.Width;
+            }
+            else
+            {
+                X = rect.X;
+                W = rect.Size.Width;
+            }
+
+            if (rect.Size.Height < 0)
+            {
+                Y = rect.Y + rect.Size.Height;
+                H = 0 - rect.Size.Height;
+            }
+            else
+            {
+                Y = rect.Y;
+                H = rect.Size.Height;
+            }
+
+            rect = new(X, Y, W, H);
+            return rect;
+        }
+
+    }
+    
+    static class ImageProcessing
+    {
+        public static void Testing(this string filename)
+        {
+            
         }
     }
 

@@ -74,7 +74,7 @@ namespace _11_Image_Processing
             int height = image.Elements.GetInteger(PdfImage.Keys.Height);
             int bitsPerComponent = image.Elements.GetInteger(PdfImage.Keys.BitsPerComponent);
 
-            // TODO: You can put the code here that converts vom PDF internal image format to a Windows bitmap
+            // TOD You can put the code here that converts vom PDF internal image format to a Windows bitmap
             // and use GDI+ to save it in PNG format.
             // It is the work of a day or two for the most important formats. Take a look at the file
             // PdfSharp.Pdf.Advanced/PdfImage.cs to see how we create the PDF image formats.

@@ -6,9 +6,12 @@
         xmlns:local="clr-namespace:_11_Image_Processing"       
         xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" x:Class="_11_Image_Processing.PdfEditW"       
         mc:Ignorable="d"
-        Title="PdfEditW" Height="800" Width="1200">
+        Title="PdfEditW" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Grid>
+        <PdfViewer:PdfViewerControl x:Name="pdfViewControl" />
+        <Rectangle x:Name="rectangleR" Stroke="Black" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-    <PdfViewer:PdfViewerControl x:Name="pdfViewControl" />
+    </Grid>
     <Window.Resources>
         <ContextMenu x:Key="contextMenu">
             <MenuItem x:Name="a"  Header="a" IsCheckable="True" Click="A_Click"/>
@@ -16,6 +19,5 @@
             <MenuItem x:Name="Menu_NewPage" Header="_New Page" Click="Menu_NewPage_Click"/>
             <MenuItem x:Name="c" Header="c" IsCheckable="True" Click="c_Click"/>
         </ContextMenu>
-        <Rectangle x:Key="rectangle" Stroke="Black"/>
     </Window.Resources>
 </Window>

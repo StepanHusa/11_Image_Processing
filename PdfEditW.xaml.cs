@@ -30,6 +30,7 @@ namespace _11_Image_Processing
         double offset;
         private bool drawingRectangle;
         private PageMouseMoveEventArgs argsFirstVertex;
+        private System.Windows.Point locFirstVertex;
 
         public PdfEditW()
         {
@@ -42,9 +43,7 @@ namespace _11_Image_Processing
             tempPdf = ST.tempFile;
             //Debug.WriteLine(new FileInfo(fileName).Length);
 
-            pdfViewControl.Load(ST.document);
-
-                
+            pdfViewControl.Load(ST.document);               
 
             
             {//PdfDocument doc = PdfSharp.Pdf.IO.PdfReader.Open(fileName);
@@ -68,9 +67,8 @@ namespace _11_Image_Processing
             }
 
 
-
             pdfViewControl.MouseDoubleClick += Pdfwcontrol_MouseDoubleClick;
-            //pdfViewControl.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
+            pdfViewControl.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
             pdfViewControl.ScrollChanged += Pdfwcontrol_ScrollChanged1;
 
             //pdfViewControl.LoadedDocument.AddSquareAt(0, new System.Drawing.Point(10, 20), 10);
@@ -118,6 +116,11 @@ namespace _11_Image_Processing
                 pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_B;
 
         }
+        private void c_Click(object sender, RoutedEventArgs e)
+        {
+            pdfViewControl.ScrollTo(0);
+        }
+
 
 
 
@@ -141,9 +144,6 @@ namespace _11_Image_Processing
                 ST.pagesPoints[pindex] = new();
             ST.pagesPoints[pindex].Add(point);
 
-            //doc.Save(tempPdf);
-            //pdfViewControl.Load(ST.document);
-
 
 
             MemoryStream stream = new MemoryStream();
@@ -154,7 +154,6 @@ namespace _11_Image_Processing
             ST.document = pdfViewControl.LoadedDocument;
             ST.document.Save(ST.tempFile);
 
-            //pdfViewControl.Save(tempPdf);
 
             pdfViewControl.ScrollTo(offset);
             pdfViewControl.Zoom = zoom * 100;
@@ -167,15 +166,60 @@ namespace _11_Image_Processing
             if (drawingRectangle)
             {
                 argsFirstVertex = args;
-                //pdfViewControl.PageMouseMove += PdfViewControl_PageMouseMove;
+                locFirstVertex = Mouse.GetPosition(this);
+                //this.MouseMove += PdfEditW_MouseMove;
+                pdfViewControl.PageMouseMove += PdfViewControl_PageMouseMove;
+                rectangleR.Visibility = Visibility.Visible;
             }
             else
             {
                 SaveRectangle(sender,args);
+                //this.MouseMove -= PdfEditW_MouseMove;
                 pdfViewControl.PageMouseMove -= PdfViewControl_PageMouseMove;
+                rectangleR.Visibility = Visibility.Hidden;
+
             }
         }
 
+        private void PdfEditW_MouseMove(object sender, MouseEventArgs e)
+        {
+            Rectangle rect = new();
+
+
+            rect.Location = new((int)locFirstVertex.X, (int)locFirstVertex.Y);
+            rect.Size = new((int)(Mouse.GetPosition(this).X - locFirstVertex.X - 2 * rectangleR.StrokeThickness), (int)(Mouse.GetPosition(this).Y - locFirstVertex.Y - 2 * rectangleR.StrokeThickness));
+
+            rect = rect.EvaluateInPositiveSize();
+
+            Thickness thickness = new(rect.X, rect.Y, 0, 0);
+            rectangleR.Margin = thickness;
+
+            rectangleR.Width = rect.Width;
+            rectangleR.Height = rect.Height;
+
+        }
+
+        private void PdfViewControl_PageMouseMove(object sender, PageMouseMoveEventArgs args)
+        {
+
+            Rectangle rect = new();
+
+
+            rect.Location = new((int)locFirstVertex.X, (int)locFirstVertex.Y);
+            rect.Size = new((int)(Mouse.GetPosition(this).X - locFirstVertex.X - 2 * rectangleR.StrokeThickness), (int)(Mouse.GetPosition(this).Y - locFirstVertex.Y - 2 * rectangleR.StrokeThickness));
+
+            rect = rect.EvaluateInPositiveSize();
+
+            Thickness thickness = new(rect.X, rect.Y, 0, 0);
+            rectangleR.Margin = thickness;
+
+            rectangleR.Width = rect.Width;
+            rectangleR.Height = rect.Height;
+
+
+
+
+        }
 
         private void SaveRectangle(object sender, PageClickedEventArgs args)
         {
@@ -216,51 +260,6 @@ namespace _11_Image_Processing
 
             pdfViewControl.ScrollTo(offset);
             pdfViewControl.Zoom = zoom * 100;
-        }
-
-        private void PdfViewControl_PageMouseMove(object sender, PageMouseMoveEventArgs args)
-        {
-
-            var sen = sender as PdfViewerControl;
-            var doc = sen.LoadedDocument;
-            int pindex = args.PageIndex;
-            double zoom = sen.ZoomPercentage / 100.0;
-
-            PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
-            doc.AddSquareAt(pindex, point);
-
-
-            while (ST.pagesPoints.Length <= pindex)
-                Array.Resize(ref ST.pagesPoints, pindex + 1);
-            if (ST.pagesPoints[pindex] == null)
-                ST.pagesPoints[pindex] = new();
-            ST.pagesPoints[pindex].Add(point);
-
-            //doc.Save(tempPdf);
-            //pdfViewControl.Load(ST.document);
-
-
-
-            MemoryStream stream = new MemoryStream();
-            doc.Save(stream);
-            doc.Close();
-            doc.Dispose();
-            pdfViewControl.Load(stream);
-            ST.document = pdfViewControl.LoadedDocument;
-            ST.document.Save(ST.tempFile);
-
-            //pdfViewControl.Save(tempPdf);
-
-            pdfViewControl.ScrollTo(offset);
-            pdfViewControl.Zoom = zoom * 100;
-
-        }
-
-
-        private double Pdfwcontrol_ScrollChanged(object sender, ScrollChangedEventArgs args)
-        {
-            var sen = sender as PdfViewerControl;
-            return args.VerticalOffset;
         }
 
         private void Pdfwcontrol_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -403,9 +402,5 @@ namespace _11_Image_Processing
             }
         }
 
-        private void c_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

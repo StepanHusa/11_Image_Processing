@@ -45,9 +45,9 @@ namespace _11_Image_Processing
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
 
-                //this.WindowState = WindowState.Minimized;
-                //New_Click(new object(), new RoutedEventArgs());
-                //MenuEditOptions_AddBoxex_Click(new object(), new RoutedEventArgs());
+                // this.WindowState = WindowState.Minimized;
+                New_Click(new object(), new RoutedEventArgs());
+                // MenuEditOptions_AddBoxex_Click(new object(), new RoutedEventArgs());
                 //MenuSaveOptions_Template_Click(new object(),new RoutedEventArgs());
 
                 //PdfModifyW m = new(null);
@@ -103,12 +103,6 @@ namespace _11_Image_Processing
         }
 
 
-        private void ButtonRun_Click(object sender, RoutedEventArgs e)
-        {
-            Rectangle rectangle = new(1, 1,2,2);
-            bool a = rectangle.Logical();
-
-        }
         private void Open_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog() { Filter = "PDF(*.pdf)|*.pdf", Title = "Open PDF" };
@@ -123,19 +117,6 @@ namespace _11_Image_Processing
         }
 
 
-        //private void HelloWorld()
-        //{
-        //    PdfDocument doc = new();
-        //    PdfPage page = doc.AddPage();
-        //    XGraphics gfx = XGraphics.FromPdfPage(page);
-        //    XFont font = new("Arial", 20);
-        //    gfx.DrawString("Hello, World!", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-        //    //string filename = "HelloWorld.pdf";
-        //    filePath = Path.GetTempFileName();
-        //    doc.Save(filePath);
-        //    //Process.Start(filename);
-
-        //}
 
         private void LoadDocument (string fileName)
         {
@@ -160,7 +141,7 @@ namespace _11_Image_Processing
             ST.tempFile = tempPdf;
             ST.fileName = fileName;
             ST.document = new(tempPdf);
-            
+
             ReloadWindowContent();
         }
 
@@ -195,15 +176,10 @@ namespace _11_Image_Processing
             LoadDocument(ToLocation);
         }
 
-        private void MenuPrintOptions_ToJPEG_Click(object sender, RoutedEventArgs e)
-        {
-            var b = ST.document.RecognizeTaggedBoxes(ST.pagesPoints);
-            throw new NotImplementedException();
-        }
 
         private void Menu_Save_ProjectAs_Click(object sender, RoutedEventArgs e)
         {
-            ST.versions.Add(DateTime.Now);
+            ST.versions.Add(DateTime.Now.ToStringOfRegularFormat());
 
             SaveFileDialog save = new() { Title = "Save Template", Filter = $"File Template(*{ST.ext})|*{ST.ext}", FileName=ST.projectName};
             if (save.ShowDialog() == false) return;
@@ -212,13 +188,14 @@ namespace _11_Image_Processing
 
             SaveDataToFile(save.FileName);
 
+            ST.projectFileName = save.FileName;
             ReloadWindowContent();
 
             Menu_Save_Project.IsEnabled = true;
         }
         private void Menu_Save_Project_Click(object sender, RoutedEventArgs e)
         {
-            ST.versions.Add(DateTime.Now);
+            ST.versions.Add(DateTime.Now.ToStringOfRegularFormat());
 
             ST.document.Save(ST.tempFile);
 
@@ -372,10 +349,15 @@ namespace _11_Image_Processing
         }
         private void ReloadWindowContent()
         {
+            if (ST.document==null) throw new Exception("ReloadWindowContent whan no loaded document");
+
             Menu_Edit.IsEnabled = true;
             Menu_Save.IsEnabled = true;
             Menu_Print.IsEnabled = true;
+            Menu_Read.IsEnabled = true;
             reloadButton.IsEnabled = true;
+            this.Activated += Window_Activated;
+
 
             pdfDocumentView.Load(ST.tempFile);
             loadedPdfLabel.Content = Path.GetFileName(ST.fileName);
@@ -388,26 +370,26 @@ namespace _11_Image_Processing
             projectfilenametext.Text = Path.GetFileName(ST.projectFileName);
             locationtext.Text = Path.GetDirectoryName(ST.projectFileName);
             pagecounttext.Text = ST.document.Pages.Count.ToString();
-            int i = 0;
+            int ii = 0;
             foreach (var pointFs in ST.pagesPoints)
-                i += pointFs.Count;
-            boxcounttext.Text = i.ToString();
-            i = 0;
+                ii += pointFs.Count;
+            boxcounttext.Text = ii.ToString();
+            ii = 0;
             foreach (var rectangleFs in ST.pagesFields)
-                i += rectangleFs.Count;
-            fieldcounttext.Text = i.ToString();
+                ii += rectangleFs.Count;
+            fieldcounttext.Text = ii.ToString();
 
-            versioncombobox.Items.Clear();
+            versionCombobox.Items.Clear();
             foreach (var item in ST.versions)
-                versioncombobox.Items.Add(item);
+                versionCombobox.Items.Add(item);
+            versionCombobox.SelectedIndex = versionCombobox.Items.Count - 1;
 
-            if (ST.versions.Count == 0)
-                dateoflastsavetext.Text = DateTime.Now.ToString();
+            if (ST.versions.Count != 0)
+                dateoflastsavetext.Text = ST.versions.Last();
             else dateoflastsavetext.Text = "not saved yet";
 
             //dateoflastsavetext.Text = ST.versions.Last().ToStringOfRegularFormat();
         }
-
 
         private void Menu_Help_Click(object sender, RoutedEventArgs e)
         {
@@ -421,10 +403,64 @@ namespace _11_Image_Processing
             ST.settingsWindow.Show();
         }
 
-        private void Menu_Load_PNG_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
 
+        private void Menu_Print_ToJPEG_Click(object sender, RoutedEventArgs e)
+        {
+            var save = new SaveFileDialog() { Title = "Save JPEG", Filter = "JPEG(*.jpeg)|*.jpeg" };
+            if (save.ShowDialog() != true) return;
+
+
+            for (int i = 0; i < ST.document.Pages.Count; i++)
+            {
+                Bitmap image = ST.document.ExportAsImage(i,ST.dpiExport,ST.dpiExport);
+
+                string fn = Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
+
+                image.Save(fn,System.Drawing.Imaging.ImageFormat.Jpeg);
+            }
+
+        }
+
+        private void Menu_Print_ToPNG_Click(object sender, RoutedEventArgs e)
+        {
+            var save = new SaveFileDialog() { Title = "Save PNG", Filter = "PNG(*.png)|*.png" };
+            if (save.ShowDialog() != true) return;
+
+
+            for (int i = 0; i < ST.document.Pages.Count; i++)
+            {
+                Bitmap image = ST.document.ExportAsImage(i, ST.dpiExport, ST.dpiExport);
+
+                string fn = Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
+
+                image.Save(fn, System.Drawing.Imaging.ImageFormat.Png);
+            }
+
+        }
+
+        private void Menu_Read_PNG_Click(object sender, RoutedEventArgs e)
+        {
+            var open = new OpenFileDialog() { Title = "open PNG", Filter = "PNG(*.png)|*.png" };
+            if (open.ShowDialog() != true) return;
+            //open.FileName;
+
+
+            ST.image = System.Drawing.Image.FromFile(open.FileName);
+        }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            ReloadWindowContent();
+
+        }
+
+        private void Menu_Read_ListOfScans_OnePdf_Click(object sender, RoutedEventArgs e)
+        {
+            var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"File Template(*.PDF)|*.PDF"};
+            if (open.ShowDialog() == false) return;
+
+            var d = new dialogWindows.ChoiceDialogTemplate();
+            d.ShowDialog();
         }
     }
 }

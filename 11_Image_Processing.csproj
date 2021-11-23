@@ -8,13 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BitMiracle.Docotic.Pdf" Version="8.2.12561" />
+    <PackageReference Include="BitMiracle.Docotic.Pdf" Version="8.3.12622" />
+    <PackageReference Include="ImageProcessor" Version="2.9.1" />
     <PackageReference Include="Pdfium.Net.SDK" Version="4.61.2704" />
     <PackageReference Include="PDFsharp-wpf" Version="1.50.5147" />
     <PackageReference Include="QRCoder" Version="1.4.1" />
-    <PackageReference Include="Syncfusion.Licensing" Version="19.3.0.47" />
-    <PackageReference Include="Syncfusion.PdfViewer.WPF" Version="19.3.0.47" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    <PackageReference Include="Syncfusion.Licensing" Version="19.3.0.54" />
+    <PackageReference Include="Syncfusion.PdfViewer.WPF" Version="19.3.0.54" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -20,9 +20,10 @@ namespace _11_Image_Processing
         //settings
         internal static string templateProjectName = "*Untitled";
 
-        internal static PdfPen boundPen = new(Color.White, boundWidth);
+        internal static PdfPen boundPen = new(Color.Red, boundWidth);
         internal static float boundWidth = 2;
         internal static SizeF sizeOfBox = new(20, 20);
+        internal static float dpiExport = 600;
 
         internal static string tempDirectoryName = Path.GetTempPath() + "Stepan_Husa_Is_A_Genius\\";
         internal static string ext = ".st0r"; //templateExtension
@@ -34,15 +35,18 @@ namespace _11_Image_Processing
         internal static string fileName;
         internal static string tempFile;
 
-        internal static List<DateTime> versions =new();
+        internal static List<string> versions = new();
 
 
         //changing variables
+        internal static bool documentIsLoaded = false;
         internal static PdfLoadedDocument document;
         internal static List<PointF>[] pagesPoints = new List<PointF>[0]; //Pages array of lists containing points
         internal static List<RectangleF>[] pagesFields = new List<RectangleF>[0]; //Pages array of lists containing fields
 
+        internal static System.Drawing.Image image;
 
+        internal static List<System.Drawing.Image[]> setToEvaluate;
 
 
 
