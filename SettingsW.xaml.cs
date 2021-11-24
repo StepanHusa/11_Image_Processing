@@ -71,3 +71,7 @@ namespace _11_Image_Processing
         }
     }
 }
+
+//TODO finish settings _ add all useful parameters
+
+//

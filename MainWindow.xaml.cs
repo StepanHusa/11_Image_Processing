@@ -383,6 +383,7 @@ namespace _11_Image_Processing
             foreach (var item in ST.versions)
                 versionCombobox.Items.Add(item);
             versionCombobox.SelectedIndex = versionCombobox.Items.Count - 1;
+            //TODO make older versions unclickable or find a way of using them
 
             if (ST.versions.Count != 0)
                 dateoflastsavetext.Text = ST.versions.Last();
@@ -459,8 +460,12 @@ namespace _11_Image_Processing
             var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"File Template(*.PDF)|*.PDF"};
             if (open.ShowDialog() == false) return;
 
+            //TODO get better dialog and finish loading of the file
+            //and make text property to show its loaded
             var d = new dialogWindows.ChoiceDialogTemplate();
             d.ShowDialog();
         }
     }
 }
+
+//TODO get the mic form connected 	
