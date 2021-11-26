@@ -50,8 +50,6 @@ namespace _11_Image_Processing
                  MenuEditOptions_AddBoxex_Click(new object(), new RoutedEventArgs());
                 //MenuSaveOptions_Template_Click(new object(),new RoutedEventArgs());
 
-                //PdfModifyW m = new(null);
-                //m.Show();
 
                 string d01 = debugFolder + @"\01.pdf";
 
