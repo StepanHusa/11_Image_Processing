@@ -21,7 +21,7 @@ namespace _11_Image_Processing.dialogWindows
     {
         public ChoiceDialogTemplate()
         {
-            // TODO: rewrite this to chice template, save it and implement into mainWindow.Read_Click
+            // TODO 01 rewrite this to chice template, save it and implement into mainWindow.Read_Click
 
             InitializeComponent();
 

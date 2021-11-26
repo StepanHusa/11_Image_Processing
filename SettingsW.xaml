@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:_11_Image_Processing"
         mc:Ignorable="d"
         Title="SettingsW" Height="450" Width="800" Closing="Window_Closing">
+    <Window.DataContext>
+        <local:ST/>
+    </Window.DataContext>
     <Grid >
         <!--ShowGridLines="True"-->
         <Grid.RowDefinitions>

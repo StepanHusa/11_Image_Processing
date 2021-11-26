@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspose.Words" Version="21.11.0" />
     <PackageReference Include="BitMiracle.Docotic.Pdf" Version="8.3.12622" />
     <PackageReference Include="ImageProcessor" Version="2.9.1" />
     <PackageReference Include="Pdfium.Net.SDK" Version="4.61.2704" />

@@ -45,9 +45,9 @@ namespace _11_Image_Processing
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
 
-                // this.WindowState = WindowState.Minimized;
-                New_Click(new object(), new RoutedEventArgs());
-                // MenuEditOptions_AddBoxex_Click(new object(), new RoutedEventArgs());
+                 this.WindowState = WindowState.Minimized;
+                Menu_Load_New_Click(new object(), new RoutedEventArgs());
+                 MenuEditOptions_AddBoxex_Click(new object(), new RoutedEventArgs());
                 //MenuSaveOptions_Template_Click(new object(),new RoutedEventArgs());
 
                 //PdfModifyW m = new(null);
@@ -84,7 +84,10 @@ namespace _11_Image_Processing
                             listOfPages.Add(new List<PointF>());
                         break;
                 }
-                
+
+                ST.setOfToEvaluate.Add(new Bitmap[1]);
+                //ST.setOfToEvaluate[0][0] = new Bitmap(debugFolder + @"\01.png");
+                //ST.document.EvaluateSet(); 
 
                 var value = doc.RecognizeTaggedBoxesDebug(d01,listOfPages);
 
@@ -102,8 +105,8 @@ namespace _11_Image_Processing
             }
         }
 
-
-        private void Open_Click(object sender, RoutedEventArgs e)
+        //load
+        private void Menu_Load_Open_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog() { Filter = "PDF(*.pdf)|*.pdf", Title = "Open PDF" };
             if (open.ShowDialog() != true) return;
@@ -111,12 +114,32 @@ namespace _11_Image_Processing
 
             LoadDocument(fileName);
         }
-        private void New_Click(object sender, RoutedEventArgs e)
+        private void Menu_Load_New_Click(object sender, RoutedEventArgs e)
         {
             LoadDocument(null);
         }
+        private void Menu_Load_Word_Click(object sender, RoutedEventArgs e)
+        {
+            var open = new OpenFileDialog() { Title = "Open Word Doc",Filter= "Word Document(*.doc;*docx)|*.doc;*docx" };
+            if (!(bool)open.ShowDialog()) return;
+
+            Word2Pdf objWorPdf = new Word2Pdf();
+
+            string FromLocation = open.FileName;
+            string FileExtension = Path.GetExtension(FromLocation);
+            string ToLocation = Path.GetDirectoryName(FromLocation) + "\\" + Path.GetFileNameWithoutExtension(FromLocation) + "_(ConvertedFromWord)" + ".pdf";
 
 
+            if (FileExtension == ".doc" || FileExtension == ".docx")
+            {
+                objWorPdf.InputLocation = FromLocation;
+                objWorPdf.OutputLocation = ToLocation;
+                objWorPdf.Word2PdfCOnversion();
+            }
+            else { MessageBox.Show("Invalid Input");return; }
+
+            LoadDocument(ToLocation);
+        }
 
         private void LoadDocument (string fileName)
         {
@@ -145,38 +168,24 @@ namespace _11_Image_Processing
             ReloadWindowContent();
         }
 
+        //open
+        private void Menu_Open_Project_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog open =new() { Title = "Open Template", Filter = $"File Template(*{ST.ext})|*{ST.ext}" };
+            if (open.ShowDialog() == false) return;
 
+            LoadDataFromFile(open.FileName);
 
+            Menu_Save_Project.IsEnabled = true;
+
+        }
+        //Edit
         private void MenuEditOptions_AddBoxex_Click(object sender, RoutedEventArgs e)
         {
             PdfEditW m = new();
             m.Show();
         }
-
-        private void Word_Click(object sender, RoutedEventArgs e)
-        {
-            var open = new OpenFileDialog() { Title = "Open Word Doc",Filter= "Word Document(*.doc;*docx)|*.doc;*docx" };
-            if (!(bool)open.ShowDialog()) return;
-
-            Word2Pdf objWorPdf = new Word2Pdf();
-
-            string FromLocation = open.FileName;
-            string FileExtension = Path.GetExtension(FromLocation);
-            string ToLocation = Path.GetDirectoryName(FromLocation) + "\\" + Path.GetFileNameWithoutExtension(FromLocation) + "_(ConvertedFromWord)" + ".pdf";
-
-
-            if (FileExtension == ".doc" || FileExtension == ".docx")
-            {
-                objWorPdf.InputLocation = FromLocation;
-                objWorPdf.OutputLocation = ToLocation;
-                objWorPdf.Word2PdfCOnversion();
-            }
-            else { MessageBox.Show("Invalid Input");return; }
-
-            LoadDocument(ToLocation);
-        }
-
-
+        //Save
         private void Menu_Save_ProjectAs_Click(object sender, RoutedEventArgs e)
         {
             ST.versions.Add(DateTime.Now.ToStringOfRegularFormat());
@@ -203,7 +212,6 @@ namespace _11_Image_Processing
 
             ReloadWindowContent();
         }
-
         private void Menu_Save_PDF_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog save = new() { Title = "Save PDF", Filter = $"File Template(*.PDF)|*.PDF", FileName = ST.projectName };
@@ -212,19 +220,7 @@ namespace _11_Image_Processing
             ST.document.Save(save.FileName);
         }
 
-
-        private void Menu_Open_Project_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog open =new() { Title = "Open Template", Filter = $"File Template(*{ST.ext})|*{ST.ext}" };
-            if (open.ShowDialog() == false) return;
-
-            LoadDataFromFile(open.FileName);
-
-            Menu_Save_Project.IsEnabled = true;
-
-        }
-
-        void SaveDataToFile(string fileName)
+        private void SaveDataToFile(string fileName)
         {
             byte[] FormatCode = ST.fileCode; //8 Byte identification code
             byte[] documentpdf = File.ReadAllBytes(ST.tempFile);
@@ -257,7 +253,7 @@ namespace _11_Image_Processing
 
 
         }
-        void LoadDataFromFile(string filename)
+        private void LoadDataFromFile(string filename)
         {
             //declare components
             byte[] FormatCode;
@@ -338,6 +334,85 @@ namespace _11_Image_Processing
             ReloadWindowContent();
         }
 
+        //Read
+        private void Menu_Read_PNG_Click(object sender, RoutedEventArgs e)
+        {
+            var open = new OpenFileDialog() { Title = "open PNG", Filter = "PNG(*.png)|*.png" };
+            if (open.ShowDialog() != true) return;
+            //open.FileName;
+
+           
+            ST.setOfToEvaluate.Add(new Bitmap[1]);
+            ST.setOfToEvaluate[0][0] = new Bitmap(open.FileName);
+            
+        }
+        private void Menu_Read_ListOfScans_OnePdf_Click(object sender, RoutedEventArgs e)
+        {
+            var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"File Template(*.PDF)|*.PDF"};
+            if (open.ShowDialog() == false) return;
+
+            //TODO get better dialog and finish loading of the file
+            //and make text property to show its loaded
+            var d = new dialogWindows.ChoiceDialogTemplate();
+            d.ShowDialog();
+
+            
+        }
+        //Print
+        private void Menu_Print_ToJPEG_Click(object sender, RoutedEventArgs e)
+        {
+            var save = new SaveFileDialog() { Title = "Save JPEG", Filter = "JPEG(*.jpeg)|*.jpeg" };
+            if (save.ShowDialog() != true) return;
+
+
+            for (int i = 0; i < ST.document.Pages.Count; i++)
+            {
+                Bitmap image = ST.document.ExportAsImage(i,ST.dpiExport,ST.dpiExport);
+
+                string fn = Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
+
+                image.Save(fn,System.Drawing.Imaging.ImageFormat.Jpeg);
+            }
+
+        }
+        private void Menu_Print_ToPNG_Click(object sender, RoutedEventArgs e)
+        {
+            var save = new SaveFileDialog() { Title = "Save PNG", Filter = "PNG(*.png)|*.png" };
+            if (save.ShowDialog() != true) return;
+
+
+            for (int i = 0; i < ST.document.Pages.Count; i++)
+            {
+                Bitmap image = ST.document.ExportAsImage(i, ST.dpiExport, ST.dpiExport);
+
+                string fn = Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
+
+                image.Save(fn, System.Drawing.Imaging.ImageFormat.Png);
+            }
+
+        }
+
+        //help and settings
+        private void Menu_Help_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Menu_Settings_Click(object sender, RoutedEventArgs e)
+        {
+            if (ST.settingsWindow == null)
+                ST.settingsWindow = new();
+            ST.settingsWindow.Show();
+        }
+
+
+        //content
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            ReloadWindowContent();
+
+        }
+
         private void projecttext_LostFocus(object sender, RoutedEventArgs e)
         {
             ST.projectName = projecttext.Text;
@@ -390,80 +465,6 @@ namespace _11_Image_Processing
             else dateoflastsavetext.Text = "not saved yet";
 
             //dateoflastsavetext.Text = ST.versions.Last().ToStringOfRegularFormat();
-        }
-
-        private void Menu_Help_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Menu_Settings_Click(object sender, RoutedEventArgs e)
-        {
-            if (ST.settingsWindow == null)
-                ST.settingsWindow = new();
-            ST.settingsWindow.Show();
-        }
-
-
-        private void Menu_Print_ToJPEG_Click(object sender, RoutedEventArgs e)
-        {
-            var save = new SaveFileDialog() { Title = "Save JPEG", Filter = "JPEG(*.jpeg)|*.jpeg" };
-            if (save.ShowDialog() != true) return;
-
-
-            for (int i = 0; i < ST.document.Pages.Count; i++)
-            {
-                Bitmap image = ST.document.ExportAsImage(i,ST.dpiExport,ST.dpiExport);
-
-                string fn = Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
-
-                image.Save(fn,System.Drawing.Imaging.ImageFormat.Jpeg);
-            }
-
-        }
-
-        private void Menu_Print_ToPNG_Click(object sender, RoutedEventArgs e)
-        {
-            var save = new SaveFileDialog() { Title = "Save PNG", Filter = "PNG(*.png)|*.png" };
-            if (save.ShowDialog() != true) return;
-
-
-            for (int i = 0; i < ST.document.Pages.Count; i++)
-            {
-                Bitmap image = ST.document.ExportAsImage(i, ST.dpiExport, ST.dpiExport);
-
-                string fn = Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
-
-                image.Save(fn, System.Drawing.Imaging.ImageFormat.Png);
-            }
-
-        }
-
-        private void Menu_Read_PNG_Click(object sender, RoutedEventArgs e)
-        {
-            var open = new OpenFileDialog() { Title = "open PNG", Filter = "PNG(*.png)|*.png" };
-            if (open.ShowDialog() != true) return;
-            //open.FileName;
-
-
-            ST.image = System.Drawing.Image.FromFile(open.FileName);
-        }
-
-        private void Window_Activated(object sender, EventArgs e)
-        {
-            ReloadWindowContent();
-
-        }
-
-        private void Menu_Read_ListOfScans_OnePdf_Click(object sender, RoutedEventArgs e)
-        {
-            var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"File Template(*.PDF)|*.PDF"};
-            if (open.ShowDialog() == false) return;
-
-            //TODO get better dialog and finish loading of the file
-            //and make text property to show its loaded
-            var d = new dialogWindows.ChoiceDialogTemplate();
-            d.ShowDialog();
         }
     }
 }

@@ -213,29 +213,6 @@ namespace _11_Image_Processing
 
 
 
-        private static PointF[] TranslatePoints(this PointF[] points, float dx, float dy)
-        {
-            Matrix translateMatrix = new Matrix(1, 0, 0, 1, dx, dy);
-            translateMatrix.TransformPoints(points); //this modifies myPointArray
-
-            return points;
-        }
-        private static PointF[] ScalePoints(this PointF[] points, float scale) 
-        { 
-            Matrix scaleMatrix = new Matrix(scale, 0, 0, scale, 0, 0);
-            scaleMatrix.TransformPoints(points);       //this modifies myPointArray
-
-            return points;
-        }
-        private static PointF ScalePoint(this PointF point, float scale)
-        {
-            PointF[] points = { point };
-
-            Matrix scaleMatrix = new Matrix(scale, 0, 0, scale, 0, 0);
-            scaleMatrix.TransformPoints(points);       //this modifies myPointArray
-
-            return points[0];
-        }
 
         private static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rectangle, int pageint)
         {
@@ -373,7 +350,33 @@ namespace _11_Image_Processing
             }
         }
     }
+    static class PointFExtensions
+    {
+        public static PointF[] TranslatePoints(this PointF[] points, float dx, float dy)
+        {
+            Matrix translateMatrix = new Matrix(1, 0, 0, 1, dx, dy);
+            translateMatrix.TransformPoints(points); //this modifies myPointArray
 
+            return points;
+        }
+        public static PointF[] ScalePoints(this PointF[] points, float scale)
+        {
+            Matrix scaleMatrix = new Matrix(scale, 0, 0, scale, 0, 0);
+            scaleMatrix.TransformPoints(points);       //this modifies myPointArray
+
+            return points;
+        }
+        public static PointF ScalePoint(this PointF point, float scale)
+        {
+            PointF[] points = { point };
+
+            Matrix scaleMatrix = new Matrix(scale, 0, 0, scale, 0, 0);
+            scaleMatrix.TransformPoints(points);       //this modifies myPointArray
+
+            return points[0];
+        }
+
+    }
     static class StringExtensions
     {
         public static string ToStringOfRegularFormat(this DateTime d)
@@ -457,14 +460,103 @@ namespace _11_Image_Processing
             return rect;
         }
 
+    }    
+    static class ObjectExtensions
+    {
+        public static T Clone<T>(this T source)
+        {
+            if (!typeof(T).IsSerializable)
+            {
+                throw new ArgumentException("The type must be serializable.", "source");
+            }
+
+            if (Object.ReferenceEquals(source, null))
+            {
+                return default(T);
+            }
+
+            System.Runtime.Serialization.IFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+            Stream stream = new MemoryStream();
+            using (stream)
+            {
+                formatter.Serialize(stream, source);
+                stream.Seek(0, SeekOrigin.Begin);
+                return (T)formatter.Deserialize(stream);
+            }
+        }
     }
-    
     static class ImageProcessing
     {
         public static void Testing(this string filename)
         {
             
         }
+        //public static void EvaluateSet( )
+        //{
+        //    List<PointF>[] lists;
+        //    string fileName;
+        //    PdfLoadedDocument doc = ST.document;
+        //    float w = ST.boundWidth;
+        //    List<bool[]> output = new();
+        //    Bitmap[] pageImages = doc.ExportAsImage(0, doc.Pages.Count - 1, 300, 300);
+        //    SizeF size = ST.sizeOfBox.Clone();
+
+        //    double treshold = ST.treshold;
+
+        //    if (lists.Length > doc.Pages.Count) throw new Exception("not a correct sizes of lists (RecognizeTaggedBoxes)");
+
+
+        //    int pgCount = -1;
+        //    foreach (var points in lists)
+        //    {
+        //        pgCount++;
+        //        bool[] pageArray = new bool[points.Count];
+
+        //        var s = doc.Pages[pgCount].Size; //595 842 size
+        //        var sI = pageImages[pgCount].Size; //2479 3508 size image
+        //        double r = sI.Height / s.Height; //4.16627 racio
+
+        //        int pointCount = 0;
+        //        foreach (var point in points)
+        //        {
+        //            RectangleF b = new RectangleF(point, size); //bounds
+        //            Rectangle I = new(); //Int Rectangle
+
+
+        //            b.Size -= new SizeF(w * 2, w * 2);
+        //            b.Location += new SizeF(w, w);
+        //            b.Size *= (float)r;
+        //            b.Location = b.Location.ScalePoint((float)r);
+
+
+        //            I = Rectangle.Round(b);
+
+
+
+        //            int c = I.Width * I.Height;//count of pixels
+        //            float cc = 0;
+        //            for (int i = I.X; i < I.X + I.Width; i++)
+        //                for (int j = I.Y; j < I.Y + I.Height; j++)
+        //                {
+        //                    pageImages[0].SetPixel(i, j, Color.Blue);
+        //                    //var pix=pageImages[pgCount].GetPixel(i,j);
+        //                    //var x = pix.GetBrightness();
+        //                    cc += pageImages[pgCount].GetPixel(i, j).GetBrightness();
+        //                }
+        //            float av = cc / c;
+
+        //            if (av < treshold) pageArray[pointCount] = true;
+        //            pointCount++;
+        //        }
+
+
+        //        output.Add(pageArray);
+        //    }
+
+        //    pageImages[0].Save(Path.ChangeExtension(fileName, "jpg"));
+
+        //}
+
     }
 
 }

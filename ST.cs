@@ -24,6 +24,7 @@ namespace _11_Image_Processing
         internal static float boundWidth = 2;
         internal static SizeF sizeOfBox = new(20, 20);
         internal static float dpiExport = 600;
+        internal static double treshold = 0.7;
 
         internal static string tempDirectoryName = Path.GetTempPath() + "Stepan_Husa_Is_A_Genius\\";
         internal static string ext = ".st0r"; //templateExtension
@@ -39,14 +40,18 @@ namespace _11_Image_Processing
 
 
         //changing variables
-        internal static bool documentIsLoaded = false;
+        //internal static bool documentIsLoaded = false;
         internal static PdfLoadedDocument document;
         internal static List<PointF>[] pagesPoints = new List<PointF>[0]; //Pages array of lists containing points
         internal static List<RectangleF>[] pagesFields = new List<RectangleF>[0]; //Pages array of lists containing fields
 
-        internal static System.Drawing.Image image;
+        internal static List<PointF[]>[] pagesQuestionsBoxes = new List<PointF[]>[0];
 
-        internal static List<System.Drawing.Image[]> setToEvaluate;
+
+        internal static List<Bitmap[]> setOfToEvaluate = new List<Bitmap[]>();
+
+        //output
+        //internal static List
 
 
 

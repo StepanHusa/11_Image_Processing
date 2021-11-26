@@ -33,9 +33,9 @@
 
         <Menu >
             <MenuItem x:Name="Menu_Load" Header="_Load">
-                <MenuItem x:Name="New"      Header="_New PDF File"          Click="New_Click"/>
-                <MenuItem x:Name="Open"     Header="_Open Existing PDF"    Click="Open_Click"/>
-                <MenuItem x:Name="Word"     Header="_Open Word Document" Click="Word_Click"/>
+                <MenuItem x:Name="Menu_Load_New"      Header="_New PDF File"          Click="Menu_Load_New_Click"/>
+                <MenuItem x:Name="Menu_Load_Open"     Header="_Open Existing PDF"     Click="Menu_Load_Open_Click"/>
+                <MenuItem x:Name="Menu_Load_Word"     Header="_Open Word Document"    Click="Menu_Load_Word_Click"/>
             </MenuItem>
             <MenuItem x:Name="Menu_Open" Header="_Open">
                 <MenuItem x:Name="Menu_Open_Project"     Header="_Project" Click="Menu_Open_Project_Click"/>

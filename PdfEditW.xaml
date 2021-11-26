@@ -8,16 +8,17 @@
         mc:Ignorable="d"
         Title="PdfEditW" HorizontalAlignment="Left" VerticalAlignment="Top">
     <Grid>
-        <PdfViewer:PdfViewerControl x:Name="pdfViewControl" />
+        <PdfViewer:PdfViewerControl x:Name="pdfViewControl"  />
         <Rectangle x:Name="rectangleR" Stroke="Black" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
     </Grid>
     <Window.Resources>
         <ContextMenu x:Key="contextMenu">
-            <MenuItem x:Name="a"  Header="a" IsCheckable="True" Click="A_Click"/>
-            <MenuItem x:Name="b"  Header="b" IsCheckable="True" Click="B_Click"/>
+            <MenuItem x:Name="a"  Header="_Box" IsCheckable="True" Click="A_Click"/>
+            <MenuItem x:Name="b"  Header="_Field" IsCheckable="True" Click="B_Click"/>
             <MenuItem x:Name="Menu_NewPage" Header="_New Page" Click="Menu_NewPage_Click"/>
-            <MenuItem x:Name="c" Header="c" IsCheckable="True" Click="c_Click"/>
+            <MenuItem x:Name="c" Header="_Box Priview" IsCheckable="True" Click="C_Click"/>
+            <MenuItem x:Name="d" Header="_D" IsCheckable="True" Click="D_Click"/>
         </ContextMenu>
     </Window.Resources>
 </Window>
