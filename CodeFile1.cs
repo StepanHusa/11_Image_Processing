@@ -1,3 +1,4 @@
 ﻿//this is just to find out how changes in github work
 
-//main (push as master)
+//a
+// now i make branch master to be nex to 01
