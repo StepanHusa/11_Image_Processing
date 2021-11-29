@@ -22,6 +22,8 @@ using System.Drawing;
 using Syncfusion.Pdf.Parsing;
 using WordToPDF;
 
+//TODO find a way of shortcuts
+
 namespace _11_Image_Processing
 {
     /// <summary>
