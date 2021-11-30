@@ -22,8 +22,6 @@ using System.Drawing;
 using Syncfusion.Pdf.Parsing;
 using WordToPDF;
 
-//TODO find a way of shortcuts
-
 namespace _11_Image_Processing
 {
     /// <summary>
@@ -31,6 +29,8 @@ namespace _11_Image_Processing
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        
         public MainWindow()
         {
             //licencing PDFSharp and Syncfusion.PDFViewer
@@ -41,7 +41,17 @@ namespace _11_Image_Processing
             BitMiracle.Docotic.LicenseManager.AddLicenseData("49YKU-QSUJS-1T3EP-28V4L-FIFQY");
 
             InitializeComponent();
-            
+
+            //Hotkeys
+            {
+                HotkeysManager.SetupSystemHook();
+                //add individual hotkyes
+                HotkeysManager.AddHotkey(ModifierKeys.Control, Key.E, () => { Menu_Edit_AddBoxex_Click(new object(),new RoutedEventArgs()); });
+
+
+            }
+
+            Closing += MainWindow_Closing;
 
             //debug
             {
@@ -49,7 +59,7 @@ namespace _11_Image_Processing
 
                  this.WindowState = WindowState.Minimized;
                 Menu_Load_New_Click(new object(), new RoutedEventArgs());
-                 MenuEditOptions_AddBoxex_Click(new object(), new RoutedEventArgs());
+                 Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
                 //MenuSaveOptions_Template_Click(new object(),new RoutedEventArgs());
 
 
@@ -103,6 +113,18 @@ namespace _11_Image_Processing
                 //p.Start();
 
             }
+        }
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Need to shutdown the hook. idk what happens if
+            // you dont, but it might cause a memory leak.
+            HotkeysManager.ShutdownSystemHook();
+        }
+
+
+        private void MyCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            Menu_Edit_AddBoxex_Click(sender, e);
         }
 
         //load
@@ -180,7 +202,7 @@ namespace _11_Image_Processing
 
         }
         //Edit
-        private void MenuEditOptions_AddBoxex_Click(object sender, RoutedEventArgs e)
+        private void Menu_Edit_AddBoxex_Click(object sender, RoutedEventArgs e)
         {
             PdfEditW m = new();
             m.Show();
@@ -351,7 +373,7 @@ namespace _11_Image_Processing
             var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"File Template(*.PDF)|*.PDF"};
             if (open.ShowDialog() == false) return;
 
-            //TODO get better dialog and finish loading of the file
+            //TODO 03 get better dialog and finish loading of the file
             //and make text property to show its loaded
             var d = new dialogWindows.ChoiceDialogTemplate();
             d.ShowDialog();
@@ -410,7 +432,6 @@ namespace _11_Image_Processing
         private void Window_Activated(object sender, EventArgs e)
         {
             ReloadWindowContent();
-
         }
 
         private void projecttext_LostFocus(object sender, RoutedEventArgs e)
