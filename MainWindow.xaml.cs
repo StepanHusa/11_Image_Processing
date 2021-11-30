@@ -68,7 +68,7 @@ namespace _11_Image_Processing
                 List<PointF> pointsPage1=new();
                 List<PointF> pointsPage2 = new();
                 List<Color> colors = new();
-
+                 
                 colors.Add(Color.Black);
                 colors.Add(Color.Gray);
                 colors.Add(Color.White);
