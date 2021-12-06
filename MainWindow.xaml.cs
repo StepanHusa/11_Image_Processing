@@ -14,7 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 //using System.Windows.Shapes;
-using PdfSharp;
+//using PdfSharp;
 //using PdfSharp.Pdf;
 //using PdfSharp.Drawing;
 using System.Diagnostics;
@@ -33,12 +33,16 @@ namespace _11_Image_Processing
         
         public MainWindow()
         {
-            //licencing PDFSharp and Syncfusion.PDFViewer
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            //Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NDc1MjU5QDMxMzkyZTMyMmUzMG5MSnFGODNPRngxVVVMcm9zRzVMRi9lZnRJc3JESzRtTEY4T2xMMi9USzg9");
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NTI2OTM3QDMxMzkyZTMzMmUzMGZrd0Izb241N05UeDB4Nk5PZUJweldpaG5CQUxkdDlMdnVuZXVWeG9SVXM9");
 
-            BitMiracle.Docotic.LicenseManager.AddLicenseData("49YKU-QSUJS-1T3EP-28V4L-FIFQY");
+            //licencing
+            {
+                //licencing PDFSharp and Syncfusion.PDFViewer
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                //Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NDc1MjU5QDMxMzkyZTMyMmUzMG5MSnFGODNPRngxVVVMcm9zRzVMRi9lZnRJc3JESzRtTEY4T2xMMi9USzg9");
+                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NTI2OTM3QDMxMzkyZTMzMmUzMGZrd0Izb241N05UeDB4Nk5PZUJweldpaG5CQUxkdDlMdnVuZXVWeG9SVXM9");
+
+                //BitMiracle.Docotic.LicenseManager.AddLicenseData("49YKU-QSUJS-1T3EP-28V4L-FIFQY"); 
+            }
 
             InitializeComponent();
 
@@ -51,61 +55,64 @@ namespace _11_Image_Processing
 
             }
 
+            //events
             Closing += MainWindow_Closing;
 
             //debug
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
 
-                 this.WindowState = WindowState.Minimized;
+                this.WindowState = WindowState.Minimized;
                 Menu_Load_New_Click(new object(), new RoutedEventArgs());
-                 Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
-                //MenuSaveOptions_Template_Click(new object(),new RoutedEventArgs());
+                Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
 
-
-                string d01 = debugFolder + @"\01.pdf";
-
-                List<PointF> pointsPage1=new();
-                List<PointF> pointsPage2 = new();
-                List<Color> colors = new();
-                 
-                colors.Add(Color.Black);
-                colors.Add(Color.Gray);
-                colors.Add(Color.White);
-                for (int i = 0; i < 3; i++)
+                //rec debug
                 {
-                    pointsPage1.Add(new PointF(20, 20 + 40 * i));
+
+                    string d01 = debugFolder + @"\01.pdf";
+
+                    List<PointF> pointsPage1 = new();
+                    List<PointF> pointsPage2 = new();
+                    List<Color> colors = new();
+
+                    colors.Add(Color.Black);
+                    colors.Add(Color.Gray);
+                    colors.Add(Color.White);
+                    for (int i = 0; i < 3; i++)
+                    {
+                        pointsPage1.Add(new PointF(20, 20 + 40 * i));
+                    }
+                    //d01.DebugCreateFile(pointsPage1,colors);
+
+                    List<List<PointF>> listOfPages = new();
+                    listOfPages.Add(pointsPage1);
+                    listOfPages.Add(pointsPage2);
+
+                    var doc = new PdfLoadedDocument(d01);
+                    switch (doc.Pages.Count - listOfPages.Count)
+                    {
+                        case < 0:
+                            while (doc.Pages.Count < listOfPages.Count)
+                                doc.Pages.Add();
+                            break;
+                        case > 0:
+                            while (doc.Pages.Count > listOfPages.Count)
+                                listOfPages.Add(new List<PointF>());
+                            break;
+                    }
+
+                    ST.setOfToEvaluate.Add(new Bitmap[1]);
+                    //ST.setOfToEvaluate[0][0] = new Bitmap(debugFolder + @"\01.png");
+                    //ST.document.EvaluateSet(); 
+
+                    var value = doc.RecognizeTaggedBoxesDebug(d01, listOfPages);
+
+
+
+                    var p = new Process();
+                    p.StartInfo.UseShellExecute = true;
+
                 }
-                //d01.DebugCreateFile(pointsPage1,colors);
-
-                List < List < PointF > >listOfPages = new();
-                listOfPages.Add(pointsPage1);
-                listOfPages.Add(pointsPage2);
-
-                var doc = new PdfLoadedDocument(d01);
-                switch (doc.Pages.Count - listOfPages.Count)
-                {
-                    case < 0:
-                        while(doc.Pages.Count < listOfPages.Count)
-                            doc.Pages.Add();
-                        break;
-                    case > 0:
-                        while (doc.Pages.Count > listOfPages.Count)
-                            listOfPages.Add(new List<PointF>());
-                        break;
-                }
-
-                ST.setOfToEvaluate.Add(new Bitmap[1]);
-                //ST.setOfToEvaluate[0][0] = new Bitmap(debugFolder + @"\01.png");
-                //ST.document.EvaluateSet(); 
-
-                var value = doc.RecognizeTaggedBoxesDebug(d01,listOfPages);
-
-
-
-                var p = new Process();
-                p.StartInfo.UseShellExecute = true;
-
                 //p.StartInfo.FileName = d01;
                 //p.Start();
 
@@ -204,8 +211,16 @@ namespace _11_Image_Processing
         //Edit
         private void Menu_Edit_AddBoxex_Click(object sender, RoutedEventArgs e)
         {
+
             PdfEditW m = new();
             m.Show();
+        }
+        private void Menu_Edit_NoTools_Click(object sender, RoutedEventArgs e)
+        {
+            PdfEditW m = new();
+            m.Show();
+            m.HideMenuTool();
+            m.HideTools();
         }
         //Save
         private void Menu_Save_ProjectAs_Click(object sender, RoutedEventArgs e)
@@ -487,6 +502,7 @@ namespace _11_Image_Processing
 
             //dateoflastsavetext.Text = ST.versions.Last().ToStringOfRegularFormat();
         }
+
     }
 }
 

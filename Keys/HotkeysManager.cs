@@ -102,20 +102,37 @@ namespace _11_Image_Processing
         /// </summary>
         private static void CheckHotkeys()
         {
+
             if (RequiresModifierKey)
             {
                 if (Keyboard.Modifiers != ModifierKeys.None)
                 {
                     foreach (GlobalHotkey hotkey in Hotkeys)
                     {
-                        if (Keyboard.Modifiers == hotkey.Modifier && Keyboard.IsKeyDown(hotkey.Key))
+                        Console.WriteLine(Keyboard.IsKeyDown(hotkey.Key).ToString());
+                        //this now checks to see if the new "pressed" field in the hotkey is set to true. if so, then this won't execute again until you've released it
+
+                        if (Keyboard.Modifiers == hotkey.Modifier && !hotkey.Pressed && Keyboard.IsKeyDown(hotkey.Key))
                         {
                             if (hotkey.CanExecute)
                             {
                                 hotkey.Callback?.Invoke();
-                                HotkeyFired?.Invoke(hotkey);
+                                hotkey.Pressed = true; //I added a field to the hotkey to determine if it's currently pressed
                             }
                         }
+                        //If the key was pressed, and you've released it, then it's not pressed anymore
+
+                        if (hotkey.Pressed && Keyboard.IsKeyUp(hotkey.Key))
+                            hotkey.Pressed = false;
+
+                        //if (Keyboard.Modifiers == hotkey.Modifier && Keyboard.IsKeyDown(hotkey.Key))
+                        //{
+                        //    if (hotkey.CanExecute)
+                        //    {
+                        //        hotkey.Callback?.Invoke();
+                        //        HotkeyFired?.Invoke(hotkey);
+                        //    }
+                        //}
                     }
                 }
             }

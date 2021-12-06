@@ -11,7 +11,7 @@ using System.Windows.Input;
 //using System.Windows.Shapes;
 using System.IO;
 //using PdfSharp.Pdf;
-using PdfSharp.Drawing;
+//using PdfSharp.Drawing;
 using System.Diagnostics;
 using Syncfusion.Windows.PdfViewer;
 using Syncfusion.Pdf.Parsing;
@@ -45,6 +45,7 @@ namespace _11_Image_Processing
             //Debug.WriteLine(new FileInfo(fileName).Length);
 
             pdfViewControl.Load(ST.document);
+            pdfViewControl.MaximumZoomPercentage = 6400;
 
             {//PdfDocument doc = PdfSharp.Pdf.IO.PdfReader.Open(fileName);
              //PdfPage page = doc.AddPage();
@@ -163,21 +164,30 @@ namespace _11_Image_Processing
                 pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_D;
 
         }
+        private void E_Click(object sender, RoutedEventArgs e)
+        {
+            if ((sender as MenuItem).IsChecked)
+                pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_E;
+            else
+                pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_E;
+
+        }
 
 
         private void Pdfwcontrol_PageClicked_A(object sender, PageClickedEventArgs args)
         {
 
-            var doc = ST.document;
+            var doc = pdfViewControl.LoadedDocument;
             int pindex = args.PageIndex;
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
 
 
 
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
-            doc.AddSquareAt(pindex, point);
+            SizeF size = ST.sizeOfBox;
 
-
+            RectangleF bounds = new RectangleF(point, size);
+            doc.DrawRectangleBounds(bounds, pindex);
 
 
             ReloadDocument();
@@ -196,7 +206,28 @@ namespace _11_Image_Processing
             }
             else
             {
-                SaveRectangle(sender,args);
+                //add rectangle
+                {
+                    var doc = pdfViewControl.LoadedDocument;
+                    int pindex = args.PageIndex;
+                    double zoom = pdfViewControl.ZoomPercentage / 100.0;
+
+
+                    RectangleF rect = new();
+                    rect.Location = new((float)(argsFirstVertex.Position.X * 0.75 / zoom), (float)(argsFirstVertex.Position.Y * 0.75 / zoom));
+                    rect.Size = new((float)((args.Position.X - argsFirstVertex.Position.X) * 0.75 / zoom), (float)((args.Position.Y - argsFirstVertex.Position.Y) * 0.75 / zoom));
+
+                    doc.DrawRectangleBounds(rect, pindex);
+
+
+                    while (ST.pagesFields.Length <= pindex)
+                        Array.Resize(ref ST.pagesFields, pindex + 1);
+                    if (ST.pagesFields[pindex] == null)
+                        ST.pagesFields[pindex] = new();
+                    ST.pagesFields[pindex].Add(rect);
+
+                    ReloadDocument();
+                }
                 //this.MouseMove -= PdfEditW_MouseMove;
                 pdfViewControl.PageMouseMove -= PdfViewControl_PageMouseMove;
                 rectangleR.Visibility = Visibility.Hidden;
@@ -205,64 +236,79 @@ namespace _11_Image_Processing
         }
         private void Pdfwcontrol_PageClicked_D(object sender, PageClickedEventArgs args)
         {
-            //TODO finish the design of Question template
-            //TODO find a way of arangeing (sorting) the boxes
-            var doc = ST.document;
+            var doc = pdfViewControl.LoadedDocument;
             int pindex = args.PageIndex;
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
 
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
 
-            
-
-            int n=4; //number of answers
-            float heightOfTB;
-            float widthOfQTBs;
-            float spaceUnderQ;
-            float spaceBtwAn;
-            float spaceBeforeBox;
-
-
-            //create space to list of questoins
-            while (ST.pagesQuestionsBoxes.Length <= pindex)
-                Array.Resize(ref ST.pagesQuestionsBoxes, pindex + 1);
-            if (ST.pagesQuestionsBoxes[pindex] == null)
-                ST.pagesQuestionsBoxes[pindex] = new();
-            int iQ = ST.pagesQuestionsBoxes[pindex].Count; //index of question on page
-            ST.pagesQuestionsBoxes[pindex].Add(new PointF[n]);
-
-
-            var textBoxFieldQ = new PdfTextBoxField(ST.document.Pages[args.PageIndex], "question");
-            textBoxFieldQ.Text = $"Question";
-            textBoxFieldQ.Bounds = new RectangleF(point.X, point.Y, 200, 20);
-            ST.document.Form.Fields.Add(textBoxFieldQ);
 
 
 
-            for (int i = 0; i < n; i++)
+
+            ////create space to list of questoins
+            //while (ST.pagesQuestionsBoxes.Length <= pindex)
+            //    Array.Resize(ref ST.pagesQuestionsBoxes, pindex + 1);
+            //if (ST.pagesQuestionsBoxes[pindex] == null)
+            //    ST.pagesQuestionsBoxes[pindex] = new();
+            ////int iQ = ST.pagesQuestionsBoxes[pindex].Count; //index of question on page
+            //ST.pagesQuestionsBoxes[pindex].Add(new PointF[n]);
+
+ 
+            //get the index of new question
+            int iQ = ST.boxesInQuestions.Count;
+            //add list of answers in this question
+            ST.boxesInQuestions.Add(new());
+
+
+            var tb = new PdfTextBoxField(ST.document.Pages[args.PageIndex], "question");
+            tb.Text = $"Question";
+            tb.Bounds = new RectangleF(point.X, point.Y, ST.QS.widthOfQTBs, ST.QS.heightOfTB);
+            doc.Form.Fields.Add(tb);
+
+
+
+            for (int i = 0; i < ST.QS.n; i++)
             {
+                //add answer i textbox field
                 PdfTextBoxField textBoxField = new PdfTextBoxField(ST.document.Pages[args.PageIndex], "Enter your text");
                 textBoxField.Text = $"Answer {i + 1}";
-                textBoxField.Bounds = new RectangleF(point.X+20,point.Y +40+ i*30, 200, 20);
+                textBoxField.Bounds = new RectangleF(point.X + ST.QS.tab, point.Y + ST.QS.heightOfTB + ST.QS.spaceUnderQ + i * (ST.QS.heightOfTB + ST.QS.spaceBtwAn), ST.QS.widthOfQTBs - ST.QS.tab, ST.QS.heightOfTB);
                 doc.Form.Fields.Add(textBoxField);
 
-                var pointb = new PointF(point.X + 250, point.Y + 40 + i * 30);
-                doc.AddSquareAt(pindex,pointb );
 
-                //add question to list of questoins
-                ST.pagesQuestionsBoxes[pindex][iQ][i] = pointb; 
+                var pointb = new PointF(point.X + ST.QS.widthOfQTBs + ST.QS.spaceBeforeBox, point.Y + ST.QS.heightOfTB + ST.QS.spaceUnderQ + i * (ST.QS.heightOfTB + ST.QS.spaceBtwAn));
+                SizeF size = ST.sizeOfBox;
 
-                //add to list of single boxes
-                while (ST.pagesPoints.Length <= pindex)
-                    Array.Resize(ref ST.pagesPoints, pindex + 1);
-                if (ST.pagesPoints[pindex] == null)
-                    ST.pagesPoints[pindex] = new();
-                ST.pagesPoints[pindex].Add(pointb);
+
+                //square
+                RectangleF bounds = new RectangleF(pointb, size);
+                doc.DrawRectangleBounds(bounds, pindex);
+
+                doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ+1).ToString() + Convert.ToChar(i + (int)'a'));
+
+                //add square to 'The List'
+                ST.boxesInQuestions[iQ].Add(pindex, bounds);
+
+                ////add question to list of questoins
+                //ST.pagesQuestionsBoxes[pindex][iQ][i] = pointb; 
+
+                ////add to list of single boxes
+                //while (ST.pagesPoints.Length <= pindex)
+                //    Array.Resize(ref ST.pagesPoints, pindex + 1);
+                //if (ST.pagesPoints[pindex] == null)
+                //    ST.pagesPoints[pindex] = new();
+                //ST.pagesPoints[pindex].Add(pointb);
 
             }
 
             ReloadDocument();
         }
+        private void Pdfwcontrol_PageClicked_E(object sender, PageClickedEventArgs args)
+        {
+
+        }
+
         private void PdfViewControl_PageMouseMove(object sender, PageMouseMoveEventArgs args)
         {
 
@@ -304,48 +350,20 @@ namespace _11_Image_Processing
         private void ReloadDocument()
         {
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
-            var doc = ST.document;
+            var doc = pdfViewControl.LoadedDocument;
 
             MemoryStream stream = new MemoryStream();
             doc.Save(stream);
             doc.Close();
             doc.Dispose();
             pdfViewControl.Load(stream);
-            ST.document = pdfViewControl.LoadedDocument;
+            ST.document =(PdfLoadedDocument) pdfViewControl.LoadedDocument.Clone();
             ST.document.Save(ST.tempFile);
 
 
             pdfViewControl.ScrollTo(offset);
             pdfViewControl.Zoom = zoom * 100;
 
-        }
-        private void SaveRectangle(object sender, PageClickedEventArgs args)
-        {
-            var doc = ST.document;
-            int pindex = args.PageIndex;
-            double zoom = pdfViewControl.ZoomPercentage / 100.0;
-
-
-            RectangleF rect = new();
-            rect.Location= new((float)(argsFirstVertex.Position.X * 0.75 / zoom), (float)(argsFirstVertex.Position.Y * 0.75 / zoom));
-            rect.Size = new((float)((args.Position.X - argsFirstVertex.Position.X) * 0.75 / zoom), (float)((args.Position.Y - argsFirstVertex.Position.Y) * 0.75 / zoom));
-
-
-            doc.AddRectangleAt(pindex, rect);
-
-
-            while (ST.pagesFields.Length <= pindex)
-                Array.Resize(ref ST.pagesFields, pindex + 1);
-            if (ST.pagesFields[pindex] == null)
-                ST.pagesFields[pindex] = new();
-            ST.pagesFields[pindex].Add(rect);
-
-            //doc.Save(tempPdf);
-            //pdfViewControl.Load(ST.document);
-
-
-
-            ReloadDocument();
         }
 
 
@@ -378,7 +396,7 @@ namespace _11_Image_Processing
             //ImageControl.Source = bitmap;
 
         }
-        private void HideTools()
+        public void HideTools()
         {
             //Get the instance of the toolbar using its template name.
             DocumentToolbar toolbar = pdfViewControl.Template.FindName("PART_Toolbar", pdfViewControl) as DocumentToolbar;
@@ -456,7 +474,7 @@ namespace _11_Image_Processing
             Separatorbetweenthecursortoolsandtextsearchbuttonkl.Visibility = System.Windows.Visibility.Collapsed;
             Textsearchtoolkl.Visibility = System.Windows.Visibility.Collapsed;
         }
-        private void HideMenuTool()
+        public void HideMenuTool()
         {
             //Get the instance of the toolbar using its template name.
             DocumentToolbar toolbar = pdfViewControl.Template.FindName("PART_Toolbar", pdfViewControl) as DocumentToolbar;
@@ -480,8 +498,6 @@ namespace _11_Image_Processing
 
             }
         }
-
-
 
     }
 }

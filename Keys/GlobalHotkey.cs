@@ -34,6 +34,11 @@ namespace _11_Image_Processing
         public bool CanExecute { get; set; }
 
         /// <summary>
+        /// States if the hotkey is currently pressed
+        /// </summary>
+        public bool Pressed { get; set; }
+ 
+        /// <summary>
         /// Initiates a new hotkey with the given modifier, key, callback method, 
         /// and also a boolean stating if the callback can be run (can be changed, see <see cref="CanExecute"/>)
         /// </summary>

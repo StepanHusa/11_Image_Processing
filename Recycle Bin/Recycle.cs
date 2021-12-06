@@ -1,6 +1,6 @@
-﻿using PdfSharp.Pdf;
-using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.IO;
+﻿//using PdfSharp.Pdf;
+//using PdfSharp.Pdf.Advanced;
+//using PdfSharp.Pdf.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,43 +8,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _11_Image_Processing
+namespace _11_Image_ProcessingR
 {
     static class PDFExtensions
     {
-        static void ToPNG(string filename)
+        public static PdfLoadedDocument AddSquareAt(this PdfLoadedDocument doc, int pageint, PointF position)
         {
-            PdfDocument document = PdfReader.Open(filename);
+            SizeF size = ST.sizeOfBox;
 
-            int imageCount = 0;
-            // Iterate pages
-            foreach (PdfPage page in document.Pages)
-            {
-                // Get resources dictionary
-                PdfDictionary resources = page.Elements.GetDictionary("/Resources");
-                if (resources != null)
-                {
-                    // Get external objects dictionary
-                    PdfDictionary xObjects = resources.Elements.GetDictionary("/XObject");
-                    if (xObjects != null)
-                    {
-                        ICollection<PdfItem> items = xObjects.Elements.Values;
-                        // Iterate references to external objects
-                        foreach (PdfItem item in items)
-                        {
-                            if (item is PdfReference reference)
-                            {
-                                // Is external object an image?
-                                if (reference.Value is PdfDictionary xObject && xObject.Elements.GetString("/Subtype") == "/Image")
-                                {
-                                    ExportImage(xObject, ref imageCount);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            RectangleF bounds = new RectangleF(position, size);
+
+            doc.DrawRectangleBounds(bounds, pageint);
+
+            return doc;
         }
+
+        //static void ToPNG(string filename)
+        //{
+        //    PdfDocument document = PdfReader.Open(filename);
+
+        //    int imageCount = 0;
+        //    // Iterate pages
+        //    foreach (PdfPage page in document.Pages)
+        //    {
+        //        // Get resources dictionary
+        //        PdfDictionary resources = page.Elements.GetDictionary("/Resources");
+        //        if (resources != null)
+        //        {
+        //            // Get external objects dictionary
+        //            PdfDictionary xObjects = resources.Elements.GetDictionary("/XObject");
+        //            if (xObjects != null)
+        //            {
+        //                ICollection<PdfItem> items = xObjects.Elements.Values;
+        //                // Iterate references to external objects
+        //                foreach (PdfItem item in items)
+        //                {
+        //                    if (item is PdfReference reference)
+        //                    {
+        //                        // Is external object an image?
+        //                        if (reference.Value is PdfDictionary xObject && xObject.Elements.GetString("/Subtype") == "/Image")
+        //                        {
+        //                            ExportImage(xObject, ref imageCount);
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
         static void ExportImage(PdfDictionary image, ref int count)
         {
             string filter = image.Elements.GetName("/Filter");

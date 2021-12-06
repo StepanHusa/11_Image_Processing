@@ -11,7 +11,7 @@ using System.Windows.Controls;
 
 namespace _11_Image_Processing
 {
-    public class ST //"Static Variables
+    public class ST //"Static Variables (or maybe more like settings)
     {
 
         //unchanging
@@ -20,8 +20,8 @@ namespace _11_Image_Processing
         //settings
         internal static string templateProjectName = "*Untitled";
 
-        internal static PdfPen boundPen = new(Color.Red, boundWidth);
         internal static float boundWidth = 2;
+        internal static PdfPen boundPen = new(Color.Red, boundWidth);
         internal static SizeF sizeOfBox = new(20, 20);
         internal static float dpiExport = 600;
         internal static double treshold = 0.7;
@@ -44,8 +44,11 @@ namespace _11_Image_Processing
         internal static PdfLoadedDocument document;
         internal static List<PointF>[] pagesPoints = new List<PointF>[0]; //Pages array of lists containing points
         internal static List<RectangleF>[] pagesFields = new List<RectangleF>[0]; //Pages array of lists containing fields
-
         internal static List<PointF[]>[] pagesQuestionsBoxes = new List<PointF[]>[0];
+
+
+
+        internal static List<List<Tuple<int, RectangleF>>> boxesInQuestions = new();
 
 
         internal static List<Bitmap[]> setOfToEvaluate = new List<Bitmap[]>();
@@ -54,7 +57,20 @@ namespace _11_Image_Processing
         //internal static List
 
 
+        //additional var
+        internal static int indexFontSize = 10;
 
-        internal static SettingsW settingsWindow;
+        internal static class QS
+        {
+            internal static int n = 4; //number of answers
+            internal static float heightOfTB = 20;
+            internal static float widthOfQTBs = 250;
+            internal static float tab = 20;
+            internal static float spaceUnderQ = 10;
+            internal static float spaceBtwAn = 10;
+            internal static float spaceBeforeBox = 50;
+        }
+
+
     }
 }

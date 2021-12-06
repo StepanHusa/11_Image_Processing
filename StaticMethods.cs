@@ -19,27 +19,6 @@ namespace _11_Image_Processing
     public static class PdfExtensions
     {
 
-        public static PdfLoadedDocument AddSquareAt(this PdfLoadedDocument doc, int pageint, PointF position)
-        {
-            //var page = doc.Pages[pageint];
-
-            SizeF size = ST.sizeOfBox;
-            //PdfSolidBrush brush = ST.borderBrush;
-            RectangleF bounds = new RectangleF(position, size);
-            //page.Graphics.DrawRectangle(brush, bounds);
-
-
-            //float w = ST.boundWidth;
-            //bounds.X += w;
-            //bounds.Y += w;
-            //bounds.Width -= 2 * w;
-            //bounds.Height -= 2 * w;
-
-            //page.Graphics.DrawRectangle(ST.insideBrush, bounds);
-            doc.DrawRectangleBounds(bounds, pageint);
-
-            return doc;
-        }
         //public static PdfDocument AddSquareAt(this PdfDocument doc, int pageint, PointF position)
         //{
         //    var page = doc.Pages[pageint];
@@ -214,7 +193,7 @@ namespace _11_Image_Processing
 
 
 
-        private static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rectangle, int pageint)
+        public static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rectangle, int pageint)
         {
             var page = doc.Pages[pageint];
             PointF[] vertexes = { new PointF(rectangle.Left, rectangle.Bottom), new PointF(rectangle.Right, rectangle.Bottom), new PointF(rectangle.Right, rectangle.Top), new PointF(rectangle.Left, rectangle.Top), new PointF(rectangle.Left, rectangle.Bottom) };
@@ -225,6 +204,15 @@ namespace _11_Image_Processing
 
             return doc;
         }
+        public static PdfLoadedDocument DrawIndexNextToRectangle(this PdfLoadedDocument doc, RectangleF rectangle, int pageint, string index)
+        {
+            var page = doc.Pages[pageint];
+            var p = new PointF(rectangle.Right+ST.boundWidth, rectangle.Top);
+            page.Graphics.DrawString(index,new PdfStandardFont(PdfFontFamily.Courier,ST.indexFontSize), new PdfPen(Color.Black),p);
+
+            return doc;
+        }
+
     }
 
     static class ByteExtensions
@@ -350,6 +338,7 @@ namespace _11_Image_Processing
             }
         }
     }
+
     static class PointFExtensions
     {
         public static PointF[] TranslatePoints(this PointF[] points, float dx, float dy)
@@ -377,6 +366,7 @@ namespace _11_Image_Processing
         }
 
     }
+
     static class StringExtensions
     {
         public static string ToStringOfRegularFormat(this DateTime d)
@@ -401,6 +391,7 @@ namespace _11_Image_Processing
             }
         }
     }
+
     static class Conversions
     {
         public static Rectangle EvaluateInPositiveSize(this Rectangle rect)
@@ -461,6 +452,7 @@ namespace _11_Image_Processing
         }
 
     }    
+
     static class ObjectExtensions
     {
         public static T Clone<T>(this T source)
@@ -485,6 +477,7 @@ namespace _11_Image_Processing
             }
         }
     }
+
     static class ImageProcessing
     {
         public static void Testing(this string filename)
@@ -559,6 +552,13 @@ namespace _11_Image_Processing
 
     }
 
+    static class ListExtensions
+    {
+        public static void Add(this List<Tuple<int, RectangleF>> l, int i, RectangleF p)
+        {
+            l.Add(new Tuple<int, RectangleF>(i, p));
+        }
+    }
 }
 
 

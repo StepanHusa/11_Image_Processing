@@ -19,6 +19,7 @@
             <MenuItem x:Name="Menu_NewPage" Header="_New Page" Click="Menu_NewPage_Click"/>
             <MenuItem x:Name="c" Header="_Box Priview" IsCheckable="True" Click="C_Click"/>
             <MenuItem x:Name="d" Header="_D" IsCheckable="True" Click="D_Click"/>
+            <MenuItem x:Name="e" Header="_E" IsCheckable="True" Click="E_Click"/>
         </ContextMenu>
     </Window.Resources>
 </Window>
