@@ -207,7 +207,7 @@ namespace _11_Image_Processing
         public static PdfLoadedDocument DrawIndexNextToRectangle(this PdfLoadedDocument doc, RectangleF rectangle, int pageint, string index)
         {
             var page = doc.Pages[pageint];
-            var p = new PointF(rectangle.Right+ST.boundWidth, rectangle.Top);
+            var p = new PointF(rectangle.Right+ST.baundWidth, rectangle.Top);
             page.Graphics.DrawString(index,new PdfStandardFont(PdfFontFamily.Courier,ST.indexFontSize), new PdfPen(Color.Black),p);
 
             return doc;

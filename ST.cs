@@ -16,19 +16,25 @@ namespace _11_Image_Processing
 
         //unchanging
         internal static string appName = "Application Name";
+        internal static SettingsW settingsWindow;
 
         //settings
         internal static string templateProjectName = "*Untitled";
 
-        internal static float boundWidth = 2;
-        internal static PdfPen boundPen = new(Color.Red, boundWidth);
-        internal static SizeF sizeOfBox = new(20, 20);
+        internal static float baundWidth = 2;
+        internal static Color baundColor = Color.Red;
+        internal static PdfPen boundPen { get { return new PdfPen(baundColor, baundWidth); } }
+        internal static float sizeOfBoxF = 20;
+        internal static SizeF sizeOfBox { get { return new SizeF(sizeOfBoxF, sizeOfBoxF); } set { sizeOfBoxF = value.Height; } }
+        internal static float spaceBetweenBoxes =10;
+
         internal static float dpiExport = 600;
         internal static double treshold = 0.7;
 
         internal static string tempDirectoryName = Path.GetTempPath() + "Stepan_Husa_Is_A_Genius\\";
         internal static string ext = ".st0r"; //templateExtension
         internal static byte[] fileCode = "008800ff001100aa".StringToByteArray(); //8 bytes file format conformation
+
 
         //file specified info
         internal static string projectName = templateProjectName;
@@ -51,14 +57,14 @@ namespace _11_Image_Processing
         internal static List<List<Tuple<int, RectangleF>>> boxesInQuestions = new();
 
 
-        internal static List<Bitmap[]> setOfToEvaluate = new List<Bitmap[]>();
+        internal static List<List<Bitmap>> setOfToEvaluate = new(); //outside list are the separete works and inside are pages
 
         //output
         //internal static List
 
 
         //additional var
-        internal static int indexFontSize = 10;
+        internal static float indexFontSize = 10;
 
         internal static class QS
         {

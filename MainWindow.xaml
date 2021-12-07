@@ -61,6 +61,7 @@
                 <MenuItem x:Name="Menu_Read_PNG" Header="PNG to check" Click="Menu_Read_PNG_Click"/>
 
                 <MenuItem x:Name="Menu_Read_ListOfScans" Header="List of scans">
+                    <MenuItem x:Name="Menu_Read_ListOfScans_OnePage" Header="One Page" Click="Menu_Read_ListOfScans_OnePage_Click"/>
                     <MenuItem x:Name="Menu_Read_ListOfScans_OnePdf" Header="From One Pdf" Click="Menu_Read_ListOfScans_OnePdf_Click"/>
                 </MenuItem>
             </MenuItem>
@@ -110,7 +111,15 @@
             <TextBlock x:Name="pagecounttext"       Grid.Row="3" Grid.Column="1"/>
             <TextBlock x:Name="boxcounttext"        Grid.Row="4" Grid.Column="1"/>
             <TextBlock x:Name="fieldcounttext"      Grid.Row="5" Grid.Column="1"/>
-            <ComboBox   x:Name="versionCombobox"    Grid.Row="6" Grid.Column="1" />            
+            <ComboBox   x:Name="versionCombobox"    Grid.Row="6" Grid.Column="1">
+                <ComboBox.ItemContainerStyle>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter
+                    Property="IsEnabled"
+                    Value="False" />
+                    </Style>
+                </ComboBox.ItemContainerStyle>
+            </ComboBox>            
             <TextBlock x:Name="dateoflastsavetext"  Grid.Row="7" Grid.Column="1"/>
 
 

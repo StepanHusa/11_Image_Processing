@@ -62,9 +62,9 @@ namespace _11_Image_Processing
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
 
-                this.WindowState = WindowState.Minimized;
+                //this.WindowState = WindowState.Minimized;
                 Menu_Load_New_Click(new object(), new RoutedEventArgs());
-                Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
+                //Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
 
                 //rec debug
                 {
@@ -101,7 +101,7 @@ namespace _11_Image_Processing
                             break;
                     }
 
-                    ST.setOfToEvaluate.Add(new Bitmap[1]);
+                    //ST.setOfToEvaluate[0].Add(new Bitmap(debugFolder + @"\01.png"));
                     //ST.setOfToEvaluate[0][0] = new Bitmap(debugFolder + @"\01.png");
                     //ST.document.EvaluateSet(); 
 
@@ -378,10 +378,26 @@ namespace _11_Image_Processing
             if (open.ShowDialog() != true) return;
             //open.FileName;
 
-           
-            ST.setOfToEvaluate.Add(new Bitmap[1]);
+            ST.setOfToEvaluate = new();
+            ST.setOfToEvaluate.Add(new());
             ST.setOfToEvaluate[0][0] = new Bitmap(open.FileName);
             
+        }
+        private void Menu_Read_ListOfScans_OnePage_Click(object sender, RoutedEventArgs e)
+        {
+            var open = new OpenFileDialog() { Title = "Open list of scans", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*",Multiselect=true };//todo BMP, GIF, EXIF, JPG, PNG and TIFF (*.wav;*.mp3)|*.wav;*.mp3;*.txt" https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.filedialog.filter?view=windowsdesktop-6.0
+            if (open.ShowDialog() == false) return;
+
+            int l = ST.setOfToEvaluate.Count();//moves indexing if there are already bitmaps in the list
+            for (int i = 0; i < open.FileNames.Length; i++)
+            {
+                ST.setOfToEvaluate.Add(new());
+                ST.setOfToEvaluate[l + i].Add(new Bitmap(open.FileNames[i]));
+            }
+
+
+
+
         }
         private void Menu_Read_ListOfScans_OnePdf_Click(object sender, RoutedEventArgs e)
         {
@@ -494,7 +510,7 @@ namespace _11_Image_Processing
             foreach (var item in ST.versions)
                 versionCombobox.Items.Add(item);
             versionCombobox.SelectedIndex = versionCombobox.Items.Count - 1;
-            //TODO make older versions unclickable or find a way of using them
+            //todo make odler versions and Ctrl+Z usable
 
             if (ST.versions.Count != 0)
                 dateoflastsavetext.Text = ST.versions.Last();
@@ -506,4 +522,4 @@ namespace _11_Image_Processing
     }
 }
 
-//TODO get the mic form connected 	
+//TODO get the mic form connected (or maybe not) 	

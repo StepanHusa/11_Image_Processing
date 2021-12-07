@@ -42,43 +42,13 @@ namespace _11_Image_Processing
             if (ST.projectFileName != null)
                 this.Title = ST.projectFileName;
             else this.Title = "*Untitled";
-            //Debug.WriteLine(new FileInfo(fileName).Length);
 
             pdfViewControl.Load(ST.document);
             pdfViewControl.MaximumZoomPercentage = 6400;
 
-            {//PdfDocument doc = PdfSharp.Pdf.IO.PdfReader.Open(fileName);
-             //PdfPage page = doc.AddPage();
-             //XGraphics gfx = XGraphics.FromPdfPage(page);
-             //XFont font = new("Arial", 20);
-             //gfx.DrawString("Hello, World!", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
-             //doc.Save(fileName);
-
-                //this.DataContext = new ViewModel(tempPdf);
-                //PDFViewer.Visibility = Visibility.Visible;
-
-                //Debug.WriteLine(new FileInfo(fileName).Length);
-                //if (new FileInfo(fileName).Length < Math.Pow(10, 6))
-                //{
-                //    PdfLoadedDocument pdf = new PdfLoadedDocument(tempPdf);
-
-                //    pdfViewControl.Load(pdf);
-                //}
-                //else
-            }
-
-
-
-            //pdfViewControl.MouseDoubleClick += Pdfwcontrol_MouseDoubleClick;
             pdfViewControl.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
             pdfViewControl.ScrollChanged += Pdfwcontrol_ScrollChanged;
-
-            //pdfViewControl.LoadedDocument.AddSquareAt(0, new System.Drawing.Point(10, 20), 10);
         }
-
-
-
-        //TODO finish method and solve errors, debug changes
 
         private void Pdfwcontrol_ScrollChanged(object sender, ScrollChangedEventArgs args)
         {
@@ -86,17 +56,8 @@ namespace _11_Image_Processing
         }
         private void Pdfwcontrol_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-
-
-
-            //a.Icon = Properties.Resources.checked_checkbox;
             ContextMenu cm = (ContextMenu)Resources["contextMenu"];
             cm.IsOpen = true;
-            //cm=(ContextMenu)Resources["contextMenu"];
-            
-
-
-            //show
         }
 
         private void A_Click(object sender, RoutedEventArgs e)
@@ -109,11 +70,6 @@ namespace _11_Image_Processing
         }
         private void B_Click(object sender, RoutedEventArgs e)
         {
-            //var doc = pdfViewControl.LoadedDocument.AddSquareAt(0, new System.Drawing.Point(20, 20), 10);
-            //doc.Save(tempPdf);
-            //Debug.WriteLine(tempPdf);
-            //pdfViewControl.Load(tempPdf);
-
             if ((sender as MenuItem).IsChecked)
                 pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_B;
             else
@@ -241,19 +197,6 @@ namespace _11_Image_Processing
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
 
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
-
-
-
-
-
-            ////create space to list of questoins
-            //while (ST.pagesQuestionsBoxes.Length <= pindex)
-            //    Array.Resize(ref ST.pagesQuestionsBoxes, pindex + 1);
-            //if (ST.pagesQuestionsBoxes[pindex] == null)
-            //    ST.pagesQuestionsBoxes[pindex] = new();
-            ////int iQ = ST.pagesQuestionsBoxes[pindex].Count; //index of question on page
-            //ST.pagesQuestionsBoxes[pindex].Add(new PointF[n]);
-
  
             //get the index of new question
             int iQ = ST.boxesInQuestions.Count;
@@ -289,23 +232,41 @@ namespace _11_Image_Processing
 
                 //add square to 'The List'
                 ST.boxesInQuestions[iQ].Add(pindex, bounds);
-
-                ////add question to list of questoins
-                //ST.pagesQuestionsBoxes[pindex][iQ][i] = pointb; 
-
-                ////add to list of single boxes
-                //while (ST.pagesPoints.Length <= pindex)
-                //    Array.Resize(ref ST.pagesPoints, pindex + 1);
-                //if (ST.pagesPoints[pindex] == null)
-                //    ST.pagesPoints[pindex] = new();
-                //ST.pagesPoints[pindex].Add(pointb);
-
             }
 
             ReloadDocument();
         }
         private void Pdfwcontrol_PageClicked_E(object sender, PageClickedEventArgs args)
         {
+            var doc = pdfViewControl.LoadedDocument;
+            int pindex = args.PageIndex;
+            double zoom = pdfViewControl.ZoomPercentage / 100.0;
+
+            PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
+
+            //get the index of new question
+            int iQ = ST.boxesInQuestions.Count;
+            //add list of answers in this question
+            ST.boxesInQuestions.Add(new());
+
+
+            for (int i = 0; i < ST.QS.n; i++)
+            {
+                var pointb = new PointF(point.X, point.Y+ i * (ST.sizeOfBox.Height + ST.spaceBetweenBoxes));
+                SizeF size = ST.sizeOfBox;
+
+
+                //square
+                RectangleF bounds = new RectangleF(pointb, size);
+                doc.DrawRectangleBounds(bounds, pindex);
+
+                doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + Convert.ToChar(i + (int)'a'));
+
+                //add square to 'The List'
+                ST.boxesInQuestions[iQ].Add(pindex, bounds);
+            }
+
+            ReloadDocument();
 
         }
 
@@ -337,8 +298,6 @@ namespace _11_Image_Processing
 
             rect.Location = new((int)(Mouse.GetPosition(this).X + 2 * rectangleR.StrokeThickness), (int)(Mouse.GetPosition(this).Y + 2 * rectangleR.StrokeThickness));
             rect.Size = ST.sizeOfBox.ToSize();
-
-            //rect = rect.EvaluateInPositiveSize();
 
             Thickness thickness = new(rect.X, rect.Y, 0, 0);
             rectangleR.Margin = thickness;
@@ -496,6 +455,31 @@ namespace _11_Image_Processing
                 if (FileMenuItem.Name == "PART_PrintMenuItem")
                     FileMenuItem.Visibility = System.Windows.Visibility.Collapsed;
 
+            }
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (sizeSlider != null)
+            {
+                float s = (float)Math.Round(sizeSlider.Value, 3);
+                ST.sizeOfBox = new SizeF(s, s);
+                ST.indexFontSize = s/2;
+                sizeLabel.Content = s;
+
+            }
+            if (widthSlider != null)
+            {
+                float f = (float)Math.Round(widthSlider.Value, 3);
+                ST.baundWidth = f;
+                widthLabel.Content = f;
+            }
+
+            if (spaceSlider != null)
+            {
+                float p = (float)Math.Round(spaceSlider.Value, 3);
+                ST.spaceBetweenBoxes = p;
+                spaceLabel.Content = p;
             }
         }
 
