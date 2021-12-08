@@ -43,7 +43,8 @@ namespace _11_Image_Processing
                 this.Title = ST.projectFileName;
             else this.Title = "*Untitled";
 
-            pdfViewControl.Load(ST.document);
+            //pdfViewControl.Load(ST.document); 
+            pdfViewControl.Load(ST.tempFile);//this change prevented errors after closing this
             pdfViewControl.MaximumZoomPercentage = 6400;
 
             pdfViewControl.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
@@ -83,15 +84,7 @@ namespace _11_Image_Processing
 
             doc.Pages.Add();
 
-            MemoryStream stream = new MemoryStream();
-            doc.Save(stream);
-            doc.Close();
-            doc.Dispose();
-            pdfViewControl.Load(stream);
-            ST.document = pdfViewControl.LoadedDocument;
-            ST.document.Save(ST.tempFile);
-
-            //pdfViewControl.Save(tempPdf);
+            ReloadDocument();
 
             pdfViewControl.ScrollTo(offset);
             pdfViewControl.Zoom = zoom * 100;
@@ -204,7 +197,7 @@ namespace _11_Image_Processing
             ST.boxesInQuestions.Add(new());
 
 
-            var tb = new PdfTextBoxField(ST.document.Pages[args.PageIndex], "question");
+            var tb = new PdfTextBoxField(doc.Pages[args.PageIndex], "question");
             tb.Text = $"Question";
             tb.Bounds = new RectangleF(point.X, point.Y, ST.QS.widthOfQTBs, ST.QS.heightOfTB);
             doc.Form.Fields.Add(tb);
@@ -214,7 +207,7 @@ namespace _11_Image_Processing
             for (int i = 0; i < ST.QS.n; i++)
             {
                 //add answer i textbox field
-                PdfTextBoxField textBoxField = new PdfTextBoxField(ST.document.Pages[args.PageIndex], "Enter your text");
+                PdfTextBoxField textBoxField = new PdfTextBoxField(doc.Pages[args.PageIndex], "Enter your text");
                 textBoxField.Text = $"Answer {i + 1}";
                 textBoxField.Bounds = new RectangleF(point.X + ST.QS.tab, point.Y + ST.QS.heightOfTB + ST.QS.spaceUnderQ + i * (ST.QS.heightOfTB + ST.QS.spaceBtwAn), ST.QS.widthOfQTBs - ST.QS.tab, ST.QS.heightOfTB);
                 doc.Form.Fields.Add(textBoxField);
@@ -228,7 +221,7 @@ namespace _11_Image_Processing
                 RectangleF bounds = new RectangleF(pointb, size);
                 doc.DrawRectangleBounds(bounds, pindex);
 
-                doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ+1).ToString() + Convert.ToChar(i + (int)'a'));
+                doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + Convert.ToChar(i + (int)'a'));
 
                 //add square to 'The List'
                 ST.boxesInQuestions[iQ].Add(pindex, bounds);
@@ -322,9 +315,65 @@ namespace _11_Image_Processing
 
             pdfViewControl.ScrollTo(offset);
             pdfViewControl.Zoom = zoom * 100;
+        }
+
+        private void UndoBox()
+        {
+            int i = ST.boxesInQuestions.Count;
+            if (i == 0) return;
+            int j=ST.boxesInQuestions[i-1].Count;
+            if (j == 0) { ST.boxesInQuestions.RemoveAt(i-1);UndoBox(); }
+            else
+            {
+                ST.boxesInQuestions[i-1].RemoveAt(j-1);
+            }
+            RemakeBoxex();
+        }
+
+        private void RemakeBoxex()
+        {
+            ST.document = new PdfLoadedDocument(ST.tempFileCopy);
+            int i = 0;
+            foreach (var question in ST.boxesInQuestions) { 
+                int j = 0;
+                foreach (var box in question)
+                {
+                    ST.document.DrawRectangleBounds(box.Item2, box.Item1);
+                    ST.document.DrawIndexNextToRectangle(box.Item2, box.Item1, (i + 1).ToString() + Convert.ToChar(j + (int)'a'));
+                }}
+            pdfViewControl.Load(ST.document);
+            ReloadDocument();
 
         }
 
+
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (sizeSlider != null)
+            {
+                float s = (float)Math.Round(sizeSlider.Value, 3);
+                ST.sizeOfBox = new SizeF(s, s);
+                ST.indexFontSize = s/2;
+
+            }
+            if (widthSlider != null)
+            {
+                float f = (float)Math.Round(widthSlider.Value, 3);
+                ST.baundWidth = f;
+            }
+
+            if (spaceSlider != null)
+            {
+                float p = (float)Math.Round(spaceSlider.Value, 3);
+                ST.spaceBetweenBoxes = p;
+            }
+
+            if (countSlider != null)
+            {
+                ST.QS.n = (int)countSlider.Value;
+            }
+        }
 
         //unused
         private void PdfEditW_MouseMove(object sender, MouseEventArgs e)
@@ -458,30 +507,9 @@ namespace _11_Image_Processing
             }
         }
 
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void undoButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sizeSlider != null)
-            {
-                float s = (float)Math.Round(sizeSlider.Value, 3);
-                ST.sizeOfBox = new SizeF(s, s);
-                ST.indexFontSize = s/2;
-                sizeLabel.Content = s;
-
-            }
-            if (widthSlider != null)
-            {
-                float f = (float)Math.Round(widthSlider.Value, 3);
-                ST.baundWidth = f;
-                widthLabel.Content = f;
-            }
-
-            if (spaceSlider != null)
-            {
-                float p = (float)Math.Round(spaceSlider.Value, 3);
-                ST.spaceBetweenBoxes = p;
-                spaceLabel.Content = p;
-            }
+            UndoBox();
         }
-
     }
 }

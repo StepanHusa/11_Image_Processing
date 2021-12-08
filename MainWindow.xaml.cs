@@ -175,22 +175,29 @@ namespace _11_Image_Processing
             var dir = ST.tempDirectoryName;
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
-            string tempPdf = dir + "tmp" + Path.GetRandomFileName().Remove(8) + ".pdf";
+            string fn = Path.GetRandomFileName().Remove(8);
+            string tempPdf = dir + "tmp" + fn + ".pdf";
+            string tempCopy = dir + "tmp" + fn + "COPY" + ".pdf";
+
             if (fileName == null)
             {
                 PdfExtensions.NewPdfDoc(tempPdf);
+                PdfExtensions.NewPdfDoc(tempCopy);
+
 
                 this.Title = "*untitled";
             }
             else if (File.Exists(fileName))
             {
                 File.Copy(fileName, tempPdf);
+                File.Copy(tempCopy, tempPdf);
 
                 this.Title = Path.GetFileName(fileName);
             }
 
 
             ST.tempFile = tempPdf;
+            ST.tempFileCopy = tempCopy;
             ST.fileName = fileName;
             ST.document = new(tempPdf);
 
@@ -356,12 +363,16 @@ namespace _11_Image_Processing
             var dir = ST.tempDirectoryName;
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
-            string tempPdf = dir + "tmp" + Path.GetRandomFileName().Remove(8) + ".pdf";
+            string fn = Path.GetRandomFileName().Remove(8);
+            string tempPdf = dir + "tmp" + fn + ".pdf";
+            string tempCopy = dir + "tmp" + fn + "COPY" + ".pdf";
 
 
-            File.WriteAllBytes(tempPdf, documentpdf);
+            File.WriteAllBytes(tempPdf, documentpdf); 
+            File.WriteAllBytes(tempCopy, documentpdf);
 
             ST.tempFile = tempPdf;
+            ST.tempFileCopy = tempCopy;
             ST.projectFileName = filename;
             ST.document = new(tempPdf);
             ST.pagesPoints = listOfPointFsArray.ByteArrayToPointFListArray();

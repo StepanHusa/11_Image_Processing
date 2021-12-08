@@ -15,18 +15,24 @@
         <Rectangle x:Name="rectangleR" Stroke="Black" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Canvas HorizontalAlignment="Right" VerticalAlignment="Center" Height="200" Width="300" >
             <Label Content="size of box"                Canvas.Right="220"/>
-            <Label x:Name="sizeLabel"                   Canvas.Right="120"  Content="20"/>
-            <Slider x:Name="sizeSlider" Maximum="40"    Canvas.Right="10" Width="100" Value="20" ValueChanged="Slider_ValueChanged"/>
+            <TextBox x:Name="sizeLabel"                   Canvas.Right="120"  Text="{Binding ElementName=sizeSlider,Path=Value }"/>
+            <Slider x:Name="sizeSlider" Maximum="40"    Canvas.Right="10" Width="100" Value="20" ValueChanged="Slider_ValueChanged"                         IsSnapToTickEnabled="True"    TickFrequency="0.01"/>
             <!--Content="{Binding ElementName=sizeSlider,Path=Value }"-->
 
             <Label Content="width of bound"             Canvas.Top="25"     Canvas.Right="220"/>
-            <Label x:Name="widthLabel"                  Canvas.Top="25"      Canvas.Right="120"  Content="2"/>
-            <Slider x:Name="widthSlider" Maximum="8"   Canvas.Top="25"      Canvas.Right="10" Value="2" Width="100" ValueChanged="Slider_ValueChanged"/>
+            <TextBox x:Name="widthLabel"                  Canvas.Top="25"      Canvas.Right="120"  Text="{Binding ElementName=widthSlider,Path=Value }"/>
+            <Slider x:Name="widthSlider" Maximum="8"    Canvas.Top="25"      Canvas.Right="10" Value="2" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="0.1"/>
 
-            <Label Content="space between"             Canvas.Top="50"     Canvas.Right="220"/>
-            <Label x:Name="spaceLabel"                  Canvas.Top="50"      Canvas.Right="120"  Content="10"/>
-            <Slider x:Name="spaceSlider" Maximum="50"   Canvas.Top="50"      Canvas.Right="10" Value="10" Width="100" ValueChanged="Slider_ValueChanged"/>
+            <Label Content="space between"              Canvas.Top="50"     Canvas.Right="220"/>
+            <TextBox x:Name="spaceLabel"                  Canvas.Top="50"      Canvas.Right="120" Text="{Binding ElementName=spaceSlider,Path=Value }"/>
+            <Slider x:Name="spaceSlider" Maximum="50"   Canvas.Top="50"      Canvas.Right="10" Value="10" Width="100" ValueChanged="Slider_ValueChanged"    IsSnapToTickEnabled="True"    TickFrequency="0.1"/>
 
+            <Label Content="Count"                      Canvas.Top="75"     Canvas.Right="220"/>
+            <TextBox x:Name="countLabel"                  Canvas.Top="75"      Canvas.Right="120"  Text="{Binding ElementName=countSlider,Path=Value }"/>
+            <Slider x:Name="countSlider" Maximum="10"   Canvas.Top="75"      Canvas.Right="10" Value="4" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="1" />
+
+
+            <Button x:Name="undoButton" Content="Undo"  Canvas.Top="150"     Canvas.Right="100" Click="undoButton_Click" />
         </Canvas>
     </Grid>
     <Window.Resources>

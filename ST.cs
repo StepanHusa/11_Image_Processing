@@ -41,6 +41,7 @@ namespace _11_Image_Processing
         internal static string projectFileName;
         internal static string fileName;
         internal static string tempFile;
+        internal static string tempFileCopy;
 
         internal static List<string> versions = new();
 
@@ -58,6 +59,7 @@ namespace _11_Image_Processing
 
 
         internal static List<List<Bitmap>> setOfToEvaluate = new(); //outside list are the separete works and inside are pages
+
 
         //output
         //internal static List
