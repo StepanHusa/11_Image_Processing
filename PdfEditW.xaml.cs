@@ -334,23 +334,13 @@ namespace _11_Image_Processing
             var doc = pdfViewControl.LoadedDocument;
             doc.Save(ST.tempFile);
 
-            Stopwatch sw = new();
-            sw.Start();
-
             MemoryStream stream = new MemoryStream();
             doc.Save(stream);
             doc.Close();
             doc.Dispose();
             pdfViewControl.Load(stream);
 
-            sw.Stop();
-            Debug.WriteLine(sw.Elapsed.Milliseconds);
-            sw.Restart();
 
-            pdfViewControl.Load(ST.tempFile);
-
-            sw.Stop();
-            Debug.WriteLine(sw.Elapsed.Milliseconds);
 
 
             pdfViewControl.ScrollTo(offset);

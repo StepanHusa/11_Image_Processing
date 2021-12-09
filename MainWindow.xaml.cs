@@ -257,8 +257,9 @@ namespace _11_Image_Processing
             SaveFileDialog save = new() { Title = "Save PDF", Filter = $"File Template(*.PDF)|*.PDF", FileName = ST.projectName };
             if (save.ShowDialog() == false) return;
 
-            File.Copy(ST.tempFile,save.FileName);
-            File.Copy(ST.tempFile, ST.tempFileCopy);
+
+            File.Copy(ST.tempFile,save.FileName,true);
+            File.Copy(ST.tempFile, ST.tempFileCopy,true);
         }
 
         private void SaveDataToFile(string fileName)
@@ -532,3 +533,6 @@ namespace _11_Image_Processing
 }
 
 //TODO get the mic form connected (or maybe not) 	
+//TODO update the save project property
+//TODO make the imade loading and exporting work
+//TODO work on the recognasing 
