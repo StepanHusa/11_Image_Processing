@@ -121,6 +121,14 @@ namespace _11_Image_Processing
                 pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_E;
 
         }
+        private void toogleAn_Click(object sender, RoutedEventArgs e)
+        {
+            if ((sender as MenuItem).IsChecked)
+                pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_Tog;
+            else
+                pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_Tog;
+
+        }
 
 
         private void Pdfwcontrol_PageClicked_A(object sender, PageClickedEventArgs args)
@@ -224,7 +232,7 @@ namespace _11_Image_Processing
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + Convert.ToChar(i + (int)'a'));
 
                 //add square to 'The List'
-                ST.boxesInQuestions[iQ].Add(pindex, bounds);
+                ST.boxesInQuestions[iQ].Add(pindex, bounds,false);
             }
 
             ReloadDocument();
@@ -256,8 +264,29 @@ namespace _11_Image_Processing
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + Convert.ToChar(i + (int)'a'));
 
                 //add square to 'The List'
-                ST.boxesInQuestions[iQ].Add(pindex, bounds);
+                ST.boxesInQuestions[iQ].Add(pindex, bounds,false);
             }
+
+            ReloadDocument();
+
+        }
+        private void Pdfwcontrol_PageClicked_Tog(object sender, PageClickedEventArgs args)
+        {
+            var doc = pdfViewControl.LoadedDocument;
+            int pindex = args.PageIndex;
+            double zoom = pdfViewControl.ZoomPercentage / 100.0;
+            var b = ST.boxesInQuestions;
+
+            PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
+
+            for (int i = 0; i < b.Count; i++)
+                for (int j = 0; j < b[i].Count; j++)
+                    if (b[i][j].Item1 == pindex)
+                        if (b[i][j].Item2.Contains(point))
+                        {
+                            b[i][j] = new Tuple<int, RectangleF, bool>(b[i][j].Item1, b[i][j].Item2, !b[i][j].Item3);
+                            doc.DrawRectangleBounds(b[i][j].Item2, b[i][j].Item1, b[i][j].Item3);
+                        }
 
             ReloadDocument();
 
@@ -309,7 +338,7 @@ namespace _11_Image_Processing
             doc.Close();
             doc.Dispose();
             pdfViewControl.Load(stream);
-            ST.document =(PdfLoadedDocument) pdfViewControl.LoadedDocument.Clone();
+            ST.document = (PdfLoadedDocument)pdfViewControl.LoadedDocument //todo repair
             ST.document.Save(ST.tempFile);
 
 
@@ -317,6 +346,7 @@ namespace _11_Image_Processing
             pdfViewControl.Zoom = zoom * 100;
         }
 
+        //undo
         private void UndoBox()
         {
             int i = ST.boxesInQuestions.Count;
@@ -328,6 +358,22 @@ namespace _11_Image_Processing
                 ST.boxesInQuestions[i-1].RemoveAt(j-1);
             }
             RemakeBoxex();
+        }
+        private void UndoQuestion()
+        {
+            int i = ST.boxesInQuestions.Count;
+            if (i == 0) return;
+            ST.boxesInQuestions.RemoveAt(i - 1); 
+            RemakeBoxex();
+
+        }
+        private void undoButton_Click(object sender, RoutedEventArgs e)
+        {
+            UndoBox();
+        }
+        private void undoQButton_Click(object sender, RoutedEventArgs e)
+        {
+            UndoQuestion();
         }
 
         private void RemakeBoxex()
@@ -507,9 +553,6 @@ namespace _11_Image_Processing
             }
         }
 
-        private void undoButton_Click(object sender, RoutedEventArgs e)
-        {
-            UndoBox();
-        }
+
     }
 }

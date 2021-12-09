@@ -191,15 +191,16 @@ namespace _11_Image_Processing
         }
 
 
-
-
-        public static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rectangle, int pageint)
+        public static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rectangle, int pageint, bool SecondColor=false)
         {
             var page = doc.Pages[pageint];
             PointF[] vertexes = { new PointF(rectangle.Left, rectangle.Bottom), new PointF(rectangle.Right, rectangle.Bottom), new PointF(rectangle.Right, rectangle.Top), new PointF(rectangle.Left, rectangle.Top), new PointF(rectangle.Left, rectangle.Bottom) };
             byte[] types = { 0, 1, 1, 1, 1 };
             PdfPath path = new(vertexes,types);
-            path.Pen = ST.boundPen;
+            path.Pen = ST.baundPen;
+            if (SecondColor)
+                path.Pen = ST.baundPenTwo;
+
             page.Graphics.DrawPath(path.Pen, path);
 
             return doc;
@@ -550,13 +551,29 @@ namespace _11_Image_Processing
 
         //}
 
+        public static bool IsChackedRocognize()
+        {
+            return false;
+        }
+
+        private static float ColorLevel(Bitmap I)
+        {
+            int c = I.Height * I.Width;
+            float cc = 0;
+            for (int i = 0; i < I.Width; i++)
+                for (int j = 0; j < I.Height; j++)
+                {
+                    cc += I.GetPixel(i, j).GetBrightness();
+                }
+            return cc / c;
+        }
     }
 
     static class ListExtensions
     {
-        public static void Add(this List<Tuple<int, RectangleF>> l, int i, RectangleF p)
+        public static void Add(this List<Tuple<int, RectangleF,bool>> l, int i, RectangleF p,bool b)
         {
-            l.Add(new Tuple<int, RectangleF>(i, p));
+            l.Add(new Tuple<int, RectangleF,bool>(i, p,b));
         }
     }
 }

@@ -23,7 +23,10 @@ namespace _11_Image_Processing
 
         internal static float baundWidth = 2;
         internal static Color baundColor = Color.Red;
-        internal static PdfPen boundPen { get { return new PdfPen(baundColor, baundWidth); } }
+        internal static PdfPen baundPen { get { return new PdfPen(baundColor, baundWidth); } }
+        internal static Color baundColorTwo = Color.Green;
+        internal static PdfPen baundPenTwo { get { return new PdfPen(baundColorTwo, baundWidth); } }
+
         internal static float sizeOfBoxF = 20;
         internal static SizeF sizeOfBox { get { return new SizeF(sizeOfBoxF, sizeOfBoxF); } set { sizeOfBoxF = value.Height; } }
         internal static float spaceBetweenBoxes =10;
@@ -55,7 +58,7 @@ namespace _11_Image_Processing
 
 
 
-        internal static List<List<Tuple<int, RectangleF>>> boxesInQuestions = new();
+        internal static List<List<Tuple<int, RectangleF,bool>>> boxesInQuestions = new();
 
 
         internal static List<List<Bitmap>> setOfToEvaluate = new(); //outside list are the separete works and inside are pages

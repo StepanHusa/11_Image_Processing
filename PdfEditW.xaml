@@ -32,7 +32,9 @@
             <Slider x:Name="countSlider" Maximum="10"   Canvas.Top="75"      Canvas.Right="10" Value="4" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="1" />
 
 
-            <Button x:Name="undoButton" Content="Undo"  Canvas.Top="150"     Canvas.Right="100" Click="undoButton_Click" />
+            <Button x:Name="undoButton" Content="Undo Box"  Canvas.Top="150"     Canvas.Right="100" Click="undoButton_Click" />
+            <Button x:Name="undoQButton" Content="Undo Question"  Canvas.Top="175"     Canvas.Right="100" Click="undoQButton_Click"/>
+
         </Canvas>
     </Grid>
     <Window.Resources>
@@ -43,6 +45,7 @@
             <MenuItem x:Name="c" Header="_Box Priview" IsCheckable="True" Click="C_Click"/>
             <MenuItem x:Name="d" Header="_D" IsCheckable="True" Click="D_Click"/>
             <MenuItem x:Name="e" Header="_E" IsCheckable="True" Click="E_Click"/>
+            <MenuItem x:Name="toogleAn" Header="Toogle the Right Answer" IsCheckable="True" Click="toogleAn_Click"/>
         </ContextMenu>
     </Window.Resources>
 </Window>
