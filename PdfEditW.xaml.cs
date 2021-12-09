@@ -332,14 +332,25 @@ namespace _11_Image_Processing
         {
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
             var doc = pdfViewControl.LoadedDocument;
+            doc.Save(ST.tempFile);
+
+            Stopwatch sw = new();
+            sw.Start();
 
             MemoryStream stream = new MemoryStream();
             doc.Save(stream);
             doc.Close();
             doc.Dispose();
             pdfViewControl.Load(stream);
-            ST.document = (PdfLoadedDocument)pdfViewControl.LoadedDocument //todo repair
-            ST.document.Save(ST.tempFile);
+
+            sw.Stop();
+            Debug.WriteLine(sw.Elapsed.Milliseconds);
+            sw.Restart();
+
+            pdfViewControl.Load(ST.tempFile);
+
+            sw.Stop();
+            Debug.WriteLine(sw.Elapsed.Milliseconds);
 
 
             pdfViewControl.ScrollTo(offset);
@@ -378,16 +389,16 @@ namespace _11_Image_Processing
 
         private void RemakeBoxex()
         {
-            ST.document = new PdfLoadedDocument(ST.tempFileCopy);
+            var doc = new PdfLoadedDocument(ST.tempFileCopy);
             int i = 0;
             foreach (var question in ST.boxesInQuestions) { 
                 int j = 0;
                 foreach (var box in question)
                 {
-                    ST.document.DrawRectangleBounds(box.Item2, box.Item1);
-                    ST.document.DrawIndexNextToRectangle(box.Item2, box.Item1, (i + 1).ToString() + Convert.ToChar(j + (int)'a'));
+                    doc.DrawRectangleBounds(box.Item2, box.Item1);
+                    doc.DrawIndexNextToRectangle(box.Item2, box.Item1, (i + 1).ToString() + Convert.ToChar(j + (int)'a'));
                 }}
-            pdfViewControl.Load(ST.document);
+            pdfViewControl.Load(doc);
             ReloadDocument();
 
         }
@@ -553,6 +564,9 @@ namespace _11_Image_Processing
             }
         }
 
-
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            pdfViewControl.LoadedDocument.Save(ST.tempFile);
+        }
     }
 }

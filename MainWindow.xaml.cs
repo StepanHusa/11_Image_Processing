@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.Drawing;
 using Syncfusion.Pdf.Parsing;
 using WordToPDF;
+using Syncfusion.Pdf;
 
 namespace _11_Image_Processing
 {
@@ -199,7 +200,6 @@ namespace _11_Image_Processing
             ST.tempFile = tempPdf;
             ST.tempFileCopy = tempCopy;
             ST.fileName = fileName;
-            ST.document = new(tempPdf);
 
             ReloadWindowContent();
         }
@@ -237,8 +237,6 @@ namespace _11_Image_Processing
             SaveFileDialog save = new() { Title = "Save Template", Filter = $"File Template(*{ST.ext})|*{ST.ext}", FileName=ST.projectName};
             if (save.ShowDialog() == false) return;
 
-            ST.document.Save(ST.tempFile);
-
             SaveDataToFile(save.FileName);
 
             ST.projectFileName = save.FileName;
@@ -250,8 +248,6 @@ namespace _11_Image_Processing
         {
             ST.versions.Add(DateTime.Now.ToStringOfRegularFormat());
 
-            ST.document.Save(ST.tempFile);
-
             SaveDataToFile(ST.projectFileName);
 
             ReloadWindowContent();
@@ -261,7 +257,8 @@ namespace _11_Image_Processing
             SaveFileDialog save = new() { Title = "Save PDF", Filter = $"File Template(*.PDF)|*.PDF", FileName = ST.projectName };
             if (save.ShowDialog() == false) return;
 
-            ST.document.Save(save.FileName);
+            File.Copy(ST.tempFile,save.FileName);
+            File.Copy(ST.tempFile, ST.tempFileCopy);
         }
 
         private void SaveDataToFile(string fileName)
@@ -374,10 +371,7 @@ namespace _11_Image_Processing
             ST.tempFile = tempPdf;
             ST.tempFileCopy = tempCopy;
             ST.projectFileName = filename;
-            ST.document = new(tempPdf);
             ST.pagesPoints = listOfPointFsArray.ByteArrayToPointFListArray();
-
-
 
             ReloadWindowContent();
         }
@@ -427,11 +421,12 @@ namespace _11_Image_Processing
         {
             var save = new SaveFileDialog() { Title = "Save JPEG", Filter = "JPEG(*.jpeg)|*.jpeg" };
             if (save.ShowDialog() != true) return;
+            PdfLoadedDocument doc = new(ST.tempFile);
 
 
-            for (int i = 0; i < ST.document.Pages.Count; i++)
+            for (int i = 0; i < doc.Pages.Count; i++)
             {
-                Bitmap image = ST.document.ExportAsImage(i,ST.dpiExport,ST.dpiExport);
+                Bitmap image = doc.ExportAsImage(i,ST.dpiExport,ST.dpiExport);
 
                 string fn = Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
 
@@ -443,11 +438,12 @@ namespace _11_Image_Processing
         {
             var save = new SaveFileDialog() { Title = "Save PNG", Filter = "PNG(*.png)|*.png" };
             if (save.ShowDialog() != true) return;
+            PdfLoadedDocument doc = new(ST.tempFile);
 
 
-            for (int i = 0; i < ST.document.Pages.Count; i++)
+            for (int i = 0; i < doc.Pages.Count; i++)
             {
-                Bitmap image = ST.document.ExportAsImage(i, ST.dpiExport, ST.dpiExport);
+                Bitmap image = doc.ExportAsImage(i, ST.dpiExport, ST.dpiExport);
 
                 string fn = Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
 
@@ -487,7 +483,8 @@ namespace _11_Image_Processing
         }
         private void ReloadWindowContent()
         {
-            if (ST.document==null) throw new Exception("ReloadWindowContent whan no loaded document");
+            if (ST.tempFile==null) throw new Exception("ReloadWindowContent whan no loaded document");
+            var doc = new PdfLoadedDocument(ST.tempFile);
 
             Menu_Edit.IsEnabled = true;
             Menu_Save.IsEnabled = true;
@@ -507,7 +504,7 @@ namespace _11_Image_Processing
             projecttext.Text = ST.projectName;
             projectfilenametext.Text = Path.GetFileName(ST.projectFileName);
             locationtext.Text = Path.GetDirectoryName(ST.projectFileName);
-            pagecounttext.Text = ST.document.Pages.Count.ToString();
+            pagecounttext.Text = doc.Pages.Count.ToString();
             int ii = 0;
             foreach (var pointFs in ST.pagesPoints)
                 ii += pointFs.Count;
@@ -528,6 +525,7 @@ namespace _11_Image_Processing
             else dateoflastsavetext.Text = "not saved yet";
 
             //dateoflastsavetext.Text = ST.versions.Last().ToStringOfRegularFormat();
+
         }
 
     }

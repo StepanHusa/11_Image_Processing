@@ -1,4 +1,5 @@
-﻿using Syncfusion.Pdf.Graphics;
+﻿using Syncfusion.Pdf;
+using Syncfusion.Pdf.Graphics;
 using Syncfusion.Pdf.Parsing;
 using System;
 using System.Collections.Generic;
@@ -51,7 +52,6 @@ namespace _11_Image_Processing
 
         //changing variables
         //internal static bool documentIsLoaded = false;
-        internal static PdfLoadedDocument document;
         internal static List<PointF>[] pagesPoints = new List<PointF>[0]; //Pages array of lists containing points
         internal static List<RectangleF>[] pagesFields = new List<RectangleF>[0]; //Pages array of lists containing fields
         internal static List<PointF[]>[] pagesQuestionsBoxes = new List<PointF[]>[0];
