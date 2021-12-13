@@ -47,23 +47,21 @@ namespace _11_Image_Processing
         internal static string tempFile;
         internal static string tempFileCopy;
 
+
         internal static List<string> versions = new();
 
 
         //changing variables
-        //internal static bool documentIsLoaded = false;
         internal static List<PointF>[] pagesPoints = new List<PointF>[0]; //Pages array of lists containing points
         internal static List<RectangleF>[] pagesFields = new List<RectangleF>[0]; //Pages array of lists containing fields
         internal static List<PointF[]>[] pagesQuestionsBoxes = new List<PointF[]>[0];
 
         internal static List<List<Tuple<int, RectangleF,bool>>> boxesInQuestions = new();// the main listing tuple: <page index, rectangle on page, is the answer right>
 
+        internal static List<List<Bitmap>> scansInPagesInWorks = new(); //outside list are the separete works and inside are pages
 
-        internal static List<List<Bitmap>> setOfToEvaluate = new(); //outside list are the separete works and inside are pages
+        internal static List<List<List<bool>>> resultsInQuestionsInWorks; //list of results
 
-
-        //output
-        //internal static List
 
 
         //additional var

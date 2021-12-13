@@ -65,7 +65,9 @@
                     <MenuItem x:Name="Menu_Read_ListOfScans_OnePdf" Header="From One Pdf" Click="Menu_Read_ListOfScans_OnePdf_Click"/>
                 </MenuItem>
             </MenuItem>
-            
+
+            <MenuItem x:Name="Menu_Eavluate" Header="_Evaluate" Click="Menu_Eavluate_Click"/>
+
             <MenuItem x:Name="Menu_Help" Header="_Help" Click="Menu_Help_Click"/>
 
             <MenuItem x:Name="Menu_Settions" Header="_Settings" Click="Menu_Settings_Click"/>

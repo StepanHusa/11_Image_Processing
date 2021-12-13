@@ -13,33 +13,13 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using ImageProcessor;
 using ImageProcessor.Imaging;
+using System.Drawing.Imaging;
 
 namespace _11_Image_Processing
 {
     public static class PdfExtensions
     {
 
-        //public static PdfDocument AddSquareAt(this PdfDocument doc, int pageint, PointF position)
-        //{
-        //    var page = doc.Pages[pageint];
-
-        //    SizeF size = ST.sizeOfBox;
-        //    PdfSolidBrush brush = new PdfSolidBrush(Color.Red);
-        //    RectangleF bounds = new RectangleF(position, size);
-        //    //page.Graphics.DrawRectangle(brush, bounds);
-
-        //    //float w = ST.boundWidth;
-        //    //bounds.X += w;
-        //    //bounds.Y += w;
-        //    //bounds.Width -= 2 * w;
-        //    //bounds.Height -= 2 * w;
-
-        //    //page.Graphics.DrawRectangle(ST.insideBrush, bounds);
-
-            
-
-        //    return doc;
-        //}
         public static PdfLoadedDocument AddRectangleAt(this PdfLoadedDocument doc, int pageint, RectangleF rect)
         {
             var page = doc.Pages[pageint];
@@ -214,6 +194,14 @@ namespace _11_Image_Processing
             return doc;
         }
 
+
+        public static List<SizeF> GetSizesOfPages(this PdfLoadedDocument doc)
+        {
+            List<SizeF> sizeFs = new();
+            for (int i = 0; i < doc.Pages.Count; i++)
+                sizeFs.Add(doc.Pages[i].Size);
+            return sizeFs;
+        }
     }
 
     static class ByteExtensions
@@ -333,7 +321,6 @@ namespace _11_Image_Processing
             return lists;
 
         }
-
         public static byte[] RectangleListArrayToByteArray(this List<RectangleF>[] array)
         {
 
@@ -532,85 +519,68 @@ namespace _11_Image_Processing
             }
         }
     }
-
     static class ImageProcessing
     {
-        public static void Testing(this string filename)
+        public static List<List<List<bool>>> EvaluateWorks(this List<List<Bitmap>> works, List<List<Tuple<int, RectangleF, bool>>> questions, List<SizeF> sizesOfPages)
         {
-            
+            List<List<List<bool>>> resultsAll = new();
+
+            foreach (var work in works)
+            {
+                resultsAll.Add(work.EvaluateOneWork(questions, sizesOfPages));
+            }
+
+
+            return resultsAll;
         }
-        //public static void EvaluateSet( )
-        //{
-        //    List<PointF>[] lists;
-        //    string fileName;
-        //    PdfLoadedDocument doc = ST.document;
-        //    float w = ST.boundWidth;
-        //    List<bool[]> output = new();
-        //    Bitmap[] pageImages = doc.ExportAsImage(0, doc.Pages.Count - 1, 300, 300);
-        //    SizeF size = ST.sizeOfBox.Clone();
-
-        //    double treshold = ST.treshold;
-
-        //    if (lists.Length > doc.Pages.Count) throw new Exception("not a correct sizes of lists (RecognizeTaggedBoxes)");
-
-
-        //    int pgCount = -1;
-        //    foreach (var points in lists)
-        //    {
-        //        pgCount++;
-        //        bool[] pageArray = new bool[points.Count];
-
-        //        var s = doc.Pages[pgCount].Size; //595 842 size
-        //        var sI = pageImages[pgCount].Size; //2479 3508 size image
-        //        double r = sI.Height / s.Height; //4.16627 racio
-
-        //        int pointCount = 0;
-        //        foreach (var point in points)
-        //        {
-        //            RectangleF b = new RectangleF(point, size); //bounds
-        //            Rectangle I = new(); //Int Rectangle
-
-
-        //            b.Size -= new SizeF(w * 2, w * 2);
-        //            b.Location += new SizeF(w, w);
-        //            b.Size *= (float)r;
-        //            b.Location = b.Location.ScalePoint((float)r);
-
-
-        //            I = Rectangle.Round(b);
-
-
-
-        //            int c = I.Width * I.Height;//count of pixels
-        //            float cc = 0;
-        //            for (int i = I.X; i < I.X + I.Width; i++)
-        //                for (int j = I.Y; j < I.Y + I.Height; j++)
-        //                {
-        //                    pageImages[0].SetPixel(i, j, Color.Blue);
-        //                    //var pix=pageImages[pgCount].GetPixel(i,j);
-        //                    //var x = pix.GetBrightness();
-        //                    cc += pageImages[pgCount].GetPixel(i, j).GetBrightness();
-        //                }
-        //            float av = cc / c;
-
-        //            if (av < treshold) pageArray[pointCount] = true;
-        //            pointCount++;
-        //        }
-
-
-        //        output.Add(pageArray);
-        //    }
-
-        //    pageImages[0].Save(Path.ChangeExtension(fileName, "jpg"));
-
-        //}
-
-        public static bool IsChackedRocognize()
+        public static List<List<bool>> EvaluateOneWork(this List<Bitmap> work, List<List<Tuple<int, RectangleF, bool>>> questions, List<SizeF> sizesOfPages)
         {
+            List<List<bool>> resultsOneWork = new();
+
+            foreach (var question in questions)
+            {
+                List<bool> resultsQuestion = new();
+                foreach (var box in question)
+                {
+                    int pageindex = box.Item1;
+                    resultsQuestion.Add(box.IsDarkRocognize(work[pageindex], sizesOfPages[pageindex]));
+                }
+                resultsOneWork.Add(resultsQuestion);
+            }
+            return resultsOneWork;
+        }
+
+        public static bool IsDarkRocognize(this Tuple<int, RectangleF, bool> box, Bitmap image, SizeF sizeOfPage)
+        {
+            var rect = box.Item2;
+            float racioX = image.Width / sizeOfPage.Width;
+            float racioY = image.Height / sizeOfPage.Height;
+            Size size = new((int)Math.Ceiling(box.Item2.Width * racioX), (int)Math.Ceiling(box.Item2.Height * racioY));
+            Rectangle cropRect = new((int)(rect.X*racioX), (int)(rect.Y * racioY), (int)(rect.Width * racioX), (int)(rect.Height * racioY)) ;
+
+
+            Bitmap crop = new Bitmap((int)size.Width,(int)size.Height);
+
+            string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
+            int i = Directory.GetFiles(f).Length;
+            f = f + "\\" + i + ".Bmp";
+            crop.Save(f, ImageFormat.Bmp);
+
+
+            using (Graphics g = Graphics.FromImage(crop))
+            {
+                g.DrawImage(image, new Rectangle(0, 0, crop.Width, crop.Height),
+                                 cropRect,
+                                 GraphicsUnit.Pixel);
+            }
+
+
+            if (ColorLevelOfBitmap(crop) < 0.5) return true;
+
             return false;
         }
 
-        private static float ColorLevel(Bitmap I)
+        public static float ColorLevelOfBitmap(Bitmap I)
         {
             int c = I.Height * I.Width;
             float cc = 0;
@@ -631,6 +601,7 @@ namespace _11_Image_Processing
         }
     }
 }
+
 
 
 

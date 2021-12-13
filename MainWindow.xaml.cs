@@ -73,52 +73,52 @@ namespace _11_Image_Processing
 
 
                 //rec debug
-                {
+                //{
 
-                    string d01 = debugFolder + @"\01.pdf";
+                //    string d01 = debugFolder + @"\01.pdf";
 
-                    List<PointF> pointsPage1 = new();
-                    List<PointF> pointsPage2 = new();
-                    List<Color> colors = new();
+                //    List<PointF> pointsPage1 = new();
+                //    List<PointF> pointsPage2 = new();
+                //    List<Color> colors = new();
 
-                    colors.Add(Color.Black);
-                    colors.Add(Color.Gray);
-                    colors.Add(Color.White);
-                    for (int i = 0; i < 3; i++)
-                    {
-                        pointsPage1.Add(new PointF(20, 20 + 40 * i));
-                    }
-                    //d01.DebugCreateFile(pointsPage1,colors);
+                //    colors.Add(Color.Black);
+                //    colors.Add(Color.Gray);
+                //    colors.Add(Color.White);
+                //    for (int i = 0; i < 3; i++)
+                //    {
+                //        pointsPage1.Add(new PointF(20, 20 + 40 * i));
+                //    }
+                //    //d01.DebugCreateFile(pointsPage1,colors);
 
-                    List<List<PointF>> listOfPages = new();
-                    listOfPages.Add(pointsPage1);
-                    listOfPages.Add(pointsPage2);
+                //    List<List<PointF>> listOfPages = new();
+                //    listOfPages.Add(pointsPage1);
+                //    listOfPages.Add(pointsPage2);
 
-                    var doc = new PdfLoadedDocument(d01);
-                    switch (doc.Pages.Count - listOfPages.Count)
-                    {
-                        case < 0:
-                            while (doc.Pages.Count < listOfPages.Count)
-                                doc.Pages.Add();
-                            break;
-                        case > 0:
-                            while (doc.Pages.Count > listOfPages.Count)
-                                listOfPages.Add(new List<PointF>());
-                            break;
-                    }
+                //    var doc = new PdfLoadedDocument(d01);
+                //    switch (doc.Pages.Count - listOfPages.Count)
+                //    {
+                //        case < 0:
+                //            while (doc.Pages.Count < listOfPages.Count)
+                //                doc.Pages.Add();
+                //            break;
+                //        case > 0:
+                //            while (doc.Pages.Count > listOfPages.Count)
+                //                listOfPages.Add(new List<PointF>());
+                //            break;
+                //    }
 
-                    //ST.setOfToEvaluate[0].Add(new Bitmap(debugFolder + @"\01.png"));
-                    //ST.setOfToEvaluate[0][0] = new Bitmap(debugFolder + @"\01.png");
-                    //ST.document.EvaluateSet(); 
+                //    //ST.scansInPagesInWorks[0].Add(new Bitmap(debugFolder + @"\01.png"));
+                //    //ST.scansInPagesInWorks[0][0] = new Bitmap(debugFolder + @"\01.png");
+                //    //ST.document.EvaluateSet(); 
 
-                    var value = doc.RecognizeTaggedBoxesDebug(d01, listOfPages);
+                //    var value = doc.RecognizeTaggedBoxesDebug(d01, listOfPages);
 
 
 
-                    var p = new Process();
-                    p.StartInfo.UseShellExecute = true;
+                //    var p = new Process();
+                //    p.StartInfo.UseShellExecute = true;
 
-                }
+                //}
                 //p.StartInfo.FileName = d01;
                 //p.Start();
 
@@ -401,9 +401,9 @@ namespace _11_Image_Processing
             if (open.ShowDialog() != true) return;
             //open.FileName;
 
-            ST.setOfToEvaluate = new();
-            ST.setOfToEvaluate.Add(new());
-            ST.setOfToEvaluate[0][0] = new Bitmap(open.FileName);
+            ST.scansInPagesInWorks = new();
+            ST.scansInPagesInWorks.Add(new());
+            ST.scansInPagesInWorks[0][0] = new Bitmap(open.FileName);
             
         }
         private void Menu_Read_ListOfScans_OnePage_Click(object sender, RoutedEventArgs e)
@@ -411,11 +411,11 @@ namespace _11_Image_Processing
             var open = new OpenFileDialog() { Title = "Open list of scans", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };//todo add more filters 
             if (open.ShowDialog() == false) return;
 
-            int l = ST.setOfToEvaluate.Count();//moves indexing if there are already bitmaps in the list
+            int l = ST.scansInPagesInWorks.Count();//moves indexing if there are already bitmaps in the list
             for (int i = 0; i < open.FileNames.Length; i++)
             {
-                ST.setOfToEvaluate.Add(new());
-                ST.setOfToEvaluate[l + i].Add(new Bitmap(open.FileNames[i]));
+                ST.scansInPagesInWorks.Add(new());
+                ST.scansInPagesInWorks[l + i].Add(new Bitmap(open.FileNames[i]));
             }
 
 
@@ -463,7 +463,7 @@ namespace _11_Image_Processing
             {
                 Bitmap image = doc.ExportAsImage(i, ST.dpiExport, ST.dpiExport);
 
-                string fn = Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
+                string fn =Path.GetDirectoryName(save.FileName)+"\\"+ Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
 
                 image.Save(fn, System.Drawing.Imaging.ImageFormat.Png);
             }
@@ -546,6 +546,10 @@ namespace _11_Image_Processing
 
         }
 
+        private void Menu_Eavluate_Click(object sender, RoutedEventArgs e)
+        {
+            ST.resultsInQuestionsInWorks = ST.scansInPagesInWorks.EvaluateWorks(ST.boxesInQuestions, new PdfLoadedDocument(ST.tempFile).GetSizesOfPages());
+        }
     }
 }
 
