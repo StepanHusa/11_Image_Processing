@@ -286,9 +286,9 @@ namespace _11_Image_Processing
                         {
                             b[i][j] = new Tuple<int, RectangleF, bool>(b[i][j].Item1, b[i][j].Item2, !b[i][j].Item3);
                             doc.DrawRectangleBounds(b[i][j].Item2, b[i][j].Item1, b[i][j].Item3);
+                            ReloadDocument();
                         }
 
-            ReloadDocument();
 
         }
 
@@ -381,10 +381,12 @@ namespace _11_Image_Processing
         {
             var doc = new PdfLoadedDocument(ST.tempFileCopy);
             int i = 0;
-            foreach (var question in ST.boxesInQuestions) { 
+            foreach (var question in ST.boxesInQuestions) {
+                i++;
                 int j = 0;
                 foreach (var box in question)
                 {
+                    j++;
                     doc.DrawRectangleBounds(box.Item2, box.Item1);
                     doc.DrawIndexNextToRectangle(box.Item2, box.Item1, (i + 1).ToString() + Convert.ToChar(j + (int)'a'));
                 }}

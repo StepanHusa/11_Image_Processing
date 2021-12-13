@@ -30,16 +30,4 @@ namespace _11_Image_Processing
 
         public event EventHandler CanExecuteChanged;
     }
-    //TODO 02 add more commands
-    static class CM // rename to Commands
-    {
-        public static RoutedCommand MyCommand = new RoutedCommand();
-
-        public static void Initialize()
-        {
-            MyCommand.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Control));
-        }
-    
-
-    }
 }

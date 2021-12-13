@@ -36,7 +36,7 @@ namespace _11_Image_Processing
         internal static double treshold = 0.7;
 
         internal static string tempDirectoryName = Path.GetTempPath() + "Stepan_Husa_Is_A_Genius\\";
-        internal static string ext = ".st0r"; //templateExtension
+        internal static string projectExtension = ".st0r"; //templateExtension
         internal static byte[] fileCode = "008800ff001100aa".StringToByteArray(); //8 bytes file format conformation
 
 
@@ -56,9 +56,7 @@ namespace _11_Image_Processing
         internal static List<RectangleF>[] pagesFields = new List<RectangleF>[0]; //Pages array of lists containing fields
         internal static List<PointF[]>[] pagesQuestionsBoxes = new List<PointF[]>[0];
 
-
-
-        internal static List<List<Tuple<int, RectangleF,bool>>> boxesInQuestions = new();
+        internal static List<List<Tuple<int, RectangleF,bool>>> boxesInQuestions = new();// the main listing tuple: <page index, rectangle on page, is the answer right>
 
 
         internal static List<List<Bitmap>> setOfToEvaluate = new(); //outside list are the separete works and inside are pages

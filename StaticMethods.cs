@@ -280,6 +280,60 @@ namespace _11_Image_Processing
             }
             return listsArray;
         }
+        public static byte[] IntRectangleFBoolTupleListListToByteArray(this List<List<Tuple<int, RectangleF, bool>>> list)
+        {
+            byte[] data;
+
+            using (var ms = new MemoryStream())
+            {
+                using (var bw = new BinaryWriter(ms))
+                {
+                    bw.Write(list.Count);
+                    foreach (var l in list)
+                    {
+                        bw.Write(l.Count);
+                        foreach (var p in l)
+                        {
+                            bw.Write(p.Item1);//int32 (int)
+                            bw.Write(p.Item2.X);//Single (float)
+                            bw.Write(p.Item2.Y);//Single (float)
+                            bw.Write(p.Item2.Width);//Single (float)
+                            bw.Write(p.Item2.Height);//Single (float)
+                            bw.Write(p.Item3);//Boolen (bool)
+
+                        }
+                    }
+                }
+                data = ms.ToArray();
+            }
+
+            return data;
+
+        }
+        public static List<List<Tuple<int,RectangleF,bool>>> ByteArrayToIntRectangleFBoolTupleListList(this byte[] ba)
+        {
+            List<List<Tuple<int, RectangleF, bool>>> lists;
+            using (var ms = new MemoryStream(ba))
+            {
+                using (var r = new BinaryReader(ms))
+                {
+                    int lengthOfList = r.ReadInt32();
+                    lists = new();
+                    for (int i = 0; i <lengthOfList; i++)
+                    {
+                        int Count = r.ReadInt32();
+                        lists.Add(new());
+                        for (int j = 0; j < Count; j++)
+                        {
+                            lists[i].Add(new Tuple<int, RectangleF, bool>(r.ReadInt32(),new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()),r.ReadBoolean()));
+                        }
+                    }
+                }
+            }
+            return lists;
+
+        }
+
         public static byte[] RectangleListArrayToByteArray(this List<RectangleF>[] array)
         {
 
