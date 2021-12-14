@@ -174,7 +174,8 @@ namespace _11_Image_Processing
         public static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rectangle, int pageint, bool SecondColor=false)
         {
             var page = doc.Pages[pageint];
-            PointF[] vertexes = { new PointF(rectangle.Left, rectangle.Bottom), new PointF(rectangle.Right, rectangle.Bottom), new PointF(rectangle.Right, rectangle.Top), new PointF(rectangle.Left, rectangle.Top), new PointF(rectangle.Left, rectangle.Bottom) };
+            var w = ST.baundWidth/2;
+            PointF[] vertexes = { new PointF(rectangle.Left-2*w, rectangle.Bottom+w), new PointF(rectangle.Right+w, rectangle.Bottom+w), new PointF(rectangle.Right+w, rectangle.Top-w), new PointF(rectangle.Left-w, rectangle.Top-w), new PointF(rectangle.Left-w, rectangle.Bottom+2*w) };
             byte[] types = { 0, 1, 1, 1, 1 };
             PdfPath path = new(vertexes,types);
             path.Pen = ST.baundPen;
@@ -561,10 +562,6 @@ namespace _11_Image_Processing
 
             Bitmap crop = new Bitmap((int)size.Width,(int)size.Height);
 
-            string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
-            int i = Directory.GetFiles(f).Length;
-            f = f + "\\" + i + ".Bmp";
-            crop.Save(f, ImageFormat.Bmp);
 
 
             using (Graphics g = Graphics.FromImage(crop))
@@ -573,6 +570,12 @@ namespace _11_Image_Processing
                                  cropRect,
                                  GraphicsUnit.Pixel);
             }
+
+            //debug feature
+            string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
+            int i = Directory.GetFiles(f).Length;
+            f = f + "\\" + i + ".Bmp";
+            crop.Save(f, ImageFormat.Bmp);
 
 
             if (ColorLevelOfBitmap(crop) < 0.5) return true;

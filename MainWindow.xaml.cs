@@ -22,6 +22,9 @@ using System.Drawing;
 using Syncfusion.Pdf.Parsing;
 using WordToPDF;
 using Syncfusion.Pdf;
+using ImageProcessor;
+using ImageProcessor.Imaging.Filters.EdgeDetection;
+using IronOcr;
 
 namespace _11_Image_Processing
 {
@@ -67,9 +70,10 @@ namespace _11_Image_Processing
                 //Menu_Load_New_Click(new object(), new RoutedEventArgs());
                 //Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
 
-                LoadDataFromFile(debugFolder + "\\01" + ST.projectExtension);
+                //LoadDataFromFile(debugFolder + "\\01" + ST.projectExtension);
+                LoadDataFromFile(debugFolder + "\\02" + ST.projectExtension);
 
-                Menu_Save_Project.IsEnabled = true;
+                //Menu_Save_Project.IsEnabled = true;
 
 
                 //rec debug
@@ -548,7 +552,50 @@ namespace _11_Image_Processing
 
         private void Menu_Eavluate_Click(object sender, RoutedEventArgs e)
         {
-            ST.resultsInQuestionsInWorks = ST.scansInPagesInWorks.EvaluateWorks(ST.boxesInQuestions, new PdfLoadedDocument(ST.tempFile).GetSizesOfPages());
+            //ST.resultsInQuestionsInWorks = ST.scansInPagesInWorks.EvaluateWorks(ST.boxesInQuestions, new PdfLoadedDocument(ST.tempFile).GetSizesOfPages());
+
+            string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
+            string s = debugFolder + "\\s\\1.bmp";
+            string f = debugFolder + "\\maxresdefault.jpg";
+            string g = debugFolder + "\\02c.bmp";
+
+
+            byte[] photoBytes = File.ReadAllBytes(s);
+            // Format is automatically detected though can be changed.
+            System.Drawing.Size size = new System.Drawing.Size(500, 0);
+
+            using (MemoryStream inStream = new MemoryStream(photoBytes))
+            {
+                using (MemoryStream outStream = new MemoryStream())
+                {
+                    // Initialize the ImageFactory using the overload to preserve EXIF metadata.
+                    using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
+                    {
+                        // Load, resize, set the format and quality and save an image.
+                        imageFactory.Load(inStream)
+                                    .DetectEdges(new Laplacian3X3EdgeFilter())
+                                    .Resize(size)
+                                    .Save(g);
+                    }
+                }
+            }
+
+
+            var Ocr = new IronTesseract();
+            using (var input = new OcrInput())
+            {
+                //input.AddPdf("example.pdf", "password");
+                //input.AddMultiFrameTiff("multi-frame.tiff");
+                //input.AddImage("image1.png");
+                input.AddImage(s);
+                //... many more
+                var Result = Ocr.Read(input);
+
+                Debug.WriteLine(Result.Text);
+                Debug.WriteLine(Result.Confidence);
+
+            }
+
         }
     }
 }
