@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+//using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,38 @@ namespace _11_Image_Processing
         public ViewResultW()
         {
             InitializeComponent();
+
+            SetupTabs(ST.scansInPagesInWorks);
         }
+
+        public void SetupTabs(List<List<System.Drawing.Bitmap>> bitmaps)
+        {
+            int ww = 0;
+            foreach (var work in bitmaps)
+            {
+                ww++;
+                int bb = 0;
+                TabItem z = new() { Header = ww };
+                var tab = new TabControl() { TabStripPlacement = Dock.Left };
+                foreach (var bitmap in work)
+                {
+                    bb++;
+                    TabItem t = new() { Header = bb };
+
+                    Image Image = new();
+                    Image.Source = bitmap.BitmapToImageSource();
+                    t.Content = Image;
+
+                    tab.Items.Add(t);
+                }
+                z.Content = tab;
+                tabsHorizontal.Items.Add(z);
+
+            }
+
+
+
+        }
+
     }
 }

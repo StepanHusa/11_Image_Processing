@@ -125,7 +125,7 @@
             <TextBlock x:Name="questioncounttext"   Grid.Row="4" Grid.Column="1"/>
             <TextBlock x:Name="boxcounttext"        Grid.Row="5" Grid.Column="1"/>
             <TextBlock x:Name="fieldcounttext"      Grid.Row="6" Grid.Column="1"/>
-            <ComboBox   x:Name="versionCombobox"    Grid.Row="7" Grid.Column="1">
+            <ComboBox  x:Name="versionCombobox"    Grid.Row="7" Grid.Column="1">
                 <ComboBox.ItemContainerStyle>
                     <Style TargetType="ComboBoxItem">
                         <Setter

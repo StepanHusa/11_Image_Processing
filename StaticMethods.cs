@@ -14,6 +14,7 @@ using System.Windows.Controls;
 using ImageProcessor;
 using ImageProcessor.Imaging;
 using System.Drawing.Imaging;
+//using System.Windows.Media.Imaging;
 
 namespace _11_Image_Processing
 {
@@ -601,6 +602,24 @@ namespace _11_Image_Processing
         public static void Add(this List<Tuple<int, RectangleF,bool>> l, int i, RectangleF p,bool b)
         {
             l.Add(new Tuple<int, RectangleF,bool>(i, p,b));
+        }
+    }
+    static class BitmapExtensions
+    {
+        public static System.Windows.Media.Imaging.BitmapImage BitmapToImageSource(this Bitmap bitmap)
+        {
+            using (MemoryStream memory = new MemoryStream())
+            {
+                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
+                memory.Position = 0;
+                System.Windows.Media.Imaging.BitmapImage bitmapimage = new System.Windows.Media.Imaging.BitmapImage();
+                bitmapimage.BeginInit();
+                bitmapimage.StreamSource = memory;
+                bitmapimage.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                bitmapimage.EndInit();
+
+                return bitmapimage;
+            }
         }
     }
 }

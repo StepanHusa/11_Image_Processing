@@ -66,6 +66,24 @@ namespace _11_Image_Processing
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
 
+                string s = debugFolder + "\\s\\";
+                string f = debugFolder + "\\maxresdefault.jpg";
+                string g = debugFolder + "\\02c.bmp";
+
+                for (int i = 0; i < 5; i++)
+                {
+                    ST.scansInPagesInWorks.Add(new());
+                    for (int j = 0; j < 6; j++)
+                    {
+                        string h = s + (i*6+j) + ".bmp";
+                        ST.scansInPagesInWorks[i].Add(new Bitmap(h));
+
+                    }
+                }
+
+                new ViewResultW().Show();
+
+
                 //this.WindowState = WindowState.Minimized;
                 //Menu_Load_New_Click(new object(), new RoutedEventArgs());
                 //Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
