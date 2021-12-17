@@ -34,29 +34,39 @@
 
 
         <Menu >
-            <MenuItem x:Name="Menu_Load" Header="_Load">
-                <MenuItem x:Name="Menu_Load_New"      Header="_New PDF File"          Click="Menu_Load_New_Click"/>
-                <MenuItem x:Name="Menu_Load_Open"     Header="_Open Existing PDF"     Click="Menu_Load_Open_Click"/>
-                <MenuItem x:Name="Menu_Load_Word"     Header="_Open Word Document"    Click="Menu_Load_Word_Click"/>
-            </MenuItem>
-            <MenuItem x:Name="Menu_Open" Header="_Open">
-                <MenuItem x:Name="Menu_Open_Project"     Header="_Project" Click="Menu_Open_Project_Click"/>
+            <MenuItem x:Name="Menu_Load" Header="_Project">
+                <MenuItem                             Header="_New">
+                    <MenuItem      Header="_Blank PDF File"        Click="Menu_Load_New_Click"/>
+                    <MenuItem      Header="_From Existing PDF"     Click="Menu_Load_Open_Click"/>
+                    <MenuItem      Header="_From Word Document"    Click="Menu_Load_Word_Click"/>
+                </MenuItem>
 
+                <MenuItem x:Name="Menu_Project_Unload" Header="_Unload" Click="Menu_Project_Unload_Click"/>
+
+                <MenuItem x:Name="Menu_Open" Header="_Open">
+                    <MenuItem x:Name="Menu_Open_Project"     Header="_Project" Click="Menu_Open_Project_Click"/>
+                </MenuItem>
+                
+                <MenuItem x:Name="Menu_Save" Header="_Save" IsEnabled="False" >
+                    <MenuItem x:Name="Menu_Save_ProjectAs" Header="_Save Project As" Click="Menu_Save_ProjectAs_Click"/>
+                    <MenuItem x:Name="Menu_Save_Project" Header="_Save Project" IsEnabled="False" Click="Menu_Save_Project_Click"/>
+                </MenuItem>
             </MenuItem>
-            <MenuItem x:Name="Menu_Save" Header="_Save" IsEnabled="False" >
-                <MenuItem x:Name="Menu_Save_ProjectAs" Header="_Save Project As" Click="Menu_Save_ProjectAs_Click"/>
-                <MenuItem x:Name="Menu_Save_Project" Header="_Save Project" IsEnabled="False" Click="Menu_Save_Project_Click"/>
-                <MenuItem x:Name="Menu_Save_PDF" Header="_Save PDF" Click="Menu_Save_PDF_Click"/>
-            </MenuItem>
+            
             <MenuItem x:Name="Menu_Edit" Header="_Edit" IsEnabled="False">
                 <MenuItem x:Name="MenuEditOptions_AddBoxex" Header="_Add Boxes" InputGestureText="Ctrl+E" Click="Menu_Edit_AddBoxex_Click"/>
                 <MenuItem x:Name="Menu_Edit_NoTools" Header="_No Tools" Click="Menu_Edit_NoTools_Click"/>
             </MenuItem>
-            <MenuItem x:Name="Menu_Print" Header="_Print" IsEnabled="False">
-                <MenuItem x:Name="Menu_Print_ToJPEG" Header="_To JPEG" Click="Menu_Print_ToJPEG_Click"/>
-                <MenuItem x:Name="Menu_Print_ToPNG" Header="_To PNG" Click="Menu_Print_ToPNG_Click"/>
+            
+            <MenuItem x:Name="Menu_Export" Header="_Export" IsEnabled="False">
+                <MenuItem x:Name="Menu_Print" Header="_Print" IsEnabled="False">
+                    <MenuItem x:Name="Menu_Print_ToJPEG" Header="_To JPEG" Click="Menu_Print_ToJPEG_Click"/>
+                    <MenuItem x:Name="Menu_Print_ToPNG" Header="_To PNG" Click="Menu_Print_ToPNG_Click"/>
+                </MenuItem>
+                
+                <MenuItem x:Name="Menu_Save_PDF" Header="_Save PDF" Click="Menu_Save_PDF_Click"/>
             </MenuItem>
-
+            
             <MenuItem x:Name="Menu_Read" Header="_Read" IsEnabled="False">
                 <MenuItem x:Name="Menu_Read_PNG" Header="PNG to check" Click="Menu_Read_PNG_Click"/>
 
@@ -66,7 +76,7 @@
                 </MenuItem>
             </MenuItem>
 
-            <MenuItem x:Name="Menu_Eavluate" Header="_Evaluate" Click="Menu_Eavluate_Click"/>
+            <MenuItem x:Name="Menu_Eavluate" Header="_Evaluate" Click="Menu_Eavluate_Click" IsEnabled="False"/>
 
             <MenuItem x:Name="Menu_Help" Header="_Help" Click="Menu_Help_Click"/>
 
@@ -95,13 +105,14 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="Project"                   Grid.Row="0" Grid.Column="0"/>
-            <TextBlock Text="Project File Name"            Grid.Row="1" Grid.Column="0"/>
-            <TextBlock Text="Project Location"                  Grid.Row="2" Grid.Column="0"/>
+            <TextBlock Text="Project File Name"         Grid.Row="1" Grid.Column="0"/>
+            <TextBlock Text="Project Location"          Grid.Row="2" Grid.Column="0"/>
             <TextBlock Text="Number of pages"           Grid.Row="3" Grid.Column="0"/>
-            <TextBlock Text="Number of boxes"           Grid.Row="4" Grid.Column="0"/>
-            <TextBlock Text="Number of text fields"     Grid.Row="5" Grid.Column="0"/>
-            <TextBlock Text="Project version"           Grid.Row="6" Grid.Column="0"/>
-            <TextBlock Text="Date of last save"         Grid.Row="7" Grid.Column="0"/>
+            <TextBlock Text="Number of questions"       Grid.Row="4" Grid.Column="0"/>
+            <TextBlock Text="Number of boxes"           Grid.Row="5" Grid.Column="0"/>
+            <TextBlock Text="Number of text fields"     Grid.Row="6" Grid.Column="0"/>
+            <TextBlock Text="Project version"           Grid.Row="7" Grid.Column="0"/>
+            <TextBlock Text="Date of last save"         Grid.Row="8" Grid.Column="0"/>
 
 
 
@@ -111,9 +122,10 @@
             <TextBlock x:Name="projectfilenametext" Grid.Row="1" Grid.Column="1"/>
             <TextBlock x:Name="locationtext"        Grid.Row="2" Grid.Column="1"/>
             <TextBlock x:Name="pagecounttext"       Grid.Row="3" Grid.Column="1"/>
-            <TextBlock x:Name="boxcounttext"        Grid.Row="4" Grid.Column="1"/>
-            <TextBlock x:Name="fieldcounttext"      Grid.Row="5" Grid.Column="1"/>
-            <ComboBox   x:Name="versionCombobox"    Grid.Row="6" Grid.Column="1">
+            <TextBlock x:Name="questioncounttext"   Grid.Row="4" Grid.Column="1"/>
+            <TextBlock x:Name="boxcounttext"        Grid.Row="5" Grid.Column="1"/>
+            <TextBlock x:Name="fieldcounttext"      Grid.Row="6" Grid.Column="1"/>
+            <ComboBox   x:Name="versionCombobox"    Grid.Row="7" Grid.Column="1">
                 <ComboBox.ItemContainerStyle>
                     <Style TargetType="ComboBoxItem">
                         <Setter
@@ -122,7 +134,7 @@
                     </Style>
                 </ComboBox.ItemContainerStyle>
             </ComboBox>            
-            <TextBlock x:Name="dateoflastsavetext"  Grid.Row="7" Grid.Column="1"/>
+            <TextBlock x:Name="dateoflastsavetext"  Grid.Row="8" Grid.Column="1"/>
 
 
 

@@ -474,82 +474,6 @@ namespace _11_Image_Processing
 
         }
 
-        //help and settings
-        private void Menu_Help_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Menu_Settings_Click(object sender, RoutedEventArgs e)
-        {
-            if (ST.settingsWindow == null)
-                ST.settingsWindow = new();
-            ST.settingsWindow.Show();
-        }
-
-
-        //content
-        private void Window_Activated(object sender, EventArgs e)
-        {
-            ReloadWindowContent();
-        }
-
-        private void projecttext_LostFocus(object sender, RoutedEventArgs e)
-        {
-            ST.projectName = projecttext.Text;
-        }
-
-        private void reloadButton_Click(object sender, RoutedEventArgs e)
-        {
-            ReloadWindowContent();
-        }
-        private void ReloadWindowContent()
-        {
-            if (ST.tempFile==null) throw new Exception("ReloadWindowContent whan no loaded document");
-            var doc = new PdfLoadedDocument(ST.tempFile);
-
-            Menu_Edit.IsEnabled = true;
-            Menu_Save.IsEnabled = true;
-            Menu_Print.IsEnabled = true;
-            Menu_Read.IsEnabled = true;
-            reloadButton.IsEnabled = true;
-            this.Activated += Window_Activated;
-
-
-            pdfDocumentView.Load(doc);
-            loadedPdfLabel.Content = Path.GetFileName(ST.fileName);
-            pdfDocumentView.MinimumZoomPercentage = (int)Math.Ceiling(pdfDocumentView.MinimumZoomPercentage * 0.95);
-            pdfDocumentView.ZoomTo(-1);
-
-            Title = ST.appName + " -- " + ST.projectName;
-
-            projecttext.Text = ST.projectName;
-            projectfilenametext.Text = Path.GetFileName(ST.projectFileName);
-            locationtext.Text = Path.GetDirectoryName(ST.projectFileName);
-            pagecounttext.Text = doc.Pages.Count.ToString();
-            int ii = 0;
-            foreach (var pointFs in ST.pagesPoints)
-                ii += pointFs.Count;
-            boxcounttext.Text = ii.ToString();
-            ii = 0;
-            foreach (var rectangleFs in ST.pagesFields)
-                ii += rectangleFs.Count;
-            fieldcounttext.Text = ii.ToString();
-
-            versionCombobox.Items.Clear();
-            foreach (var item in ST.versions)
-                versionCombobox.Items.Add(item);
-            versionCombobox.SelectedIndex = versionCombobox.Items.Count - 1;
-            //todo make odler versions and Ctrl+Z usable
-
-            if (ST.versions.Count != 0)
-                dateoflastsavetext.Text = ST.versions.Last();
-            else dateoflastsavetext.Text = "not saved yet";
-
-            //dateoflastsavetext.Text = ST.versions.Last().ToStringOfRegularFormat();
-
-        }
-
         private void Menu_Eavluate_Click(object sender, RoutedEventArgs e)
         {
             //ST.resultsInQuestionsInWorks = ST.scansInPagesInWorks.EvaluateWorks(ST.boxesInQuestions, new PdfLoadedDocument(ST.tempFile).GetSizesOfPages());
@@ -597,6 +521,142 @@ namespace _11_Image_Processing
             }
 
         }
+        //help and settings
+        private void Menu_Help_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Menu_Settings_Click(object sender, RoutedEventArgs e)
+        {
+            if (ST.settingsWindow == null)
+                ST.settingsWindow = new();
+            ST.settingsWindow.Show();
+        }
+
+
+        //content
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            ReloadWindowContent();
+        }
+
+        private void projecttext_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ST.projectName = projecttext.Text;
+        }
+
+        private void reloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            ReloadWindowContent();
+        }
+        private void Menu_Project_Unload_Click(object sender, RoutedEventArgs e)
+        {
+            Unload();
+        }
+
+        private void ReloadWindowContent()
+        {
+            if (ST.tempFile==null) throw new Exception("ReloadWindowContent whan no loaded document");
+            var doc = new PdfLoadedDocument(ST.tempFile);
+
+            Menu_Edit.IsEnabled = true;
+            Menu_Save.IsEnabled = true;
+            Menu_Print.IsEnabled = true;
+            Menu_Read.IsEnabled = true;
+            Menu_Eavluate.IsEnabled = true;
+            Menu_Save.IsEnabled = true;
+            Menu_Export.IsEnabled = true;
+
+            reloadButton.IsEnabled = true;
+            this.Activated += Window_Activated;
+
+
+            pdfDocumentView.Load(doc);
+            loadedPdfLabel.Content = Path.GetFileName(ST.fileName);
+            pdfDocumentView.MinimumZoomPercentage = (int)Math.Ceiling(pdfDocumentView.MinimumZoomPercentage * 0.95);
+            pdfDocumentView.ZoomTo(-1);
+
+            Title = ST.appName + " -- " + ST.projectName;
+
+            projecttext.Text = ST.projectName;
+            projectfilenametext.Text = Path.GetFileName(ST.projectFileName);
+            locationtext.Text = Path.GetDirectoryName(ST.projectFileName);
+            pagecounttext.Text = doc.Pages.Count.ToString();
+            questioncounttext.Text = ST.boxesInQuestions.Count.ToString();
+            int ii = 0;
+            foreach (var question in ST.boxesInQuestions)
+            {
+                ii += question.Count;
+            }
+            boxcounttext.Text = ii.ToString();
+            ii = 0;
+            foreach (var rectangleFs in ST.pagesFields)
+                ii += rectangleFs.Count;
+            fieldcounttext.Text = ii.ToString();
+
+            versionCombobox.Items.Clear();
+            foreach (var item in ST.versions)
+                versionCombobox.Items.Add(item);
+            versionCombobox.SelectedIndex = versionCombobox.Items.Count - 1;
+            //todo make odler versions and Ctrl+Z usable
+
+            if (ST.versions.Count != 0)
+                dateoflastsavetext.Text = ST.versions.Last();
+            else dateoflastsavetext.Text = "not saved yet";
+
+            //dateoflastsavetext.Text = ST.versions.Last().ToStringOfRegularFormat();
+
+        }
+        private void Unload()
+        {
+            ST.pagesFields = null;
+            ST.boxesInQuestions = null;
+            ST.resultsInQuestionsInWorks = null;
+            ST.scansInPagesInWorks = null;
+
+            reloadButton.IsEnabled = false;
+            this.Activated -= Window_Activated;
+
+            File.Delete(ST.tempFile);
+            File.Delete(ST.tempFileCopy);
+
+            ST.tempFile = null;
+            ST.tempFileCopy = null;
+            ST.projectName = ST.templateProjectName;
+            ST.projectFileName = null;
+            ST.fileName = null;
+            ST.boxesInQuestions = null;
+            ST.versions = null;
+
+
+            projecttext.Text = string.Empty;
+            projectfilenametext.Text = string.Empty;
+            locationtext.Text = string.Empty;
+            pagecounttext.Text = string.Empty;
+            questioncounttext.Text = string.Empty;
+            boxcounttext.Text = string.Empty;
+            fieldcounttext.Text = string.Empty;
+            versionCombobox.Items.Clear();
+            dateoflastsavetext.Text = string.Empty;
+
+            Title = ST.appName + " -- #Unloaded";
+
+            pdfDocumentView.Unload();
+            loadedPdfLabel.Content = "";
+
+
+            Menu_Edit.IsEnabled = false;
+            Menu_Save.IsEnabled = false;
+            Menu_Print.IsEnabled = false;
+            Menu_Read.IsEnabled = false;
+            Menu_Eavluate.IsEnabled = false;
+            Menu_Save.IsEnabled = false;
+            Menu_Export.IsEnabled = false;
+        }
+
+
+
     }
 }
 
