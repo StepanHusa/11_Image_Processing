@@ -35,7 +35,7 @@ namespace _11_Image_Processing
                 ww++;
                 int bb = 0;
                 TabItem z = new() { Header = ww };
-                var tab = new TabControl() { TabStripPlacement = Dock.Left };
+                var tabs = new TabControl() { TabStripPlacement = Dock.Left };
                 foreach (var bitmap in work)
                 {
                     bb++;
@@ -45,12 +45,32 @@ namespace _11_Image_Processing
                     Image.Source = bitmap.BitmapToImageSource();
                     t.Content = Image;
 
-                    tab.Items.Add(t);
+                    tabs.Items.Add(t);
                 }
-                z.Content = tab;
+
+                tabs.SelectionChanged += Tabs_SelectionChanged;
+                z.Content = tabs;
                 tabsHorizontal.Items.Add(z);
 
             }
+
+
+
+        }
+
+        private void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var sen = sender as TabControl;
+            int ii = sen.SelectedIndex;
+
+            for (int i = 0; i < tabsHorizontal.Items.Count; i++)
+            {
+                var tabs = (tabsHorizontal.Items[i] as TabItem).Content as TabControl;
+                if (tabs.Items.Count > ii)
+                    tabs.SelectedIndex = ii;
+                else tabs.SelectedIndex = tabs.Items.Count - 1; 
+            }
+
 
 
 

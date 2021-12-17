@@ -80,6 +80,9 @@ namespace _11_Image_Processing
 
                     }
                 }
+                ST.scansInPagesInWorks.Add(new());
+                ST.scansInPagesInWorks[5].Add(new Bitmap(s + "1.bmp"));
+
 
                 new ViewResultW().Show();
 
