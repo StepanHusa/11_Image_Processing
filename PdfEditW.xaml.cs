@@ -232,7 +232,7 @@ namespace _11_Image_Processing
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + Convert.ToChar(i + (int)'a'));
 
                 //add square to 'The List'
-                ST.boxesInQuestions[iQ].Add(pindex, bounds,false);
+                ST.boxesInQuestions[iQ].Add(pindex, bounds,false); //TODO get rectangle relatice
             }
 
             ReloadDocument();
@@ -264,7 +264,7 @@ namespace _11_Image_Processing
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + Convert.ToChar(i + (int)'a'));
 
                 //add square to 'The List'
-                ST.boxesInQuestions[iQ].Add(pindex, bounds,false);
+                ST.boxesInQuestions[iQ].Add(pindex, bounds,false); //TODO get rectangle relatice
             }
 
             ReloadDocument();
@@ -275,7 +275,7 @@ namespace _11_Image_Processing
             var doc = pdfViewControl.LoadedDocument;
             int pindex = args.PageIndex;
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
-            var b = ST.boxesInQuestions;
+            var b = ST.boxesInQuestions; //TODO get rectangle relatice
 
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
 

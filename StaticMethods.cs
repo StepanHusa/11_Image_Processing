@@ -174,6 +174,8 @@ namespace _11_Image_Processing
 
         public static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rectangle, int pageint, bool SecondColor=false)
         {
+
+            //TODO get rectangle relative
             var page = doc.Pages[pageint];
             var w = ST.baundWidth/2;
             PointF[] vertexes = { new PointF(rectangle.Left-2*w, rectangle.Bottom+w), new PointF(rectangle.Right+w, rectangle.Bottom+w), new PointF(rectangle.Right+w, rectangle.Top-w), new PointF(rectangle.Left-w, rectangle.Top-w), new PointF(rectangle.Left-w, rectangle.Bottom+2*w) };
@@ -620,6 +622,53 @@ namespace _11_Image_Processing
 
                 return bitmapimage;
             }
+        }
+
+        public static List<List<Bitmap>> DrowCorrect(this List<List<Bitmap>> works)
+        {
+            for (int i = 0; i < works.Count; i++)
+            {
+                foreach (var question in ST.boxesInQuestions)
+                {
+                    foreach (var box in question)
+                    {
+                        works[i][box.Item1]=works[i][box.Item1].DrowRectangle(box.Item2);//TODO get rectangle relative
+                    }
+                }
+            }
+            return works;
+        }
+
+
+        public static Bitmap DrowRectangle(this Bitmap b, RectangleF rect) //primarly debug feature
+        {//TODO get rectangle relatice
+            //float racioX = b.Width / sizeOfPage.Width;
+            //float racioY = b.Height / sizeOfPage.Height;
+            Rectangle cropRect = new((int)(rect.X * b.Width/ 595), (int)(rect.Y * b.Height / 842), (int)(rect.Width * b.Width/ 595), (int)(rect.Height * b.Height / 842));
+
+            for (int i = 0; i <= cropRect.Width; i++)
+            {
+                b.SetPixel(cropRect.X+ i, cropRect.Y, Color.Yellow);
+                b.SetPixel(cropRect.X+i, cropRect.Y+cropRect.Height, Color.Yellow);
+
+            }
+
+            for (int j = 0; j <= cropRect.Height; j++)
+            {
+                b.SetPixel(cropRect.X, cropRect.Y+j, Color.Yellow);
+                b.SetPixel(cropRect.X + cropRect.Width, cropRect.Y+j, Color.Yellow);
+
+            }
+
+            //for (int i = 0; i < b.Height; i++)
+            //{
+            //    for (int j = 0; j < b.Width; j++)
+            //    {
+            //        b.SetPixel(i, j, Color.Black);
+            //    }
+            //}
+
+            return b;
         }
     }
 }

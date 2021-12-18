@@ -65,10 +65,20 @@ namespace _11_Image_Processing
             //debug
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
+                //this.WindowState = WindowState.Minimized;
+                //Menu_Load_New_Click(new object(), new RoutedEventArgs());
+                //Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
+
+                //LoadDataFromFile(debugFolder + "\\01" + ST.projectExtension);
+                LoadDataFromFile(debugFolder + "\\02" + ST.projectExtension);
+
+                //Menu_Save_Project.IsEnabled = true;
 
                 string s = debugFolder + "\\s\\";
                 string f = debugFolder + "\\maxresdefault.jpg";
                 string g = debugFolder + "\\02c.bmp";
+
+
 
                 for (int i = 0; i < 5; i++)
                 {
@@ -81,20 +91,11 @@ namespace _11_Image_Processing
                     }
                 }
                 ST.scansInPagesInWorks.Add(new());
-                ST.scansInPagesInWorks[5].Add(new Bitmap(s + "1.bmp"));
-
+                ST.scansInPagesInWorks[5].Add(new Bitmap(debugFolder + "\\02.png"));
 
                 new ViewResultW().Show();
 
 
-                //this.WindowState = WindowState.Minimized;
-                //Menu_Load_New_Click(new object(), new RoutedEventArgs());
-                //Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
-
-                //LoadDataFromFile(debugFolder + "\\01" + ST.projectExtension);
-                LoadDataFromFile(debugFolder + "\\02" + ST.projectExtension);
-
-                //Menu_Save_Project.IsEnabled = true;
 
 
                 //rec debug

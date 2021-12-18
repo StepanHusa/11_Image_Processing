@@ -54,7 +54,7 @@ namespace _11_Image_Processing
         //changing variables
         internal static List<RectangleF>[] pagesFields = new List<RectangleF>[0]; //Pages array of lists containing fields
 
-        internal static List<List<Tuple<int, RectangleF,bool>>> boxesInQuestions = new();// the main listing tuple: <page index, rectangle on page, is the answer right>
+        internal static List<List<Tuple<int, RectangleF,bool>>> boxesInQuestions = new();// the main listing tuple: <page index, rectangle on page, is the answer right>  (rectangle relative to page)
 
         internal static List<List<Bitmap>> scansInPagesInWorks = new(); //outside list are the separete works and inside are pages
 

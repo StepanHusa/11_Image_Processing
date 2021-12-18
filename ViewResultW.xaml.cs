@@ -24,8 +24,11 @@ namespace _11_Image_Processing
         {
             InitializeComponent();
 
+            //ST.scansInPagesInWorks.DrowCorrect();
+
             SetupTabs(ST.scansInPagesInWorks);
         }
+
 
         public void SetupTabs(List<List<System.Drawing.Bitmap>> bitmaps)
         {
