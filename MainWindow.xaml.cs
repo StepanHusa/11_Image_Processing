@@ -25,6 +25,9 @@ using Syncfusion.Pdf;
 using ImageProcessor;
 using ImageProcessor.Imaging.Filters.EdgeDetection;
 using IronOcr;
+using System.Windows.Xps.Packaging;
+using System.Drawing.Printing;
+//using Aspose.Pdf;
 
 namespace _11_Image_Processing
 {
@@ -241,7 +244,6 @@ namespace _11_Image_Processing
 
             LoadDataFromFile(open.FileName);
 
-            Menu_Save_Project.IsEnabled = true;
 
         }
         //Edit
@@ -271,7 +273,7 @@ namespace _11_Image_Processing
             ST.projectFileName = save.FileName;
             ReloadWindowContent();
 
-            Menu_Save_Project.IsEnabled = true;
+            Menu_Project_Save.IsEnabled = true;
         }
         private void Menu_Save_Project_Click(object sender, RoutedEventArgs e)
         {
@@ -416,6 +418,7 @@ namespace _11_Image_Processing
             ST.boxesInQuestions = listBoxesInQuestions.ByteArrayToIntRectangleFBoolTupleListList();
 
             ReloadWindowContent();
+            Menu_Project_Save.IsEnabled = true;
         }
 
         //Read
@@ -459,7 +462,7 @@ namespace _11_Image_Processing
             
         }
         //Print
-        private void Menu_Print_ToJPEG_Click(object sender, RoutedEventArgs e)
+        private void Menu_Export_ToJPEG_Click(object sender, RoutedEventArgs e)
         {
             var save = new SaveFileDialog() { Title = "Save JPEG", Filter = "JPEG(*.jpeg)|*.jpeg" };
             if (save.ShowDialog() != true) return;
@@ -476,7 +479,7 @@ namespace _11_Image_Processing
             }
 
         }
-        private void Menu_Print_ToPNG_Click(object sender, RoutedEventArgs e)
+        private void Menu_Export_ToPNG_Click(object sender, RoutedEventArgs e)
         {
             var save = new SaveFileDialog() { Title = "Save PNG", Filter = "PNG(*.png)|*.png" };
             if (save.ShowDialog() != true) return;
@@ -583,11 +586,10 @@ namespace _11_Image_Processing
             var doc = new PdfLoadedDocument(ST.tempFile);
 
             Menu_Edit.IsEnabled = true;
-            Menu_Save.IsEnabled = true;
+            Menu_Project_SaveAs.IsEnabled = true;
             Menu_Print.IsEnabled = true;
             Menu_Read.IsEnabled = true;
             Menu_Eavluate.IsEnabled = true;
-            Menu_Save.IsEnabled = true;
             Menu_Export.IsEnabled = true;
 
             reloadButton.IsEnabled = true;
@@ -669,16 +671,26 @@ namespace _11_Image_Processing
 
 
             Menu_Edit.IsEnabled = false;
-            Menu_Save.IsEnabled = false;
+            Menu_Project_Save.IsEnabled = false;
+            Menu_Project_SaveAs.IsEnabled = false;
             Menu_Print.IsEnabled = false;
+            Menu_Export.IsEnabled = false;
             Menu_Read.IsEnabled = false;
             Menu_Eavluate.IsEnabled = false;
-            Menu_Save.IsEnabled = false;
-            Menu_Export.IsEnabled = false;
         }
 
 
 
+        private void Menu_Print_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDocument printDoc = new();
+            System.Windows.Forms.PrintDialog print = new();
+
+            System.Windows.Forms.DialogResult result = print.ShowDialog();
+
+            var document = new Aspose.Pdf.Document("template.pdf");
+            document.Save("output.xps", Aspose.Pdf.SaveFormat.Xps);
+        }
     }
 }
 

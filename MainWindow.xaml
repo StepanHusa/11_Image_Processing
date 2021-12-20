@@ -34,8 +34,8 @@
 
 
         <Menu >
-            <MenuItem x:Name="Menu_Load" Header="_Project">
-                <MenuItem                             Header="_New">
+            <MenuItem x:Name="Menu_Project" Header="_Project">
+                <MenuItem          Header="_New">
                     <MenuItem      Header="_Blank PDF File"        Click="Menu_Load_New_Click"/>
                     <MenuItem      Header="_From Existing PDF"     Click="Menu_Load_Open_Click"/>
                     <MenuItem      Header="_From Word Document"    Click="Menu_Load_Word_Click"/>
@@ -43,14 +43,10 @@
 
                 <MenuItem x:Name="Menu_Project_Unload" Header="_Unload" Click="Menu_Project_Unload_Click"/>
 
-                <MenuItem x:Name="Menu_Open" Header="_Open">
-                    <MenuItem x:Name="Menu_Open_Project"     Header="_Project" Click="Menu_Open_Project_Click"/>
-                </MenuItem>
-                
-                <MenuItem x:Name="Menu_Save" Header="_Save" IsEnabled="False" >
-                    <MenuItem x:Name="Menu_Save_ProjectAs" Header="_Save Project As" Click="Menu_Save_ProjectAs_Click"/>
-                    <MenuItem x:Name="Menu_Save_Project" Header="_Save Project" IsEnabled="False" Click="Menu_Save_Project_Click"/>
-                </MenuItem>
+                <MenuItem x:Name="Menu_Project_Open"     Header="_Open" Click="Menu_Open_Project_Click"/>
+
+                <MenuItem x:Name="Menu_Project_SaveAs" Header="_Save As" IsEnabled="False"  Click="Menu_Save_ProjectAs_Click"/>
+                <MenuItem  x:Name="Menu_Project_Save" Header="_Save" IsEnabled="False" Click="Menu_Save_Project_Click"/>
             </MenuItem>
             
             <MenuItem x:Name="Menu_Edit" Header="_Edit" IsEnabled="False">
@@ -59,14 +55,14 @@
             </MenuItem>
             
             <MenuItem x:Name="Menu_Export" Header="_Export" IsEnabled="False">
-                <MenuItem x:Name="Menu_Print" Header="_Print" IsEnabled="False">
-                    <MenuItem x:Name="Menu_Print_ToJPEG" Header="_To JPEG" Click="Menu_Print_ToJPEG_Click"/>
-                    <MenuItem x:Name="Menu_Print_ToPNG" Header="_To PNG" Click="Menu_Print_ToPNG_Click"/>
-                </MenuItem>
+                <MenuItem x:Name="Menu_Export_ToJPEG" Header="_JPEG" Click="Menu_Export_ToJPEG_Click"/>
+                    <MenuItem x:Name="Menu_Export_ToPNG" Header="_PNG" Click="Menu_Export_ToPNG_Click"/>
                 
-                <MenuItem x:Name="Menu_Save_PDF" Header="_Save PDF" Click="Menu_Save_PDF_Click"/>
+                <MenuItem x:Name="Menu_PDF" Header="_PDF" Click="Menu_Save_PDF_Click"/>
             </MenuItem>
-            
+
+            <MenuItem x:Name="Menu_Print" Header="_Print" IsEnabled="False" Click="Menu_Print_Click"/>
+
             <MenuItem x:Name="Menu_Read" Header="_Read" IsEnabled="False">
                 <MenuItem x:Name="Menu_Read_PNG" Header="PNG to check" Click="Menu_Read_PNG_Click"/>
 

@@ -206,6 +206,7 @@ namespace _11_Image_Processing
                 sizeFs.Add(doc.Pages[i].Size);
             return sizeFs;
         }
+
     }
 
     static class ByteExtensions
