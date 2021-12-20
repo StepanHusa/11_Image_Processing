@@ -9,5 +9,6 @@
     <Grid>
         <TabControl x:Name="tabsHorizontal" >
         </TabControl>
+        
     </Grid>
 </Window>

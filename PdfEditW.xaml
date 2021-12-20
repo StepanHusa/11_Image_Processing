@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:_11_Image_Processing"       
         xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" x:Class="_11_Image_Processing.PdfEditW"       
         mc:Ignorable="d"
-        Title="PdfEditW" HorizontalAlignment="Left" VerticalAlignment="Top" Closing="Window_Closing">
+        Title="PdfEditW" HorizontalAlignment="Left" VerticalAlignment="Top" Closing="Window_Closing" >
     <Window.DataContext>
         <local:ST/>
     </Window.DataContext>

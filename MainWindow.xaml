@@ -118,13 +118,13 @@
 
 
 
-            <TextBox   x:Name="projecttext"         Grid.Row="0" Grid.Column="1" LostFocus="projecttext_LostFocus" />
-            <TextBlock x:Name="projectfilenametext" Grid.Row="1" Grid.Column="1"/>
-            <TextBlock x:Name="locationtext"        Grid.Row="2" Grid.Column="1"/>
-            <TextBlock x:Name="pagecounttext"       Grid.Row="3" Grid.Column="1"/>
-            <TextBlock x:Name="questioncounttext"   Grid.Row="4" Grid.Column="1"/>
-            <TextBlock x:Name="boxcounttext"        Grid.Row="5" Grid.Column="1"/>
-            <TextBlock x:Name="fieldcounttext"      Grid.Row="6" Grid.Column="1"/>
+            <TextBox x:Name="projecttext"         Grid.Row="0" Grid.Column="1"  LostFocus="projecttext_LostFocus"/>
+            <TextBox x:Name="projectfilenametext" Grid.Row="1" Grid.Column="1"  IsReadOnly="True"/>
+            <TextBox x:Name="locationtext"        Grid.Row="2" Grid.Column="1" IsReadOnly="True"/>
+            <TextBox x:Name="pagecounttext"       Grid.Row="3" Grid.Column="1"  IsReadOnly="True"/>
+            <TextBox x:Name="questioncounttext"   Grid.Row="4" Grid.Column="1" IsReadOnly="True"/>
+            <TextBox x:Name="boxcounttext"        Grid.Row="5" Grid.Column="1"  IsReadOnly="True"/>
+            <TextBox x:Name="fieldcounttext"      Grid.Row="6" Grid.Column="1" IsReadOnly="True"/>
             <ComboBox  x:Name="versionCombobox"    Grid.Row="7" Grid.Column="1">
                 <ComboBox.ItemContainerStyle>
                     <Style TargetType="ComboBoxItem">
@@ -133,8 +133,8 @@
                     Value="False" />
                     </Style>
                 </ComboBox.ItemContainerStyle>
-            </ComboBox>            
-            <TextBlock x:Name="dateoflastsavetext"  Grid.Row="8" Grid.Column="1"/>
+            </ComboBox>
+            <TextBox x:Name="dateoflastsavetext"  Grid.Row="8" Grid.Column="1" IsReadOnly="True"/>
 
 
 
@@ -149,4 +149,5 @@
 
 
     </Grid>
+
 </Window>
