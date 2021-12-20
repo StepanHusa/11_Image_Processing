@@ -140,8 +140,8 @@
         <Label x:Name="loadedPdfLabel" Content="" Grid.Row="1" HorizontalAlignment="Center" Margin="0,351,0,0" Grid.Column="2" VerticalAlignment="Top"/>
 
         <Button Content="Reload" x:Name="reloadButton" HorizontalAlignment="Center" Margin="0,200,0,0" Grid.Row="1" VerticalAlignment="Center" IsEnabled="False"  Click="reloadButton_Click"  />
- 
 
+        <Grid x:Name="gridInvisible" />
 
 
     </Grid>

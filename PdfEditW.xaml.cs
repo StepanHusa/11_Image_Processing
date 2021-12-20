@@ -38,6 +38,8 @@ namespace _11_Image_Processing
         {
             InitializeComponent();
 
+            HideMenuTool();
+
 
             if (ST.projectFileName != null)
                 this.Title = ST.projectFileName;

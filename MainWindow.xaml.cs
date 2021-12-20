@@ -26,8 +26,11 @@ using ImageProcessor;
 using ImageProcessor.Imaging.Filters.EdgeDetection;
 using IronOcr;
 using System.Windows.Xps.Packaging;
-using System.Drawing.Printing;
+//using System.Drawing.Printing;
+//using System.Printing;
 //using Aspose.Pdf;
+using PdfPrintingNet;
+using Syncfusion.Windows.PdfViewer;
 
 namespace _11_Image_Processing
 {
@@ -96,6 +99,7 @@ namespace _11_Image_Processing
 
                     }
                 }
+
 
 
 
@@ -683,14 +687,234 @@ namespace _11_Image_Processing
 
         private void Menu_Print_Click(object sender, RoutedEventArgs e)
         {
-            PrintDocument printDoc = new();
-            System.Windows.Forms.PrintDialog print = new();
+            PdfPrintingNet.PdfPrint printDoc = new(string.Empty,string.Empty);
 
-            System.Windows.Forms.DialogResult result = print.ShowDialog();
+            //printDoc.Print(ST.tempFile);
+            //printDoc.
+            PdfViewerControl pdfViewerControl = new();
+            pdfViewerControl.Load(ST.tempFile);
+            gridInvisible.Children.Add(pdfViewerControl);
 
-            var document = new Aspose.Pdf.Document("template.pdf");
-            document.Save("output.xps", Aspose.Pdf.SaveFormat.Xps);
+            //Get the instance of the toolbar using its template name.
+            DocumentToolbar toolbar = pdfViewerControl.Template.FindName("PART_Toolbar", pdfViewerControl) as DocumentToolbar;
+
+            //Get the instance of the file menu button using its template name.
+            var MenuItem = (System.Windows.Controls.Primitives.ToggleButton)toolbar.Template.FindName("PART_FileToggleButton", toolbar);
+
+            //Get the instance of the file menu button context menu and the item collection.
+            ContextMenu FileContextMenu = MenuItem.ContextMenu;
+            foreach (MenuItem FileMenuItem in FileContextMenu.Items)
+            {
+                //Get the instance of the open menu item using its template name and disable its visibility.
+                if (FileMenuItem.Name == "PART_OpenMenuItem")
+                    FileMenuItem.Visibility = System.Windows.Visibility.Collapsed;
+                if (FileMenuItem.Name == "PART_SaveMenuItem")
+                    FileMenuItem.Visibility = System.Windows.Visibility.Collapsed;
+                if (FileMenuItem.Name == "PART_SaveAsMenuItem")
+                    FileMenuItem.Visibility = System.Windows.Visibility.Collapsed;
+                if (FileMenuItem.Name == "PART_PrintMenuItem")
+                {
+                    MouseButtonEventArgs revent = new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Right);
+                    revent.RoutedEvent = e.RoutedEvent;
+                    //find you control
+                    FileMenuItem.RaiseEvent(revent);
+                }
+
+            }
+
+            //PdfDocument doc = new PdfDocument();
+            //doc.LoadFromFile(FilePathandFileName);
+
+            ////Use the default printer to print all the pages 
+            ////doc.PrintDocument.Print(); 
+
+            ////Set the printer and select the pages you want to print 
+
+            //PrintDialog dialogPrint = new PrintDialog();
+            //dialogPrint.AllowPrintToFile = true;
+            //dialogPrint.AllowSomePages = true;
+            //dialogPrint.PrinterSettings.MinimumPage = 1;
+            //dialogPrint.PrinterSettings.MaximumPage = doc.Pages.Count;
+            //dialogPrint.PrinterSettings.FromPage = 1;
+            //dialogPrint.PrinterSettings.ToPage = doc.Pages.Count;
+
+            //if (dialogPrint.ShowDialog() == DialogResult.OK)
+            //{
+            //    //Set the pagenumber which you choose as the start page to print 
+            //    doc.PrintFromPage = dialogPrint.PrinterSettings.FromPage;
+            //    //Set the pagenumber which you choose as the final page to print 
+            //    doc.PrintToPage = dialogPrint.PrinterSettings.ToPage;
+            //    //Set the name of the printer which is to print the PDF 
+            //    doc.PrinterName = dialogPrint.PrinterSettings.PrinterName;
+
+            //    PrintDocument printDoc = doc.PrintDocument;
+            //    dialogPrint.Document = printDoc;
+            //    printDoc.Print();
+            //}
+
+
+
+
+
+            //string xps = Path.GetTempFileName();
+            //var document = new Aspose.Pdf.Document("template.pdf");
+            //document.Save(xps, Aspose.Pdf.SaveFormat.Xps);
+
+            //string xpsFileName = Path.GetFileName(xpsFilePath);
+
+            //prin
+
+            //try
+            //{
+            //    // The AddJob method adds a new print job for an XPS
+            //    // document into the print queue, and assigns a job name.
+            //    // Use fastCopy to skip XPS validation and progress notifications.
+            //    // If fastCopy is false, the thread that calls PrintQueue.AddJob
+            //    // must have a single-threaded apartment state.
+            //    PrintSystemJobInfo xpsPrintJob =
+            //            defaultPrintQueue.AddJob(jobName: xpsFileName, documentPath: xpsFilePath, fastCopy);
+
+            //    // If the queue is not paused and the printer is working, then jobs will automatically begin printing.
+            //    Debug.WriteLine($"Added {xpsFileName} to the print queue.");
+            //}
+            //catch (PrintJobException e)
+            //{
+            //    allAdded = false;
+            //    Debug.WriteLine($"Failed to add {xpsFileName} to the print queue: {e.Message}\r\n{e.InnerException}");
+            //}
+
         }
+
+        ///// <summary>
+        ///// Print all pages of an XPS document.
+        ///// Optionally, hide the print dialog window.
+        ///// </summary>
+        ///// <param name="xpsFilePath">Path to source XPS file</param>
+        ///// <param name="hidePrintDialog">Whether to hide the print dialog window (shown by default)</param>
+        ///// <returns>Whether the document printed</returns>
+        //public static bool PrintWholeDocument(string xpsFilePath, bool hidePrintDialog = false)
+        //{
+        //    // Create the print dialog object and set options.
+        //    PrintDialog printDialog = new();
+
+        //    if (!hidePrintDialog)
+        //    {
+        //        // Display the dialog. This returns true if the user presses the Print button.
+        //        bool? isPrinted = printDialog.ShowDialog();
+        //        if (isPrinted != true)
+        //            return false;
+        //    }
+
+        //    // Print the whole document.
+        //    try
+        //    {
+        //        // Open the selected document.
+        //        XpsDocument xpsDocument = new(xpsFilePath, FileAccess.Read);
+
+        //        // Get a fixed document sequence for the selected document.
+        //        FixedDocumentSequence fixedDocSeq = xpsDocument.GetFixedDocumentSequence();
+
+        //        // Create a paginator for all pages in the selected document.
+        //        DocumentPaginator docPaginator = fixedDocSeq.DocumentPaginator;
+
+        //        // Print to a new file.
+        //        printDialog.PrintDocument(docPaginator, $"Printing {Path.GetFileName(xpsFilePath)}");
+
+        //        return true;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        MessageBox.Show(e.Message);
+
+        //        return false;
+        //    }
+        //}
+        ///// <summary>
+        ///// Asyncronously, add a batch of XPS documents to the print queue using a PrintQueue.AddJob method.
+        ///// Handle the thread apartment state required by the PrintQueue.AddJob method.
+        ///// </summary>
+        ///// <param name="xpsFilePaths">A collection of XPS documents.</param>
+        ///// <param name="fastCopy">Whether to validate the XPS documents.</param>
+        ///// <returns>Whether all documents were added to the print queue.</returns>
+        //public static async Task<bool> BatchAddToPrintQueueAsync(IEnumerable<string> xpsFilePaths, bool fastCopy = false)
+        //{
+        //    bool allAdded = true;
+
+        //    // Queue some work to run on the ThreadPool.
+        //    // Wait for completion without blocking the calling thread.
+        //    await Task.Run(() =>
+        //    {
+        //        if (fastCopy)
+        //            allAdded = BatchAddToPrintQueue(xpsFilePaths, fastCopy);
+        //        else
+        //        {
+        //            // Create a thread to call the PrintQueue.AddJob method.
+        //            Thread newThread = new(() =>
+        //            {
+        //                allAdded = BatchAddToPrintQueue(xpsFilePaths, fastCopy);
+        //            });
+
+        //            // Set the thread to single-threaded apartment state.
+        //            newThread.SetApartmentState(ApartmentState.STA);
+
+        //            // Start the thread.
+        //            newThread.Start();
+
+        //            // Wait for thread completion. Blocks the calling thread,
+        //            // which is a ThreadPool thread.
+        //            newThread.Join();
+        //        }
+        //    });
+
+        //    return allAdded;
+        //}
+
+        ///// <summary>
+        ///// Add a batch of XPS documents to the print queue using a PrintQueue.AddJob method.
+        ///// </summary>
+        ///// <param name="xpsFilePaths">A collection of XPS documents.</param>
+        ///// <param name="fastCopy">Whether to validate the XPS documents.</param>
+        ///// <returns>Whether all documents were added to the print queue.</returns>
+        //public static bool BatchAddToPrintQueue(IEnumerable<string> xpsFilePaths, bool fastCopy)
+        //{
+        //    bool allAdded = true;
+
+        //    // To print without getting the "Save Output File As" dialog, ensure
+        //    // that your default printer is not the Microsoft XPS Document Writer,
+        //    // Microsoft Print to PDF, or other print-to-file option.
+
+        //    // Get a reference to the default print queue.
+        //    PrintQueue defaultPrintQueue = LocalPrintServer.GetDefaultPrintQueue();
+
+        //    // Iterate through the document collection.
+        //    foreach (string xpsFilePath in xpsFilePaths)
+        //    {
+        //        // Get document name.
+        //        string xpsFileName = Path.GetFileName(xpsFilePath);
+
+        //        try
+        //        {
+        //            // The AddJob method adds a new print job for an XPS
+        //            // document into the print queue, and assigns a job name.
+        //            // Use fastCopy to skip XPS validation and progress notifications.
+        //            // If fastCopy is false, the thread that calls PrintQueue.AddJob
+        //            // must have a single-threaded apartment state.
+        //            PrintSystemJobInfo xpsPrintJob =
+        //                    defaultPrintQueue.AddJob(jobName: xpsFileName, documentPath: xpsFilePath, fastCopy);
+
+        //            // If the queue is not paused and the printer is working, then jobs will automatically begin printing.
+        //            Debug.WriteLine($"Added {xpsFileName} to the print queue.");
+        //        }
+        //        catch (PrintJobException e)
+        //        {
+        //            allAdded = false;
+        //            Debug.WriteLine($"Failed to add {xpsFileName} to the print queue: {e.Message}\r\n{e.InnerException}");
+        //        }
+        //    }
+
+        //    return allAdded;
+        //}
+
     }
 }
 
