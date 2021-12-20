@@ -60,7 +60,7 @@ namespace _11_Image_Processing
             {
                 HotkeysManager.SetupSystemHook();
                 //add individual hotkyes
-                HotkeysManager.AddHotkey(ModifierKeys.Control, Key.E, () => { Menu_Edit_AddBoxex_Click(new object(),new RoutedEventArgs()); });
+                HotkeysManager.AddHotkey(ModifierKeys.Control, Key.E, () => {if(Menu_Edit.IsEnabled) Menu_Edit_AddBoxex_Click(new object(),new RoutedEventArgs()); });
 
 
             }
@@ -75,8 +75,8 @@ namespace _11_Image_Processing
                 //Menu_Load_New_Click(new object(), new RoutedEventArgs());
                 //Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
 
-                //LoadDataFromFile(debugFolder + "\\01" + ST.projectExtension);
-                LoadDataFromFile(debugFolder + "\\02" + ST.projectExtension);
+                LoadDataFromFile(debugFolder + "\\01" + ST.projectExtension);
+                //LoadDataFromFile(debugFolder + "\\02" + ST.projectExtension);
 
                 //Menu_Save_Project.IsEnabled = true;
 
@@ -101,7 +101,7 @@ namespace _11_Image_Processing
                 }
 
 
-
+                //new ImportPicturesDialogW(11).ShowDialog();
 
                 //rec debug
                 //{
@@ -164,7 +164,6 @@ namespace _11_Image_Processing
             // you dont, but it might cause a memory leak.
             HotkeysManager.ShutdownSystemHook();
         }
-
 
         private void MyCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
@@ -434,8 +433,7 @@ namespace _11_Image_Processing
 
             ST.scansInPagesInWorks = new();
             ST.scansInPagesInWorks.Add(new());
-            ST.scansInPagesInWorks[0][0] = new Bitmap(open.FileName);
-            
+            ST.scansInPagesInWorks[0][0] = new Bitmap(open.FileName);            
         }
         private void Menu_Read_ListOfScans_OnePage_Click(object sender, RoutedEventArgs e)
         {
@@ -447,24 +445,42 @@ namespace _11_Image_Processing
             {
                 ST.scansInPagesInWorks.Add(new());
                 ST.scansInPagesInWorks[l + i].Add(new Bitmap(open.FileNames[i]));
-            }
-
-
-
-
+            }   
         }
         private void Menu_Read_ListOfScans_OnePdf_Click(object sender, RoutedEventArgs e)
         {
-            var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"File Template(*.PDF)|*.PDF"};
+            var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"File Template(*.PDF)|*.PDF"}; 
             if (open.ShowDialog() == false) return;
 
             //TODO 03 get better dialog and finish loading of the file
             //and make text property to show its loaded
-            var d = new dialogWindows.ChoiceDialogTemplate();
-            d.ShowDialog();
+
 
             
         }
+        private void Menu_Read_ListOfScans_Dialog_Click(object sender, RoutedEventArgs e)
+        {
+            var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; //TODO make for images (maybe make method for strings)
+            if (open.ShowDialog() == false) return;
+            var a = new ImportPicturesDialogW(open.FileNames.Count());
+            if (a.ShowDialog() != true) return;
+            int[] da = a.Answer;
+
+            List<List<Bitmap>> works = new();
+            int ii = 0;
+            for (int i = 0; i < da.Length; i++)
+            {
+                works.Add(new());
+                for (int j = 0; j < da[i]; j++)
+                {
+                    works[i].Add(new Bitmap(open.FileNames[ii]));
+                    ii++;
+                }
+            }
+
+            ST.scansInPagesInWorks = works;
+        }
+
         //Print
         private void Menu_Export_ToJPEG_Click(object sender, RoutedEventArgs e)
         {
@@ -506,47 +522,47 @@ namespace _11_Image_Processing
             //ST.resultsInQuestionsInWorks = ST.scansInPagesInWorks.EvaluateWorks(ST.boxesInQuestions, new PdfLoadedDocument(ST.tempFile).GetSizesOfPages());
             new ViewResultW().Show();
 
-            string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
-            string s = debugFolder + "\\s\\1.bmp";
-            string f = debugFolder + "\\maxresdefault.jpg";
-            string g = debugFolder + "\\02c.bmp";
+            //string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
+            //string s = debugFolder + "\\s\\1.bmp";
+            //string f = debugFolder + "\\maxresdefault.jpg";
+            //string g = debugFolder + "\\02c.bmp";
 
 
-            byte[] photoBytes = File.ReadAllBytes(s);
-            // Format is automatically detected though can be changed.
-            System.Drawing.Size size = new System.Drawing.Size(500, 0);
+            //byte[] photoBytes = File.ReadAllBytes(s);
+            //// Format is automatically detected though can be changed.
+            //System.Drawing.Size size = new System.Drawing.Size(500, 0);
 
-            using (MemoryStream inStream = new MemoryStream(photoBytes))
-            {
-                using (MemoryStream outStream = new MemoryStream())
-                {
-                    // Initialize the ImageFactory using the overload to preserve EXIF metadata.
-                    using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
-                    {
-                        // Load, resize, set the format and quality and save an image.
-                        imageFactory.Load(inStream)
-                                    .DetectEdges(new Laplacian3X3EdgeFilter())
-                                    .Resize(size)
-                                    .Save(g);
-                    }
-                }
-            }
+            //using (MemoryStream inStream = new MemoryStream(photoBytes))
+            //{
+            //    using (MemoryStream outStream = new MemoryStream())
+            //    {
+            //        // Initialize the ImageFactory using the overload to preserve EXIF metadata.
+            //        using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
+            //        {
+            //            // Load, resize, set the format and quality and save an image.
+            //            imageFactory.Load(inStream)
+            //                        .DetectEdges(new Laplacian3X3EdgeFilter())
+            //                        .Resize(size)
+            //                        .Save(g);
+            //        }
+            //    }
+            //}
 
 
-            var Ocr = new IronTesseract();
-            using (var input = new OcrInput())
-            {
-                //input.AddPdf("example.pdf", "password");
-                //input.AddMultiFrameTiff("multi-frame.tiff");
-                //input.AddImage("image1.png");
-                input.AddImage(s);
-                //... many more
-                var Result = Ocr.Read(input);
+            //var Ocr = new IronTesseract();
+            //using (var input = new OcrInput())
+            //{
+            //    //input.AddPdf("example.pdf", "password");
+            //    //input.AddMultiFrameTiff("multi-frame.tiff");
+            //    //input.AddImage("image1.png");
+            //    input.AddImage(s);
+            //    //... many more
+            //    var Result = Ocr.Read(input);
 
-                Debug.WriteLine(Result.Text);
-                Debug.WriteLine(Result.Confidence);
+            //    Debug.WriteLine(Result.Text);
+            //    Debug.WriteLine(Result.Confidence);
 
-            }
+            //}
 
 
         }
@@ -683,44 +699,16 @@ namespace _11_Image_Processing
             Menu_Eavluate.IsEnabled = false;
         }
 
-
-
         private void Menu_Print_Click(object sender, RoutedEventArgs e)
         {
-            PdfPrintingNet.PdfPrint printDoc = new(string.Empty,string.Empty);
+            //PdfPrintingNet.PdfPrint printDoc = new(string.Empty,string.Empty);
 
             //printDoc.Print(ST.tempFile);
             //printDoc.
-            PdfViewerControl pdfViewerControl = new();
-            pdfViewerControl.Load(ST.tempFile);
-            gridInvisible.Children.Add(pdfViewerControl);
 
-            //Get the instance of the toolbar using its template name.
-            DocumentToolbar toolbar = pdfViewerControl.Template.FindName("PART_Toolbar", pdfViewerControl) as DocumentToolbar;
 
-            //Get the instance of the file menu button using its template name.
-            var MenuItem = (System.Windows.Controls.Primitives.ToggleButton)toolbar.Template.FindName("PART_FileToggleButton", toolbar);
 
-            //Get the instance of the file menu button context menu and the item collection.
-            ContextMenu FileContextMenu = MenuItem.ContextMenu;
-            foreach (MenuItem FileMenuItem in FileContextMenu.Items)
-            {
-                //Get the instance of the open menu item using its template name and disable its visibility.
-                if (FileMenuItem.Name == "PART_OpenMenuItem")
-                    FileMenuItem.Visibility = System.Windows.Visibility.Collapsed;
-                if (FileMenuItem.Name == "PART_SaveMenuItem")
-                    FileMenuItem.Visibility = System.Windows.Visibility.Collapsed;
-                if (FileMenuItem.Name == "PART_SaveAsMenuItem")
-                    FileMenuItem.Visibility = System.Windows.Visibility.Collapsed;
-                if (FileMenuItem.Name == "PART_PrintMenuItem")
-                {
-                    MouseButtonEventArgs revent = new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Right);
-                    revent.RoutedEvent = e.RoutedEvent;
-                    //find you control
-                    FileMenuItem.RaiseEvent(revent);
-                }
 
-            }
 
             //PdfDocument doc = new PdfDocument();
             //doc.LoadFromFile(FilePathandFileName);
@@ -754,12 +742,31 @@ namespace _11_Image_Processing
 
 
 
+            PdfLoadedDocument doc = new(ST.tempFile);
+            
 
 
-            //string xps = Path.GetTempFileName();
-            //var document = new Aspose.Pdf.Document("template.pdf");
-            //document.Save(xps, Aspose.Pdf.SaveFormat.Xps);
+            PrintDialog printDialog = new() { SelectedPagesEnabled = true, UserPageRangeEnabled=true, CurrentPageEnabled=true};
+            if (printDialog.ShowDialog() != true) return;
 
+            string xps = Path.GetTempFileName();
+            var document = new Aspose.Pdf.Document(ST.tempFile);
+            document.Save(xps, Aspose.Pdf.SaveFormat.Xps);
+
+            // Open the selected document.
+            XpsDocument xpsDocument = new(xps, FileAccess.Read);
+
+            // Get a fixed document sequence for the selected document.
+            FixedDocumentSequence fixedDocSeq = xpsDocument.GetFixedDocumentSequence();
+
+            // Create a paginator for all pages in the selected document.
+            DocumentPaginator docPaginator = fixedDocSeq.DocumentPaginator;
+
+            // Print to a new file.
+            printDialog.PrintDocument(docPaginator, $"Printing {ST.fileName}");
+
+
+            File.Delete(xps);
             //string xpsFileName = Path.GetFileName(xpsFilePath);
 
             //prin
@@ -784,6 +791,7 @@ namespace _11_Image_Processing
             //}
 
         }
+
 
         ///// <summary>
         ///// Print all pages of an XPS document.
@@ -925,3 +933,4 @@ namespace _11_Image_Processing
 //TODO make the image loading and exporting work
 //TODO work on the recognasing 
 //TODO add help and settings
+//TODO make the editor react on alt key

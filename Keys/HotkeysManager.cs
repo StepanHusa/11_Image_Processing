@@ -107,8 +107,9 @@ namespace _11_Image_Processing
             {
                 if (Keyboard.Modifiers != ModifierKeys.None)
                 {
-                    foreach (GlobalHotkey hotkey in Hotkeys)
+                    for (int i = 0; i < Hotkeys.Count; i++)
                     {
+                        var hotkey = Hotkeys[i];
                         Console.WriteLine(Keyboard.IsKeyDown(hotkey.Key).ToString());
                         //this now checks to see if the new "pressed" field in the hotkey is set to true. if so, then this won't execute again until you've released it
 

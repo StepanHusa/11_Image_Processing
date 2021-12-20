@@ -49,6 +49,9 @@ namespace _11_Image_Processing
         internal static List<string> versions = new();
 
 
+        internal static int pagesOfDocument { get {return new PdfLoadedDocument(tempFile).Pages.Count; } }
+
+
 
 
         //changing variables

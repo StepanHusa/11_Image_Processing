@@ -38,8 +38,6 @@ namespace _11_Image_Processing
         {
             InitializeComponent();
 
-            HideMenuTool();
-
 
             if (ST.projectFileName != null)
                 this.Title = ST.projectFileName;
@@ -51,6 +49,16 @@ namespace _11_Image_Processing
 
             pdfViewControl.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
             pdfViewControl.ScrollChanged += Pdfwcontrol_ScrollChanged;
+
+
+            //Hotkeys
+            {
+                HotkeysManager.SetupSystemHook();
+                //add individual hotkyes
+                HotkeysManager.AddHotkey(ModifierKeys.None, Key.Escape, () => { Close(); });
+
+            }
+
         }
 
         private void Pdfwcontrol_ScrollChanged(object sender, ScrollChangedEventArgs args)
@@ -87,9 +95,39 @@ namespace _11_Image_Processing
             doc.Pages.Add();
 
             ReloadDocument();
+            File.Copy(ST.tempFile, ST.tempFileCopy,true);
 
             pdfViewControl.ScrollTo(offset);
             pdfViewControl.Zoom = zoom * 100;
+        }
+        private void deletePage_Click(object sender, RoutedEventArgs e)
+        {
+            double zoom = pdfViewControl.ZoomPercentage / 100.0;
+            var doc = pdfViewControl.LoadedDocument;
+
+            doc.Pages.RemoveAt(pdfViewControl.CurrentPage-1);
+
+            var l = ST.boxesInQuestions;
+            for (int i = l.Count-1; i >-1; i--)
+            {
+                if (l[i][0].Item1 == pdfViewControl.CurrentPage - 1)
+                {
+                    l.RemoveAt(i);
+                }
+                else if (l[i][0].Item1 > pdfViewControl.CurrentPage - 1)
+                    for (int j = 0; j < l[i].Count; j++)
+                    {
+                        l[i][j] = new(l[i][j].Item1 - 1, l[i][j].Item2, l[i][j].Item3);
+                    } //deosn't acount for the case where question can be on more than one page
+            }
+
+            ReloadDocument();
+            File.Copy(ST.tempFile, ST.tempFileCopy,true);
+
+
+            pdfViewControl.ScrollTo(offset);
+            pdfViewControl.Zoom = zoom * 100;
+
         }
         private void C_Click(object sender, RoutedEventArgs e)
         {
@@ -561,6 +599,10 @@ namespace _11_Image_Processing
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             pdfViewControl.LoadedDocument.Save(ST.tempFile);
+        }
+        private void CloseCommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
