@@ -40,7 +40,7 @@
     </Grid>
     <Window.Resources>
         <ContextMenu x:Key="contextMenu">
-            <MenuItem x:Name="a"  Header="_Box" IsCheckable="True" Click="A_Click"/>
+            <MenuItem x:Name="a"  Header="_Box" IsCheckable="True" Checked="A_Click"/>
             <MenuItem x:Name="b"  Header="_Field" IsCheckable="True" Click="B_Click"/>
             <MenuItem x:Name="Menu_NewPage" Header="_New Page" Click="Menu_NewPage_Click"/>
             <MenuItem x:Name="deletePage" Header="_Delete Current Page" Click="deletePage_Click"/>

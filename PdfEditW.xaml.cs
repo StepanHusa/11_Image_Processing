@@ -29,10 +29,11 @@ namespace _11_Image_Processing
     public partial class PdfEditW : Window
     {
 
-        double offset;
+       private double offset;
         private bool drawingRectangle;
         private PageMouseMoveEventArgs argsFirstVertex;
         private System.Windows.Point locFirstVertex;
+        private Action<object, PageClickedEventArgs> pageClickedHandler;
 
         public PdfEditW()
         {
@@ -48,8 +49,7 @@ namespace _11_Image_Processing
             pdfViewControl.MaximumZoomPercentage = 6400;
 
             pdfViewControl.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
-            pdfViewControl.ScrollChanged += (sender,args)=> offset = args.VerticalOffset; 
-
+            pdfViewControl.ScrollChanged += (sender,args)=> offset = args.VerticalOffset;
 
             //Hotkeys
             {
@@ -67,6 +67,8 @@ namespace _11_Image_Processing
             cm.IsOpen = true;
         }
 
+
+        //TODO remake for checked and unchecked and rout event hendlers to it and make the alt function
         private void A_Click(object sender, RoutedEventArgs e)
         {
             UncheckAllOthers(sender);
@@ -75,7 +77,7 @@ namespace _11_Image_Processing
             //else
             //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_A;
 
-        }
+        } 
         private void B_Click(object sender, RoutedEventArgs e)
         {
             UncheckAllOthers(sender);
@@ -209,9 +211,9 @@ namespace _11_Image_Processing
             var cm = mItem.Parent as ContextMenu;
             foreach (MenuItem item in cm.Items)
             {
-                item.IsChecked = false;
+                if(item!=contextMenuItem)
+                    item.IsChecked = false;
             }
-            mItem.IsChecked = true;
 
             pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_A;
             pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_B;
@@ -666,25 +668,34 @@ namespace _11_Image_Processing
             Close();
         }
 
-            private System.ComponentModel.EventHandlerList eventListPageClicked=new();
-            private void Window_KeyDown(object sender, KeyEventArgs e)
-            {
-                if (e.Key == Key.LeftAlt)
-                {
-                    //eventListPageClicked.AddHandler()
-                    
 
-                }
-
-            }
-
-            private void Window_KeyUp(object sender, KeyEventArgs e)
-            {
-
-            }
-        class KeyChanges
+        private List<MenuItem> chacked = new();
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.LeftAlt)
+            {
+                ContextMenu cm = (ContextMenu)Resources["contextMenu"];
+                foreach (MenuItem item in cm.Items)
+                    if (item.IsChecked)
+                    {
+                        chacked.Add(item);
+                        item.IsChecked = false;
+                    }
+            }
 
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+            {
+            if (e.Key == Key.LeftAlt)
+            {
+                ContextMenu cm = (ContextMenu)Resources["contextMenu"];
+                foreach (var item in chacked)
+                {
+                    item.IsChecked = true;
+                }
+                chacked = new();
+            }
         }
     }
 }
