@@ -48,7 +48,7 @@ namespace _11_Image_Processing
             pdfViewControl.MaximumZoomPercentage = 6400;
 
             pdfViewControl.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
-            pdfViewControl.ScrollChanged += Pdfwcontrol_ScrollChanged;
+            pdfViewControl.ScrollChanged += (sender,args)=> offset = args.VerticalOffset; 
 
 
             //Hotkeys
@@ -61,10 +61,6 @@ namespace _11_Image_Processing
 
         }
 
-        private void Pdfwcontrol_ScrollChanged(object sender, ScrollChangedEventArgs args)
-        {
-            offset = args.VerticalOffset;
-        }
         private void Pdfwcontrol_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             ContextMenu cm = (ContextMenu)Resources["contextMenu"];
@@ -73,18 +69,21 @@ namespace _11_Image_Processing
 
         private void A_Click(object sender, RoutedEventArgs e)
         {
-            if((sender as MenuItem).IsChecked) 
+            UncheckAllOthers(sender);
+                if ((sender as MenuItem).IsChecked) 
                 pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_A;
-            else
-                pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_A;
+            //else
+            //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_A;
 
         }
         private void B_Click(object sender, RoutedEventArgs e)
         {
+            UncheckAllOthers(sender);
+
             if ((sender as MenuItem).IsChecked)
                 pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_B;
-            else
-                pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_B;
+            //else
+            //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_B;
 
         }
         private void Menu_NewPage_Click(object sender, RoutedEventArgs e)
@@ -131,44 +130,102 @@ namespace _11_Image_Processing
         }
         private void C_Click(object sender, RoutedEventArgs e)
         {
+            UncheckAllOthers(sender);
+
             if ((sender as MenuItem).IsChecked)
             {
                 pdfViewControl.PageMouseMove += PdfViewControl_PageMouseMove_C;
                 rectangleR.Visibility = Visibility.Visible;
                 pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_A;
             }
-            else
-            {
-                pdfViewControl.PageMouseMove -= PdfViewControl_PageMouseMove_C;
-                rectangleR.Visibility = Visibility.Hidden;
-                pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_A;
-            }
+            //else
+            //{
+            //    pdfViewControl.PageMouseMove -= PdfViewControl_PageMouseMove_C;
+            //    rectangleR.Visibility = Visibility.Hidden;
+            //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_A;
+            //}
 
         }
         private void D_Click(object sender, RoutedEventArgs e)
         {
+            UncheckAllOthers(sender);
+
             if ((sender as MenuItem).IsChecked)
                 pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_D;
-            else
-                pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_D;
+            //else
+            //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_D;
 
         }
         private void E_Click(object sender, RoutedEventArgs e)
         {
+            UncheckAllOthers(sender);
+
             if ((sender as MenuItem).IsChecked)
                 pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_E;
-            else
-                pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_E;
+            //else
+            //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_E;
 
         }
         private void toogleAn_Click(object sender, RoutedEventArgs e)
         {
+            UncheckAllOthers(sender);
+
             if ((sender as MenuItem).IsChecked)
                 pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_Tog;
-            else
-                pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_Tog;
+            //else
+            //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_Tog;
 
         }
+        private void nameField_Click(object sender, RoutedEventArgs e)
+        {
+            UncheckAllOthers(sender);
+
+            if ((sender as MenuItem).IsChecked)
+                pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_name;
+            //else
+            //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_name;
+        }
+
+        private void UncheckAll(ContextMenu contextmenu)
+        {
+            foreach (MenuItem item in contextmenu.Items)
+            {
+                item.IsChecked = false;
+            }
+            pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_A;
+            pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_B;
+            pdfViewControl.PageMouseMove -= PdfViewControl_PageMouseMove_C;
+            rectangleR.Visibility = Visibility.Hidden;
+            pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_D;
+            pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_E;
+            pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_Tog;
+            pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_name;
+
+
+        }
+        private void UncheckAllOthers(object contextMenuItem)
+        {
+            var mItem = contextMenuItem as MenuItem;
+            var cm = mItem.Parent as ContextMenu;
+            foreach (MenuItem item in cm.Items)
+            {
+                item.IsChecked = false;
+            }
+            mItem.IsChecked = true;
+
+            pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_A;
+            pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_B;
+            pdfViewControl.PageMouseMove -= PdfViewControl_PageMouseMove_C;
+            rectangleR.Visibility = Visibility.Hidden;
+            pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_D;
+            pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_E;
+            pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_Tog;
+            pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_name;
+
+
+        }
+
+
 
 
         private void Pdfwcontrol_PageClicked_A(object sender, PageClickedEventArgs args)
@@ -330,6 +387,10 @@ namespace _11_Image_Processing
                         }
 
 
+        }
+        private void Pdfwcontrol_PageClicked_name(object sender, PageClickedEventArgs args)
+        {
+            //throw new NotImplementedException();
         }
 
         private void PdfViewControl_PageMouseMove(object sender, PageMouseMoveEventArgs args)
@@ -603,6 +664,27 @@ namespace _11_Image_Processing
         private void CloseCommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
             Close();
+        }
+
+            private System.ComponentModel.EventHandlerList eventListPageClicked=new();
+            private void Window_KeyDown(object sender, KeyEventArgs e)
+            {
+                if (e.Key == Key.LeftAlt)
+                {
+                    //eventListPageClicked.AddHandler()
+                    
+
+                }
+
+            }
+
+            private void Window_KeyUp(object sender, KeyEventArgs e)
+            {
+
+            }
+        class KeyChanges
+        {
+
         }
     }
 }

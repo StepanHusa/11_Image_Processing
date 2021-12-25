@@ -14,6 +14,8 @@ using System.Windows.Controls;
 using ImageProcessor;
 using ImageProcessor.Imaging;
 using System.Drawing.Imaging;
+using System.Reflection;
+using System.ComponentModel;
 //using System.Windows.Media.Imaging;
 
 namespace _11_Image_Processing
@@ -437,6 +439,29 @@ namespace _11_Image_Processing
                 return sw.ToString();
             }
         }
+        public static string ToOFDFilter(this string[] extensionsWithoutDot)
+        {
+            string s = "All files(*.*) | *.*";
+            foreach (var ext in extensionsWithoutDot)
+            {
+                s += $"|(*.{ext})|*.{ext}";
+            
+            }
+            return s;
+        }
+        public static string ToOFDFilter(this string[] extensionsWithoutDot, string[] comments)
+        {
+            string s = "All files(*.*) | *.*";
+            Array.Resize(ref comments, extensionsWithoutDot.Length);
+            for (int i = 0; i < extensionsWithoutDot.Length; i++)
+            {
+
+               s += $"|{comments[i]}(*.{extensionsWithoutDot[i]})|*.{extensionsWithoutDot[i]}";
+
+            }
+            return s;
+        }
+
     }
 
     static class Conversions
@@ -670,6 +695,20 @@ namespace _11_Image_Processing
             //}
 
             return b;
+        }
+    }
+    static class EventHandlerExtensions
+    {
+        //not working
+        public static void RemoveAllEventHandlers(this Control b)
+        {
+            FieldInfo f1 = typeof(Control).GetField("EventPageClick", BindingFlags.Static | BindingFlags.NonPublic);
+
+            object obj = f1.GetValue(b);
+            PropertyInfo pi = b.GetType().GetProperty("Events", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            EventHandlerList list = (EventHandlerList)pi.GetValue(b, null);
+            list.RemoveHandler(obj, list[obj]);
         }
     }
 }

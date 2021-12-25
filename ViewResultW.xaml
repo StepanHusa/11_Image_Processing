@@ -5,10 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_11_Image_Processing"
         mc:Ignorable="d"    
-        Title="ViewResultW" Height="1000" Width="800">
+        Title="ViewResultW" Height="900" Width="1600">
+
     <Grid>
-        <TabControl x:Name="tabsHorizontal" >
-        </TabControl>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="800"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TabControl x:Name="tabsHorizontal" Grid.Column="0" />
+
     </Grid>
 </Window>

@@ -40,7 +40,7 @@ namespace _11_Image_Processing
     public partial class MainWindow : Window
     {
 
-        
+
         public MainWindow()
         {
 
@@ -60,7 +60,7 @@ namespace _11_Image_Processing
             {
                 HotkeysManager.SetupSystemHook();
                 //add individual hotkyes
-                HotkeysManager.AddHotkey(ModifierKeys.Control, Key.E, () => {if(Menu_Edit.IsEnabled) Menu_Edit_AddBoxex_Click(new object(),new RoutedEventArgs()); });
+                HotkeysManager.AddHotkey(ModifierKeys.Control, Key.E, () => { if (Menu_Edit.IsEnabled) Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs()); });
 
 
             }
@@ -94,8 +94,8 @@ namespace _11_Image_Processing
                     ST.scansInPagesInWorks.Add(new());
                     for (int j = 0; j < 6; j++)
                     {
-                        string h = s + (i*6+j) + ".bmp";
-                        ST.scansInPagesInWorks[i+1].Add(new Bitmap(h));
+                        string h = s + (i * 6 + j) + ".bmp";
+                        ST.scansInPagesInWorks[i + 1].Add(new Bitmap(h));
 
                     }
                 }
@@ -185,7 +185,7 @@ namespace _11_Image_Processing
         }
         private void Menu_Load_Word_Click(object sender, RoutedEventArgs e)
         {
-            var open = new OpenFileDialog() { Title = "Open Word Doc",Filter= "Word Document(*.doc;*docx)|*.doc;*docx" };
+            var open = new OpenFileDialog() { Title = "Open Word Doc", Filter = "Word Document(*.doc;*docx)|*.doc;*docx" };
             if (!(bool)open.ShowDialog()) return;
 
             Word2Pdf objWorPdf = new Word2Pdf();
@@ -201,12 +201,12 @@ namespace _11_Image_Processing
                 objWorPdf.OutputLocation = ToLocation;
                 objWorPdf.Word2PdfCOnversion();
             }
-            else { MessageBox.Show("Invalid Input");return; }
+            else { MessageBox.Show("Invalid Input"); return; }
 
             LoadDocument(ToLocation);
         }
 
-        private void LoadDocument (string fileName)
+        private void LoadDocument(string fileName)
         {
             var dir = ST.tempDirectoryName;
             if (!Directory.Exists(dir))
@@ -242,7 +242,7 @@ namespace _11_Image_Processing
         //open
         private void Menu_Open_Project_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog open =new() { Title = "Open Template", Filter = $"File Template(*{ST.projectExtension})|*{ST.projectExtension}" };
+            OpenFileDialog open = new() { Title = "Open Template", Filter = $"File Template(*{ST.projectExtension})|*{ST.projectExtension}" };
             if (open.ShowDialog() == false) return;
 
             LoadDataFromFile(open.FileName);
@@ -268,7 +268,7 @@ namespace _11_Image_Processing
         {
             ST.versions.Add(DateTime.Now.ToStringOfRegularFormat());
 
-            SaveFileDialog save = new() { Title = "Save Template", Filter = $"File Template(*{ST.projectExtension})|*{ST.projectExtension}", FileName=ST.projectName};
+            SaveFileDialog save = new() { Title = "Save Template", Filter = $"File Template(*{ST.projectExtension})|*{ST.projectExtension}", FileName = ST.projectName };
             if (save.ShowDialog() == false) return;
 
             SaveDataToFile(save.FileName);
@@ -292,8 +292,8 @@ namespace _11_Image_Processing
             if (save.ShowDialog() == false) return;
 
 
-            File.Copy(ST.tempFile,save.FileName,true);
-            File.Copy(ST.tempFile, ST.tempFileCopy,true);
+            File.Copy(ST.tempFile, save.FileName, true);
+            File.Copy(ST.tempFile, ST.tempFileCopy, true);
         }
 
         private void SaveDataToFile(string fileName)
@@ -310,9 +310,9 @@ namespace _11_Image_Processing
             int listFLength = listOfFieldsArray.Length;//int 32
 
 
-            using(MemoryStream ms = new())
+            using (MemoryStream ms = new())
             {
-                using(BinaryWriter bw = new(ms))
+                using (BinaryWriter bw = new(ms))
                 {
                     bw.Write(FormatCode);
                     //bw.Write(listPLength);
@@ -327,7 +327,7 @@ namespace _11_Image_Processing
 
 
                 }
-                File.WriteAllBytes(fileName,ms.ToArray());
+                File.WriteAllBytes(fileName, ms.ToArray());
             }
 
 
@@ -377,7 +377,7 @@ namespace _11_Image_Processing
             }
             //get hash of created files
             byte[] hashNew;
-            using (MemoryStream ms = new()) 
+            using (MemoryStream ms = new())
             {
                 using (BinaryWriter bw = new(ms))
                 {
@@ -411,7 +411,7 @@ namespace _11_Image_Processing
             string tempCopy = dir + "tmp" + fn + "COPY" + ".pdf";
 
 
-            File.WriteAllBytes(tempPdf, documentpdf); 
+            File.WriteAllBytes(tempPdf, documentpdf);
             File.WriteAllBytes(tempCopy, documentpdf);
 
             ST.tempFile = tempPdf;
@@ -433,7 +433,7 @@ namespace _11_Image_Processing
 
             ST.scansInPagesInWorks = new();
             ST.scansInPagesInWorks.Add(new());
-            ST.scansInPagesInWorks[0][0] = new Bitmap(open.FileName);            
+            ST.scansInPagesInWorks[0][0] = new Bitmap(open.FileName);
         }
         private void Menu_Read_ListOfScans_OnePage_Click(object sender, RoutedEventArgs e)
         {
@@ -445,11 +445,11 @@ namespace _11_Image_Processing
             {
                 ST.scansInPagesInWorks.Add(new());
                 ST.scansInPagesInWorks[l + i].Add(new Bitmap(open.FileNames[i]));
-            }   
+            }
         }
         private void Menu_Read_ListOfScans_OnePdf_Click(object sender, RoutedEventArgs e)
         {
-            var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"File Template(*.PDF)|*.PDF"}; 
+            var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = new string[1]{ "pdf" }.ToOFDFilter(new string[1] { "Pdf File" }), FilterIndex = 1 };
             if (open.ShowDialog() == false) return;
 
             //TODO 03 get better dialog and finish loading of the file
@@ -458,9 +458,10 @@ namespace _11_Image_Processing
 
             
         }
-        private void Menu_Read_ListOfScans_Dialog_Click(object sender, RoutedEventArgs e)
+    private void Menu_Read_ListOfScans_Dialog_Click(object sender, RoutedEventArgs e)
         {
-            var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; //TODO make for images (maybe make method for strings)
+            // var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; //TODO make for images (maybe make method for strings)
+            var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };
             if (open.ShowDialog() == false) return;
             var a = new ImportPicturesDialogW(open.FileNames.Count());
             if (a.ShowDialog() != true) return;
@@ -930,7 +931,6 @@ namespace _11_Image_Processing
 //TODO update the save project property 
 //  (add saving preferences)
 
-//TODO make the image loading and exporting work
 //TODO work on the recognasing 
 //TODO add help and settings
 //TODO make the editor react on alt key
