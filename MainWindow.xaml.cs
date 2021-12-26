@@ -76,8 +76,8 @@ namespace _11_Image_Processing
                 //Menu_Load_New_Click(new object(), new RoutedEventArgs());
                 //Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
 
-                LoadDataFromFile(debugFolder + "\\01" + ST.projectExtension);
-                //LoadDataFromFile(debugFolder + "\\02" + ST.projectExtension);
+                //LoadDataFromFile(debugFolder + "\\01" + ST.projectExtension);
+                LoadDataFromFile(debugFolder + "\\02" + ST.projectExtension);
 
                 //Menu_Save_Project.IsEnabled = true;
 
@@ -88,7 +88,7 @@ namespace _11_Image_Processing
 
 
                 ST.scansInPagesInWorks.Add(new());
-                ST.scansInPagesInWorks[0].Add(new Bitmap(debugFolder + "\\02.png"));
+                ST.scansInPagesInWorks[0].Add(new Bitmap(debugFolder + "\\02(0).png"));
 
                 for (int i = 0; i < 5; i++)
                 {
@@ -531,6 +531,8 @@ namespace _11_Image_Processing
         private void Menu_Eavluate_Click(object sender, RoutedEventArgs e)
         {
             //ST.resultsInQuestionsInWorks = ST.scansInPagesInWorks.EvaluateWorks(ST.boxesInQuestions, new PdfLoadedDocument(ST.tempFile).GetSizesOfPages());
+
+           ST.scansInPagesInWorks.EvaluateWorks(ST.boxesInQuestions);
             new ViewResultW().Show();
 
             //string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
@@ -665,10 +667,11 @@ namespace _11_Image_Processing
         }
         private void Unload()
         {
-            ST.pagesFields = null;
-            ST.boxesInQuestions = null;
+            ST.nameField = null;
+            ST.pagesFields = new();
+            ST.boxesInQuestions = new();
             ST.resultsInQuestionsInWorks = null;
-            ST.scansInPagesInWorks = null;
+            ST.scansInPagesInWorks = new();
 
             reloadButton.IsEnabled = false;
             this.Activated -= Window_Activated;
@@ -681,8 +684,7 @@ namespace _11_Image_Processing
             ST.projectName = ST.templateProjectName;
             ST.projectFileName = null;
             ST.fileName = null;
-            ST.boxesInQuestions = null;
-            ST.versions = null;
+            ST.versions = new();
 
 
             projecttext.Text = string.Empty;
@@ -949,4 +951,3 @@ namespace _11_Image_Processing
 
 //TODO work on the recognasing 
 //TODO add help and settings
-//TODO make the editor react on alt key

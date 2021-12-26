@@ -24,21 +24,21 @@ namespace _11_Image_Processing
     public static class PdfExtensions
     {
 
-        public static PdfLoadedDocument AddRectangleAt(this PdfLoadedDocument doc, int pageint, RectangleF rect)
-        {
-            var page = doc.Pages[pageint];
+        //public static PdfLoadedDocument AddRectangleAt(this PdfLoadedDocument doc, int pageint, RectangleF rect)
+        //{
+        //    var page = doc.Pages[pageint];
 
-            //PdfSolidBrush brush =new(Color.White);
-            //RectangleF bounds = rect;
+        //    //PdfSolidBrush brush =new(Color.White);
+        //    //RectangleF bounds = rect;
 
 
-            //page.Graphics.DrawRectangle(brush, bounds);
+        //    //page.Graphics.DrawRectangle(brush, bounds);
 
-            doc.DrawRectangleBounds(rect, pageint);
+        //    //doc.DrawRectangleBounds(rect, pageint);
 
-            return doc;
+        //    return doc;
 
-        }
+        //}
 
 
 
@@ -175,13 +175,12 @@ namespace _11_Image_Processing
         }
 
 
-        public static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rectangle, int pageint, bool SecondColor=false)
+        public static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rect, int pageint, bool SecondColor=false)
         {
-
-            //TODO get rectangle relative
             var page = doc.Pages[pageint];
             var w = ST.baundWidth/2;
-            PointF[] vertexes = { new PointF(rectangle.Left-2*w, rectangle.Bottom+w), new PointF(rectangle.Right+w, rectangle.Bottom+w), new PointF(rectangle.Right+w, rectangle.Top-w), new PointF(rectangle.Left-w, rectangle.Top-w), new PointF(rectangle.Left-w, rectangle.Bottom+2*w) };
+            rect.UnrelativateToPage(page);
+            PointF[] vertexes = { new PointF(rect.Left-2*w, rect.Bottom+w), new PointF(rect.Right+w, rect.Bottom+w), new PointF(rect.Right+w, rect.Top-w), new PointF(rect.Left-w, rect.Top-w), new PointF(rect.Left-w, rect.Bottom+2*w) };
             byte[] types = { 0, 1, 1, 1, 1 };
             PdfPath path = new(vertexes,types);
             path.Pen = ST.baundPen;
@@ -195,6 +194,7 @@ namespace _11_Image_Processing
         public static PdfLoadedDocument DrawIndexNextToRectangle(this PdfLoadedDocument doc, RectangleF rectangle, int pageint, string index)
         {
             var page = doc.Pages[pageint];
+            rectangle.UnrelativateToPage(page);
             var p = new PointF(rectangle.Right+ST.baundWidth, rectangle.Top);
             page.Graphics.DrawString(index,new PdfStandardFont(PdfFontFamily.Courier,ST.indexFontSize), new PdfPen(Color.Black),p);
 
@@ -446,6 +446,24 @@ namespace _11_Image_Processing
 
             return points[0];
         }
+        public static void UnrelativateToPage(this ref RectangleF rect, PdfPageBase page)
+        {
+            rect.X *= page.Size.Width;
+            rect.Y *= page.Size.Height;
+            rect.Width *= page.Size.Width;
+            rect.Height *= page.Size.Height;
+
+        }
+        public static void RelativateToPage(this ref RectangleF rect, PdfPageBase page)
+        {
+            rect.X /= page.Size.Width;
+            rect.Y/= page.Size.Height;
+            rect.Width /= page.Size.Width;
+            rect.Height /= page.Size.Height;
+
+            
+        }
+
 
     }
 
@@ -584,19 +602,19 @@ namespace _11_Image_Processing
     }
     static class ImageProcessing
     {
-        public static List<List<List<bool>>> EvaluateWorks(this List<List<Bitmap>> works, List<List<Tuple<int, RectangleF, bool>>> questions, List<SizeF> sizesOfPages)
+        public static List<List<List<bool>>> EvaluateWorks(this List<List<Bitmap>> works, List<List<Tuple<int, RectangleF, bool>>> questions)
         {
             List<List<List<bool>>> resultsAll = new();
 
             foreach (var work in works)
             {
-                resultsAll.Add(work.EvaluateOneWork(questions, sizesOfPages));
+                resultsAll.Add(work.EvaluateOneWork(questions));
             }
 
 
             return resultsAll;
         }
-        public static List<List<bool>> EvaluateOneWork(this List<Bitmap> work, List<List<Tuple<int, RectangleF, bool>>> questions, List<SizeF> sizesOfPages)
+        public static List<List<bool>> EvaluateOneWork(this List<Bitmap> work, List<List<Tuple<int, RectangleF, bool>>> questions)
         {
             List<List<bool>> resultsOneWork = new();
 
@@ -606,20 +624,20 @@ namespace _11_Image_Processing
                 foreach (var box in question)
                 {
                     int pageindex = box.Item1;
-                    resultsQuestion.Add(box.IsDarkRocognize(work[pageindex], sizesOfPages[pageindex]));
+                    resultsQuestion.Add(box.IsDarkRocognize(work[pageindex]));
                 }
                 resultsOneWork.Add(resultsQuestion);
             }
             return resultsOneWork;
         }
 
-        public static bool IsDarkRocognize(this Tuple<int, RectangleF, bool> box, Bitmap image, SizeF sizeOfPage)
+        public static bool IsDarkRocognize(this Tuple<int, RectangleF, bool> box, Bitmap image)
         {
             var rect = box.Item2;
-            float racioX = image.Width / sizeOfPage.Width;
-            float racioY = image.Height / sizeOfPage.Height;
+            float racioX = image.Width;
+            float racioY = image.Height;
             Size size = new((int)Math.Ceiling(box.Item2.Width * racioX), (int)Math.Ceiling(box.Item2.Height * racioY));
-            Rectangle cropRect = new((int)(rect.X*racioX), (int)(rect.Y * racioY), (int)(rect.Width * racioX), (int)(rect.Height * racioY)) ;
+            Rectangle cropRect = new((int)Math.Ceiling(rect.X*racioX), (int)Math.Ceiling(rect.Y * racioY), (int)(rect.Width * racioX), (int)(rect.Height * racioY)) ;
 
 
             Bitmap crop = new Bitmap((int)size.Width,(int)size.Height);
@@ -703,7 +721,7 @@ namespace _11_Image_Processing
         {//TODO get rectangle relatice
             //float racioX = b.Width / sizeOfPage.Width;
             //float racioY = b.Height / sizeOfPage.Height;
-            Rectangle cropRect = new((int)(rect.X * b.Width/ 595), (int)(rect.Y * b.Height / 842), (int)(rect.Width * b.Width/ 595), (int)(rect.Height * b.Height / 842));
+            Rectangle cropRect = new((int)(rect.X * b.Width), (int)(rect.Y * b.Height), (int)(rect.Width * b.Width), (int)(rect.Height * b.Height));
 
             for (int i = 0; i <= cropRect.Width; i++)
             {

@@ -67,16 +67,17 @@ namespace _11_Image_Processing
         }
 
 
+        #region CheckingMenu
         //clik methods not used
         private void A_Click(object sender, RoutedEventArgs e)
         {
             UncheckAllOthers(sender);
-                if ((sender as MenuItem).IsChecked) 
+            if ((sender as MenuItem).IsChecked)
                 pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_A;
             //else
             //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_A;
 
-        } 
+        }
         private void B_Click(object sender, RoutedEventArgs e)
         {
             UncheckAllOthers(sender);
@@ -95,7 +96,7 @@ namespace _11_Image_Processing
             doc.Pages.Add();
 
             ReloadDocument();
-            File.Copy(ST.tempFile, ST.tempFileCopy,true);
+            File.Copy(ST.tempFile, ST.tempFileCopy, true);
 
             pdfViewControl.ScrollTo(offset);
             pdfViewControl.Zoom = zoom * 100;
@@ -105,10 +106,10 @@ namespace _11_Image_Processing
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
             var doc = pdfViewControl.LoadedDocument;
 
-            doc.Pages.RemoveAt(pdfViewControl.CurrentPage-1);
+            doc.Pages.RemoveAt(pdfViewControl.CurrentPage - 1);
 
             var l = ST.boxesInQuestions;
-            for (int i = l.Count-1; i >-1; i--)
+            for (int i = l.Count - 1; i > -1; i--)
             {
                 if (l[i][0].Item1 == pdfViewControl.CurrentPage - 1)
                 {
@@ -122,7 +123,7 @@ namespace _11_Image_Processing
             }
 
             ReloadDocument();
-            File.Copy(ST.tempFile, ST.tempFileCopy,true);
+            File.Copy(ST.tempFile, ST.tempFileCopy, true);
 
 
             pdfViewControl.ScrollTo(offset);
@@ -314,6 +315,7 @@ namespace _11_Image_Processing
 
         }
 
+        #endregion
         private void UncheckAll(ContextMenu contextmenu)
         {
             foreach (MenuItem item in contextmenu.Items)
@@ -369,6 +371,8 @@ namespace _11_Image_Processing
             SizeF size = ST.sizeOfBox;
 
             RectangleF bounds = new RectangleF(point, size);
+            bounds.RelativateToPage(doc.Pages[pindex]);
+
             doc.DrawRectangleBounds(bounds, pindex);
 
 
@@ -398,6 +402,9 @@ namespace _11_Image_Processing
                     RectangleF rect = new();
                     rect.Location = new((float)(argsFirstVertex.Position.X * 0.75 / zoom), (float)(argsFirstVertex.Position.Y * 0.75 / zoom));
                     rect.Size = new((float)((args.Position.X - argsFirstVertex.Position.X) * 0.75 / zoom), (float)((args.Position.Y - argsFirstVertex.Position.Y) * 0.75 / zoom));
+                    rect.RelativateToPage(doc.Pages[pindex]);
+
+                    rect.RelativateToPage(doc.Pages[pindex]);
 
                     doc.DrawRectangleBounds(rect, pindex);
 
@@ -448,10 +455,13 @@ namespace _11_Image_Processing
 
                 //square
                 RectangleF bounds = new RectangleF(pointb, size);
+                bounds.RelativateToPage(doc.Pages[pindex]);
+
                 doc.DrawRectangleBounds(bounds, pindex);
 
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + Convert.ToChar(i + (int)'a'));
 
+                bounds.RelativateToPage(doc.Pages[pindex]);
                 //add square to 'The List'
                 ST.boxesInQuestions[iQ].Add(pindex, bounds,false); //TODO get rectangle relatice
             }
@@ -480,12 +490,14 @@ namespace _11_Image_Processing
 
                 //square
                 RectangleF bounds = new RectangleF(pointb, size);
+                bounds.RelativateToPage(doc.Pages[pindex]);
+
                 doc.DrawRectangleBounds(bounds, pindex);
 
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + Convert.ToChar(i + (int)'a'));
 
                 //add square to 'The List'
-                ST.boxesInQuestions[iQ].Add(pindex, bounds,false); //TODO get rectangle relatice
+                ST.boxesInQuestions[iQ].Add(pindex, bounds,false); 
             }
 
             ReloadDocument();
@@ -496,7 +508,7 @@ namespace _11_Image_Processing
             var doc = pdfViewControl.LoadedDocument;
             int pindex = args.PageIndex;
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
-            var b = ST.boxesInQuestions; //TODO get rectangle relatice
+            var b = ST.boxesInQuestions; 
 
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
 
@@ -535,6 +547,8 @@ namespace _11_Image_Processing
                     RectangleF rect = new();
                     rect.Location = new((float)(argsFirstVertex.Position.X * 0.75 / zoom), (float)(argsFirstVertex.Position.Y * 0.75 / zoom));
                     rect.Size = new((float)((args.Position.X - argsFirstVertex.Position.X) * 0.75 / zoom), (float)((args.Position.Y - argsFirstVertex.Position.Y) * 0.75 / zoom));
+
+                    rect.RelativateToPage(doc.Pages[pindex]);
 
                     doc.DrawRectangleBounds(rect, pindex);
 
