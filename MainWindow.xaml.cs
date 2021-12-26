@@ -60,8 +60,9 @@ namespace _11_Image_Processing
             {
                 HotkeysManager.SetupSystemHook();
                 //add individual hotkyes
-                HotkeysManager.AddHotkey(ModifierKeys.Control, Key.E, () => { if (Menu_Edit.IsEnabled) Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs()); });
-
+                HotkeysManager.AddHotkey(ModifierKeys.Control, Key.E, () => { if (Menu_Edit.IsEnabled) Menu_Edit_NoTools_Click(null, null); });
+                HotkeysManager.AddHotkey(ModifierKeys.Control, Key.S, () => { if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null); else if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null); });
+                HotkeysManager.AddHotkey((ModifierKeys.Control | ModifierKeys.Shift), Key.S, () => { if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null); });
 
             }
 
@@ -177,10 +178,12 @@ namespace _11_Image_Processing
             if (open.ShowDialog() != true) return;
             var fileName = open.FileName;
 
+            Unload();
             LoadDocument(fileName);
         }
         private void Menu_Load_New_Click(object sender, RoutedEventArgs e)
         {
+            Unload();
             LoadDocument(null);
         }
         private void Menu_Load_Word_Click(object sender, RoutedEventArgs e)
@@ -203,6 +206,7 @@ namespace _11_Image_Processing
             }
             else { MessageBox.Show("Invalid Input"); return; }
 
+            Unload();
             LoadDocument(ToLocation);
         }
 
@@ -260,8 +264,7 @@ namespace _11_Image_Processing
         {
             PdfEditW m = new();
             m.Show();
-            m.HideMenuTool();
-            m.HideTools();
+            m.pdfViewControl.ShowToolbar = false;
         }
         //Save
         private void Menu_Save_ProjectAs_Click(object sender, RoutedEventArgs e)
@@ -302,12 +305,14 @@ namespace _11_Image_Processing
             byte[] documentpdf = File.ReadAllBytes(ST.tempFile);
             //byte[] listOfPointFsArray = ST.pagesPoints.PointListArrayToByteArray();
             byte[] listBoxesInQuestions = ST.boxesInQuestions.IntRectangleFBoolTupleListListToByteArray();
-            byte[] listOfFieldsArray = ST.pagesFields.RectangleListArrayToByteArray();
+            byte[] listOfFields = ST.pagesFields.RectangleListToByteArray();
+            byte[] nameField = ST.nameField.RectangleTupleToByteArray();
 
             int docLength = documentpdf.Length; //int32
             //int listPLength = listOfPointFsArray.Length; //int 32
             int bInQLength = listBoxesInQuestions.Length;
-            int listFLength = listOfFieldsArray.Length;//int 32
+            int listFLength = listOfFields.Length;//int 32
+            int nameFieldLength = nameField.Length;//int 32
 
 
             using (MemoryStream ms = new())
@@ -320,9 +325,11 @@ namespace _11_Image_Processing
                     bw.Write(bInQLength);
                     bw.Write(listBoxesInQuestions);
                     bw.Write(listFLength);
-                    bw.Write(listOfFieldsArray);
+                    bw.Write(listOfFields);
                     bw.Write(docLength);
                     bw.Write(documentpdf);
+                    bw.Write(nameFieldLength);
+                    bw.Write(nameField);
                     bw.Write(ms.ToArray().GetHashSHA1()); //closes file with hashcode to check if the file is the same and if we got to the end at the right time
 
 
@@ -340,13 +347,17 @@ namespace _11_Image_Processing
             byte[] documentpdf;
             //byte[] listOfPointFsArray;
             byte[] listBoxesInQuestions;
-            byte[] listOfFieldsArray;
+            byte[] listOfFields;
+            byte[] nameField = ST.nameField.RectangleTupleToByteArray();
+
             byte[] hash;
 
             int docLength;
             //int listPLength;
             int bInQLength;
             int listFLength;
+            int nameFieldLength = nameField.Length;//int 32
+
 
             //load components from file
             using (FileStream fs = new(filename, FileMode.Open))
@@ -365,14 +376,17 @@ namespace _11_Image_Processing
                         listBoxesInQuestions = br.ReadBytes(bInQLength);
 
                         listFLength = br.ReadInt32();
-                        listOfFieldsArray = br.ReadBytes(listFLength);
+                        listOfFields = br.ReadBytes(listFLength);
 
                         docLength = br.ReadInt32();
                         documentpdf = br.ReadBytes(docLength);
 
+                        nameFieldLength = br.ReadInt32();
+                        nameField = br.ReadBytes(nameFieldLength);
+
                         hash = br.ReadBytes(20);
                     }
-                    catch { MessageBox.Show("Not able to load thos file"); return; }
+                    catch { MessageBox.Show("Not able to load this file"); return; }
                 }
             }
             //get hash of created files
@@ -387,9 +401,11 @@ namespace _11_Image_Processing
                     bw.Write(bInQLength);
                     bw.Write(listBoxesInQuestions);
                     bw.Write(listFLength);
-                    bw.Write(listOfFieldsArray);
+                    bw.Write(listOfFields);
                     bw.Write(docLength);
                     bw.Write(documentpdf);
+                    bw.Write(nameFieldLength);
+                    bw.Write(nameField);
                     hashNew = ms.ToArray().GetHashSHA1();
                 }
 
@@ -397,7 +413,7 @@ namespace _11_Image_Processing
             //hash check
             if (!hash.SequenceEqual(hashNew))
             {
-                MessageBoxResult dialogResult = MessageBox.Show("The File you opened was propably changed by other program \n Ignore by clicking OK, of Cancel", "Warning", MessageBoxButton.OKCancel);
+                MessageBoxResult dialogResult = MessageBox.Show("The File you opened was propably changed by other program \n Ignore by clicking OK, or Cancel", "Warning", MessageBoxButton.OKCancel);
                 if (dialogResult == MessageBoxResult.Cancel)
                     return;
             }
@@ -419,12 +435,15 @@ namespace _11_Image_Processing
             ST.projectFileName = filename;
             //ST.pagesPoints = listOfPointFsArray.ByteArrayToPointFListArray();
             ST.boxesInQuestions = listBoxesInQuestions.ByteArrayToIntRectangleFBoolTupleListList();
+            ST.pagesFields = listOfFields.ByteArrayToRectangleList();
+            ST.nameField = nameField.ByteArrayToRectangleTuple();
 
             ReloadWindowContent();
             Menu_Project_Save.IsEnabled = true;
         }
 
         //Read
+        //one
         private void Menu_Read_PNG_Click(object sender, RoutedEventArgs e)
         {
             var open = new OpenFileDialog() { Title = "open PNG", Filter = "PNG(*.png)|*.png" };
@@ -435,6 +454,7 @@ namespace _11_Image_Processing
             ST.scansInPagesInWorks.Add(new());
             ST.scansInPagesInWorks[0][0] = new Bitmap(open.FileName);
         }
+        //one page files
         private void Menu_Read_ListOfScans_OnePage_Click(object sender, RoutedEventArgs e)
         {
             var open = new OpenFileDialog() { Title = "Open list of scans", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };//todo add more filters 
@@ -447,18 +467,8 @@ namespace _11_Image_Processing
                 ST.scansInPagesInWorks[l + i].Add(new Bitmap(open.FileNames[i]));
             }
         }
-        private void Menu_Read_ListOfScans_OnePdf_Click(object sender, RoutedEventArgs e)
-        {
-            var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = new string[1]{ "pdf" }.ToOFDFilter(new string[1] { "Pdf File" }), FilterIndex = 1 };
-            if (open.ShowDialog() == false) return;
-
-            //TODO 03 get better dialog and finish loading of the file
-            //and make text property to show its loaded
-
-
-            
-        }
-    private void Menu_Read_ListOfScans_Dialog_Click(object sender, RoutedEventArgs e)
+        //advanced read
+        private void Menu_Read_ListOfScans_Dialog_Click(object sender, RoutedEventArgs e)
         {
             // var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; //TODO make for images (maybe make method for strings)
             var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };
@@ -582,16 +592,15 @@ namespace _11_Image_Processing
 
 
         //content
-        private void Window_Activated(object sender, EventArgs e)
-        {
-            ReloadWindowContent();
-        }
-
         private void projecttext_LostFocus(object sender, RoutedEventArgs e)
         {
             ST.projectName = projecttext.Text;
         }
 
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            ReloadWindowContent();
+        }
         private void reloadButton_Click(object sender, RoutedEventArgs e)
         {
             ReloadWindowContent();
@@ -617,6 +626,7 @@ namespace _11_Image_Processing
             this.Activated += Window_Activated;
 
 
+            pdfDocumentView.UpdateLayout();
             pdfDocumentView.Load(doc);
             loadedPdfLabel.Content = Path.GetFileName(ST.fileName);
             pdfDocumentView.MinimumZoomPercentage = (int)Math.Ceiling(pdfDocumentView.MinimumZoomPercentage * 0.95);
@@ -636,8 +646,8 @@ namespace _11_Image_Processing
             }
             boxcounttext.Text = ii.ToString();
             ii = 0;
-            foreach (var rectangleFs in ST.pagesFields)
-                ii += rectangleFs.Count;
+            foreach (var tuples in ST.pagesFields)
+                ii ++;
             fieldcounttext.Text = ii.ToString();
 
             versionCombobox.Items.Clear();
@@ -792,6 +802,12 @@ namespace _11_Image_Processing
             //}
 
         }
+
+        private void pdfDocumentView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            pdfDocumentView.ZoomTo(100);
+        }
+
 
 
         ///// <summary>

@@ -55,7 +55,9 @@ namespace _11_Image_Processing
 
 
         //changing variables
-        internal static List<RectangleF>[] pagesFields = new List<RectangleF>[0]; //Pages array of lists containing fields
+        internal static Tuple<int, RectangleF> nameField = null; //field made for name, date, ect.
+
+        internal static List<Tuple<int, RectangleF>> pagesFields = new(); //of lists containing fields (tuple of rectangle and page index)
 
         internal static List<List<Tuple<int, RectangleF,bool>>> boxesInQuestions = new();// the main listing tuple: <page index, rectangle on page, is the answer right>  (rectangle relative to page)
 

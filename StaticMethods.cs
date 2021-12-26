@@ -16,6 +16,7 @@ using ImageProcessor.Imaging;
 using System.Drawing.Imaging;
 using System.Reflection;
 using System.ComponentModel;
+using System.Windows.Input;
 //using System.Windows.Media.Imaging;
 
 namespace _11_Image_Processing
@@ -328,7 +329,7 @@ namespace _11_Image_Processing
             return lists;
 
         }
-        public static byte[] RectangleListArrayToByteArray(this List<RectangleF>[] array)
+        public static byte[] RectangleListToByteArray(this List<Tuple<int,RectangleF>> list)
         {
 
             byte[] data;
@@ -337,18 +338,15 @@ namespace _11_Image_Processing
             {
                 using (var bw = new BinaryWriter(ms))
                 {
-                    bw.Write(array.Length);
-                    foreach (var l in array)
+                    bw.Write(list.Count);
+                    foreach (var l in list)
                     {
-                        bw.Write(l.Count);
-
-                        foreach (var p in l)
-                        {
-                            bw.Write(p.Location.X);
-                            bw.Write(p.Location.Y);
-                            bw.Write(p.Size.Width);
-                            bw.Write(p.Size.Height);
-                        }
+                        bw.Write(l.Item1);
+                        var p = l.Item2;
+                        bw.Write(p.Location.X);
+                        bw.Write(p.Location.Y);
+                        bw.Write(p.Size.Width);
+                        bw.Write(p.Size.Height);
                     }
                 }
                 data = ms.ToArray();
@@ -356,27 +354,62 @@ namespace _11_Image_Processing
 
             return data;
         }
-        public static List<RectangleF>[] ByteArrayToRectangleListArray(this byte[] bArray)
+        public static List<Tuple<int, RectangleF>> ByteArrayToRectangleList(this byte[] bArray)
         {
-            List<RectangleF>[] listsArray;
+            List<Tuple<int, RectangleF>> list = new();
             using (var ms = new MemoryStream(bArray))
             {
                 using (var r = new BinaryReader(ms))
                 {
-                    int lengthOfArray = r.ReadInt32();
-                    listsArray = new List<RectangleF>[lengthOfArray];
-                    for (int i = 0; i != lengthOfArray; i++)
+                    int lengthOfList = r.ReadInt32();
+                    for (int i = 0; i != lengthOfList; i++)
                     {
-                        int Count = r.ReadInt32();
-                        listsArray[i] = new();
-                        for (int j = 0; j != Count; j++)
-                        {
-                            listsArray[i].Add(new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()));
-                        }
+                            list.Add(new(r.ReadInt32(), new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle())));
                     }
                 }
             }
-            return listsArray;
+            return list;
+        }
+        public static byte[] RectangleTupleToByteArray(this Tuple<int, RectangleF> tup)
+        {
+
+            byte[] data;
+
+            using (var ms = new MemoryStream())
+            {
+                using (var bw = new BinaryWriter(ms))
+                {
+                    if (tup == null)
+                        bw.Write(false);
+                    else
+                    {
+                        bw.Write(true);
+                        bw.Write(tup.Item1);
+                        var p = tup.Item2;
+                        bw.Write(p.Location.X);
+                        bw.Write(p.Location.Y);
+                        bw.Write(p.Size.Width);
+                        bw.Write(p.Size.Height);
+                    }
+                }
+                data = ms.ToArray();
+            }
+
+            return data;
+        }
+        public static Tuple<int, RectangleF> ByteArrayToRectangleTuple(this byte[] bArray)
+        {
+            using (var ms = new MemoryStream(bArray))
+            {
+                using (var r = new BinaryReader(ms))
+                {
+                    if (r.ReadBoolean() == false)
+                        return null;
+
+                    else
+                        return new(r.ReadInt32(), new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()));
+                }
+            }
         }
         public static byte[] GetHashSHA1(this byte[] data)
         {
@@ -710,6 +743,8 @@ namespace _11_Image_Processing
             EventHandlerList list = (EventHandlerList)pi.GetValue(b, null);
             list.RemoveHandler(obj, list[obj]);
         }
+
+
     }
 }
 

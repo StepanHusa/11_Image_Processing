@@ -30,7 +30,7 @@
         <Button x:Name="Modify"                 Content="Modify"                    HorizontalAlignment="Left" Margin="34,61,0,0"       VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="71"/>-->
 
 
-        <PdfViewer:PdfDocumentView x:Name="pdfDocumentView" HorizontalAlignment="Center"  Grid.Column="1" Grid.RowSpan="2" Width="414"/>
+        <PdfViewer:PdfDocumentView x:Name="pdfDocumentView" HorizontalAlignment="Center"  Grid.Column="1" Grid.RowSpan="2" SizeChanged="pdfDocumentView_SizeChanged" />
 
 
         <Menu >
@@ -41,12 +41,12 @@
                     <MenuItem      Header="_From Word Document"    Click="Menu_Load_Word_Click"/>
                 </MenuItem>
 
-                <MenuItem x:Name="Menu_Project_Unload" Header="_Unload" Click="Menu_Project_Unload_Click"/>
-
                 <MenuItem x:Name="Menu_Project_Open"     Header="_Open" Click="Menu_Open_Project_Click"/>
 
-                <MenuItem x:Name="Menu_Project_SaveAs" Header="_Save As" IsEnabled="False"  Click="Menu_Save_ProjectAs_Click"/>
-                <MenuItem  x:Name="Menu_Project_Save" Header="_Save" IsEnabled="False" Click="Menu_Save_Project_Click"/>
+                <MenuItem x:Name="Menu_Project_Unload" Header="_Unload" Click="Menu_Project_Unload_Click"/>
+
+                <MenuItem x:Name="Menu_Project_SaveAs" Header="_Save As" IsEnabled="False"  Click="Menu_Save_ProjectAs_Click" InputGestureText="Ctrl+Shift+S"/>
+                <MenuItem  x:Name="Menu_Project_Save" Header="_Save" IsEnabled="False" Click="Menu_Save_Project_Click" InputGestureText="Ctrl+S"/>
             </MenuItem>
             
             <MenuItem x:Name="Menu_Edit" Header="_Edit" IsEnabled="False">
@@ -64,11 +64,10 @@
             <MenuItem x:Name="Menu_Print" Header="_Print" IsEnabled="False" Click="Menu_Print_Click"/>
 
             <MenuItem x:Name="Menu_Read" Header="_Read" IsEnabled="False">
-                <MenuItem x:Name="Menu_Read_PNG" Header="PNG to check" Click="Menu_Read_PNG_Click"/>
+                <MenuItem x:Name="Menu_Read_PNG" Header="One PNG to check" Click="Menu_Read_PNG_Click"/>
 
                 <MenuItem x:Name="Menu_Read_ListOfScans" Header="List of scans">
                     <MenuItem x:Name="Menu_Read_ListOfScans_OnePage" Header="One Page" Click="Menu_Read_ListOfScans_OnePage_Click"/>
-                    <MenuItem x:Name="Menu_Read_ListOfScans_OnePdf" Header="From One Pdf" Click="Menu_Read_ListOfScans_OnePdf_Click"/>
                     <MenuItem x:Name="Menu_Read_ListOfScans_Dialog" Header="More" Click="Menu_Read_ListOfScans_Dialog_Click"/>
                 </MenuItem>
             </MenuItem>
