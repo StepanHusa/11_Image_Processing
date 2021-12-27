@@ -64,6 +64,7 @@ namespace _11_Image_Processing
         internal static List<List<Bitmap>> scansInPagesInWorks = new(); //outside list are the separete works and inside are pages
 
         internal static List<List<List<bool>>> resultsInQuestionsInWorks; //list of results
+        internal static List<Bitmap> namesScaned;
 
 
 

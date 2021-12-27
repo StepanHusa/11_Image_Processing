@@ -50,8 +50,8 @@
             </MenuItem>
             
             <MenuItem x:Name="Menu_Edit" Header="_Edit" IsEnabled="False">
-                <MenuItem x:Name="MenuEditOptions_AddBoxex" Header="_Add Boxes" InputGestureText="Ctrl+E" Click="Menu_Edit_AddBoxex_Click"/>
-                <MenuItem x:Name="Menu_Edit_NoTools" Header="_No Tools" Click="Menu_Edit_NoTools_Click"/>
+                <MenuItem x:Name="MenuEditOptions_AddBoxex" Header="_Add Boxes"  Click="Menu_Edit_AddBoxex_Click"/>
+                <MenuItem x:Name="Menu_Edit_NoTools" Header="_No Tools" InputGestureText="Ctrl+E" Click="Menu_Edit_NoTools_Click"/>
             </MenuItem>
             
             <MenuItem x:Name="Menu_Export" Header="_Export" IsEnabled="False">

@@ -87,8 +87,8 @@ namespace _11_Image_Processing
 
 
 
-                ST.scansInPagesInWorks.Add(new());
-                ST.scansInPagesInWorks[0].Add(new Bitmap(debugFolder + "\\02(0).png"));
+                //ST.scansInPagesInWorks.Add(new());
+                //ST.scansInPagesInWorks[0].Add(new Bitmap(debugFolder + "\\02(0).png"));
 
                 for (int i = 0; i < 5; i++)
                 {
@@ -96,7 +96,7 @@ namespace _11_Image_Processing
                     for (int j = 0; j < 6; j++)
                     {
                         string h = s + (i * 6 + j) + ".bmp";
-                        ST.scansInPagesInWorks[i + 1].Add(new Bitmap(h));
+                        ST.scansInPagesInWorks[i /*+ 1*/].Add(new Bitmap(h));
 
                     }
                 }
@@ -532,7 +532,8 @@ namespace _11_Image_Processing
         {
             //ST.resultsInQuestionsInWorks = ST.scansInPagesInWorks.EvaluateWorks(ST.boxesInQuestions, new PdfLoadedDocument(ST.tempFile).GetSizesOfPages());
 
-           ST.scansInPagesInWorks.EvaluateWorks(ST.boxesInQuestions);
+            ST.resultsInQuestionsInWorks = ST.scansInPagesInWorks.EvaluateWorks(ST.boxesInQuestions);
+            ST.namesScaned = ST.scansInPagesInWorks.GetCropedNames(ST.nameField);
             new ViewResultW().Show();
 
             //string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
@@ -951,3 +952,4 @@ namespace _11_Image_Processing
 
 //TODO work on the recognasing 
 //TODO add help and settings
+//TODO add lock function

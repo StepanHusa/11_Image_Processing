@@ -463,7 +463,7 @@ namespace _11_Image_Processing
 
                 bounds.RelativateToPage(doc.Pages[pindex]);
                 //add square to 'The List'
-                ST.boxesInQuestions[iQ].Add(pindex, bounds,false); //TODO get rectangle relatice
+                ST.boxesInQuestions[iQ].Add(pindex, bounds,false); 
             }
 
             ReloadDocument();

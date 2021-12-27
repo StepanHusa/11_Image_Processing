@@ -26,11 +26,12 @@ namespace _11_Image_Processing
 
             //ST.scansInPagesInWorks.DrowCorrect();
 
-            SetupTabs(ST.scansInPagesInWorks);
+            SetupTabsOfView(ST.scansInPagesInWorks);
+            SetupTabsOfResults(ST.resultsInQuestionsInWorks);
         }
 
 
-        public void SetupTabs(List<List<System.Drawing.Bitmap>> bitmaps)
+        public void SetupTabsOfView(List<List<System.Drawing.Bitmap>> bitmaps)
         {
             int ww = 0;
             foreach (var work in bitmaps)
@@ -44,9 +45,9 @@ namespace _11_Image_Processing
                     bb++;
                     TabItem t = new() { Header = bb };
 
-                    Image Image = new();
-                    Image.Source = bitmap.BitmapToImageSource();
-                    t.Content = Image;
+                    Image wImage = new();
+                    wImage.Source = bitmap.BitmapToImageSource();
+                    t.Content = wImage;
 
                     tabs.Items.Add(t);
                 }
@@ -56,10 +57,30 @@ namespace _11_Image_Processing
                 tabsHorizontal.Items.Add(z);
 
             }
-
-
-
         }
+
+        public void SetupTabsOfResults(List<List<List<bool>>> results)
+        {
+            if (results == null) { MessageBox.Show("null results"); return; }
+            foreach (var item in results)
+            {
+                var t = new TabItem();
+                if (ST.namesScaned != null)
+                {
+                    Image wImage = new();
+                    wImage.Source = ST.namesScaned[results.IndexOf(item)].BitmapToImageSource();
+                    wImage.Height = 20;
+                    StackPanel sp = new();
+                    sp.Children.Add(wImage);
+                    t.Header = sp;
+
+                }
+                else t.Header = results.IndexOf(item)+1;
+
+                resTabsVertical.Items.Add(t);
+            }
+        }
+
 
         private void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

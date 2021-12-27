@@ -15,6 +15,10 @@
         </Grid.ColumnDefinitions>
 
         <TabControl x:Name="tabsHorizontal" Grid.Column="0" />
+        
+        <Grid Grid.Column="1">
+            <TabControl x:Name="resTabsVertical" Grid.Column="0" TabStripPlacement="Left" />
 
+        </Grid>
     </Grid>
 </Window>

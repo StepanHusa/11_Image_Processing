@@ -446,6 +446,7 @@ namespace _11_Image_Processing
 
             return points[0];
         }
+
         public static void UnrelativateToPage(this ref RectangleF rect, PdfPageBase page)
         {
             rect.X *= page.Size.Width;
@@ -462,6 +463,14 @@ namespace _11_Image_Processing
             rect.Height /= page.Size.Height;
 
             
+        }
+
+        public static Rectangle UnrelativateToImage(this RectangleF relativeRect, Bitmap image)
+        {
+            Rectangle cropRect = new((int)Math.Ceiling(relativeRect.X * image.Width), (int)Math.Ceiling(relativeRect.Y * image.Height), (int)Math.Floor(relativeRect.Width * image.Width), (int)Math.Floor(relativeRect.Height * image.Height));
+
+            return cropRect;
+
         }
 
 
@@ -634,33 +643,33 @@ namespace _11_Image_Processing
         public static bool IsDarkRocognize(this Tuple<int, RectangleF, bool> box, Bitmap image)
         {
             var rect = box.Item2;
-            float racioX = image.Width;
-            float racioY = image.Height;
-            Size size = new((int)Math.Ceiling(box.Item2.Width * racioX), (int)Math.Ceiling(box.Item2.Height * racioY));
-            Rectangle cropRect = new((int)Math.Ceiling(rect.X*racioX), (int)Math.Ceiling(rect.Y * racioY), (int)(rect.Width * racioX), (int)(rect.Height * racioY)) ;
 
-
-            Bitmap crop = new Bitmap((int)size.Width,(int)size.Height);
-
-
-
-            using (Graphics g = Graphics.FromImage(crop))
-            {
-                g.DrawImage(image, new Rectangle(0, 0, crop.Width, crop.Height),
-                                 cropRect,
-                                 GraphicsUnit.Pixel);
-            }
+            Bitmap crop = image.Corp(box.Item2);
 
             //debug feature
-            string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
-            int i = Directory.GetFiles(f).Length;
-            f = f + "\\" + i + ".Bmp";
-            crop.Save(f, ImageFormat.Bmp);
-
+            //string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
+            //int i = Directory.GetFiles(f).Length;
+            //f = f + "\\" + i + ".Bmp";
+            //crop.Save(f, ImageFormat.Bmp);
 
             if (ColorLevelOfBitmap(crop) < 0.5) return true;
 
             return false;
+        }
+        public static Bitmap Corp(this Bitmap orig, RectangleF relativeRect)
+        {
+            Rectangle cropRect = relativeRect.UnrelativateToImage(orig);
+            Size size = new(cropRect.Width, cropRect.Height);
+
+            Bitmap crop = new Bitmap((int)size.Width, (int)size.Height);
+
+            using (Graphics g = Graphics.FromImage(crop))
+            {
+                g.DrawImage(orig, new Rectangle(0, 0, crop.Width, crop.Height),
+                                 cropRect,
+                                 GraphicsUnit.Pixel);
+            }
+            return crop;
         }
 
         public static float ColorLevelOfBitmap(Bitmap I)
@@ -673,6 +682,18 @@ namespace _11_Image_Processing
                     cc += I.GetPixel(i, j).GetBrightness();
                 }
             return cc / c;
+        }
+
+        public static List<Bitmap> GetCropedNames(this List<List<Bitmap>> works, Tuple<int, RectangleF> nameField)
+        {
+            if (nameField == null) {System.Windows.MessageBox.Show("Warning: no Name Field added!");return null; }
+
+            List<Bitmap> l = new();
+            foreach (var work in works)
+            {
+                l.Add(work[nameField.Item1].Corp(nameField.Item2));
+            }
+            return l;
         }
     }
 
@@ -709,7 +730,7 @@ namespace _11_Image_Processing
                 {
                     foreach (var box in question)
                     {
-                        works[i][box.Item1]=works[i][box.Item1].DrowRectangle(box.Item2);//TODO get rectangle relative
+                        works[i][box.Item1]=works[i][box.Item1].DrowRectangle(box.Item2);
                     }
                 }
             }
@@ -718,7 +739,7 @@ namespace _11_Image_Processing
 
 
         public static Bitmap DrowRectangle(this Bitmap b, RectangleF rect) //primarly debug feature
-        {//TODO get rectangle relatice
+        {
             //float racioX = b.Width / sizeOfPage.Width;
             //float racioY = b.Height / sizeOfPage.Height;
             Rectangle cropRect = new((int)(rect.X * b.Width), (int)(rect.Y * b.Height), (int)(rect.Width * b.Width), (int)(rect.Height * b.Height));
