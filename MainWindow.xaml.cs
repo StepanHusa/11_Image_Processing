@@ -676,8 +676,10 @@ namespace _11_Image_Processing
             reloadButton.IsEnabled = false;
             this.Activated -= Window_Activated;
 
-            File.Delete(ST.tempFile);
-            File.Delete(ST.tempFileCopy);
+            if (File.Exists(ST.tempFile))
+                File.Delete(ST.tempFile);
+            if (File.Exists(ST.tempFileCopy))
+                File.Delete(ST.tempFileCopy);
 
             ST.tempFile = null;
             ST.tempFileCopy = null;

@@ -26,72 +26,66 @@ namespace _11_Image_Processing
 
             //ST.scansInPagesInWorks.DrowCorrect();
 
-            SetupTabsOfView(ST.scansInPagesInWorks);
-            SetupTabsOfResults(ST.resultsInQuestionsInWorks);
-
+            SetupTabsOfView();
         }
 
 
-        public void SetupTabsOfView(List<List<System.Drawing.Bitmap>> bitmaps)
+        public void SetupTabsOfView()
         {
-            int ww = 0;
-            foreach (var work in bitmaps)
+            for (int i = 0; i < ST.scansInPagesInWorks.Count; i++)
             {
-                ww++;
-                int bb = 0;
-                TabItem z = new() { Header = ww };
-                var tabs = new TabControl() { TabStripPlacement = Dock.Left };
-                foreach (var bitmap in work)
+                TabItem z = new();
+                if (ST.namesScaned != null)
                 {
-                    bb++;
-                    TabItem t = new() { Header = bb };
-
                     Image wImage = new();
-                    wImage.Source = bitmap.BitmapToImageSource();
-                    t.Content = wImage;
-
-                    tabs.Items.Add(t);
+                    wImage.Source = ST.namesScaned[i].BitmapToImageSource();
+                    wImage.Height = 20;
+                    StackPanel sp = new();
+                    sp.Children.Add(wImage);
+                    z.Header = sp;
                 }
+                else z.Header = i + 1;
 
-                tabs.SelectionChanged += Tabs_SelectionChanged;
-                z.Content = tabs;
+                var tabs = ViewWorks(i); //maybe remake for scroling (key= scr)
+                //tabs.SelectionChanged += Tabs_SelectionChanged; 
+
+                var y = ResultsList(i);
+
+                Grid grid = new();
+                grid.ColumnDefinitions.Add(new());
+                grid.ColumnDefinitions.Add(new());
+                grid.Children.Add(tabs);
+                grid.Children.Add(y);
+                Grid.SetColumn(tabs, 0);
+                Grid.SetColumn(y, 1);
+                z.Content = grid;
                 tabsHorizontal.Items.Add(z);
 
             }
         }
-
-        public void SetupTabsOfResults(List<List<List<bool>>> results)
+        private TabControl ViewWorks(int i)
         {
-            if (results == null) { MessageBox.Show("null results"); return; }
-            foreach (var item in results)
+            var tabs = new TabControl() { TabStripPlacement = Dock.Left };
+            int bb = 0;
+            foreach (var bitmap in ST.scansInPagesInWorks[i])
             {
-                var t = new TabItem();
-                if (ST.namesScaned != null)
-                {
-                    Image wImage = new();
-                    wImage.Source = ST.namesScaned[results.IndexOf(item)].BitmapToImageSource();
-                    wImage.Height = 20;
-                    StackPanel sp = new();
-                    sp.Children.Add(wImage);
-                    t.Header = sp;
+                bb++;
+                TabItem t = new() { Header = bb };
 
-                }
-                else t.Header = results.IndexOf(item)+1;
-                t.Content = Results();
-                
+                Image wImage = new();
+                wImage.Source = bitmap.BitmapToImageSource();
+                t.Content = wImage;
 
-                resTabsVertical.Items.Add(t);
+                tabs.Items.Add(t);
             }
+            return tabs;
         }
-        public ListView Results()
+
+        private ListView ResultsList(int workindex)
         {
             var lv = (ListView)Resources["lview"];
-
-            var gv = (GridView)Resources["gview"];
-            //lv.Background = new SolidColorBrush(Color.FromScRgb(0,50,0,0));
-            //lv.Width = 200;
-            lv.ItemsSource = new List<List<string>>() { new() { "heello" }, new() { "2" }, new() { "3" } };
-
+            var list= GetListToDisplay(workindex);
+            lv.ItemsSource = list;
 
             return lv;
         }
@@ -123,21 +117,16 @@ namespace _11_Image_Processing
                 int q = ST.boxesInQuestions.IndexOf(question);
                 string correct = string.Empty;
                 string checkedd = string.Empty;
+
                 foreach (var box in question)
-                {
-                    int i = question.IndexOf(box);
-                    if (box.Item3)  correct += $"{i.IntToAlphabet()}, ";
-                    if (ST.resultsInQuestionsInWorks[workindex][q][i]) checkedd += $"{i.IntToAlphabet()}, ";
-                }
+                    if (box.Item3)  correct += $"{question.IndexOf(box).IntToAlphabet()}, ";
 
+                for (int i = 0; i < ST.resultsInQuestionsInWorks[workindex][q].Count; i++)
+                    if(ST.resultsInQuestionsInWorks[workindex][q][i]) checkedd += $"{i.IntToAlphabet()}, ";
 
-                list.Add(new())
+                list.Add(new(checkedd, correct));
             }
-
-            foreach (var question in ST.resultsInQuestionsInWorks[workindex])
-            {
-
-            }
+            return list;
         }
 
     }
@@ -154,9 +143,5 @@ namespace _11_Image_Processing
             this.Checked = Checked;
             this.Correct = Correct;
         }
-
-        public string To
-
-            //TODO finish here
     }
 }

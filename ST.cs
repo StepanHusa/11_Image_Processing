@@ -27,6 +27,7 @@ namespace _11_Image_Processing
         internal static PdfPen baundPen { get { return new PdfPen(baundColor, baundWidth); } }
         internal static Color baundColorTwo = Color.Green;
         internal static PdfPen baundPenTwo { get { return new PdfPen(baundColorTwo, baundWidth); } }
+        internal static string nameString = "Name:";
 
         internal static float sizeOfBoxF = 20;
         internal static SizeF sizeOfBox { get { return new SizeF(sizeOfBoxF, sizeOfBoxF); } set { sizeOfBoxF = value.Height; } }

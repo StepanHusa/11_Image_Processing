@@ -8,28 +8,21 @@
         Title="ViewResultW" Height="900">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="800"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
 
-        <TabControl x:Name="tabsHorizontal" Grid.Column="0" />
+        <TabControl x:Name="tabsHorizontal" Grid.Column="0"  TabStripPlacement="Left"/>
 
-        <Grid Grid.Column="1">
-            <TabControl x:Name="resTabsVertical" Grid.Column="0" TabStripPlacement="Left" />
 
-        </Grid>
     </Grid>
     <Window.Resources>
-        <ListView x:Key="lview" Background="LightCyan" >
+        <ListView x:Key="lview" Background="LightCyan" x:Shared="false" >
 
             <ListView.View>
 
                 <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="">
 
-                    <GridViewColumn  Header="Checked" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Checked}"  Header="Checked" Width="100"/>
 
-                    <GridViewColumn Width="100">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Correct}" Width="100">
                         <GridViewColumnHeader>Correct
                             <!--<GridViewColumnHeader.ContextMenu>
                                 <ContextMenu >
@@ -40,11 +33,14 @@
                         </GridViewColumnHeader>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="Is the answer right" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=IsTheAnswerRight}" Header="Is the answer right" Width="100"/>
                 </GridView>
 
             </ListView.View>
         </ListView>
+        <ScrollViewer x:Key="scr">
+            
+        </ScrollViewer>
     </Window.Resources>
     
 </Window>

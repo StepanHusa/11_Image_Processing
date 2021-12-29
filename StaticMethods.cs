@@ -201,7 +201,17 @@ namespace _11_Image_Processing
 
             return doc;
         }
+        public static PdfLoadedDocument DrawNameNextToRectangle(this PdfLoadedDocument doc, RectangleF rectangle, int pageint)
+        {
+            var page = doc.Pages[pageint];
+            rectangle.UnrelativateToPage(page);
+            var p = new PointF(rectangle.Left-2* ST.baundWidth, rectangle.Top);
 
+            PdfStringFormat format = new() { Alignment = PdfTextAlignment.Right };
+            page.Graphics.DrawString(ST.nameString,new PdfStandardFont(PdfFontFamily.Courier,ST.indexFontSize), new PdfPen(Color.Black),p,format);
+
+            return doc;
+        }
 
         public static List<SizeF> GetSizesOfPages(this PdfLoadedDocument doc)
         {
@@ -448,13 +458,13 @@ namespace _11_Image_Processing
             return points[0];
         }
 
-        public static void UnrelativateToPage(this ref RectangleF rect, PdfPageBase page)
+        public static RectangleF UnrelativateToPage(this ref RectangleF rect, PdfPageBase page)
         {
             rect.X *= page.Size.Width;
             rect.Y *= page.Size.Height;
             rect.Width *= page.Size.Width;
             rect.Height *= page.Size.Height;
-
+            return rect;
         }
         public static void RelativateToPage(this ref RectangleF rect, PdfPageBase page)
         {

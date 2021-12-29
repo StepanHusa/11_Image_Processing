@@ -508,21 +508,25 @@ namespace _11_Image_Processing
             var doc = pdfViewControl.LoadedDocument;
             int pindex = args.PageIndex;
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
-            var b = ST.boxesInQuestions; 
+            var b = ST.boxesInQuestions;
+
+            bool hit = false;
 
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
 
             for (int i = 0; i < b.Count; i++)
                 for (int j = 0; j < b[i].Count; j++)
                     if (b[i][j].Item1 == pindex)
-                        if (b[i][j].Item2.Contains(point))
+                    {
+                        var r= b[i][j].Item2;
+                        if (r.UnrelativateToPage(doc.Pages[pindex]).Contains(point))
                         {
                             b[i][j] = new Tuple<int, RectangleF, bool>(b[i][j].Item1, b[i][j].Item2, !b[i][j].Item3);
                             doc.DrawRectangleBounds(b[i][j].Item2, b[i][j].Item1, b[i][j].Item3);
-                            ReloadDocument();
+                            hit = true;
                         }
-
-
+                    }
+            if (hit) ReloadDocument();
         }
         private void Pdfwcontrol_PageClicked_name(object sender, PageClickedEventArgs args)
         {
@@ -551,6 +555,7 @@ namespace _11_Image_Processing
                     rect.RelativateToPage(doc.Pages[pindex]);
 
                     doc.DrawRectangleBounds(rect, pindex);
+                    doc.DrawNameNextToRectangle(rect, pindex);
 
 
                     ST.nameField = new(pindex, rect);
