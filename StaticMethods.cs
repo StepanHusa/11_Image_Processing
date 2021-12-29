@@ -17,6 +17,7 @@ using System.Drawing.Imaging;
 using System.Reflection;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Runtime.InteropServices;
 //using System.Windows.Media.Imaging;
 
 namespace _11_Image_Processing
@@ -520,6 +521,10 @@ namespace _11_Image_Processing
 
             }
             return s;
+        }
+        public static char IntToAlphabet(this int i)
+        {
+            return Convert.ToChar(i + (int)'a');
         }
 
     }

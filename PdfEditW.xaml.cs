@@ -459,7 +459,7 @@ namespace _11_Image_Processing
 
                 doc.DrawRectangleBounds(bounds, pindex);
 
-                doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + Convert.ToChar(i + (int)'a'));
+                doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + i.IntToAlphabet());
 
                 bounds.RelativateToPage(doc.Pages[pindex]);
                 //add square to 'The List'
@@ -494,7 +494,7 @@ namespace _11_Image_Processing
 
                 doc.DrawRectangleBounds(bounds, pindex);
 
-                doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + Convert.ToChar(i + (int)'a'));
+                doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + i.IntToAlphabet());
 
                 //add square to 'The List'
                 ST.boxesInQuestions[iQ].Add(pindex, bounds,false); 
@@ -659,7 +659,7 @@ namespace _11_Image_Processing
                 {
                     j++;
                     doc.DrawRectangleBounds(box.Item2, box.Item1);
-                    doc.DrawIndexNextToRectangle(box.Item2, box.Item1, (i + 1).ToString() + Convert.ToChar(j + (int)'a'));
+                    doc.DrawIndexNextToRectangle(box.Item2, box.Item1, (i + 1).ToString() + j.IntToAlphabet());
                 }}
             pdfViewControl.Load(doc);
             ReloadDocument();

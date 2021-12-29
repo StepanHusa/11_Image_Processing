@@ -101,7 +101,6 @@ namespace _11_Image_Processing
                     }
                 }
 
-
                 //new ImportPicturesDialogW(11).ShowDialog();
 
                 //rec debug

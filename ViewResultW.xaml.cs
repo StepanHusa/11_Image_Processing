@@ -28,6 +28,7 @@ namespace _11_Image_Processing
 
             SetupTabsOfView(ST.scansInPagesInWorks);
             SetupTabsOfResults(ST.resultsInQuestionsInWorks);
+
         }
 
 
@@ -76,9 +77,23 @@ namespace _11_Image_Processing
 
                 }
                 else t.Header = results.IndexOf(item)+1;
+                t.Content = Results();
+                
 
                 resTabsVertical.Items.Add(t);
             }
+        }
+        public ListView Results()
+        {
+            var lv = (ListView)Resources["lview"];
+
+            var gv = (GridView)Resources["gview"];
+            //lv.Background = new SolidColorBrush(Color.FromScRgb(0,50,0,0));
+            //lv.Width = 200;
+            lv.ItemsSource = new List<List<string>>() { new() { "heello" }, new() { "2" }, new() { "3" } };
+
+
+            return lv;
         }
 
 
@@ -100,5 +115,48 @@ namespace _11_Image_Processing
 
         }
 
+        private List<ResultOfQuestion> GetListToDisplay(int workindex)
+        {
+            var list = new List<ResultOfQuestion>();
+            foreach (var question in ST.boxesInQuestions)
+            {
+                int q = ST.boxesInQuestions.IndexOf(question);
+                string correct = string.Empty;
+                string checkedd = string.Empty;
+                foreach (var box in question)
+                {
+                    int i = question.IndexOf(box);
+                    if (box.Item3)  correct += $"{i.IntToAlphabet()}, ";
+                    if (ST.resultsInQuestionsInWorks[workindex][q][i]) checkedd += $"{i.IntToAlphabet()}, ";
+                }
+
+
+                list.Add(new())
+            }
+
+            foreach (var question in ST.resultsInQuestionsInWorks[workindex])
+            {
+
+            }
+        }
+
+    }
+    public class ResultOfQuestion
+    {
+        public string Checked { get; set; }
+
+        public string Correct { get; set; }
+
+        public string IsTheAnswerRight { get { if (Checked == Correct) return "Yes"; else return "No"; } }
+
+        public ResultOfQuestion(string Checked, string Correct)
+        {
+            this.Checked = Checked;
+            this.Correct = Correct;
+        }
+
+        public string To
+
+            //TODO finish here
     }
 }
