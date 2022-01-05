@@ -24,38 +24,41 @@ namespace _11_Image_Processing
 
         internal static float baundWidth = 2;
         internal static Color baundColor = Color.Red;
-        internal static PdfPen baundPen { get { return new PdfPen(baundColor, baundWidth); } }
         internal static Color baundColorTwo = Color.Green;
-        internal static PdfPen baundPenTwo { get { return new PdfPen(baundColorTwo, baundWidth); } }
         internal static string nameString = "Name:";
 
         internal static float sizeOfBoxF = 20;
-        internal static SizeF sizeOfBox { get { return new SizeF(sizeOfBoxF, sizeOfBoxF); } set { sizeOfBoxF = value.Height; } }
         internal static float spaceBetweenBoxes =10;
 
         internal static float dpiExport = 600;
+
         internal static double treshold = 0.7;
 
         internal static string tempDirectoryName = Path.GetTempPath() + "Stepan_Husa_Is_A_Genius\\";
         internal static string projectExtension = ".st0r"; //templateExtension
         internal static byte[] fileCode = "008800ff001100aa".StringToByteArray(); //8 bytes file format conformation
 
+        //get variables
+        internal static PdfPen baundPen     { get { return new PdfPen(baundColor, baundWidth); } }
+        internal static PdfPen baundPenTwo  { get { return new PdfPen(baundColorTwo, baundWidth); } }
+        internal static SizeF sizeOfBox     { get { return new SizeF(sizeOfBoxF, sizeOfBoxF); } set { sizeOfBoxF = value.Height; } }
+        internal static int pagesOfDocument { get { return new PdfLoadedDocument(tempFile).Pages.Count; } }
+
 
         //file specified info
-        internal static string projectName = templateProjectName;
         internal static string projectFileName;
         internal static string fileName;
         internal static string tempFile;
         internal static string tempFileCopy;
         internal static List<string> versions = new();
-
-
-        internal static int pagesOfDocument { get {return new PdfLoadedDocument(tempFile).Pages.Count; } }
-
+        internal static string projectName = templateProjectName;
 
 
 
-        //changing variables
+
+
+
+        //data variables
         internal static Tuple<int, RectangleF> nameField = null; //field made for name, date, ect.
 
         internal static List<Tuple<int, RectangleF>> pagesFields = new(); //of lists containing fields (tuple of rectangle and page index)
@@ -70,7 +73,6 @@ namespace _11_Image_Processing
 
 
         //additional var
-        internal static float indexFontSize = 10;
 
         internal static class QS
         {
@@ -81,6 +83,8 @@ namespace _11_Image_Processing
             internal static float spaceUnderQ = 10;
             internal static float spaceBtwAn = 10;
             internal static float spaceBeforeBox = 50;
+
+            internal static float indexFontSize = 10;
         }
 
 

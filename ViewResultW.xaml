@@ -8,10 +8,29 @@
         Title="ViewResultW" Height="900">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
 
-        <TabControl x:Name="tabsHorizontal" Grid.Column="0"  TabStripPlacement="Left"/>
+        <TabControl x:Name="tabsHorizontal"  TabStripPlacement="Left" Grid.Column="0"/>
+
+        <StackPanel x:Name="namesPanel" Grid.Column="1">
+            <MenuItem Header="Name"/>
+        </StackPanel>
+        <ListView x:Name="allResults" Grid.Column="2">
+            <ListView.View>
+                <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Index}"  Header="Index" Width="30"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Points}"  Header="Points" Width="50"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Percents}"  Header="Percents" Width="50"/>
 
 
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
     </Grid>
     <Window.Resources>
         <ListView x:Key="lview" Background="LightCyan" x:Shared="false" >
@@ -19,11 +38,12 @@
             <ListView.View>
 
                 <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Number}"  Header="Number" Width="25"/>
 
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Checked}"  Header="Checked" Width="100"/>
 
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Correct}" Width="100">
-                        <GridViewColumnHeader>Correct
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=RightAnswer }" Width="100">
+                        <GridViewColumnHeader>Right Answer
                             <!--<GridViewColumnHeader.ContextMenu>
                                 <ContextMenu >
                                     <MenuItem Header="Ascending" />
@@ -33,7 +53,7 @@
                         </GridViewColumnHeader>
                     </GridViewColumn>
 
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=IsTheAnswerRight}" Header="Is the answer right" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Correct}" Header="Correct" Width="100"/>
                 </GridView>
 
             </ListView.View>

@@ -197,7 +197,7 @@ namespace _11_Image_Processing
             var page = doc.Pages[pageint];
             rectangle.UnrelativateToPage(page);
             var p = new PointF(rectangle.Right+ST.baundWidth, rectangle.Top);
-            page.Graphics.DrawString(index,new PdfStandardFont(PdfFontFamily.Courier,ST.indexFontSize), new PdfPen(Color.Black),p);
+            page.Graphics.DrawString(index,new PdfStandardFont(PdfFontFamily.Courier,ST.QS.indexFontSize), new PdfPen(Color.Black),p);
 
             return doc;
         }
@@ -208,7 +208,7 @@ namespace _11_Image_Processing
             var p = new PointF(rectangle.Left-2* ST.baundWidth, rectangle.Top);
 
             PdfStringFormat format = new() { Alignment = PdfTextAlignment.Right };
-            page.Graphics.DrawString(ST.nameString,new PdfStandardFont(PdfFontFamily.Courier,ST.indexFontSize), new PdfPen(Color.Black),p,format);
+            page.Graphics.DrawString(ST.nameString,new PdfStandardFont(PdfFontFamily.Courier,ST.QS.indexFontSize), new PdfPen(Color.Black),p,format);
 
             return doc;
         }

@@ -484,7 +484,7 @@ namespace _11_Image_Processing
 
             for (int i = 0; i < ST.QS.n; i++)
             {
-                var pointb = new PointF(point.X, point.Y+ i * (ST.sizeOfBox.Height + ST.spaceBetweenBoxes));
+                var pointb = new PointF(point.X, point.Y+ i * (ST.sizeOfBox.Height + ST.QS.spaceBtwAn));
                 SizeF size = ST.sizeOfBox;
 
 
@@ -658,17 +658,17 @@ namespace _11_Image_Processing
             var doc = new PdfLoadedDocument(ST.tempFileCopy);
             int i = 0;
             foreach (var question in ST.boxesInQuestions) {
-                i++;
                 int j = 0;
                 foreach (var box in question)
                 {
-                    j++;
                     doc.DrawRectangleBounds(box.Item2, box.Item1);
                     doc.DrawIndexNextToRectangle(box.Item2, box.Item1, (i + 1).ToString() + j.IntToAlphabet());
-                }}
+                    j++;
+                }
+                i++;
+            }
             pdfViewControl.Load(doc);
             ReloadDocument();
-
         }
 
 
@@ -679,7 +679,7 @@ namespace _11_Image_Processing
             {
                 float s = (float)Math.Round(sizeSlider.Value, 3);
                 ST.sizeOfBox = new SizeF(s, s);
-                ST.indexFontSize = s/2;
+                ST.QS.indexFontSize = s/2;
 
             }
             if (widthSlider != null)
@@ -691,7 +691,7 @@ namespace _11_Image_Processing
             if (spaceSlider != null)
             {
                 float p = (float)Math.Round(spaceSlider.Value, 3);
-                ST.spaceBetweenBoxes = p;
+                ST.QS.spaceBtwAn = p;
             }
 
             if (countSlider != null)
