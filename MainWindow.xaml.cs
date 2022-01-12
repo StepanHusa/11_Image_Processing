@@ -102,7 +102,7 @@ namespace _11_Image_Processing
                 }
 
 
-                new dialogWindows.ChooseNumber().ShowDialog();
+                
                 //new ImportPicturesDialogW(11).ShowDialog();
 
                 //rec debug
@@ -586,7 +586,27 @@ namespace _11_Image_Processing
         }
         private void Menu_Read_Scan_Click(object sender, RoutedEventArgs e)
         {
-            new ScanForm().ShowDialog();
+            var a = new ScanForm();
+            if (a.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+
+            var b = new ImportPicturesDialogW(a.tempScans.Count);
+            if (b.ShowDialog() != true)
+                if (MessageBox.Show("Realy return?", "caption", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    return;
+
+            int[] da = b.Answer;
+
+            List<List<Bitmap>> works = new();
+            int ii = 0;
+            for (int i = 0; i < da.Length; i++)
+            {
+                works.Add(new());
+                for (int j = 0; j < da[i]; j++)
+                {
+                    works[i].Add(new Bitmap(a.tempScans[ii]));
+                    ii++;
+                }
+            }
         }
 
         //Print

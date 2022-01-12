@@ -21,11 +21,9 @@ namespace _11_Image_Processing.dialogWindows
     {
         public ChooseNumber()
         {
-            // TODO 01 rewrite this to chice template, save it and implement into mainWindow.Read_Click
-
             InitializeComponent();
 
-            string question = "question";
+            string question = "Type number of lists to scane";
             string defaultAnswer = "1";
 
 
@@ -46,7 +44,12 @@ namespace _11_Image_Processing.dialogWindows
 
         public int Answer
         {
-            get { return Int16.Parse(txtAnswer.Text); }
+            get
+            {
+                if (txtAnswer.Text != String.Empty)
+                    return Int16.Parse(txtAnswer.Text);
+                else return 1;
+            }
         }
 
         private void txtAnswer_TextChanged(object sender, TextChangedEventArgs e)
@@ -54,7 +57,8 @@ namespace _11_Image_Processing.dialogWindows
             short i=0;
             if (!Int16.TryParse(txtAnswer.Text,out i))
             {
-                (sender as TextBox).Undo();
+                if(txtAnswer.Text!=String.Empty)
+                    Dispatcher.BeginInvoke(new Action(() => txtAnswer.Undo()));
             }
                 
                 

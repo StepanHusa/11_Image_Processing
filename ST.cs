@@ -53,7 +53,7 @@ namespace _11_Image_Processing
         internal static List<string> versions = new();
         internal static string projectName = templateProjectName;
 
-        internal static string tempScan; //".tiff" format but .tmp extension
+        internal static List<string> tempScans; //".tiff" format but .tmp extension
 
 
 

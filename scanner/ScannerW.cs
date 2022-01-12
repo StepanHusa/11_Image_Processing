@@ -57,17 +57,41 @@ namespace _11_Image_Processing
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Task.Factory.StartNew(StartScanning).ContinueWith(result => TriggerScan());
+            Scanner device = null;
+
+            this.Invoke(new MethodInvoker(delegate ()
+            {
+                device = listBox1.SelectedItem as Scanner;
+            }));
+
+            if (device == null)
+            {
+                MessageBox.Show("You need to select first an scanner device from the list",
+                                "Warning",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //return;
+            }
+
+            var a = new dialogWindows.ChooseNumber();
+            if(a.ShowDialog()!=true) return;
+
+            for (int i = 0; i < a.Answer; i++)
+            {
+                Task.Factory.StartNew(StartScanning).ContinueWith(result => TriggerScan(i));
+            }
+
+            this.DialogResult = DialogResult.OK;
         }
 
-        private void TriggerScan()
+        private void TriggerScan(int i)
         {
-            Console.WriteLine("Image succesfully scanned");
+            Console.WriteLine($"Image {i} succesfully scanned");
         }
 
         public void StartScanning()
         {
-
+            //if (a.ShowDialog() == true) return;
+            //int nScanes = a.Answer;
 
             Scanner device = null;
 
@@ -115,18 +139,18 @@ namespace _11_Image_Processing
 
 
             // Save the image
-            string path = Path.GetTempFileName();//TODO repair
+                string path = Path.GetTempFileName();//TODO repair
 
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
 
-            image.SaveFile(path);
+                image.SaveFile(path);
 
-            pictureBox1.Image = new Bitmap(path);
+                pictureBox1.Image = new Bitmap(path);
 
-            ST.tempScan = path;
+                tempScans.Add(path);
         }
 
         //private void button2_Click(object sender, EventArgs e)
@@ -140,6 +164,7 @@ namespace _11_Image_Processing
         //        textBox1.Text = folderDlg.SelectedPath;
         //    }
         //}
-         
+
+        public List<string> tempScans = new();
     }
 }
