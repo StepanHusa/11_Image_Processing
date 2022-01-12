@@ -9,7 +9,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition />
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
@@ -25,6 +25,7 @@
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Index}"  Header="Index" Width="30"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Points}"  Header="Points" Width="50"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Percents}"  Header="Percents" Width="50"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Grade}"  Header="Grade" Width="50"/>
 
 
                 </GridView>

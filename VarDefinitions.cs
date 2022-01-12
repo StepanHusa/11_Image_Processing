@@ -40,6 +40,17 @@ namespace _11_Image_Processing
 
         public int Percents { get { return (int)Math.Round((double)(Points / MaxPoints * 100)); } }
 
+        public int Grade
+        {
+            get
+            {
+                for (int i = 0; i < ST.GradingSettings.GradeBottomBoarder.Length; i++)
+                {
+                    if (Percents >= ST.GradingSettings.GradeBottomBoarder[i]) return i;
+                }
+                return 5;
+            }
+        }
 
         public ResultOfAllOne(int Index,int Points, int MaxPoints)
         {

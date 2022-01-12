@@ -441,6 +441,98 @@ namespace _11_Image_Processing
             Menu_Project_Save.IsEnabled = true;
         }
 
+        private void Menu_Print_Click(object sender, RoutedEventArgs e)
+        {
+            //PdfPrintingNet.PdfPrint printDoc = new(string.Empty,string.Empty);
+
+            //printDoc.Print(ST.tempFile);
+            //printDoc.
+
+
+
+
+
+            //PdfDocument doc = new PdfDocument();
+            //doc.LoadFromFile(FilePathandFileName);
+
+            ////Use the default printer to print all the pages 
+            ////doc.PrintDocument.Print(); 
+
+            ////Set the printer and select the pages you want to print 
+
+            //PrintDialog dialogPrint = new PrintDialog();
+            //dialogPrint.AllowPrintToFile = true;
+            //dialogPrint.AllowSomePages = true;
+            //dialogPrint.PrinterSettings.MinimumPage = 1;
+            //dialogPrint.PrinterSettings.MaximumPage = doc.Pages.Count;
+            //dialogPrint.PrinterSettings.FromPage = 1;
+            //dialogPrint.PrinterSettings.ToPage = doc.Pages.Count;
+
+            //if (dialogPrint.ShowDialog() == DialogResult.OK)
+            //{
+            //    //Set the pagenumber which you choose as the start page to print 
+            //    doc.PrintFromPage = dialogPrint.PrinterSettings.FromPage;
+            //    //Set the pagenumber which you choose as the final page to print 
+            //    doc.PrintToPage = dialogPrint.PrinterSettings.ToPage;
+            //    //Set the name of the printer which is to print the PDF 
+            //    doc.PrinterName = dialogPrint.PrinterSettings.PrinterName;
+
+            //    PrintDocument printDoc = doc.PrintDocument;
+            //    dialogPrint.Document = printDoc;
+            //    printDoc.Print();
+            //}
+
+
+
+            PdfLoadedDocument doc = new(ST.tempFile);
+            
+
+
+            PrintDialog printDialog = new() { SelectedPagesEnabled = true, UserPageRangeEnabled=true, CurrentPageEnabled=true};
+            if (printDialog.ShowDialog() != true) return;
+
+            string xps = Path.GetTempFileName();
+            var document = new Aspose.Pdf.Document(ST.tempFile);
+            document.Save(xps, Aspose.Pdf.SaveFormat.Xps);
+
+            // Open the selected document.
+            XpsDocument xpsDocument = new(xps, FileAccess.Read);
+
+            // Get a fixed document sequence for the selected document.
+            FixedDocumentSequence fixedDocSeq = xpsDocument.GetFixedDocumentSequence();
+
+            // Create a paginator for all pages in the selected document.
+            DocumentPaginator docPaginator = fixedDocSeq.DocumentPaginator;
+
+            // Print to a new file.
+            printDialog.PrintDocument(docPaginator, $"Printing {ST.fileName}");
+
+
+            File.Delete(xps);
+            //string xpsFileName = Path.GetFileName(xpsFilePath);
+
+            //prin
+
+            //try
+            //{
+            //    // The AddJob method adds a new print job for an XPS
+            //    // document into the print queue, and assigns a job name.
+            //    // Use fastCopy to skip XPS validation and progress notifications.
+            //    // If fastCopy is false, the thread that calls PrintQueue.AddJob
+            //    // must have a single-threaded apartment state.
+            //    PrintSystemJobInfo xpsPrintJob =
+            //            defaultPrintQueue.AddJob(jobName: xpsFileName, documentPath: xpsFilePath, fastCopy);
+
+            //    // If the queue is not paused and the printer is working, then jobs will automatically begin printing.
+            //    Debug.WriteLine($"Added {xpsFileName} to the print queue.");
+            //}
+            //catch (PrintJobException e)
+            //{
+            //    allAdded = false;
+            //    Debug.WriteLine($"Failed to add {xpsFileName} to the print queue: {e.Message}\r\n{e.InnerException}");
+            //}
+
+        }
         //Read
         //one
         private void Menu_Read_PNG_Click(object sender, RoutedEventArgs e)
@@ -489,6 +581,10 @@ namespace _11_Image_Processing
             }
 
             ST.scansInPagesInWorks = works;
+        }
+        private void Menu_Read_Scan_Click(object sender, RoutedEventArgs e)
+        {
+            new ScanForm().ShowDialog();
         }
 
         //Print
@@ -714,103 +810,12 @@ namespace _11_Image_Processing
             Menu_Eavluate.IsEnabled = false;
         }
 
-        private void Menu_Print_Click(object sender, RoutedEventArgs e)
-        {
-            //PdfPrintingNet.PdfPrint printDoc = new(string.Empty,string.Empty);
-
-            //printDoc.Print(ST.tempFile);
-            //printDoc.
-
-
-
-
-
-            //PdfDocument doc = new PdfDocument();
-            //doc.LoadFromFile(FilePathandFileName);
-
-            ////Use the default printer to print all the pages 
-            ////doc.PrintDocument.Print(); 
-
-            ////Set the printer and select the pages you want to print 
-
-            //PrintDialog dialogPrint = new PrintDialog();
-            //dialogPrint.AllowPrintToFile = true;
-            //dialogPrint.AllowSomePages = true;
-            //dialogPrint.PrinterSettings.MinimumPage = 1;
-            //dialogPrint.PrinterSettings.MaximumPage = doc.Pages.Count;
-            //dialogPrint.PrinterSettings.FromPage = 1;
-            //dialogPrint.PrinterSettings.ToPage = doc.Pages.Count;
-
-            //if (dialogPrint.ShowDialog() == DialogResult.OK)
-            //{
-            //    //Set the pagenumber which you choose as the start page to print 
-            //    doc.PrintFromPage = dialogPrint.PrinterSettings.FromPage;
-            //    //Set the pagenumber which you choose as the final page to print 
-            //    doc.PrintToPage = dialogPrint.PrinterSettings.ToPage;
-            //    //Set the name of the printer which is to print the PDF 
-            //    doc.PrinterName = dialogPrint.PrinterSettings.PrinterName;
-
-            //    PrintDocument printDoc = doc.PrintDocument;
-            //    dialogPrint.Document = printDoc;
-            //    printDoc.Print();
-            //}
-
-
-
-            PdfLoadedDocument doc = new(ST.tempFile);
-            
-
-
-            PrintDialog printDialog = new() { SelectedPagesEnabled = true, UserPageRangeEnabled=true, CurrentPageEnabled=true};
-            if (printDialog.ShowDialog() != true) return;
-
-            string xps = Path.GetTempFileName();
-            var document = new Aspose.Pdf.Document(ST.tempFile);
-            document.Save(xps, Aspose.Pdf.SaveFormat.Xps);
-
-            // Open the selected document.
-            XpsDocument xpsDocument = new(xps, FileAccess.Read);
-
-            // Get a fixed document sequence for the selected document.
-            FixedDocumentSequence fixedDocSeq = xpsDocument.GetFixedDocumentSequence();
-
-            // Create a paginator for all pages in the selected document.
-            DocumentPaginator docPaginator = fixedDocSeq.DocumentPaginator;
-
-            // Print to a new file.
-            printDialog.PrintDocument(docPaginator, $"Printing {ST.fileName}");
-
-
-            File.Delete(xps);
-            //string xpsFileName = Path.GetFileName(xpsFilePath);
-
-            //prin
-
-            //try
-            //{
-            //    // The AddJob method adds a new print job for an XPS
-            //    // document into the print queue, and assigns a job name.
-            //    // Use fastCopy to skip XPS validation and progress notifications.
-            //    // If fastCopy is false, the thread that calls PrintQueue.AddJob
-            //    // must have a single-threaded apartment state.
-            //    PrintSystemJobInfo xpsPrintJob =
-            //            defaultPrintQueue.AddJob(jobName: xpsFileName, documentPath: xpsFilePath, fastCopy);
-
-            //    // If the queue is not paused and the printer is working, then jobs will automatically begin printing.
-            //    Debug.WriteLine($"Added {xpsFileName} to the print queue.");
-            //}
-            //catch (PrintJobException e)
-            //{
-            //    allAdded = false;
-            //    Debug.WriteLine($"Failed to add {xpsFileName} to the print queue: {e.Message}\r\n{e.InnerException}");
-            //}
-
-        }
 
         private void pdfDocumentView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             pdfDocumentView.ZoomTo(100);
         }
+
 
 
 

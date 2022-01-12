@@ -55,7 +55,7 @@ namespace _11_Image_Processing
 
                 Grid grid = new();
                 grid.ColumnDefinitions.Add(new());
-                grid.ColumnDefinitions.Add(new());
+                grid.ColumnDefinitions.Add(new() { Width = GridLength.Auto });
                 grid.RowDefinitions.Add(new() { Height = GridLength.Auto });
                 grid.RowDefinitions.Add(new());
                 grid.Children.Add(imagesTabs);
@@ -144,7 +144,7 @@ namespace _11_Image_Processing
         private void SetUpAllResults()
         {
 
-            var s= GetListOfAll();
+            var s = GetListOfAll();
             allResults.ItemsSource = s;
 
             int height = 21;
@@ -154,7 +154,7 @@ namespace _11_Image_Processing
                 Image x = item.Name;
                 x.Height = height;
                 namesPanel.Children.Add(x);
-            }            
+            }
         }
 
         private List<ResultOfAllOne> GetListOfAll()
@@ -164,16 +164,14 @@ namespace _11_Image_Processing
             {
                 var li = GetListToDisplay(i);
 
-                int right=0;
+                int right = 0;
                 foreach (var item in li)
                     if (item.CorrectBool)
                         right++;
                 ResultOfAllOne r;
-                if (ST.namesScaned.Count>i)
-                    r= new(i + 1, right, li.Count,ST.namesScaned[i]);
-
-                else
-                    r=new(i+1, right, li.Count);
+                if (ST.namesScaned.Count > i)
+                    r = new(i + 1, right, li.Count, ST.namesScaned[i]);
+                else r = new(i + 1, right, li.Count);
 
                 list.Add(r);
             }

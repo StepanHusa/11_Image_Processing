@@ -8,13 +8,12 @@
     xmlns:local="clr-namespace:_11_Image_Processing"
         mc:Ignorable="d"
     
-        Title="{}" Height="450" Width="800">
-
+        Height="450" Width="800" Background="Azure">
 
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="18"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -33,8 +32,8 @@
         <PdfViewer:PdfDocumentView x:Name="pdfDocumentView" HorizontalAlignment="Center"  Grid.Column="1" Grid.RowSpan="2" SizeChanged="pdfDocumentView_SizeChanged" />
 
 
-        <Menu >
-            <MenuItem x:Name="Menu_Project" Header="_Project">
+        <Menu Style="{DynamicResource menuStyle}" >
+            <MenuItem x:Name="Menu_Project" Header="_Project" >
                 <MenuItem          Header="_New">
                     <MenuItem      Header="_Blank PDF File"        Click="Menu_Load_New_Click"/>
                     <MenuItem      Header="_From Existing PDF"     Click="Menu_Load_Open_Click"/>
@@ -70,6 +69,8 @@
                     <MenuItem x:Name="Menu_Read_ListOfScans_OnePage" Header="One Page" Click="Menu_Read_ListOfScans_OnePage_Click"/>
                     <MenuItem x:Name="Menu_Read_ListOfScans_Dialog" Header="More" Click="Menu_Read_ListOfScans_Dialog_Click"/>
                 </MenuItem>
+                <MenuItem x:Name="Menu_Read_Scan" Header="Scanner" Click="Menu_Read_Scan_Click"/>
+
             </MenuItem>
 
             <MenuItem x:Name="Menu_Eavluate" Header="_Evaluate" Click="Menu_Eavluate_Click" IsEnabled="False"/>
@@ -78,8 +79,9 @@
 
             <MenuItem x:Name="Menu_Settions" Header="_Settings" Click="Menu_Settings_Click"/>
         </Menu>
+        
 
-        <Grid Grid.Row="1" Margin="10,0,0,0" >
+        <Grid Grid.Row="1" Margin="10,5,0,0" >
             <!--ShowGridLines="True"-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
@@ -133,17 +135,20 @@
             <TextBox x:Name="dateoflastsavetext"  Grid.Row="8" Grid.Column="1" IsReadOnly="True"/>
 
 
-
-
-
         </Grid>
         <Label x:Name="loadedPdfLabel" Content="" Grid.Row="1" HorizontalAlignment="Center" Margin="0,351,0,0" Grid.Column="2" VerticalAlignment="Top"/>
 
         <Button Content="Reload" x:Name="reloadButton" HorizontalAlignment="Center" Margin="0,200,0,0" Grid.Row="1" VerticalAlignment="Center" IsEnabled="False"  Click="reloadButton_Click"  />
 
-        <Grid x:Name="gridInvisible" />
 
 
     </Grid>
+
+    <Window.Resources>
+            <Style x:Key="menuStyle" TargetType="Menu">
+                <Setter Property="Background" Value="Coral"/>
+            </Style>
+                
+    </Window.Resources>
 
 </Window>

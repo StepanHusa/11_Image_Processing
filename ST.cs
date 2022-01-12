@@ -16,7 +16,7 @@ namespace _11_Image_Processing
     {
 
         //unchanging
-        internal static string appName = "Application Name";
+        internal static string appName = "Student Tester";
         internal static SettingsW settingsWindow;
 
         //settings
@@ -87,6 +87,9 @@ namespace _11_Image_Processing
             internal static float indexFontSize = 10;
         }
 
-
+        internal static class GradingSettings
+        {
+            internal static int[] GradeBottomBoarder = new int[4] { 90, 80, 70, 60 };
+        }
     }
 }
