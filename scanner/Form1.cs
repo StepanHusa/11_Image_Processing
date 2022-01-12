@@ -67,6 +67,8 @@ namespace _11_Image_Processing
 
         public void StartScanning()
         {
+
+
             Scanner device = null;
 
             this.Invoke(new MethodInvoker(delegate ()
@@ -113,7 +115,7 @@ namespace _11_Image_Processing
 
 
             // Save the image
-            string path = null;//TODO repair
+            string path = Path.GetTempFileName();//TODO repair
 
             if (File.Exists(path))
             {
@@ -123,6 +125,8 @@ namespace _11_Image_Processing
             image.SaveFile(path);
 
             pictureBox1.Image = new Bitmap(path);
+
+            ST.tempScan = path;
         }
 
         //private void button2_Click(object sender, EventArgs e)
