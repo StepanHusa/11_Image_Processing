@@ -537,6 +537,7 @@ namespace _11_Image_Processing
         }
         //Read
         //one
+        //TODO eventualy remove fromm menu
         private void Menu_Read_PNG_Click(object sender, RoutedEventArgs e)
         {
             var open = new OpenFileDialog() { Title = "open PNG", Filter = "PNG(*.png)|*.png" };
@@ -591,8 +592,12 @@ namespace _11_Image_Processing
 
             var b = new ImportPicturesDialogW(a.tempScans.Count);
             if (b.ShowDialog() != true)
+            {
                 if (MessageBox.Show("Realy return?", "caption", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     return;
+                else b.ShowDialog();
+            }
+            //TORO redo to one method
 
             int[] da = b.Answer;
 
@@ -607,6 +612,8 @@ namespace _11_Image_Processing
                     ii++;
                 }
             }
+            ST.scansInPagesInWorks = works;
+
         }
 
         //Print

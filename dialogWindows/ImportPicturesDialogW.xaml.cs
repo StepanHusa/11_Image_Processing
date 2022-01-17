@@ -46,7 +46,10 @@ namespace _11_Image_Processing
         private void CalculateRest()
         {
             works.Content = (int)(loadedInt/sldAnswer.Value);
-            left.Content = loadedInt-(int)works.Content * sldAnswer.Value;
+            int g = loadedInt - (int)works.Content * (int)sldAnswer.Value;
+            left.Content = g;
+            if (g != 0) left.Background = Brushes.Red;
+            else left.Background = Brushes.Green;
         }
         private void Window_ContentRendered(object sender, EventArgs e)
         {
@@ -57,6 +60,7 @@ namespace _11_Image_Processing
         public int[] Answer
         {
             get {
+                
                 var a = new int[(int)works.Content];
                 for (int i = 0; i < a.Length; i++)
                 {
@@ -64,6 +68,10 @@ namespace _11_Image_Processing
                 }
                 return a; 
             }
+        }
+        public bool? Invert
+        {
+            get { return invert.IsChecked; }
         }
     }
 }

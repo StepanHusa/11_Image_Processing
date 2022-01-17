@@ -69,7 +69,7 @@ namespace _11_Image_Processing
                 MessageBox.Show("You need to select first an scanner device from the list",
                                 "Warning",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //return;
+                return;
             }
 
             var a = new dialogWindows.ChooseNumber();
@@ -100,13 +100,13 @@ namespace _11_Image_Processing
                 device = listBox1.SelectedItem as Scanner;
             }));
 
-            if (device == null)
-            {
-                MessageBox.Show("You need to select first an scanner device from the list",
-                                "Warning",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            //if (device == null)
+            //{
+            //    MessageBox.Show("You need to select first an scanner device from the list",
+            //                    "Warning",
+            //                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return;
+            //}
             //else if(String.IsNullOrEmpty(textBox2.Text))
             //{
             //    MessageBox.Show("Provide a filename",
@@ -139,18 +139,24 @@ namespace _11_Image_Processing
 
 
             // Save the image
-                string path = Path.GetTempFileName();//TODO repair
+            string path;//TODO repair
 
+            do
+            {
+                path = Path.GetTempFileName();
                 if (File.Exists(path))
                 {
                     File.Delete(path);
                 }
+                Path.ChangeExtension(path, imageExtension);
 
-                image.SaveFile(path);
+            } while (File.Exists(path));
 
-                pictureBox1.Image = new Bitmap(path);
+            image.SaveFile(path);
 
-                tempScans.Add(path);
+            pictureBox1.Image = new Bitmap(path);
+
+            tempScans.Add(path);
         }
 
         //private void button2_Click(object sender, EventArgs e)
