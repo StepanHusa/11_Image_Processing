@@ -14,41 +14,46 @@
         <PdfViewer:PdfViewerControl x:Name="pdfViewControl"  />
         <Rectangle x:Name="rectangleR" Stroke="Black" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Canvas HorizontalAlignment="Right" VerticalAlignment="Center" Height="400" Width="300" >
-            <Label Content="size of box"                Canvas.Right="220"/>
-            <TextBox x:Name="sizeLabel"                   Canvas.Right="120"  Text="{Binding ElementName=sizeSlider,Path=Value }"/>
-            <Slider x:Name="sizeSlider" Maximum="40"    Canvas.Right="10" Width="100" Value="20" ValueChanged="Slider_ValueChanged"                         IsSnapToTickEnabled="True"    TickFrequency="0.01"/>
+            <Label Content="width of bound"             Canvas.Top="0"     Canvas.Right="200"/>
+            <TextBox x:Name="widthLabel"                  Canvas.Top="0"      Canvas.Right="120"  Text="{Binding ElementName=widthSlider,Path=Value }" MaxWidth="20"/>
+            <Slider x:Name="widthSlider" Maximum="8"    Canvas.Top="0"      Canvas.Right="15" Value="2" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="0.1"/>
+
+
+            <Label Content="size of box"               Canvas.Top="25"  Canvas.Right="200"/>
+            <TextBox x:Name="sizeLabel"                  Canvas.Top="25"    Canvas.Right="120"  Text="{Binding ElementName=sizeSlider,Path=Value }" MaxWidth="20"/>
+            <Slider x:Name="sizeSlider" Maximum="40"    Canvas.Top="25"     Canvas.Right="15" Width="100" Value="20" ValueChanged="Slider_ValueChanged"                         IsSnapToTickEnabled="True"    TickFrequency="0.01"/>
             <!--Content="{Binding ElementName=sizeSlider,Path=Value }"-->
 
-            <Label Content="width of bound"             Canvas.Top="25"     Canvas.Right="220"/>
-            <TextBox x:Name="widthLabel"                  Canvas.Top="25"      Canvas.Right="120"  Text="{Binding ElementName=widthSlider,Path=Value }"/>
-            <Slider x:Name="widthSlider" Maximum="8"    Canvas.Top="25"      Canvas.Right="10" Value="2" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="0.1"/>
 
-            <Label Content="space between"              Canvas.Top="50"     Canvas.Right="220"/>
-            <TextBox x:Name="spaceLabel"                  Canvas.Top="50"      Canvas.Right="120" Text="{Binding ElementName=spaceSlider,Path=Value }"/>
-            <Slider x:Name="spaceSlider" Maximum="50"   Canvas.Top="50"      Canvas.Right="10" Value="10" Width="100" ValueChanged="Slider_ValueChanged"    IsSnapToTickEnabled="True"    TickFrequency="0.1"/>
+            <Label Content="space between"              Canvas.Top="50"     Canvas.Right="200"/>
+            <TextBox x:Name="spaceLabel"                  Canvas.Top="50"      Canvas.Right="120" Text="{Binding ElementName=spaceSlider,Path=Value }" MaxWidth="20"/>
+            <Slider x:Name="spaceSlider" Maximum="50"   Canvas.Top="50"      Canvas.Right="15" Value="10" Width="100" ValueChanged="Slider_ValueChanged"    IsSnapToTickEnabled="True"    TickFrequency="0.1"/>
 
-            <Label Content="Count"                      Canvas.Top="75"     Canvas.Right="220"/>
+            <Label Content="Count"                      Canvas.Top="75"     Canvas.Right="200"/>
             <TextBox x:Name="countLabel"                  Canvas.Top="75"      Canvas.Right="120"  Text="{Binding ElementName=countSlider,Path=Value }"/>
-            <Slider x:Name="countSlider" Maximum="10"   Canvas.Top="75"      Canvas.Right="10" Value="4" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="1" />
+            <Slider x:Name="countSlider" Maximum="10"   Canvas.Top="75"      Canvas.Right="15" Value="4" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="1" />
 
+            <Button x:Name="functionButton" Content="Choose Action"  Canvas.Top="135"     Canvas.Right="100" Click="functionButton_Click" />
+            <Button x:Name="undoBButton" Content="Undo Box"  Canvas.Top="175"     Canvas.Right="100" Click="undoBButton_Click" />
+            <Button x:Name="undoQButton" Content="Undo Question"  Canvas.Top="200"     Canvas.Right="100" Click="undoQButton_Click"/>
+            <Button x:Name="undoFButton" Content="Undo Field"  Canvas.Top="225"     Canvas.Right="100" Click="undoFButton_Click"/>
+            <Button x:Name="undoNFButton" Content="Undo Name Field"  Canvas.Top="250"     Canvas.Right="100" Click="undoNFButton_Click"/>
 
-            <Button x:Name="undoButton" Content="Undo Box"  Canvas.Top="150"     Canvas.Right="100" Click="undoButton_Click" />
-            <Button x:Name="undoQButton" Content="Undo Question"  Canvas.Top="175"     Canvas.Right="100" Click="undoQButton_Click"/>
-            <TextBlock  Canvas.Top="200"     Canvas.Right="100" TextAlignment="Right" >Not compatible with<LineBreak/> Delete Page</TextBlock>
+            <TextBlock  Canvas.Top="300"     Canvas.Right="100" TextAlignment="Right" >Undo is not compatible <LineBreak/>with Delete Page</TextBlock>
 
         </Canvas>
     </Grid>
     <Window.Resources>
         <ContextMenu x:Key="contextMenu">
             <!--<MenuItem x:Name="a"  Header="_Box" IsCheckable="True" Checked="a_Checked" Unchecked="a_Unchecked"/>-->
-            <MenuItem x:Name="b"  Header="_Field" IsCheckable="True" Checked="b_Checked" Unchecked="b_Unchecked"/>
-            <MenuItem x:Name="Menu_NewPage" Header="_New Page" Click="Menu_NewPage_Click"/>
-            <MenuItem x:Name="deletePage" Header="_Delete Current Page" Click="deletePage_Click"/>
             <!--<MenuItem x:Name="c" Header="_Box Priview" IsCheckable="True" Checked="c_Checked" Unchecked="c_Unchecked"/>-->
-            <MenuItem x:Name="d" Header="_Add Question Textboxes" IsCheckable="True" Checked="d_Checked" Unchecked="d_Unchecked"/>
-            <MenuItem x:Name="e" Header="_Add Question Boxes" IsCheckable="True" Checked="e_Checked" Unchecked="e_Unchecked"/>
-            <MenuItem x:Name="toogleAn" Header="_Toogle the Right Answer" IsCheckable="True" Checked="toogleAn_Checked" Unchecked="toogleAn_Unchecked"/>
-            <MenuItem x:Name="nameField" Header="_Name Field " IsCheckable="True" Checked="nameField_Checked" Unchecked="nameField_Unchecked"   />
+            <!--<MenuItem x:Name="d" Header="_Add Question Textboxes" IsCheckable="True" Checked="d_Checked" Unchecked="d_Unchecked"/>-->
+            <MenuItem x:Name="Menu_NewPage" Header="_New Page" Click="Menu_NewPage_Click"/>
+            <MenuItem x:Name="deletePage" Header="_Delete Page" Click="deletePage_Click"/>
+            <MenuItem x:Name="nameField" Header="_Name Field " IsCheckable="True" Checked="nameField_Checked" Unchecked="nameField_Unchecked"/>
+            <MenuItem x:Name="b"  Header="_Answer Field" IsCheckable="True" Checked="b_Checked" Unchecked="b_Unchecked"/>
+            <MenuItem x:Name="e" Header="_Answer Boxes" IsCheckable="True" Checked="e_Checked" Unchecked="e_Unchecked"/>
+            <MenuItem x:Name="toogleAn" Header="_Toogle Correct" IsCheckable="True" Checked="toogleAn_Checked" Unchecked="toogleAn_Unchecked"/>
         </ContextMenu>
     </Window.Resources>
     <Window.InputBindings>

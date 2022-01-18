@@ -388,6 +388,7 @@ namespace _11_Image_Processing
                 locFirstVertex = Mouse.GetPosition(this);
                 //this.MouseMove += PdfEditW_MouseMove;
                 pdfViewControl.PageMouseMove += PdfViewControl_PageMouseMove;
+                PdfViewControl_PageMouseMove(sender, args);//just to prevent bug displaying rectangle elsewhere
                 rectangleR.Visibility = Visibility.Visible;
             }
             else
@@ -404,10 +405,8 @@ namespace _11_Image_Processing
                     rect.Size = new((float)((args.Position.X - argsFirstVertex.Position.X) * 0.75 / zoom), (float)((args.Position.Y - argsFirstVertex.Position.Y) * 0.75 / zoom));
                     rect.RelativateToPage(doc.Pages[pindex]);
 
-                    rect.RelativateToPage(doc.Pages[pindex]);
-
                     doc.DrawRectangleBounds(rect, pindex);
-
+                    doc.DrawStringNextToRectangle($"Text {ST.pagesFields.Count+1}:",rect, pindex);
 
                     ST.pagesFields.Add(new(pindex,rect));
 
@@ -530,6 +529,10 @@ namespace _11_Image_Processing
         }
         private void Pdfwcontrol_PageClicked_name(object sender, PageClickedEventArgs args)
         {
+            if (ST.nameField != null)
+                if (MessageBox.Show("One Name field is alredy added. \n would you like to move it here? \n (some bugs may emerge)", "Warning", MessageBoxButton.YesNoCancel) != MessageBoxResult.Yes)
+                    return;
+
             drawingRectangle ^= true;
             if (drawingRectangle)
             {
@@ -644,7 +647,7 @@ namespace _11_Image_Processing
             RemakeBoxex();
 
         }
-        private void undoButton_Click(object sender, RoutedEventArgs e)
+        private void undoBButton_Click(object sender, RoutedEventArgs e)
         {
             UndoBox();
         }
@@ -841,6 +844,21 @@ namespace _11_Image_Processing
             Close();
         }
 
+        private void functionButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContextMenu cm = (ContextMenu)Resources["contextMenu"];
+            cm.IsOpen = true;
 
+        }
+
+        private void undoFButton_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO make undo for all 
+        }
+
+        private void undoNFButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

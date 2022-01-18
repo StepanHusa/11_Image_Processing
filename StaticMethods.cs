@@ -212,6 +212,17 @@ namespace _11_Image_Processing
 
             return doc;
         }
+        public static PdfLoadedDocument DrawStringNextToRectangle(this PdfLoadedDocument doc, string Text, RectangleF rectangle, int pageint)
+        {
+            var page = doc.Pages[pageint];
+            rectangle.UnrelativateToPage(page);
+            var p = new PointF(rectangle.Left - 2 * ST.baundWidth, rectangle.Top);
+
+            PdfStringFormat format = new() { Alignment = PdfTextAlignment.Right };
+            page.Graphics.DrawString(Text, new PdfStandardFont(PdfFontFamily.Courier, ST.QS.indexFontSize), new PdfPen(Color.Black), p, format);
+
+            return doc;
+        }
 
         public static List<SizeF> GetSizesOfPages(this PdfLoadedDocument doc)
         {

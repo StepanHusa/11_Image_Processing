@@ -57,16 +57,11 @@ namespace _11_Image_Processing
             textAnswer.Focus();
         }
 
-        public int[] Answer
+        public Tuple<int,int> Answer
         {
             get {
                 
-                var a = new int[(int)works.Content];
-                for (int i = 0; i < a.Length; i++)
-                {
-                    a[i] = (int)sldAnswer.Value;
-                }
-                return a; 
+                return new((int)works.Content, (int)sldAnswer.Value); 
             }
         }
         public bool? Invert

@@ -567,53 +567,57 @@ namespace _11_Image_Processing
             // var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; //TODO make for images (maybe make method for strings)
             var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };
             if (open.ShowDialog() == false) return;
-            var a = new ImportPicturesDialogW(open.FileNames.Count());
-            if (a.ShowDialog() != true) return;
-            int[] da = a.Answer;
 
-            List<List<Bitmap>> works = new();
-            int ii = 0;
-            for (int i = 0; i < da.Length; i++)
-            {
-                works.Add(new());
-                for (int j = 0; j < da[i]; j++)
-                {
-                    works[i].Add(new Bitmap(open.FileNames[ii]));
-                    ii++;
-                }
-            }
+            LoadNumberOfFiles(open.FileNames.Count(), open.FileNames);
 
-            ST.scansInPagesInWorks = works;
         }
         private void Menu_Read_Scan_Click(object sender, RoutedEventArgs e)
         {
             var a = new ScanForm();
             if (a.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
-            var b = new ImportPicturesDialogW(a.tempScans.Count);
-            if (b.ShowDialog() != true)
+            LoadNumberOfFiles(a.tempScans.Count, a.tempScans.ToArray());
+        }
+        private void LoadNumberOfFiles(int Number, string[] ImageFiles)
+        {
+            var a = new ImportPicturesDialogW(Number);
+            if (a.ShowDialog() != true)
             {
                 if (MessageBox.Show("Realy return?", "caption", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     return;
-                else b.ShowDialog();
+                else a.ShowDialog();
             }
-            //TORO redo to one method
 
-            int[] da = b.Answer;
+            var da = a.Answer;
 
             List<List<Bitmap>> works = new();
             int ii = 0;
-            for (int i = 0; i < da.Length; i++)
-            {
-                works.Add(new());
-                for (int j = 0; j < da[i]; j++)
+            if (!a.Invert.Value)
+                for (int i = 0; i < da.Item1; i++)
                 {
-                    works[i].Add(new Bitmap(a.tempScans[ii]));
-                    ii++;
+                    works.Add(new());
+                    for (int j = 0; j < da.Item2; j++)
+                    {
+                        works[i].Add(new Bitmap(ImageFiles[ii])); //BMP, GIF, EXIF, JPG, PNG and TIFF
+                        ii++;
+                    }
                 }
-            }
-            ST.scansInPagesInWorks = works;
+            else
+            {
+                for (int i = 0; i < da.Item1; i++)
+                    works.Add(new());
+                for (int j = 0; j < da.Item2; j++)
+                {
+                    for (int i = 0; i < da.Item1; i++)
+                    {
+                        works[i].Add(new Bitmap(ImageFiles[ii])); //BMP, GIF, EXIF, JPG, PNG and TIFF
+                        ii++;
+                    }
+                }
 
+            }
+
+            ST.scansInPagesInWorks = works;
         }
 
         //Print
