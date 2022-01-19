@@ -77,7 +77,7 @@ namespace _11_Image_Processing
                 //Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
 
                 //LoadDataFromFile(debugFolder + "\\01" + ST.projectExtension);
-                LoadDataFromFile(debugFolder + "\\02" + ST.projectExtension);
+                //LoadDataFromFile(debugFolder + "\\02" + ST.projectExtension);
 
                 //Menu_Save_Project.IsEnabled = true;
 
@@ -90,16 +90,16 @@ namespace _11_Image_Processing
                 //ST.scansInPagesInWorks.Add(new());
                 //ST.scansInPagesInWorks[0].Add(new Bitmap(debugFolder + "\\02(0).png"));
 
-                for (int i = 0; i < 5; i++)
-                {
-                    ST.scansInPagesInWorks.Add(new());
-                    for (int j = 0; j < 6; j++)
-                    {
-                        string h = s + (i * 6 + j) + ".bmp";
-                        ST.scansInPagesInWorks[i /*+ 1*/].Add(new Bitmap(h));
+                //for (int i = 0; i < 5; i++)
+                //{
+                //    ST.scansInPagesInWorks.Add(new());
+                //    for (int j = 0; j < 6; j++)
+                //    {
+                //        string h = s + (i * 6 + j) + ".bmp";
+                //        ST.scansInPagesInWorks[i /*+ 1*/].Add(new Bitmap(h));
 
-                    }
-                }
+                //    }
+                //}
 
 
                 

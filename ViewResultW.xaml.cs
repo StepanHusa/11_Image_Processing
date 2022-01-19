@@ -41,13 +41,14 @@ namespace _11_Image_Processing
                 {
                     Image wImage = new();
                     wImage.Source = ST.namesScaned[i].BitmapToImageSource();
-                    wImage.Height = 20;
+                    wImage.Height = 32;
                     StackPanel sp = new();
                     sp.Children.Add(wImage);
                     z.Header = sp;
                 }
                 else z.Header = i + 1;
 
+           
                 var imagesTabs = ViewWorks(i); //maybe remake for scroling (key= scr)
                 var table = ResultsList(i);
                 var result = new TextBox();
@@ -73,6 +74,12 @@ namespace _11_Image_Processing
 
             }
         }
+
+        private void Z_GotFocus(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private TabControl ViewWorks(int i)
         {
             var tabs = new TabControl() { TabStripPlacement = Dock.Left };
