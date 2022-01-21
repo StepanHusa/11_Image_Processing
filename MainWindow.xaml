@@ -150,7 +150,7 @@
                 
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="local:Commands.Edit" Executed="CommandBinding_Edit_Executed" CanExecute="CommandBinding_CanExecuteTrue"/>
+        <CommandBinding Command="local:Commands.Edit" Executed="CommandBinding_Edit_Executed" CanExecute="CommandBinding_CanExecuteTRUE"/>
     </Window.CommandBindings>
 
 </Window>

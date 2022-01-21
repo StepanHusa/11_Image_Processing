@@ -841,7 +841,7 @@ namespace _11_Image_Processing
             pdfDocumentView.ZoomTo(100);
         }
 
-        private void CommandBinding_CanExecuteTrue(object sender, CanExecuteRoutedEventArgs e)
+        private void CommandBinding_CanExecuteTRUE(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
