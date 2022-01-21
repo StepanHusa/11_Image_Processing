@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WIA;
+using _11_Image_Processing.Resources.Strings;
+
 
 namespace _11_Image_Processing
 {
@@ -66,8 +68,8 @@ namespace _11_Image_Processing
 
             if (device == null)
             {
-                MessageBox.Show("You need to select first an scanner device from the list",
-                                "Warning",
+                MessageBox.Show(Strings.SelectScener,
+                                Strings.Warning,
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -85,7 +87,7 @@ namespace _11_Image_Processing
 
         private void TriggerScan(int i)
         {
-            Console.WriteLine($"Image {i} succesfully scanned");
+            Console.WriteLine(Strings.Image +i+Strings.succesfullyscanned);
         }
 
         public void StartScanning()

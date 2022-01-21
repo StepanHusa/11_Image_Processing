@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using _11_Image_Processing.Resources.Strings;
 
 namespace _11_Image_Processing
 {
@@ -16,16 +17,16 @@ namespace _11_Image_Processing
     {
 
         //unchanging
-        internal static string appName = "Student Tester";
+        internal static string appName = Strings.NameOfAplication;
         internal static SettingsW settingsWindow;
 
         //settings
-        internal static string templateProjectName = "*Untitled";
+        internal static string templateProjectName = "*"+ Strings.Untitled;
 
         internal static float baundWidth = 2;
         internal static Color baundColor = Color.Red;
         internal static Color baundColorTwo = Color.Green;
-        internal static string nameString = "Name:";
+        internal static string nameString = Strings.Name+":";
 
         internal static float sizeOfBoxF = 20;
         internal static float spaceBetweenBoxes =10;

@@ -120,14 +120,47 @@
   <data name="AddBoxes" xml:space="preserve">
     <value>_AddBoxes</value>
   </data>
+  <data name="Allfiles" xml:space="preserve">
+    <value>All files</value>
+  </data>
+  <data name="Answer" xml:space="preserve">
+    <value>Answer</value>
+  </data>
   <data name="Answer Boxes" xml:space="preserve">
     <value>Answer Boxes</value>
+  </data>
+  <data name="AnswerBoxes" xml:space="preserve">
+    <value>Answer Boxes</value>
+  </data>
+  <data name="AnswerField" xml:space="preserve">
+    <value>Answer Field</value>
   </data>
   <data name="BlankPDFFile" xml:space="preserve">
     <value>_BlankPDFFile</value>
   </data>
+  <data name="Checked" xml:space="preserve">
+    <value>Checked</value>
+  </data>
+  <data name="ChooseAction" xml:space="preserve">
+    <value>Choose Action</value>
+  </data>
+  <data name="Correct" xml:space="preserve">
+    <value>Correct</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="Dateoflastsave" xml:space="preserve">
+    <value>Date of last save</value>
+  </data>
+  <data name="DeletePage" xml:space="preserve">
+    <value>Delete Page</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>_Edit</value>
+  </data>
+  <data name="Enteryourtext" xml:space="preserve">
+    <value>Enter your text</value>
   </data>
   <data name="Evaluate" xml:space="preserve">
     <value>_Evaluate</value>
@@ -144,13 +177,31 @@
   <data name="FromWordDocument" xml:space="preserve">
     <value>_FromWordDocument</value>
   </data>
+  <data name="Grade" xml:space="preserve">
+    <value>Grade</value>
+  </data>
   <data name="Help" xml:space="preserve">
     <value>_Help</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="Index" xml:space="preserve">
+    <value>Index</value>
   </data>
   <data name="JPEG" xml:space="preserve">
     <value>_JPEG</value>
   </data>
+  <data name="More" xml:space="preserve">
+    <value>_More</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="Name Field" xml:space="preserve">
+    <value>Name Field</value>
+  </data>
+  <data name="NameField" xml:space="preserve">
     <value>Name Field</value>
   </data>
   <data name="NameOfAplication" xml:space="preserve">
@@ -159,8 +210,32 @@
   <data name="New" xml:space="preserve">
     <value>_New</value>
   </data>
+  <data name="NewPage" xml:space="preserve">
+    <value>New Page</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="NoTools" xml:space="preserve">
     <value>_NoTools</value>
+  </data>
+  <data name="notsavedyet" xml:space="preserve">
+    <value>not saved yet</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="Numberofboxes" xml:space="preserve">
+    <value>Number of boxes</value>
+  </data>
+  <data name="Numberofpages" xml:space="preserve">
+    <value>Number of pages</value>
+  </data>
+  <data name="Numberofquestions" xml:space="preserve">
+    <value>Number of questions</value>
+  </data>
+  <data name="Numberoftextfields" xml:space="preserve">
+    <value>Number of text fields</value>
   </data>
   <data name="One" xml:space="preserve">
     <value>_One</value>
@@ -168,17 +243,56 @@
   <data name="OnePage" xml:space="preserve">
     <value>_OnePage</value>
   </data>
+  <data name="OnePNGtocheck" xml:space="preserve">
+    <value>_OnePNGtocheck</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>_Open</value>
+  </data>
+  <data name="Openlistofscans" xml:space="preserve">
+    <value>Open list of scans</value>
   </data>
   <data name="PDF" xml:space="preserve">
     <value>_PDF</value>
   </data>
+  <data name="Percents" xml:space="preserve">
+    <value>Percents</value>
+  </data>
+  <data name="Picturesallreadable" xml:space="preserve">
+    <value>Pictures(all readable)</value>
+  </data>
+  <data name="PNG" xml:space="preserve">
+    <value>_PNG</value>
+  </data>
+  <data name="Points" xml:space="preserve">
+    <value>Points</value>
+  </data>
   <data name="Print" xml:space="preserve">
     <value>_Print</value>
   </data>
+  <data name="ProjectFileName" xml:space="preserve">
+    <value>Project File Name</value>
+  </data>
+  <data name="ProjectLocation" xml:space="preserve">
+    <value>Project Location</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="Projectversion" xml:space="preserve">
+    <value>Project version</value>
+  </data>
+  <data name="question" xml:space="preserve">
+    <value>question</value>
+  </data>
   <data name="Read" xml:space="preserve">
     <value>_Read</value>
+  </data>
+  <data name="Reload" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="RightAnswer" xml:space="preserve">
+    <value>Right Answer</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>_Save</value>
@@ -189,10 +303,61 @@
   <data name="Scanner" xml:space="preserve">
     <value>_Scanner</value>
   </data>
+  <data name="SelectScener" xml:space="preserve">
+    <value>You need to select first an scanner device from the list</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>_Settings</value>
   </data>
+  <data name="sizeofbox" xml:space="preserve">
+    <value>size of box</value>
+  </data>
+  <data name="spacebetween" xml:space="preserve">
+    <value>space between</value>
+  </data>
+  <data name="succesfullyscanned" xml:space="preserve">
+    <value>succesfully scanned</value>
+  </data>
+  <data name="ToogleCorrect" xml:space="preserve">
+    <value>Toogle Correct</value>
+  </data>
+  <data name="UndoBox" xml:space="preserve">
+    <value>Undo Box</value>
+  </data>
+  <data name="UndoField" xml:space="preserve">
+    <value>Undo Field</value>
+  </data>
+  <data name="UndoNameField" xml:space="preserve">
+    <value>Undo Name Field</value>
+  </data>
+  <data name="UndoNotCompatible" xml:space="preserve">
+    <value>Undo is not compatible
+ with Delete Page</value>
+  </data>
+  <data name="UndoQuestion" xml:space="preserve">
+    <value>Undo Question</value>
+  </data>
   <data name="Unload" xml:space="preserve">
     <value>_Unload</value>
+  </data>
+  <data name="Untitled" xml:space="preserve">
+    <value>Untitled</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="WarningMoreThanOneNamefield" xml:space="preserve">
+    <value>One Name field is alredy added.
+would you like to move it here?
+ (some bugs may emerge)</value>
+  </data>
+  <data name="WarningnoNameFieldadded" xml:space="preserve">
+    <value>Warning: no Name Field added!</value>
+  </data>
+  <data name="widthofbound" xml:space="preserve">
+    <value>width of bound</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

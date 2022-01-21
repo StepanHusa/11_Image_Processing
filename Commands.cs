@@ -10,19 +10,29 @@ namespace _11_Image_Processing
 {
     public static class Commands
     {
-        public static readonly RoutedUICommand NameField = new RoutedUICommand
-    (
-        Strings.Name_Field,
-        "NameField",
-        typeof(Commands),
-        new InputGestureCollection()
-        {
-                    new KeyGesture(Key.N, ModifierKeys.Control)
-        }
-    );
-        public static readonly RoutedUICommand AnswerBoxes = new RoutedUICommand
+        public static readonly RoutedCommand Edit = new RoutedCommand
 (
-Strings.Answer_Boxes,
+"Edit",
+typeof(Commands),
+new InputGestureCollection()
+{
+                    new KeyGesture(Key.E, ModifierKeys.Control)
+}
+);
+
+        public static readonly RoutedCommand NameField = new RoutedCommand("NameField", typeof(Commands), new InputGestureCollection()
+{
+                    new KeyGesture(Key.N, ModifierKeys.Control)
+}
+            );
+        public static readonly RoutedCommand AnswerField = new RoutedCommand("AnswerField", typeof(Commands), new InputGestureCollection()
+{
+                    new KeyGesture(Key.F, ModifierKeys.Control)
+}
+    );
+
+        public static readonly RoutedCommand AnswerBoxes = new RoutedCommand
+(
 "AnswerBoxes",
 typeof(Commands),
 new InputGestureCollection()
@@ -30,6 +40,9 @@ new InputGestureCollection()
                     new KeyGesture(Key.B, ModifierKeys.Control)
 }
 );
+
+
+
 
     }
 }

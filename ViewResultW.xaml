@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_11_Image_Processing"
+    xmlns:ln="clr-namespace:_11_Image_Processing.Resources.Strings"
         mc:Ignorable="d"    
         Title="ViewResultW" Height="900">
 
@@ -22,10 +23,10 @@
         <ListView x:Name="allResults" Grid.Column="2">
             <ListView.View>
                 <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="">
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Index}"  Header="Index" Width="30"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Points}"  Header="Points" Width="50"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Percents}"  Header="Percents" Width="50"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Grade}"  Header="Grade" Width="50"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Index}"  Header="{x:Static ln:Strings.Index}" Width="30"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Points}"  Header="{x:Static ln:Strings.Points}" Width="50"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Percents}"  Header="{x:Static ln:Strings.Percents}" Width="50"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Grade}"  Header="{x:Static ln:Strings.Grade}" Width="50"/>
 
 
                 </GridView>
@@ -39,22 +40,13 @@
             <ListView.View>
 
                 <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="">
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Number}"  Header="Number" Width="25"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Number}"  Header="{x:Static ln:Strings.Number}" Width="25"/>
 
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Checked}"  Header="Checked" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Checked}"  Header="{x:Static ln:Strings.Checked}" Width="100"/>
 
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=RightAnswer }" Width="100">
-                        <GridViewColumnHeader>Right Answer
-                            <!--<GridViewColumnHeader.ContextMenu>
-                                <ContextMenu >
-                                    <MenuItem Header="Ascending" />
-                                    <MenuItem Header="Descending" />
-                                </ContextMenu>
-                            </GridViewColumnHeader.ContextMenu>-->
-                        </GridViewColumnHeader>
-                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=RightAnswer }" Width="100" Header="{x:Static ln:Strings.RightAnswer}"/>
 
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Correct}" Header="Correct" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Correct}" Header="{x:Static ln:Strings.Correct}" Width="100"/>
                 </GridView>
 
             </ListView.View>

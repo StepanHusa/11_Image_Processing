@@ -31,6 +31,8 @@ using System.Windows.Xps.Packaging;
 //using Aspose.Pdf;
 using PdfPrintingNet;
 using Syncfusion.Windows.PdfViewer;
+using _11_Image_Processing.Resources.Strings;
+
 
 namespace _11_Image_Processing
 {
@@ -60,7 +62,7 @@ namespace _11_Image_Processing
             {
                 HotkeysManager.SetupSystemHook();
                 //add individual hotkyes
-                HotkeysManager.AddHotkey(ModifierKeys.Control, Key.E, () => { if (Menu_Edit.IsEnabled) Menu_Edit_NoTools_Click(null, null); });
+                //HotkeysManager.AddHotkey(ModifierKeys.Control, Key.E, () => { if (Menu_Edit.IsEnabled) Menu_Edit_NoTools_Click(null, null); });
                 HotkeysManager.AddHotkey(ModifierKeys.Control, Key.S, () => { if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null); else if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null); });
                 HotkeysManager.AddHotkey((ModifierKeys.Control | ModifierKeys.Shift), Key.S, () => { if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null); });
 
@@ -167,10 +169,6 @@ namespace _11_Image_Processing
             HotkeysManager.ShutdownSystemHook();
         }
 
-        private void MyCommandExecuted(object sender, ExecutedRoutedEventArgs e)
-        {
-            Menu_Edit_AddBoxex_Click(sender, e);
-        }
 
         //load
         private void Menu_Load_Open_Click(object sender, RoutedEventArgs e)
@@ -255,13 +253,7 @@ namespace _11_Image_Processing
 
         }
         //Edit
-        private void Menu_Edit_AddBoxex_Click(object sender, RoutedEventArgs e)
-        {
-
-            PdfEditW m = new();
-            m.Show();
-        }
-        private void Menu_Edit_NoTools_Click(object sender, RoutedEventArgs e)
+        private void CommandBinding_Edit_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             PdfEditW m = new();
             m.Show();
@@ -551,7 +543,7 @@ namespace _11_Image_Processing
         //one page files
         private void Menu_Read_ListOfScans_OnePage_Click(object sender, RoutedEventArgs e)
         {
-            var open = new OpenFileDialog() { Title = "Open list of scans", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };//todo add more filters 
+            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };//todo add more filters 
             if (open.ShowDialog() == false) return;
 
             int l = ST.scansInPagesInWorks.Count();//moves indexing if there are already bitmaps in the list
@@ -565,7 +557,7 @@ namespace _11_Image_Processing
         private void Menu_Read_ListOfScans_Dialog_Click(object sender, RoutedEventArgs e)
         {
             // var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; //TODO make for images (maybe make method for strings)
-            var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };
+            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };//todo add more filters 
             if (open.ShowDialog() == false) return;
 
             LoadNumberOfFiles(open.FileNames.Count(), open.FileNames);
@@ -789,7 +781,7 @@ namespace _11_Image_Processing
 
             if (ST.versions.Count != 0)
                 dateoflastsavetext.Text = ST.versions.Last();
-            else dateoflastsavetext.Text = "not saved yet";
+            else dateoflastsavetext.Text =Strings.notsavedyet;
 
             //dateoflastsavetext.Text = ST.versions.Last().ToStringOfRegularFormat();
 
@@ -848,6 +840,13 @@ namespace _11_Image_Processing
         {
             pdfDocumentView.ZoomTo(100);
         }
+
+        private void CommandBinding_CanExecuteTrue(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+
 
 
 

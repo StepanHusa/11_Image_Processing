@@ -4,6 +4,8 @@ using System.Windows.Controls;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _11_Image_Processing.Resources.Strings;
+
 
 namespace _11_Image_Processing
 {
@@ -17,7 +19,7 @@ namespace _11_Image_Processing
 
         public bool CorrectBool { get { return Checked == RightAnswer; } }
 
-        public string Correct { get { if (Checked == RightAnswer) return "Yes"; else return "No"; } }
+        public string Correct { get { if (Checked == RightAnswer) return Strings.Yes; else return Strings.No; } }
 
         public ResultOfQuestion(string Checked, string RightAnswer, int Number)
         {

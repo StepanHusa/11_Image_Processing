@@ -49,9 +49,8 @@
                 <MenuItem  x:Name="Menu_Project_Save" Header="{x:Static ln:Strings.Save}" IsEnabled="False" Click="Menu_Save_Project_Click" InputGestureText="Ctrl+S"/>
             </MenuItem>
 
-            <MenuItem x:Name="Menu_Edit" Header="{x:Static ln:Strings.Edit}" IsEnabled="False">
-                <MenuItem x:Name="MenuEditOptions_AddBoxex" Header="{x:Static ln:Strings.AddBoxes}"  Click="Menu_Edit_AddBoxex_Click"/>
-                <MenuItem x:Name="Menu_Edit_NoTools" Header="{x:Static ln:Strings.NoTools}" InputGestureText="Ctrl+E" Click="Menu_Edit_NoTools_Click"/>
+            <MenuItem x:Name="Menu_Edit" Header="{x:Static ln:Strings.Edit}" IsEnabled="False" >
+                <MenuItem x:Name="Menu_Edit_NoTools" Header="{x:Static ln:Strings.NoTools}" Command="local:Commands.Edit"/>
             </MenuItem>
 
             <MenuItem x:Name="Menu_Export" Header="{x:Static ln:Strings.Export}" IsEnabled="False">
@@ -64,7 +63,7 @@
             <MenuItem x:Name="Menu_Print" Header="{x:Static ln:Strings.Print}" IsEnabled="False" Click="Menu_Print_Click"/>
 
             <MenuItem x:Name="Menu_Read" Header="{x:Static ln:Strings.Read}" IsEnabled="False">
-                <MenuItem x:Name="Menu_Read_PNG" Header="{x:Static ln:Strings.One PNGtocheck}" Click="Menu_Read_PNG_Click"/>
+                <MenuItem x:Name="Menu_Read_PNG" Header="{x:Static ln:Strings.OnePNGtocheck}" Click="Menu_Read_PNG_Click"/>
 
                 <MenuItem x:Name="Menu_Read_ListOfScans" Header="{x:Static ln:Strings.Files}">
                     <MenuItem x:Name="Menu_Read_ListOfScans_OnePage" Header="{x:Static ln:Strings.OnePage}" Click="Menu_Read_ListOfScans_OnePage_Click"/>
@@ -79,8 +78,7 @@
             <MenuItem x:Name="Menu_Help" Header="{x:Static ln:Strings.Help}" Click="Menu_Help_Click"/>
 
             <MenuItem x:Name="Menu_Settions" Header="{x:Static ln:Strings.Settings}" Click="Menu_Settings_Click"/>
-        </Menu>
-        
+        </Menu>        
 
         <Grid Grid.Row="1" Margin="10,5,0,0" >
             <!--ShowGridLines="True"-->
@@ -103,15 +101,15 @@
                 <ColumnDefinition Width="125*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Project"                   Grid.Row="0" Grid.Column="0"/>
-            <TextBlock Text="Project File Name"         Grid.Row="1" Grid.Column="0"/>
-            <TextBlock Text="Project Location"          Grid.Row="2" Grid.Column="0"/>
-            <TextBlock Text="Number of pages"           Grid.Row="3" Grid.Column="0"/>
-            <TextBlock Text="Number of questions"       Grid.Row="4" Grid.Column="0"/>
-            <TextBlock Text="Number of boxes"           Grid.Row="5" Grid.Column="0"/>
-            <TextBlock Text="Number of text fields"     Grid.Row="6" Grid.Column="0"/>
-            <TextBlock Text="Project version"           Grid.Row="7" Grid.Column="0"/>
-            <TextBlock Text="Date of last save"         Grid.Row="8" Grid.Column="0"/>
+            <TextBlock Text="{x:Static ln:Strings.ProjectName}"                   Grid.Row="0" Grid.Column="0"/>
+            <TextBlock Text="{x:Static ln:Strings.ProjectFileName}"         Grid.Row="1" Grid.Column="0"/>
+            <TextBlock Text="{x:Static ln:Strings.ProjectLocation}"          Grid.Row="2" Grid.Column="0"/>
+            <TextBlock Text="{x:Static ln:Strings.Numberofpages}"           Grid.Row="3" Grid.Column="0"/>
+            <TextBlock Text="{x:Static ln:Strings.Numberofquestions}"       Grid.Row="4" Grid.Column="0"/>
+            <TextBlock Text="{x:Static ln:Strings.Numberofboxes}"           Grid.Row="5" Grid.Column="0"/>
+            <TextBlock Text="{x:Static ln:Strings.Numberoftextfields}"     Grid.Row="6" Grid.Column="0"/>
+            <TextBlock Text="{x:Static ln:Strings.Projectversion}"           Grid.Row="7" Grid.Column="0"/>
+            <TextBlock Text="{x:Static ln:Strings.Dateoflastsave}"         Grid.Row="8" Grid.Column="0"/>
 
 
 
@@ -139,7 +137,7 @@
         </Grid>
         <Label x:Name="loadedPdfLabel" Content="" Grid.Row="1" HorizontalAlignment="Center" Margin="0,351,0,0" Grid.Column="2" VerticalAlignment="Top"/>
 
-        <Button Content="Reload" x:Name="reloadButton" HorizontalAlignment="Center" Margin="0,200,0,0" Grid.Row="1" VerticalAlignment="Center" IsEnabled="False"  Click="reloadButton_Click"  />
+        <Button Content="{x:Static ln:Strings.Reload}" x:Name="reloadButton" HorizontalAlignment="Center" Margin="0,200,0,0" Grid.Row="1" VerticalAlignment="Center" IsEnabled="False"  Click="reloadButton_Click"  />
 
 
 
@@ -151,5 +149,8 @@
             </Style>
                 
     </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="local:Commands.Edit" Executed="CommandBinding_Edit_Executed" CanExecute="CommandBinding_CanExecuteTrue"/>
+    </Window.CommandBindings>
 
 </Window>

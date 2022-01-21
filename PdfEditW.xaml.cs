@@ -19,6 +19,8 @@ using Syncfusion.Pdf.Graphics;
 using System.Drawing;
 using Syncfusion.Pdf;
 using Syncfusion.Pdf.Interactive;
+using _11_Image_Processing.Resources.Strings;
+
 
 namespace _11_Image_Processing
 {
@@ -432,7 +434,7 @@ namespace _11_Image_Processing
             ST.boxesInQuestions.Add(new());
 
 
-            var tb = new PdfTextBoxField(doc.Pages[args.PageIndex], "question");
+            var tb = new PdfTextBoxField(doc.Pages[args.PageIndex], Strings.question);
             tb.Text = $"Question";
             tb.Bounds = new RectangleF(point.X, point.Y, ST.QS.widthOfQTBs, ST.QS.heightOfTB);
             doc.Form.Fields.Add(tb);
@@ -442,8 +444,8 @@ namespace _11_Image_Processing
             for (int i = 0; i < ST.QS.n; i++)
             {
                 //add answer i textbox field
-                PdfTextBoxField textBoxField = new PdfTextBoxField(doc.Pages[args.PageIndex], "Enter your text");
-                textBoxField.Text = $"Answer {i + 1}";
+                PdfTextBoxField textBoxField = new PdfTextBoxField(doc.Pages[args.PageIndex],Strings.Enteryourtext);
+                textBoxField.Text = Strings.Answer+ (i + 1);
                 textBoxField.Bounds = new RectangleF(point.X + ST.QS.tab, point.Y + ST.QS.heightOfTB + ST.QS.spaceUnderQ + i * (ST.QS.heightOfTB + ST.QS.spaceBtwAn), ST.QS.widthOfQTBs - ST.QS.tab, ST.QS.heightOfTB);
                 doc.Form.Fields.Add(textBoxField);
 
@@ -530,7 +532,7 @@ namespace _11_Image_Processing
         private void Pdfwcontrol_PageClicked_name(object sender, PageClickedEventArgs args)
         {
             if (ST.nameField != null)
-                if (MessageBox.Show("One Name field is alredy added. \n would you like to move it here? \n (some bugs may emerge)", "Warning", MessageBoxButton.YesNoCancel) != MessageBoxResult.Yes)
+                if (MessageBox.Show(Strings.WarningMoreThanOneNamefield, Strings.Warning, MessageBoxButton.YesNoCancel) != MessageBoxResult.Yes)
                     return;
 
             drawingRectangle ^= true;
@@ -863,12 +865,17 @@ namespace _11_Image_Processing
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            
+            //Todo Commands
         }
 
         private void CommandBinding_CanExecuteTRUE(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
+        }
+
+        private void CommandBinding_Executed_1(object sender, ExecutedRoutedEventArgs e)
+        {
+
         }
     }
 }

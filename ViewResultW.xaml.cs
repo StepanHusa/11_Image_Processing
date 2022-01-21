@@ -49,10 +49,10 @@ namespace _11_Image_Processing
                 else z.Header = i + 1;
 
            
-                var imagesTabs = ViewWorks(i); //maybe remake for scroling (key= scr)
+                var imagesTabs = ViewWorks(i); //TODO maybe remake for scroling (key= scr)
                 var table = ResultsList(i);
                 var result = new TextBox();
-                result.Text = "hello";
+                result.Text = "hello"; //TODO finish this section and add statistics
 
                 Grid grid = new();
                 grid.ColumnDefinitions.Add(new());
@@ -71,7 +71,7 @@ namespace _11_Image_Processing
 
                 z.Content = grid;
                 tabsHorizontal.Items.Add(z);
-
+                //TODO make memory sutible
             }
         }
 

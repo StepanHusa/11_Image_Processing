@@ -19,6 +19,8 @@ using System.ComponentModel;
 using System.Windows.Input;
 using System.Runtime.InteropServices;
 //using System.Windows.Media.Imaging;
+using _11_Image_Processing.Resources.Strings;
+
 
 namespace _11_Image_Processing
 {
@@ -525,7 +527,7 @@ namespace _11_Image_Processing
         }
         public static string ToOFDFilter(this string[] extensionsWithoutDot)
         {
-            string s = "All files(*.*) | *.*";
+            string s = Strings.Allfiles + "(*.*) | *.*";
             foreach (var ext in extensionsWithoutDot)
             {
                 s += $"|(*.{ext})|*.{ext}";
@@ -535,7 +537,7 @@ namespace _11_Image_Processing
         }
         public static string ToOFDFilter(this string[] extensionsWithoutDot, string[] comments)
         {
-            string s = "All files(*.*) | *.*";
+            string s = Strings.Allfiles+"(*.*) | *.*";
             Array.Resize(ref comments, extensionsWithoutDot.Length);
             for (int i = 0; i < extensionsWithoutDot.Length; i++)
             {
@@ -714,7 +716,7 @@ namespace _11_Image_Processing
 
         public static List<Bitmap> GetCropedNames(this List<List<Bitmap>> works, Tuple<int, RectangleF> nameField)
         {
-            if (nameField == null) {System.Windows.MessageBox.Show("Warning: no Name Field added!");return null; }
+            if (nameField == null) {System.Windows.MessageBox.Show(Strings.WarningnoNameFieldadded);return null; }
 
             List<Bitmap> l = new();
             foreach (var work in works)

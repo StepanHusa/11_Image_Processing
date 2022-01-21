@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_11_Image_Processing"    
-        xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" x:Class="_11_Image_Processing.PdfEditW"
+        xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" x:Class="_11_Image_Processing.PdfEditW"    
+    xmlns:ln="clr-namespace:_11_Image_Processing.Resources.Strings"
         mc:Ignorable="d"
          Title="PdfEditW" HorizontalAlignment="Left" VerticalAlignment="Top" Closing="Window_Closing" PreviewKeyDown="Window_KeyDown" PreviewKeyUp="Window_KeyUp">
     <Window.DataContext>
@@ -14,32 +15,32 @@
         <PdfViewer:PdfViewerControl x:Name="pdfViewControl"  />
         <Rectangle x:Name="rectangleR" Stroke="Black" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Canvas HorizontalAlignment="Right" VerticalAlignment="Center" Height="400" Width="300" >
-            <Label Content="width of bound"             Canvas.Top="0"     Canvas.Right="200"/>
+            <Label Content="{x:Static ln:Strings.widthofbound}"             Canvas.Top="0"     Canvas.Right="200"/>
             <TextBox x:Name="widthLabel"                  Canvas.Top="0"      Canvas.Right="120"  Text="{Binding ElementName=widthSlider,Path=Value }" MaxWidth="20"/>
             <Slider x:Name="widthSlider" Maximum="8"    Canvas.Top="0"      Canvas.Right="15" Value="2" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="0.1"/>
 
 
-            <Label Content="size of box"               Canvas.Top="25"  Canvas.Right="200"/>
+            <Label Content="{x:Static ln:Strings.sizeofbox}"               Canvas.Top="25"  Canvas.Right="200"/>
             <TextBox x:Name="sizeLabel"                  Canvas.Top="25"    Canvas.Right="120"  Text="{Binding ElementName=sizeSlider,Path=Value }" MaxWidth="20"/>
             <Slider x:Name="sizeSlider" Maximum="40"    Canvas.Top="25"     Canvas.Right="15" Width="100" Value="20" ValueChanged="Slider_ValueChanged"                         IsSnapToTickEnabled="True"    TickFrequency="0.01"/>
             <!--Content="{Binding ElementName=sizeSlider,Path=Value }"-->
 
 
-            <Label Content="space between"              Canvas.Top="50"     Canvas.Right="200"/>
+            <Label Content="{x:Static ln:Strings.spacebetween}"              Canvas.Top="50"     Canvas.Right="200"/>
             <TextBox x:Name="spaceLabel"                  Canvas.Top="50"      Canvas.Right="120" Text="{Binding ElementName=spaceSlider,Path=Value }" MaxWidth="20"/>
             <Slider x:Name="spaceSlider" Maximum="50"   Canvas.Top="50"      Canvas.Right="15" Value="10" Width="100" ValueChanged="Slider_ValueChanged"    IsSnapToTickEnabled="True"    TickFrequency="0.1"/>
 
-            <Label Content="Count"                      Canvas.Top="75"     Canvas.Right="200"/>
+            <Label Content="{x:Static ln:Strings.Count}"                      Canvas.Top="75"     Canvas.Right="200"/>
             <TextBox x:Name="countLabel"                  Canvas.Top="75"      Canvas.Right="120"  Text="{Binding ElementName=countSlider,Path=Value }"/>
             <Slider x:Name="countSlider" Maximum="10"   Canvas.Top="75"      Canvas.Right="15" Value="4" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="1" />
 
-            <Button x:Name="functionButton" Content="Choose Action"  Canvas.Top="135"     Canvas.Right="100" Click="functionButton_Click" />
-            <Button x:Name="undoBButton" Content="Undo Box"  Canvas.Top="175"     Canvas.Right="100" Click="undoBButton_Click" />
-            <Button x:Name="undoQButton" Content="Undo Question"  Canvas.Top="200"     Canvas.Right="100" Click="undoQButton_Click"/>
-            <Button x:Name="undoFButton" Content="Undo Field"  Canvas.Top="225"     Canvas.Right="100" Click="undoFButton_Click"/>
-            <Button x:Name="undoNFButton" Content="Undo Name Field"  Canvas.Top="250"     Canvas.Right="100" Click="undoNFButton_Click"/>
+            <Button x:Name="functionButton" Content="{x:Static ln:Strings.ChooseAction}"  Canvas.Top="135"     Canvas.Right="100" Click="functionButton_Click" />
+            <Button x:Name="undoBButton" Content="{x:Static ln:Strings.UndoBox}"  Canvas.Top="175"     Canvas.Right="100" Click="undoBButton_Click" />
+            <Button x:Name="undoQButton" Content="{x:Static ln:Strings.UndoQuestion}"  Canvas.Top="200"     Canvas.Right="100" Click="undoQButton_Click"/>
+            <Button x:Name="undoFButton" Content="{x:Static ln:Strings.UndoField}"  Canvas.Top="225"     Canvas.Right="100" Click="undoFButton_Click"/>
+            <Button x:Name="undoNFButton" Content="{x:Static ln:Strings.UndoNameField}"  Canvas.Top="250"     Canvas.Right="100" Click="undoNFButton_Click"/>
 
-            <TextBlock  Canvas.Top="300"     Canvas.Right="100" TextAlignment="Right" >Undo is not compatible <LineBreak/>with Delete Page</TextBlock>
+            <TextBlock  Canvas.Top="300"     Canvas.Right="100" TextAlignment="Right" Text="{x:Static ln:Strings.UndoNotCompatible}" />
 
         </Canvas>
     </Grid>
@@ -48,12 +49,12 @@
             <!--<MenuItem x:Name="a"  Header="_Box" IsCheckable="True" Checked="a_Checked" Unchecked="a_Unchecked"/>-->
             <!--<MenuItem x:Name="c" Header="_Box Priview" IsCheckable="True" Checked="c_Checked" Unchecked="c_Unchecked"/>-->
             <!--<MenuItem x:Name="d" Header="_Add Question Textboxes" IsCheckable="True" Checked="d_Checked" Unchecked="d_Unchecked"/>-->
-            <MenuItem x:Name="Menu_NewPage" Header="_New Page" Click="Menu_NewPage_Click" />
-            <MenuItem x:Name="deletePage" Header="_Delete Page" Click="deletePage_Click"/>
-            <MenuItem x:Name="nameField"  IsCheckable="True" Checked="nameField_Checked" Unchecked="nameField_Unchecked" Command="local:Commands.NameField"/> <!--Header="_Name Field "-->
-            <MenuItem x:Name="b" Header="_Answer Field"  IsCheckable="True" Checked="b_Checked" Unchecked="b_Unchecked"/> 
-            <MenuItem x:Name="e"  IsCheckable="True" Checked="e_Checked" Unchecked="e_Unchecked" Command="local:Commands.AnswerBoxes"/> <!--Header="_Answer Boxes"-->
-            <MenuItem x:Name="toogleAn" Header="_Toogle Correct" IsCheckable="True" Checked="toogleAn_Checked" Unchecked="toogleAn_Unchecked"/>
+            <MenuItem x:Name="Menu_NewPage" Header="{x:Static ln:Strings.NewPage}" Click="Menu_NewPage_Click" />
+            <MenuItem x:Name="deletePage" Header="{x:Static ln:Strings.DeletePage}" Click="deletePage_Click"/>
+            <MenuItem x:Name="nameField" Header="{x:Static ln:Strings.NameField}" IsCheckable="True" Checked="nameField_Checked" Unchecked="nameField_Unchecked" Command="local:Commands.NameField"/>
+            <MenuItem x:Name="b" Header="{x:Static ln:Strings.AnswerField}"  IsCheckable="True" Checked="b_Checked" Unchecked="b_Unchecked" Command="local:Commands.AnswerField"/>
+            <MenuItem x:Name="e" Header="{x:Static ln:Strings.AnswerBoxes}" IsCheckable="True" Checked="e_Checked" Unchecked="e_Unchecked" Command="local:Commands.AnswerBoxes"/>
+            <MenuItem x:Name="toogleAn" Header="{x:Static ln:Strings.ToogleCorrect}" IsCheckable="True" Checked="toogleAn_Checked" Unchecked="toogleAn_Unchecked"/>
         </ContextMenu>
     </Window.Resources>
     <Window.InputBindings>
@@ -62,7 +63,8 @@
 
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommandBinding_Executed"/>
-        <CommandBinding Command="local:Commands.NameField" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecuteTRUE"/>
+        <CommandBinding Command="local:Commands.NameField" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecuteTRUE" />
+        <CommandBinding Command="local:Commands.AnswerField" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecuteTRUE" />
         <CommandBinding Command="local:Commands.AnswerBoxes" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecuteTRUE"/>
 
     </Window.CommandBindings>
