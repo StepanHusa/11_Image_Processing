@@ -35,50 +35,50 @@
 
         <Menu Style="{DynamicResource menuStyle}" >
             <MenuItem x:Name="Menu_Project" Header="_Project" >
-                <MenuItem          Header="_New">
-                    <MenuItem      Header="_Blank PDF File"        Click="Menu_Load_New_Click"/>
-                    <MenuItem      Header="_From Existing PDF"     Click="Menu_Load_Open_Click"/>
-                    <MenuItem      Header="_From Word Document"    Click="Menu_Load_Word_Click"/>
+                <MenuItem          Header="{x:Static ln:Strings.New}">
+                    <MenuItem      Header="{x:Static ln:Strings.BlankPDFFile}"        Click="Menu_Load_New_Click"/>
+                    <MenuItem      Header="{x:Static ln:Strings.FromExistingPDF}"     Click="Menu_Load_Open_Click"/>
+                    <MenuItem      Header="{x:Static ln:Strings.FromWordDocument}"    Click="Menu_Load_Word_Click"/>
                 </MenuItem>
 
-                <MenuItem x:Name="Menu_Project_Open"     Header="_Open" Click="Menu_Open_Project_Click"/>
+                <MenuItem x:Name="Menu_Project_Open"     Header="{x:Static ln:Strings.Open}" Click="Menu_Open_Project_Click"/>
 
-                <MenuItem x:Name="Menu_Project_Unload" Header="_Unload" Click="Menu_Project_Unload_Click"/>
+                <MenuItem x:Name="Menu_Project_Unload" Header="{x:Static ln:Strings.Unload}" Click="Menu_Project_Unload_Click"/>
 
-                <MenuItem x:Name="Menu_Project_SaveAs" Header="_Save As" IsEnabled="False"  Click="Menu_Save_ProjectAs_Click" InputGestureText="Ctrl+Shift+S"/>
-                <MenuItem  x:Name="Menu_Project_Save" Header="_Save" IsEnabled="False" Click="Menu_Save_Project_Click" InputGestureText="Ctrl+S"/>
-            </MenuItem>
-            
-            <MenuItem x:Name="Menu_Edit" Header="_Edit" IsEnabled="False">
-                <MenuItem x:Name="MenuEditOptions_AddBoxex" Header="_Add Boxes"  Click="Menu_Edit_AddBoxex_Click"/>
-                <MenuItem x:Name="Menu_Edit_NoTools" Header="_No Tools" InputGestureText="Ctrl+E" Click="Menu_Edit_NoTools_Click"/>
-            </MenuItem>
-            
-            <MenuItem x:Name="Menu_Export" Header="_Export" IsEnabled="False">
-                <MenuItem x:Name="Menu_Export_ToJPEG" Header="_JPEG" Click="Menu_Export_ToJPEG_Click"/>
-                    <MenuItem x:Name="Menu_Export_ToPNG" Header="_PNG" Click="Menu_Export_ToPNG_Click"/>
-                
-                <MenuItem x:Name="Menu_PDF" Header="_PDF" Click="Menu_Save_PDF_Click"/>
+                <MenuItem x:Name="Menu_Project_SaveAs" Header="{x:Static ln:Strings.SaveAs}" IsEnabled="False"  Click="Menu_Save_ProjectAs_Click" InputGestureText="Ctrl+Shift+S"/>
+                <MenuItem  x:Name="Menu_Project_Save" Header="{x:Static ln:Strings.Save}" IsEnabled="False" Click="Menu_Save_Project_Click" InputGestureText="Ctrl+S"/>
             </MenuItem>
 
-            <MenuItem x:Name="Menu_Print" Header="_Print" IsEnabled="False" Click="Menu_Print_Click"/>
+            <MenuItem x:Name="Menu_Edit" Header="{x:Static ln:Strings.Edit}" IsEnabled="False">
+                <MenuItem x:Name="MenuEditOptions_AddBoxex" Header="{x:Static ln:Strings.AddBoxes}"  Click="Menu_Edit_AddBoxex_Click"/>
+                <MenuItem x:Name="Menu_Edit_NoTools" Header="{x:Static ln:Strings.NoTools}" InputGestureText="Ctrl+E" Click="Menu_Edit_NoTools_Click"/>
+            </MenuItem>
 
-            <MenuItem x:Name="Menu_Read" Header="_Read" IsEnabled="False">
-                <MenuItem x:Name="Menu_Read_PNG" Header="One PNG to check" Click="Menu_Read_PNG_Click"/>
+            <MenuItem x:Name="Menu_Export" Header="{x:Static ln:Strings.Export}" IsEnabled="False">
+                <MenuItem x:Name="Menu_Export_ToJPEG" Header="{x:Static ln:Strings.JPEG}" Click="Menu_Export_ToJPEG_Click"/>
+                <MenuItem x:Name="Menu_Export_ToPNG" Header="{x:Static ln:Strings.PNG}" Click="Menu_Export_ToPNG_Click"/>
 
-                <MenuItem x:Name="Menu_Read_ListOfScans" Header="Files">
-                    <MenuItem x:Name="Menu_Read_ListOfScans_OnePage" Header="One Page" Click="Menu_Read_ListOfScans_OnePage_Click"/>
-                    <MenuItem x:Name="Menu_Read_ListOfScans_Dialog" Header="More" Click="Menu_Read_ListOfScans_Dialog_Click"/>
+                <MenuItem x:Name="Menu_PDF" Header="{x:Static ln:Strings.PDF}" Click="Menu_Save_PDF_Click"/>
+            </MenuItem>
+
+            <MenuItem x:Name="Menu_Print" Header="{x:Static ln:Strings.Print}" IsEnabled="False" Click="Menu_Print_Click"/>
+
+            <MenuItem x:Name="Menu_Read" Header="{x:Static ln:Strings.Read}" IsEnabled="False">
+                <MenuItem x:Name="Menu_Read_PNG" Header="{x:Static ln:Strings.One PNGtocheck}" Click="Menu_Read_PNG_Click"/>
+
+                <MenuItem x:Name="Menu_Read_ListOfScans" Header="{x:Static ln:Strings.Files}">
+                    <MenuItem x:Name="Menu_Read_ListOfScans_OnePage" Header="{x:Static ln:Strings.OnePage}" Click="Menu_Read_ListOfScans_OnePage_Click"/>
+                    <MenuItem x:Name="Menu_Read_ListOfScans_Dialog" Header="{x:Static ln:Strings.More}" Click="Menu_Read_ListOfScans_Dialog_Click"/>
                 </MenuItem>
-                <MenuItem x:Name="Menu_Read_Scan" Header="Scanner" Click="Menu_Read_Scan_Click"/>
+                <MenuItem x:Name="Menu_Read_Scan" Header="{x:Static ln:Strings.Scanner}" Click="Menu_Read_Scan_Click"/>
 
             </MenuItem>
 
-            <MenuItem x:Name="Menu_Eavluate" Header="_Evaluate" Click="Menu_Eavluate_Click" IsEnabled="False"/>
+            <MenuItem x:Name="Menu_Eavluate" Header="{x:Static ln:Strings.Evaluate}" Click="Menu_Eavluate_Click" IsEnabled="False"/>
 
-            <MenuItem x:Name="Menu_Help" Header="_Help" Click="Menu_Help_Click"/>
+            <MenuItem x:Name="Menu_Help" Header="{x:Static ln:Strings.Help}" Click="Menu_Help_Click"/>
 
-            <MenuItem x:Name="Menu_Settions" Header="_Settings" Click="Menu_Settings_Click"/>
+            <MenuItem x:Name="Menu_Settions" Header="{x:Static ln:Strings.Settings}" Click="Menu_Settings_Click"/>
         </Menu>
         
 

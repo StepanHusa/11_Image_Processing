@@ -117,13 +117,82 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddBoxes" xml:space="preserve">
+    <value>_AddBoxes</value>
+  </data>
   <data name="Answer Boxes" xml:space="preserve">
     <value>Answer Boxes</value>
+  </data>
+  <data name="BlankPDFFile" xml:space="preserve">
+    <value>_BlankPDFFile</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>_Edit</value>
+  </data>
+  <data name="Evaluate" xml:space="preserve">
+    <value>_Evaluate</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>_Export</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>_Files</value>
+  </data>
+  <data name="FromExistingPDF" xml:space="preserve">
+    <value>_FromExistingPDF</value>
+  </data>
+  <data name="FromWordDocument" xml:space="preserve">
+    <value>_FromWordDocument</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>_Help</value>
+  </data>
+  <data name="JPEG" xml:space="preserve">
+    <value>_JPEG</value>
   </data>
   <data name="Name Field" xml:space="preserve">
     <value>Name Field</value>
   </data>
   <data name="NameOfAplication" xml:space="preserve">
     <value>Student Tester</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>_New</value>
+  </data>
+  <data name="NoTools" xml:space="preserve">
+    <value>_NoTools</value>
+  </data>
+  <data name="One" xml:space="preserve">
+    <value>_One</value>
+  </data>
+  <data name="OnePage" xml:space="preserve">
+    <value>_OnePage</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>_Open</value>
+  </data>
+  <data name="PDF" xml:space="preserve">
+    <value>_PDF</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>_Print</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>_Read</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>_Save</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>_SaveAs</value>
+  </data>
+  <data name="Scanner" xml:space="preserve">
+    <value>_Scanner</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>_Settings</value>
+  </data>
+  <data name="Unload" xml:space="preserve">
+    <value>_Unload</value>
   </data>
 </root>
