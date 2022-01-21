@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _11_Image_Processing.Resources {
+namespace _11_Image_Processing.Resources.Strings {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace _11_Image_Processing.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Strings {
+    public class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace _11_Image_Processing.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("_11_Image_Processing.Resources.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("_11_Image_Processing.Resources.Strings.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace _11_Image_Processing.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace _11_Image_Processing.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Answer Boxes.
         /// </summary>
-        internal static string Answer_Boxes {
+        public static string Answer_Boxes {
             get {
                 return ResourceManager.GetString("Answer Boxes", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace _11_Image_Processing.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Name Field.
         /// </summary>
-        internal static string Name_Field {
+        public static string Name_Field {
             get {
                 return ResourceManager.GetString("Name Field", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace _11_Image_Processing.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Student Tester.
         /// </summary>
-        internal static string NameOfAplication {
+        public static string NameOfAplication {
             get {
                 return ResourceManager.GetString("NameOfAplication", resourceCulture);
             }

@@ -59,14 +59,5 @@ namespace _11_Image_Processing.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Student Tester.
-        /// </summary>
-        internal static string NameOfAplication {
-            get {
-                return ResourceManager.GetString("NameOfAplication", resourceCulture);
-            }
-        }
     }
 }
