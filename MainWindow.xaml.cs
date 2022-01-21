@@ -77,7 +77,7 @@ namespace _11_Image_Processing
                 //Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
 
                 //LoadDataFromFile(debugFolder + "\\01" + ST.projectExtension);
-                //LoadDataFromFile(debugFolder + "\\02" + ST.projectExtension);
+                LoadDataFromFile(debugFolder + "\\02" + ST.projectExtension);
 
                 //Menu_Save_Project.IsEnabled = true;
 
@@ -992,3 +992,5 @@ namespace _11_Image_Processing
 //TODO work on the recognasing 
 //TODO add help and settings
 //TODO add lock function
+//TODO no green in export and print
+

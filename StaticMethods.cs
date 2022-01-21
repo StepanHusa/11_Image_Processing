@@ -205,6 +205,7 @@ namespace _11_Image_Processing
         {
             var page = doc.Pages[pageint];
             rectangle.UnrelativateToPage(page);
+            rectangle.EvaluateInPositiveSize();
             var p = new PointF(rectangle.Left-2* ST.baundWidth, rectangle.Top);
 
             PdfStringFormat format = new() { Alignment = PdfTextAlignment.Right };
@@ -216,6 +217,7 @@ namespace _11_Image_Processing
         {
             var page = doc.Pages[pageint];
             rectangle.UnrelativateToPage(page);
+            rectangle.EvaluateInPositiveSize();
             var p = new PointF(rectangle.Left - 2 * ST.baundWidth, rectangle.Top);
 
             PdfStringFormat format = new() { Alignment = PdfTextAlignment.Right };

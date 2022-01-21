@@ -6,9 +6,10 @@
     xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF"
     x:Class="_11_Image_Processing.MainWindow"
     xmlns:local="clr-namespace:_11_Image_Processing"
+    xmlns:ln="clr-namespace:_11_Image_Processing.Resources"
         mc:Ignorable="d"
-    
-        Height="450" Width="800" Background="Azure">
+    Title="{x:Static ln:Strings.NameOfAplication}"
+       Height="450" Width="800" Background="Azure">
 
 
     <Grid>

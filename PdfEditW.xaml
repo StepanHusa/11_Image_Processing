@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:_11_Image_Processing"       
-        xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" x:Class="_11_Image_Processing.PdfEditW"       
+        xmlns:local="clr-namespace:_11_Image_Processing"    
+        xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" x:Class="_11_Image_Processing.PdfEditW"
         mc:Ignorable="d"
-        Title="PdfEditW" HorizontalAlignment="Left" VerticalAlignment="Top" Closing="Window_Closing" PreviewKeyDown="Window_KeyDown" PreviewKeyUp="Window_KeyUp">
+         Title="PdfEditW" HorizontalAlignment="Left" VerticalAlignment="Top" Closing="Window_Closing" PreviewKeyDown="Window_KeyDown" PreviewKeyUp="Window_KeyUp">
     <Window.DataContext>
         <local:ST/>
     </Window.DataContext>
@@ -48,11 +48,11 @@
             <!--<MenuItem x:Name="a"  Header="_Box" IsCheckable="True" Checked="a_Checked" Unchecked="a_Unchecked"/>-->
             <!--<MenuItem x:Name="c" Header="_Box Priview" IsCheckable="True" Checked="c_Checked" Unchecked="c_Unchecked"/>-->
             <!--<MenuItem x:Name="d" Header="_Add Question Textboxes" IsCheckable="True" Checked="d_Checked" Unchecked="d_Unchecked"/>-->
-            <MenuItem x:Name="Menu_NewPage" Header="_New Page" Click="Menu_NewPage_Click"/>
+            <MenuItem x:Name="Menu_NewPage" Header="_New Page" Click="Menu_NewPage_Click" />
             <MenuItem x:Name="deletePage" Header="_Delete Page" Click="deletePage_Click"/>
-            <MenuItem x:Name="nameField" Header="_Name Field " IsCheckable="True" Checked="nameField_Checked" Unchecked="nameField_Unchecked"/>
-            <MenuItem x:Name="b"  Header="_Answer Field" IsCheckable="True" Checked="b_Checked" Unchecked="b_Unchecked"/>
-            <MenuItem x:Name="e" Header="_Answer Boxes" IsCheckable="True" Checked="e_Checked" Unchecked="e_Unchecked"/>
+            <MenuItem x:Name="nameField"  IsCheckable="True" Checked="nameField_Checked" Unchecked="nameField_Unchecked" Command="local:Commands.NameField"/> <!--Header="_Name Field "-->
+            <MenuItem x:Name="b" Header="_Answer Field"  IsCheckable="True" Checked="b_Checked" Unchecked="b_Unchecked"/> 
+            <MenuItem x:Name="e"  IsCheckable="True" Checked="e_Checked" Unchecked="e_Unchecked" Command="local:Commands.AnswerBoxes"/> <!--Header="_Answer Boxes"-->
             <MenuItem x:Name="toogleAn" Header="_Toogle Correct" IsCheckable="True" Checked="toogleAn_Checked" Unchecked="toogleAn_Unchecked"/>
         </ContextMenu>
     </Window.Resources>
@@ -61,6 +61,9 @@
     </Window.InputBindings>
 
     <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommandBinding_Executed" />
+        <CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommandBinding_Executed"/>
+        <CommandBinding Command="local:Commands.NameField" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecuteTRUE"/>
+        <CommandBinding Command="local:Commands.AnswerBoxes" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecuteTRUE"/>
+
     </Window.CommandBindings>
 </Window>
