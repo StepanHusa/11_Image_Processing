@@ -79,13 +79,13 @@ namespace _11_Image_Processing
                     Rectangle I = new(); //Int Rectangle
 
 
-                    b.Size -= new SizeF(w*2, w*2);
+                    b.Size -= new SizeF(w * 2, w * 2);
                     b.Location += new SizeF(w, w);
-                    b.Size*= (float)r;
-                    b.Location= b.Location.ScalePoint((float)r);
+                    b.Size *= (float)r;
+                    b.Location = b.Location.ScalePoint((float)r);
 
 
-                    I=Rectangle.Round(b);
+                    I = Rectangle.Round(b);
 
 
 
@@ -114,7 +114,7 @@ namespace _11_Image_Processing
             return output;
 
         }
-        public static List<bool[]> RecognizeTaggedBoxes(this PdfLoadedDocument doc,  List<PointF>[] lists, int sizeInt = 20, float w = 2, string fileName= @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\02.pdf")
+        public static List<bool[]> RecognizeTaggedBoxes(this PdfLoadedDocument doc, List<PointF>[] lists, int sizeInt = 20, float w = 2, string fileName = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\02.pdf")
         {
             List<bool[]> output = new();
             Bitmap[] pageImages = doc.ExportAsImage(0, doc.Pages.Count - 1, 300, 300);
@@ -178,14 +178,14 @@ namespace _11_Image_Processing
         }
 
 
-        public static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rect, int pageint, bool SecondColor=false)
+        public static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rect, int pageint, bool SecondColor = false)
         {
             var page = doc.Pages[pageint];
-            var w = ST.baundWidth/2;
+            var w = ST.baundWidth / 2;
             rect.UnrelativateToPage(page);
-            PointF[] vertexes = { new PointF(rect.Left-2*w, rect.Bottom+w), new PointF(rect.Right+w, rect.Bottom+w), new PointF(rect.Right+w, rect.Top-w), new PointF(rect.Left-w, rect.Top-w), new PointF(rect.Left-w, rect.Bottom+2*w) };
+            PointF[] vertexes = { new PointF(rect.Left - 2 * w, rect.Bottom + w), new PointF(rect.Right + w, rect.Bottom + w), new PointF(rect.Right + w, rect.Top - w), new PointF(rect.Left - w, rect.Top - w), new PointF(rect.Left - w, rect.Bottom + 2 * w) };
             byte[] types = { 0, 1, 1, 1, 1 };
-            PdfPath path = new(vertexes,types);
+            PdfPath path = new(vertexes, types);
             path.Pen = ST.baundPen;
             if (SecondColor)
                 path.Pen = ST.baundPenTwo;
@@ -198,8 +198,8 @@ namespace _11_Image_Processing
         {
             var page = doc.Pages[pageint];
             rectangle.UnrelativateToPage(page);
-            var p = new PointF(rectangle.Right+ST.baundWidth, rectangle.Top);
-            page.Graphics.DrawString(index,new PdfStandardFont(PdfFontFamily.Courier,ST.QS.indexFontSize), new PdfPen(Color.Black),p);
+            var p = new PointF(rectangle.Right + ST.baundWidth, rectangle.Top);
+            page.Graphics.DrawString(index, new PdfStandardFont(PdfFontFamily.Courier, ST.QS.indexFontSize), new PdfPen(Color.Black), p);
 
             return doc;
         }
@@ -208,10 +208,10 @@ namespace _11_Image_Processing
             var page = doc.Pages[pageint];
             rectangle.UnrelativateToPage(page);
             rectangle.EvaluateInPositiveSize();
-            var p = new PointF(rectangle.Left-2* ST.baundWidth, rectangle.Top);
+            var p = new PointF(rectangle.Left - 2 * ST.baundWidth, rectangle.Top);
 
             PdfStringFormat format = new() { Alignment = PdfTextAlignment.Right };
-            page.Graphics.DrawString(ST.nameString,new PdfStandardFont(PdfFontFamily.Courier,ST.QS.indexFontSize), new PdfPen(Color.Black),p,format);
+            page.Graphics.DrawString(ST.nameString, new PdfStandardFont(PdfFontFamily.Courier, ST.QS.indexFontSize), new PdfPen(Color.Black), p, format);
 
             return doc;
         }
@@ -332,7 +332,7 @@ namespace _11_Image_Processing
             return data;
 
         }
-        public static List<List<Tuple<int,RectangleF,bool>>> ByteArrayToIntRectangleFBoolTupleListList(this byte[] ba)
+        public static List<List<Tuple<int, RectangleF, bool>>> ByteArrayToIntRectangleFBoolTupleListList(this byte[] ba)
         {
             List<List<Tuple<int, RectangleF, bool>>> lists;
             using (var ms = new MemoryStream(ba))
@@ -341,13 +341,13 @@ namespace _11_Image_Processing
                 {
                     int lengthOfList = r.ReadInt32();
                     lists = new();
-                    for (int i = 0; i <lengthOfList; i++)
+                    for (int i = 0; i < lengthOfList; i++)
                     {
                         int Count = r.ReadInt32();
                         lists.Add(new());
                         for (int j = 0; j < Count; j++)
                         {
-                            lists[i].Add(new Tuple<int, RectangleF, bool>(r.ReadInt32(),new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()),r.ReadBoolean()));
+                            lists[i].Add(new Tuple<int, RectangleF, bool>(r.ReadInt32(), new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()), r.ReadBoolean()));
                         }
                     }
                 }
@@ -355,7 +355,7 @@ namespace _11_Image_Processing
             return lists;
 
         }
-        public static byte[] RectangleListToByteArray(this List<Tuple<int,RectangleF>> list)
+        public static byte[] RectangleListToByteArray(this List<Tuple<int, RectangleF>> list)
         {
 
             byte[] data;
@@ -390,7 +390,7 @@ namespace _11_Image_Processing
                     int lengthOfList = r.ReadInt32();
                     for (int i = 0; i != lengthOfList; i++)
                     {
-                            list.Add(new(r.ReadInt32(), new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle())));
+                        list.Add(new(r.ReadInt32(), new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle())));
                     }
                 }
             }
@@ -484,11 +484,11 @@ namespace _11_Image_Processing
         public static void RelativateToPage(this ref RectangleF rect, PdfPageBase page)
         {
             rect.X /= page.Size.Width;
-            rect.Y/= page.Size.Height;
+            rect.Y /= page.Size.Height;
             rect.Width /= page.Size.Width;
             rect.Height /= page.Size.Height;
 
-            
+
         }
 
         public static Rectangle UnrelativateToImage(this RectangleF relativeRect, Bitmap image)
@@ -506,7 +506,7 @@ namespace _11_Image_Processing
     {
         public static string ToStringOfRegularFormat(this DateTime d)
         {
-            using (var sw =new StringWriter())
+            using (var sw = new StringWriter())
             {
                 sw.Write(d.Year);
                 sw.Write("-");
@@ -531,18 +531,18 @@ namespace _11_Image_Processing
             foreach (var ext in extensionsWithoutDot)
             {
                 s += $"|(*.{ext})|*.{ext}";
-            
+
             }
             return s;
         }
         public static string ToOFDFilter(this string[] extensionsWithoutDot, string[] comments)
         {
-            string s = Strings.Allfiles+"(*.*) | *.*";
+            string s = Strings.Allfiles + "(*.*) | *.*";
             Array.Resize(ref comments, extensionsWithoutDot.Length);
             for (int i = 0; i < extensionsWithoutDot.Length; i++)
             {
 
-               s += $"|{comments[i]}(*.{extensionsWithoutDot[i]})|*.{extensionsWithoutDot[i]}";
+                s += $"|{comments[i]}(*.{extensionsWithoutDot[i]})|*.{extensionsWithoutDot[i]}";
 
             }
             return s;
@@ -556,7 +556,7 @@ namespace _11_Image_Processing
 
     static class Conversions
     {
-        public static Rectangle EvaluateInPositiveSize(this Rectangle rect)
+        public static Rectangle EvaluateInPositiveSizeOld(this Rectangle rect)
         {
             int X, Y, W, H;
             if (rect.Size.Width < 0)
@@ -572,7 +572,7 @@ namespace _11_Image_Processing
 
             if (rect.Size.Height < 0)
             {
-                Y = rect.Y+ rect.Size.Height;
+                Y = rect.Y + rect.Size.Height;
                 H = 0 - rect.Size.Height;
             }
             else
@@ -584,7 +584,22 @@ namespace _11_Image_Processing
             rect = new(X, Y, W, H);
             return rect;
         }
-        public static RectangleF EvaluateInPositiveSize(this RectangleF rect)
+        public static Rectangle EvaluateInPositiveSize(this ref Rectangle rect)
+        {
+            if (rect.Size.Width < 0)
+            {
+                rect.X += rect.Size.Width;
+                rect.Width = -rect.Size.Width;
+            }
+
+            if (rect.Size.Height < 0)
+            {
+                rect.Y += rect.Size.Height;
+                rect.Height = -rect.Size.Height;
+            }
+            return rect;
+        }
+        public static RectangleF EvaluateInPositiveSizeOld(this RectangleF rect)
         {
             float X, Y, W, H;
             if (rect.Size.Width < 0)
@@ -612,8 +627,22 @@ namespace _11_Image_Processing
             rect = new(X, Y, W, H);
             return rect;
         }
+        public static RectangleF EvaluateInPositiveSize(this ref RectangleF rect)
+        {
+            if (rect.Size.Width < 0)
+            {
+                rect.X += rect.Size.Width;
+                rect.Width = -rect.Size.Width;
+            }
 
-    }    
+            if (rect.Size.Height < 0)
+            {
+                rect.Y += rect.Size.Height;
+                rect.Height = -rect.Size.Height;
+            }
+            return rect;
+        }
+    }
 
     static class ObjectExtensions
     {
@@ -694,9 +723,27 @@ namespace _11_Image_Processing
         }
         public static bool IsEdgyInTheCenterRecognize(this Bitmap crop)
         {
-            return false;
+            return crop.CenterEdgesNum()>1;
         }
 
+        public static float CenterEdgesNum(this Bitmap J, float centralization = 2,float threshold=1)
+        {
+            var I = J.LaplasTransform1();
+
+            float c = 0;
+            float cc = 0;
+            for (int i = 0; i < I.Width; i++)
+                for (int j = 0; j < I.Height; j++)
+                {
+                    float w = MathF.Pow(1 - MathF.Max(MathF.Abs(i - I.Width / 2), MathF.Abs(j - I.Height / 2)) / MathF.Max(I.Width / 2, I.Height / 2), centralization);
+
+                    c += w;
+                    cc += I.GetPixel(i, j).GetBrightness() * w;
+                }
+            float result = cc / c * MathF.Sqrt(I.Height * I.Width) / threshold; //aroud 1 is a good treshold... meaning output is true if more than
+                                                                                //TODO measure the good th
+            return result;
+        }
 
         public static Bitmap Corp(this Bitmap orig, RectangleF relativeRect)
         {
@@ -728,7 +775,7 @@ namespace _11_Image_Processing
 
         public static List<Bitmap> GetCropedNames(this List<List<string>> works, Tuple<int, RectangleF> nameField)
         {
-            if (nameField == null) {System.Windows.MessageBox.Show(Strings.WarningnoNameFieldadded);return null; }
+            if (nameField == null) { System.Windows.MessageBox.Show(Strings.WarningnoNameFieldadded); return null; }
 
             List<Bitmap> l = new();
             foreach (var work in works)
@@ -741,9 +788,9 @@ namespace _11_Image_Processing
 
     static class ListExtensions
     {
-        public static void Add(this List<Tuple<int, RectangleF,bool>> l, int i, RectangleF p,bool b)
+        public static void Add(this List<Tuple<int, RectangleF, bool>> l, int i, RectangleF p, bool b)
         {
-            l.Add(new Tuple<int, RectangleF,bool>(i, p,b));
+            l.Add(new Tuple<int, RectangleF, bool>(i, p, b));
         }
     }
     static class BitmapExtensions
@@ -772,7 +819,7 @@ namespace _11_Image_Processing
                 {
                     foreach (var box in question)
                     {
-                        works[i][box.Item1]=works[i][box.Item1].DrowRectangle(box.Item2);
+                        works[i][box.Item1] = works[i][box.Item1].DrowRectangle(box.Item2);
                     }
                 }
             }
@@ -788,15 +835,15 @@ namespace _11_Image_Processing
 
             for (int i = 0; i <= cropRect.Width; i++)
             {
-                b.SetPixel(cropRect.X+ i, cropRect.Y, Color.Yellow);
-                b.SetPixel(cropRect.X+i, cropRect.Y+cropRect.Height, Color.Yellow);
+                b.SetPixel(cropRect.X + i, cropRect.Y, Color.Yellow);
+                b.SetPixel(cropRect.X + i, cropRect.Y + cropRect.Height, Color.Yellow);
 
             }
 
             for (int j = 0; j <= cropRect.Height; j++)
             {
-                b.SetPixel(cropRect.X, cropRect.Y+j, Color.Yellow);
-                b.SetPixel(cropRect.X + cropRect.Width, cropRect.Y+j, Color.Yellow);
+                b.SetPixel(cropRect.X, cropRect.Y + j, Color.Yellow);
+                b.SetPixel(cropRect.X + cropRect.Width, cropRect.Y + j, Color.Yellow);
 
             }
 
@@ -827,7 +874,7 @@ namespace _11_Image_Processing
 
 
     }
-    
+
 }
 
 
