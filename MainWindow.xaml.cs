@@ -539,7 +539,7 @@ namespace _11_Image_Processing
 
             ST.scansInPagesInWorks = new();
             ST.scansInPagesInWorks.Add(new());
-            ST.scansInPagesInWorks[0][0] = new Bitmap(open.FileName);
+            ST.scansInPagesInWorks[0][0] = open.FileName;
         }
         //one page files
         private void Menu_Read_ListOfScans_OnePage_Click(object sender, RoutedEventArgs e)
@@ -551,7 +551,7 @@ namespace _11_Image_Processing
             for (int i = 0; i < open.FileNames.Length; i++)
             {
                 ST.scansInPagesInWorks.Add(new());
-                ST.scansInPagesInWorks[l + i].Add(new Bitmap(open.FileNames[i]));
+                ST.scansInPagesInWorks[l + i].Add(open.FileNames[i]);
             }
         }
         //advanced read
@@ -583,7 +583,7 @@ namespace _11_Image_Processing
 
             var da = a.Answer;
 
-            List<List<Bitmap>> works = new();
+            List<List<string>> works = new();
             int ii = 0;
             if (!a.Invert.Value)
                 for (int i = 0; i < da.Item1; i++)
@@ -591,7 +591,7 @@ namespace _11_Image_Processing
                     works.Add(new());
                     for (int j = 0; j < da.Item2; j++)
                     {
-                        works[i].Add(new Bitmap(ImageFiles[ii])); //BMP, GIF, EXIF, JPG, PNG and TIFF
+                        works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
                         ii++;
                     }
                 }
@@ -603,7 +603,7 @@ namespace _11_Image_Processing
                 {
                     for (int i = 0; i < da.Item1; i++)
                     {
-                        works[i].Add(new Bitmap(ImageFiles[ii])); //BMP, GIF, EXIF, JPG, PNG and TIFF
+                        works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
                         ii++;
                     }
                 }

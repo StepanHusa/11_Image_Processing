@@ -641,7 +641,7 @@ namespace _11_Image_Processing
     }
     static class ImageProcessing
     {
-        public static List<List<List<bool>>> EvaluateWorks(this List<List<Bitmap>> works, List<List<Tuple<int, RectangleF, bool>>> questions)
+        public static List<List<List<bool>>> EvaluateWorks(this List<List<string>> works, List<List<Tuple<int, RectangleF, bool>>> questions)
         {
             List<List<List<bool>>> resultsAll = new();
 
@@ -653,7 +653,7 @@ namespace _11_Image_Processing
 
             return resultsAll;
         }
-        public static List<List<bool>> EvaluateOneWork(this List<Bitmap> work, List<List<Tuple<int, RectangleF, bool>>> questions)
+        public static List<List<bool>> EvaluateOneWork(this List<string> work, List<List<Tuple<int, RectangleF, bool>>> questions)
         {
             List<List<bool>> resultsOneWork = new();
 
@@ -663,11 +663,14 @@ namespace _11_Image_Processing
                 foreach (var box in question)
                 {
                     int pageindex = box.Item1;
-                    Bitmap crop = work[pageindex].Corp(box.Item2);
+                    var workBitmap = new Bitmap(work[pageindex]);
+                    Bitmap crop = workBitmap.Corp(box.Item2);
                     bool IsDark = crop.IsDarkRocognize();
                     bool IsEdgy = crop.IsEdgyRecognize();
                     bool IsCross = crop.IsEdgyInTheCenterRecognize();
                     resultsQuestion.Add(IsDark);
+
+                    workBitmap.Dispose(); //otherwise the memory explodes
                 }
                 resultsOneWork.Add(resultsQuestion);
             }
@@ -723,14 +726,14 @@ namespace _11_Image_Processing
             return cc / c;
         }
 
-        public static List<Bitmap> GetCropedNames(this List<List<Bitmap>> works, Tuple<int, RectangleF> nameField)
+        public static List<Bitmap> GetCropedNames(this List<List<string>> works, Tuple<int, RectangleF> nameField)
         {
             if (nameField == null) {System.Windows.MessageBox.Show(Strings.WarningnoNameFieldadded);return null; }
 
             List<Bitmap> l = new();
             foreach (var work in works)
             {
-                l.Add(work[nameField.Item1].Corp(nameField.Item2));
+                l.Add(new Bitmap(work[nameField.Item1]).Corp(nameField.Item2));
             }
             return l;
         }

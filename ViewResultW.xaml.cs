@@ -36,7 +36,7 @@ namespace _11_Image_Processing
         {
             for (int i = 0; i < ST.scansInPagesInWorks.Count; i++)
             {
-                TabItem z = (TabItem)Resources["leftdef"];
+                TabItem z = new();
                 if (ST.namesScaned != null)
                 {
                     Image wImage = new();
@@ -48,47 +48,66 @@ namespace _11_Image_Processing
                 }
                 else z.Header = i + 1;
 
-           
-                var imagesTabs = ViewWorks(i); //TODO maybe remake for scroling (key= scr)
-                var table = ResultsList(i);
-                var result = new TextBox();
-                result.Text = "hello"; //TODO finish this section and add statistics
-
-                Grid grid = new();
-                grid.ColumnDefinitions.Add(new());
-                grid.ColumnDefinitions.Add(new() { Width = GridLength.Auto });
-                grid.RowDefinitions.Add(new() { Height = GridLength.Auto });
-                grid.RowDefinitions.Add(new());
-                grid.Children.Add(imagesTabs);
-                grid.Children.Add(table);
-                grid.Children.Add(result);
-                Grid.SetColumn(imagesTabs, 0);
-                Grid.SetColumn(table, 1);
-                Grid.SetColumn(result, 1);
-                Grid.SetRowSpan(imagesTabs, 2);
-                Grid.SetRow(table, 0);
-                Grid.SetRow(result, 1);
-
-                //z.Content = grid;
+                //z.Content = GenerateLeftGrid(i);
 
                 tabsHorizontal.Items.Add(z);
-                //TODO make memory sutible
+                //TODO make memory suitable
             }
         }
 
+        private void tabsHorizontal_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //foreach (TabItem item in tabsHorizontal.Items)
+            //{
+            //    if (item is TabItem)
+            //    {
+            //        item.Content = null;
+            //    }
+            //}
+
+            var ti=tabsHorizontal.SelectedItem as TabItem;
+            ti.Content = GenerateLeftGrid(tabsHorizontal.SelectedIndex);
+            //ti.Content = new Button();
+
+        }
+
+        private Grid GenerateLeftGrid(int i)
+        {
+            var imagesTabs = ViewWorks(i); //TODO maybe remake for scroling (key= scr)
+            var table = ResultsList(i);
+            var result = new TextBox();
+            result.Text = "undone"; //TODO finish this section and add statistics
+
+            Grid grid = new();
+            grid.ColumnDefinitions.Add(new());
+            grid.ColumnDefinitions.Add(new() { Width = GridLength.Auto });
+            grid.RowDefinitions.Add(new() { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new());
+            grid.Children.Add(imagesTabs);
+            grid.Children.Add(table);
+            grid.Children.Add(result);
+            Grid.SetColumn(imagesTabs, 0);
+            Grid.SetColumn(table, 1);
+            Grid.SetColumn(result, 1);
+            Grid.SetRowSpan(imagesTabs, 2);
+            Grid.SetRow(table, 0);
+            Grid.SetRow(result, 1);
+
+            return grid;
+        }
 
 
         private TabControl ViewWorks(int i)
         {
             var tabs = new TabControl() { TabStripPlacement = Dock.Left };
             int bb = 0;
-            foreach (var bitmap in ST.scansInPagesInWorks[i])
+            foreach (var imageFile in ST.scansInPagesInWorks[i])
             {
                 bb++;
                 TabItem t = new() { Header = bb };
 
                 Image wImage = new();
-                wImage.Source = bitmap.BitmapToImageSource();
+                wImage.Source = new BitmapImage(new Uri(imageFile));
                 t.Content = wImage;
 
                 tabs.Items.Add(t);
@@ -186,15 +205,6 @@ namespace _11_Image_Processing
         }
 
 
-        private void leftdef_Selected(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void TabItem_Unselected(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 
 
