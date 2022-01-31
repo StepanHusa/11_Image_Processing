@@ -15,7 +15,7 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
-        <TabControl x:Name="tabsHorizontal"  TabStripPlacement="Left" Grid.Column="0"/>
+        <TabControl x:Name="tabsHorizontal"  TabStripPlacement="Left" Grid.Column="0" />
 
         <StackPanel x:Name="namesPanel" Grid.Column="1">
             <MenuItem Header="Name"/>
@@ -54,6 +54,7 @@
         <ScrollViewer x:Key="scr">
             
         </ScrollViewer>
+        <TabItem x:Key="leftdef" Selector.Selected="leftdef_Selected" Selector.Unselected="TabItem_Unselected" x:Shared="false"/>
     </Window.Resources>
     
 </Window>

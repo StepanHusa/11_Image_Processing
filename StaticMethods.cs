@@ -663,29 +663,38 @@ namespace _11_Image_Processing
                 foreach (var box in question)
                 {
                     int pageindex = box.Item1;
-                    resultsQuestion.Add(box.IsDarkRocognize(work[pageindex]));
+                    Bitmap crop = work[pageindex].Corp(box.Item2);
+                    bool IsDark = crop.IsDarkRocognize();
+                    bool IsEdgy = crop.IsEdgyRecognize();
+                    bool IsCross = crop.IsEdgyInTheCenterRecognize();
+                    resultsQuestion.Add(IsDark);
                 }
                 resultsOneWork.Add(resultsQuestion);
             }
             return resultsOneWork;
         }
 
-        public static bool IsDarkRocognize(this Tuple<int, RectangleF, bool> box, Bitmap image)
+        public static bool IsDarkRocognize(this Bitmap crop)
         {
-            var rect = box.Item2;
-
-            Bitmap crop = image.Corp(box.Item2);
-
             //debug feature
             //string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
             //int i = Directory.GetFiles(f).Length;
             //f = f + "\\" + i + ".Bmp";
             //crop.Save(f, ImageFormat.Bmp);
 
-            if (ColorLevelOfBitmap(crop) < 0.5) return true;
-
+            if (BrightnessLevelOfBitmap(crop) < 0.5) return true;
+            else return false;
+        }
+        public static bool IsEdgyRecognize(this Bitmap crop)
+        {
             return false;
         }
+        public static bool IsEdgyInTheCenterRecognize(this Bitmap crop)
+        {
+            return false;
+        }
+
+
         public static Bitmap Corp(this Bitmap orig, RectangleF relativeRect)
         {
             Rectangle cropRect = relativeRect.UnrelativateToImage(orig);
@@ -702,14 +711,14 @@ namespace _11_Image_Processing
             return crop;
         }
 
-        public static float ColorLevelOfBitmap(Bitmap I)
+        public static float BrightnessLevelOfBitmap(Bitmap Image)
         {
-            int c = I.Height * I.Width;
+            int c = Image.Height * Image.Width;
             float cc = 0;
-            for (int i = 0; i < I.Width; i++)
-                for (int j = 0; j < I.Height; j++)
+            for (int i = 0; i < Image.Width; i++)
+                for (int j = 0; j < Image.Height; j++)
                 {
-                    cc += I.GetPixel(i, j).GetBrightness();
+                    cc += Image.GetPixel(i, j).GetBrightness();
                 }
             return cc / c;
         }

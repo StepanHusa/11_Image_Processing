@@ -141,7 +141,7 @@ namespace _11_Image_Processing
 
 
             // Save the image
-            string path;//TODO repair
+            string path;
 
             do
             {

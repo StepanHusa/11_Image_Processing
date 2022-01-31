@@ -104,7 +104,8 @@ namespace _11_Image_Processing
                 //}
 
 
-                
+
+
                 //new ImportPicturesDialogW(11).ShowDialog();
 
                 //rec debug
@@ -752,7 +753,7 @@ namespace _11_Image_Processing
             pdfDocumentView.UpdateLayout();
             pdfDocumentView.Load(doc);
             loadedPdfLabel.Content = Path.GetFileName(ST.fileName);
-            pdfDocumentView.MinimumZoomPercentage = (int)Math.Ceiling(pdfDocumentView.MinimumZoomPercentage * 0.95);
+            //pdfDocumentView.MinimumZoomPercentage = pdfDocumentView.ZoomPercentage;
             pdfDocumentView.ZoomTo(-1);
 
             Title = ST.appName + " -- " + ST.projectName;
@@ -838,7 +839,10 @@ namespace _11_Image_Processing
 
         private void pdfDocumentView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            pdfDocumentView.ZoomTo(100);
+            double r = e.NewSize.Width / e.PreviousSize.Width;
+
+            int newZoom =(int) (pdfDocumentView.ZoomPercentage*r);
+                pdfDocumentView.ZoomTo(newZoom);
         }
 
         private void CommandBinding_CanExecuteTRUE(object sender, CanExecuteRoutedEventArgs e)

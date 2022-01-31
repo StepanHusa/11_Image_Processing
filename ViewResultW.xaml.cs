@@ -36,7 +36,7 @@ namespace _11_Image_Processing
         {
             for (int i = 0; i < ST.scansInPagesInWorks.Count; i++)
             {
-                TabItem z = new();
+                TabItem z = (TabItem)Resources["leftdef"];
                 if (ST.namesScaned != null)
                 {
                     Image wImage = new();
@@ -69,16 +69,14 @@ namespace _11_Image_Processing
                 Grid.SetRow(table, 0);
                 Grid.SetRow(result, 1);
 
-                z.Content = grid;
+                //z.Content = grid;
+
                 tabsHorizontal.Items.Add(z);
                 //TODO make memory sutible
             }
         }
 
-        private void Z_GotFocus(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+
 
         private TabControl ViewWorks(int i)
         {
@@ -185,6 +183,17 @@ namespace _11_Image_Processing
 
 
             return list;
+        }
+
+
+        private void leftdef_Selected(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TabItem_Unselected(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

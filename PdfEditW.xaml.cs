@@ -871,11 +871,8 @@ namespace _11_Image_Processing
         private void CommandBinding_CanExecuteTRUE(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
+            
         }
 
-        private void CommandBinding_Executed_1(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
     }
 }
