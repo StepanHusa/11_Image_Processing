@@ -221,8 +221,8 @@ namespace _11_Image_Processing
 
             if (fileName == null)
             {
-                PdfExtensions.NewPdfDoc(tempPdf);
-                PdfExtensions.NewPdfDoc(tempCopy);
+                Pdf.NewPdfDoc(tempPdf);
+                Pdf.NewPdfDoc(tempCopy);
 
 
                 this.Title = "*untitled";

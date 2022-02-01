@@ -40,7 +40,7 @@
             <ListView.View>
 
                 <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="">
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Number}"  Header="{x:Static ln:Strings.Number}" Width="25"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Number}"  Header="{x:Static ln:Strings.Number}" Width="40"/>
 
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Checked}"  Header="{x:Static ln:Strings.Checked}" Width="100"/>
 
@@ -51,10 +51,11 @@
 
             </ListView.View>
         </ListView>
-        <ScrollViewer x:Key="scr">
+        <!--<ScrollViewer x:Key="scr">
             
-        </ScrollViewer>
+        </ScrollViewer>-->
         <!--<TabItem x:Key="leftdef" Selector.Selected="leftdef_Selected" Selector.Unselected="TabItem_Unselected" x:Shared="false"/>-->
+        <Button x:Key="butView" x:Shared="false"  Background="Cyan"/>
     </Window.Resources>
     
 </Window>

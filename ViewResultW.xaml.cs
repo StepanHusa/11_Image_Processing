@@ -48,7 +48,7 @@ namespace _11_Image_Processing
                 }
                 else z.Header = i + 1;
 
-                //z.Content = GenerateLeftGrid(i);
+                z.Content = GenerateLeftGrid(i);
 
                 tabsHorizontal.Items.Add(z);
                 //TODO make memory suitable
@@ -65,54 +65,39 @@ namespace _11_Image_Processing
             //    }
             //}
 
-            var ti=tabsHorizontal.SelectedItem as TabItem;
-            ti.Content = GenerateLeftGrid(tabsHorizontal.SelectedIndex);
-            //ti.Content = new Button();
 
         }
 
         private Grid GenerateLeftGrid(int i)
         {
-            var imagesTabs = ViewWorks(i); //TODO maybe remake for scroling (key= scr)
+            //var imagesTabs = ViewWorks(i); 
+            var imagesTabsButton = (Button)Resources["butView"];
+            imagesTabsButton.Content = "View Scen";
+            imagesTabsButton.Tag = i;
+            imagesTabsButton.Click += ImagesTabsButton_Click;
+
             var table = ResultsList(i);
             var result = new TextBox();
             result.Text = "undone"; //TODO finish this section and add statistics
 
             Grid grid = new();
-            grid.ColumnDefinitions.Add(new());
-            grid.ColumnDefinitions.Add(new() { Width = GridLength.Auto });
             grid.RowDefinitions.Add(new() { Height = GridLength.Auto });
             grid.RowDefinitions.Add(new());
-            grid.Children.Add(imagesTabs);
+            grid.RowDefinitions.Add(new() { Height = new GridLength(40) });
+            grid.Children.Add(imagesTabsButton);
             grid.Children.Add(table);
             grid.Children.Add(result);
-            Grid.SetColumn(imagesTabs, 0);
-            Grid.SetColumn(table, 1);
-            Grid.SetColumn(result, 1);
-            Grid.SetRowSpan(imagesTabs, 2);
+            Grid.SetRow(imagesTabsButton, 3);
             Grid.SetRow(table, 0);
             Grid.SetRow(result, 1);
 
             return grid;
         }
 
-
-        private TabControl ViewWorks(int i)
+        private void ImagesTabsButton_Click(object sender, RoutedEventArgs e)
         {
-            var tabs = new TabControl() { TabStripPlacement = Dock.Left };
-            int bb = 0;
-            foreach (var imageFile in ST.scansInPagesInWorks[i])
-            {
-                bb++;
-                TabItem t = new() { Header = bb };
-
-                Image wImage = new();
-                wImage.Source = new BitmapImage(new Uri(imageFile));
-                t.Content = wImage;
-
-                tabs.Items.Add(t);
-            }
-            return tabs;
+            int i = (int)(sender as Button).Tag;
+            new WorkImagesVeiwWindow(i).Show();
         }
 
         private ListView ResultsList(int workindex)
