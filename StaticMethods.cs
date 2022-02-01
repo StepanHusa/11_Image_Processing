@@ -338,7 +338,7 @@ namespace _11_Image_Processing
             for (int i = 0; i < I.Width; i++)
                 for (int j = 0; j < I.Height; j++)
                 {
-                    float w = MathF.Pow(1 - MathF.Max(MathF.Abs(i - I.Width / 2), MathF.Abs(j - I.Height / 2)) / MathF.Max(I.Width / 2, I.Height / 2), centralization);
+                    float w = CalculateWeightQuadratic(i, j, I.Width, I.Height, centralization);
 
                     c += w;
                     cc += I.GetPixel(i, j).GetBrightness() * w;
@@ -359,6 +359,67 @@ namespace _11_Image_Processing
             }
             return l;
         }
+
+
+        public static float CalculateWeightLinear(int x, int y, int Width, int Height)
+        {
+            float distRel = MathF.Max(MathF.Abs(x - Width / 2), MathF.Abs(y - Height / 2)) / MathF.Max(Width / 2, Height / 2);
+            return 1 - distRel ;
+        }
+        public static float CalculateWeightQuadratic(int x,int y,int Width,int Height,float power)
+        {
+            float distRel = MathF.Max(MathF.Abs(x - Width / 2), MathF.Abs(y - Height / 2)) / MathF.Max(Width / 2, Height / 2);
+            return MathF.Pow(1 - distRel, power);
+        }
+        /// <summary>
+        /// calculates weight for points of square
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="Width"></param>
+        /// <param name="Height"></param>
+        /// <param name="k">parameter for function of distance telling the central width (good is 2)</param>
+        /// <param name="l">parameter of steepness (works above 2, good is 5)</param>
+        /// <returns></returns>
+        public static float CalculateWeightBellShape(int x, int y, int Width, int Height, float k, float l)
+        {
+            float distRel = MathF.Max(MathF.Abs(x - Width / 2), MathF.Abs(y - Height / 2)) / MathF.Max(Width / 2, Height / 2);
+
+            return MathF.Pow(1 - MathF.Pow(distRel, k * MathF.Log(l)), l);
+        }
+
+        public static float RelativeDistanceEuclidus(int x, int y, int Width, int Height)
+        {
+            float dx = MathF.Abs(1 / 2 - x / Width);
+            float dy = MathF.Abs(1 / 2 - y / Height);
+            return MathF.Sqrt(MathF.Pow(dx, 2) + MathF.Pow(dy, 2));
+        }
+        public static float RelativeDistanceMaxNorm(int x, int y, int Width, int Height)
+        {
+            float dx = MathF.Abs(1 / 2 - x / Width);
+            float dy = MathF.Abs(1 / 2 - y / Height);
+
+            return MathF.Max(dx, dy);
+        }
+        public static float RelativeDistancePNorm(int x, int y, int Width, int Height, float p)
+        {
+            float dx = MathF.Abs(1 / 2 - x / Width);
+            float dy = MathF.Abs(1 / 2 - y / Height);
+
+            return MathF.Pow(MathF.Pow(dx, p) + MathF.Pow(dy, p),1/p);
+        }
+        public static float RelativeDistanceStar(int x, int y, int Width, int Height, float p)
+        {
+            float dx = 1 / 2 - x / Width;
+            float dy = 1 / 2 - y / Height;
+
+            return MathF.Pow(MathF.Pow(MathF.Abs(dx +dy), p) + MathF.Pow(MathF.Abs(dx -dy), p), 1 / p);
+        }
+
+
+
+
+
     }
 
     static class ListExtensions
