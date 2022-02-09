@@ -90,15 +90,6 @@ namespace _11_Image_Processing.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Answer Boxes.
         /// </summary>
-        public static string Answer_Boxes {
-            get {
-                return ResourceManager.GetString("Answer Boxes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Answer Boxes.
-        /// </summary>
         public static string AnswerBoxes {
             get {
                 return ResourceManager.GetString("AnswerBoxes", resourceCulture);

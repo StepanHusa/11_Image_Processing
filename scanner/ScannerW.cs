@@ -68,9 +68,7 @@ namespace _11_Image_Processing
 
             if (device == null)
             {
-                MessageBox.Show(Strings.SelectScener,
-                                Strings.Warning,
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(Strings.SelectScener, Strings.Warning, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
