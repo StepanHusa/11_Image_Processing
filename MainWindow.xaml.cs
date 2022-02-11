@@ -58,34 +58,23 @@ namespace _11_Image_Processing
 
             InitializeComponent();
 
-            //Hotkeys
-            {
-                HotkeysManager.SetupSystemHook();
-                //add individual hotkyes
-                //HotkeysManager.AddHotkey(ModifierKeys.Control, Key.E, () => { if (Menu_Edit.IsEnabled) Menu_Edit_NoTools_Click(null, null); });
-                HotkeysManager.AddHotkey(ModifierKeys.Control, Key.S, () => { if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null); else if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null); });
-                HotkeysManager.AddHotkey((ModifierKeys.Control | ModifierKeys.Shift), Key.S, () => { if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null); });
 
-            }
-
-            //events
-            Closing += MainWindow_Closing;
 
             //debug
             {
-                string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
+                string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
                 //this.WindowState = WindowState.Minimized;
                 //Menu_Load_New_Click(new object(), new RoutedEventArgs());
                 //Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
 
                 //LoadDataFromFile(debugFolder + "\\01" + ST.projectExtension);
-                LoadDataFromFile(debugFolder + "\\02" + ST.projectExtension);
+                LoadDataFromFile(debugFolder + "test\\01" + ST.projectExtension);
 
                 //Menu_Save_Project.IsEnabled = true;
 
-                string s = debugFolder + "\\s\\";
-                string f = debugFolder + "\\maxresdefault.jpg";
-                string g = debugFolder + "\\02c.bmp";
+                //string s = debugFolder + "\\s\\";
+                //string f = debugFolder + "\\maxresdefault.jpg";
+                //string g = debugFolder + "\\02c.bmp";
 
 
 
@@ -163,13 +152,6 @@ namespace _11_Image_Processing
 
             }
         }
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            // Need to shutdown the hook. idk what happens if
-            // you dont, but it might cause a memory leak.
-            HotkeysManager.ShutdownSystemHook();
-        }
-
 
         //load
         private void Menu_Load_Open_Click(object sender, RoutedEventArgs e)

@@ -1,5 +1,4 @@
-﻿using Syncfusion.Pdf;
-using Syncfusion.Pdf.Graphics;
+﻿using Syncfusion.Pdf.Graphics;
 using Syncfusion.Pdf.Parsing;
 using System;
 using System.Collections.Generic;
@@ -93,5 +92,14 @@ namespace _11_Image_Processing
         {
             internal static int[] GradeBottomBoarder = new int[4] { 90, 80, 70, 60 };
         }
+
+        internal static double[,] LaplacianOWNEdgeFilter = new double[,]
+        {
+            { -1,-1 ,  -1 , -1 ,  -1 },
+            { -1  , -1  ,-1 , -1 , -1 },
+            { -1 , -1 , 24 , -1,  -1 },
+            { -1  , -1  ,-1 , -1 , -1 },
+            { -1, -1 ,  -1 , -1 ,  -1 }
+        };
     }
 }

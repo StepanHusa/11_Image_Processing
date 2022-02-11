@@ -661,7 +661,7 @@ namespace _11_Image_Processing
             else if (size > 100) { size = 50; resize = true; }
             if (resize) J = J.Resize(size);
 
-            var I = J.ProcessFilter(new LaplacianOWNEdgeFilter2().HorizontalGradientOperator);
+            var I = J.ProcessFilter(ST.LaplacianOWNEdgeFilter);
 
             float c = 0;
             float cc = 0;
@@ -672,10 +672,16 @@ namespace _11_Image_Processing
                     float w = RelativeDistanceStar(i, j, I.Width, I.Height, (float)0.9).CalculateWeightBellShape(2, 5);
                     //float w = CalculateWeightBellShape(i, j, I.Width, I.Height, 2, 5);
                     c += w;
-                    cc += I.GetPixel(i, j).GetBrightness() * w;
+                    //cc += I.GetPixel(i, j).GetBrightness() * w;
+                    //int s = (int)(w * I.GetPixel(i, j).GetBrightness() * 255);
+                    //if (s > 255) I.SetPixel(i, j, Color.FromArgb(255, 0, 0));
+                    //else if (s < 0) I.SetPixel(i, j, Color.FromArgb(0, 255, 0));
+                    //else I.SetPixel(i, j, Color.FromArgb(s, s, s));
+
                 }
-            float result = cc / c * MathF.Sqrt(I.Height * I.Width) / 5; //aroud 5 is a good treshold... meaning output is true if more than
-                                                                        //TODO measure the good th
+                    //I.Save(@"C:\Users\stepa\source\repos\17_Image processing tester\path\s\" + Directory.GetFiles(@"C:\Users\stepa\source\repos\17_Image processing tester\path\s").Length + ".bmp");
+            float result = cc / c * MathF.Sqrt(I.Height * I.Width) / 5; //aroud 5 is a good treshold... meaning output is true if more than 1
+                                                                        
             return result;
         }
         public static float CalculateWeightBellShape(this float distRel, float k, float l)
@@ -684,8 +690,8 @@ namespace _11_Image_Processing
         }
         public static float RelativeDistanceStar(int x, int y, int Width, int Height, float p)
         {
-            float dx = 1 / 2 - x / Width;
-            float dy = 1 / 2 - y / Height;
+            float dx = (float)1 / 2 - (float)x / Width;
+            float dy =(float) 1 / 2 - (float)y / Height;
 
             return MathF.Pow(MathF.Pow(MathF.Abs(dx + dy), p) + MathF.Pow(MathF.Abs(dx - dy), p), 1 / p);
         }
@@ -725,10 +731,10 @@ namespace _11_Image_Processing
                     int pageindex = box.Item1;
                     var workBitmap = new Bitmap(work[pageindex]);
                     Bitmap crop = workBitmap.Corp(box.Item2);
+                    crop.Save(@"C:\Users\stepa\source\repos\17_Image processing tester\path\s\" + Directory.GetFiles(@"C:\Users\stepa\source\repos\17_Image processing tester\path\s").Length + ".bmp");
                     bool IsDark = crop.IsDarkRocognize();
-                    bool IsEdgy = crop.IsEdgyRecognize();
                     bool IsCross = crop.IsEdgyInTheCenterRecognize();
-                    resultsQuestion.Add(IsDark);
+                    resultsQuestion.Add(IsCross);
 
                     workBitmap.Dispose(); //otherwise the memory explodes
                 }
@@ -748,10 +754,6 @@ namespace _11_Image_Processing
             if (BrightnessLevelOfBitmap(crop) < 0.5) return true;
             else return false;
         }
-        public static bool IsEdgyRecognize(this Bitmap crop)
-        {
-            return false;
-        }
         public static bool IsEdgyInTheCenterRecognize(this Bitmap crop)
         {
             return crop.CenterEdgesNum11Im()>1;
@@ -768,21 +770,6 @@ namespace _11_Image_Processing
                     cc += Image.GetPixel(i, j).GetBrightness();
                 }
             return cc / c;
-        }
-        public static float EdgesNum(this Bitmap J, float threshold = 1)
-        {
-            var I = J.LaplasTransform1();
-
-            float c = I.Height*I.Width;
-            float cc = 0;
-            for (int i = 0; i < I.Width; i++)
-                for (int j = 0; j < I.Height; j++)
-                {
-                    cc += I.GetPixel(i, j).GetBrightness();
-                }
-            float result = cc / c / threshold; //aroud 1 is a good treshold... meaning output is true if more than
-                                                                                //TODO measure the good th
-            return result;
         }
         //public static float CenterEdgesNum(this Bitmap J, float centralization = 2,float threshold=1)
         //{

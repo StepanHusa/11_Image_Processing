@@ -52,13 +52,6 @@ namespace _11_Image_Processing
             pdfViewControl.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
             pdfViewControl.ScrollChanged += (sender,args)=> offset = args.VerticalOffset;
 
-            //Hotkeys
-            {
-                HotkeysManager.SetupSystemHook();
-                //add individual hotkyes
-                HotkeysManager.AddHotkey(ModifierKeys.None, Key.Escape, () => { Close(); });
-
-            }
 
         }
 
