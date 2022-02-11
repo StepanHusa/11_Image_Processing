@@ -373,7 +373,7 @@ namespace _11_Image_Processing
 
             return destination;
         }
-        public static Bitmap ProcessFilterMine(this Bitmap source, double[,] horizontalFilter)
+        public static Bitmap ProcessFilterAbs(this Bitmap source, double[,] horizontalFilter)
         {
             int width = source.Width;
             int height = source.Height;
@@ -510,7 +510,7 @@ namespace _11_Image_Processing
 
             return destination;
         }
-        public static Bitmap ProcessFilterMineEdgeFix(this Bitmap source, double[,] horizontalFilter)
+        public static Bitmap ProcessFilterAbsEdgeFix(this Bitmap source, double[,] horizontalFilter)
         {
             int width = source.Width;
             int height = source.Height;
@@ -668,18 +668,10 @@ namespace _11_Image_Processing
             for (int i = 0; i < I.Width; i++)
                 for (int j = 0; j < I.Height; j++)
                 {
-                    //float w = CalculateWeightQuadratic(i, j, I.Width, I.Height, centralization);
                     float w = RelativeDistanceStar(i, j, I.Width, I.Height, (float)0.9).CalculateWeightBellShape(2, 5);
-                    //float w = CalculateWeightBellShape(i, j, I.Width, I.Height, 2, 5);
                     c += w;
-                    //cc += I.GetPixel(i, j).GetBrightness() * w;
-                    //int s = (int)(w * I.GetPixel(i, j).GetBrightness() * 255);
-                    //if (s > 255) I.SetPixel(i, j, Color.FromArgb(255, 0, 0));
-                    //else if (s < 0) I.SetPixel(i, j, Color.FromArgb(0, 255, 0));
-                    //else I.SetPixel(i, j, Color.FromArgb(s, s, s));
 
                 }
-                    //I.Save(@"C:\Users\stepa\source\repos\17_Image processing tester\path\s\" + Directory.GetFiles(@"C:\Users\stepa\source\repos\17_Image processing tester\path\s").Length + ".bmp");
             float result = cc / c * MathF.Sqrt(I.Height * I.Width) / 5; //aroud 5 is a good treshold... meaning output is true if more than 1
                                                                         
             return result;
@@ -695,6 +687,14 @@ namespace _11_Image_Processing
 
             return MathF.Pow(MathF.Pow(MathF.Abs(dx + dy), p) + MathF.Pow(MathF.Abs(dx - dy), p), 1 / p);
         }
+        public static float RelativeDistanceMaxNorm(int x, int y, int Width, int Height)
+        {
+            float dx = MathF.Abs(1 / 2 - x / Width);
+            float dy = MathF.Abs(1 / 2 - y / Height);
+
+            return MathF.Max(dx, dy);
+        }
+
         public static Bitmap Resize(this Bitmap J, int size)
         {
             var I = new Bitmap(J, new Size(size, size));
@@ -731,7 +731,6 @@ namespace _11_Image_Processing
                     int pageindex = box.Item1;
                     var workBitmap = new Bitmap(work[pageindex]);
                     Bitmap crop = workBitmap.Corp(box.Item2);
-                    crop.Save(@"C:\Users\stepa\source\repos\17_Image processing tester\path\s\" + Directory.GetFiles(@"C:\Users\stepa\source\repos\17_Image processing tester\path\s").Length + ".bmp");
                     bool IsDark = crop.IsDarkRocognize();
                     bool IsCross = crop.IsEdgyInTheCenterRecognize();
                     resultsQuestion.Add(IsCross);
@@ -834,13 +833,6 @@ namespace _11_Image_Processing
             float dx = MathF.Abs(1 / 2 - x / Width);
             float dy = MathF.Abs(1 / 2 - y / Height);
             return MathF.Sqrt(MathF.Pow(dx, 2) + MathF.Pow(dy, 2));
-        }
-        public static float RelativeDistanceMaxNorm(int x, int y, int Width, int Height)
-        {
-            float dx = MathF.Abs(1 / 2 - x / Width);
-            float dy = MathF.Abs(1 / 2 - y / Height);
-
-            return MathF.Max(dx, dy);
         }
         public static float RelativeDistancePNorm(int x, int y, int Width, int Height, float p)
         {
