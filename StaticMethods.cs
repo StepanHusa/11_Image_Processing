@@ -670,10 +670,12 @@ namespace _11_Image_Processing
                 {
                     float w = RelativeDistanceStar(i, j, I.Width, I.Height, (float)0.9).CalculateWeightBellShape(2, 5);
                     c += w;
-
+                   cc += I.GetPixel(i, j).GetBrightness() * w;
                 }
+
             float result = cc / c * MathF.Sqrt(I.Height * I.Width) / 5; //aroud 5 is a good treshold... meaning output is true if more than 1
-                                                                        
+
+
             return result;
         }
         public static float CalculateWeightBellShape(this float distRel, float k, float l)
@@ -733,6 +735,7 @@ namespace _11_Image_Processing
                     Bitmap crop = workBitmap.Corp(box.Item2);
                     bool IsDark = crop.IsDarkRocognize();
                     bool IsCross = crop.IsEdgyInTheCenterRecognize();
+
                     resultsQuestion.Add(IsCross);
 
                     workBitmap.Dispose(); //otherwise the memory explodes
