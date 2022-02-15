@@ -464,4 +464,11 @@ namespace _11_Image_Processing
         }
 
     }
+    static class WindowsMediaExtensions
+    {
+        public static System.Windows.Media.Color ColorToDrawing(this Color color)
+        {
+            return System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
+        }
+    }
 }

@@ -32,7 +32,7 @@ using System.Windows.Xps.Packaging;
 using PdfPrintingNet;
 using Syncfusion.Windows.PdfViewer;
 using _11_Image_Processing.Resources.Strings;
-
+using System.Threading;
 
 namespace _11_Image_Processing
 {
@@ -537,23 +537,23 @@ namespace _11_Image_Processing
             }
         }
         //advanced read
-        private void Menu_Read_ListOfScans_Dialog_Click(object sender, RoutedEventArgs e)
+        private async void Menu_Read_ListOfScans_Dialog_Click(object sender, RoutedEventArgs e)
         {
             // var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; //TODO make for images (maybe make method for strings)
             var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };//todo add more filters 
             if (open.ShowDialog() == false) return;
 
-            LoadNumberOfFiles(open.FileNames.Count(), open.FileNames);
+            await LoadNumberOfFiles(open.FileNames.Count(), open.FileNames);
 
         }
-        private void Menu_Read_Scan_Click(object sender, RoutedEventArgs e)
+        private async void Menu_Read_Scan_Click(object sender, RoutedEventArgs e)
         {
             var a = new ScanForm();
             if (a.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
-            LoadNumberOfFiles(a.tempScans.Count, a.tempScans.ToArray());
+            await LoadNumberOfFiles(a.tempScans.Count, a.tempScans.ToArray());
         }
-        private void LoadNumberOfFiles(int Number, string[] ImageFiles)
+        private async Task LoadNumberOfFiles(int Number, string[] ImageFiles)
         {
             var a = new ImportPicturesDialogW(Number);
             if (a.ShowDialog() != true)
@@ -564,10 +564,14 @@ namespace _11_Image_Processing
             }
 
             var da = a.Answer;
+            var invert = a.Invert.Value;
+            a.Close();
+
+            ST.scansInPagesInWorks = await Task.Run(() => { 
 
             List<List<string>> works = new();
             int ii = 0;
-            if (!a.Invert.Value)
+            if (!invert)
                 for (int i = 0; i < da.Item1; i++)
                 {
                     works.Add(new());
@@ -589,10 +593,10 @@ namespace _11_Image_Processing
                         ii++;
                     }
                 }
-
             }
+                return works;
+            });
 
-            ST.scansInPagesInWorks = works;
         }
 
         //Print
@@ -631,58 +635,17 @@ namespace _11_Image_Processing
 
         }
 
-        private void Menu_Eavluate_Click(object sender, RoutedEventArgs e)
+        private async void Menu_Eavluate_Click(object sender, RoutedEventArgs e)
         {
-            //ST.resultsInQuestionsInWorks = ST.scansInPagesInWorks.EvaluateWorks(ST.boxesInQuestions, new PdfLoadedDocument(ST.tempFile).GetSizesOfPages());
+            var pbw = new ProgressBarW();
+            pbw.Show();
+            await Task.Run(()=>ST.resultsInQuestionsInWorks = ST.scansInPagesInWorks.EvaluateWorks(ST.boxesInQuestions));
 
-            ST.resultsInQuestionsInWorks = ST.scansInPagesInWorks.EvaluateWorks(ST.boxesInQuestions);
             ST.namesScaned = ST.scansInPagesInWorks.GetCropedNames(ST.nameField);
             new ViewResultW().Show();
-
-            //string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files";
-            //string s = debugFolder + "\\s\\1.bmp";
-            //string f = debugFolder + "\\maxresdefault.jpg";
-            //string g = debugFolder + "\\02c.bmp";
-
-
-            //byte[] photoBytes = File.ReadAllBytes(s);
-            //// Format is automatically detected though can be changed.
-            //System.Drawing.Size size = new System.Drawing.Size(500, 0);
-
-            //using (MemoryStream inStream = new MemoryStream(photoBytes))
-            //{
-            //    using (MemoryStream outStream = new MemoryStream())
-            //    {
-            //        // Initialize the ImageFactory using the overload to preserve EXIF metadata.
-            //        using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
-            //        {
-            //            // Load, resize, set the format and quality and save an image.
-            //            imageFactory.Load(inStream)
-            //                        .DetectEdges(new Laplacian3X3EdgeFilter())
-            //                        .Resize(size)
-            //                        .Save(g);
-            //        }
-            //    }
-            //}
-
-
-            //var Ocr = new IronTesseract();
-            //using (var input = new OcrInput())
-            //{
-            //    //input.AddPdf("example.pdf", "password");
-            //    //input.AddMultiFrameTiff("multi-frame.tiff");
-            //    //input.AddImage("image1.png");
-            //    input.AddImage(s);
-            //    //... many more
-            //    var Result = Ocr.Read(input);
-
-            //    Debug.WriteLine(Result.Text);
-            //    Debug.WriteLine(Result.Confidence);
-
-            //}
-
-
+            pbw.Close();
         }
+
         //help and settings
         private void Menu_Help_Click(object sender, RoutedEventArgs e)
         {
@@ -691,9 +654,7 @@ namespace _11_Image_Processing
 
         private void Menu_Settings_Click(object sender, RoutedEventArgs e)
         {
-            if (ST.settingsWindow == null)
-                ST.settingsWindow = new();
-            ST.settingsWindow.Show();
+            new SettingsW().ShowDialog();
         }
 
 
@@ -970,11 +931,10 @@ namespace _11_Image_Processing
     }
 }
 
-//TODO get the mic form connected (or maybe not) 	
+	
 //TODO update the save project property 
 //  (add saving preferences)
 
-//TODO work on the recognasing 
 //TODO add help and settings
 //TODO add lock function
 //TODO no green in export and print

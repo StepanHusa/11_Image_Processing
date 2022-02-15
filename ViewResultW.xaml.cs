@@ -51,7 +51,7 @@ namespace _11_Image_Processing
                 z.Content = GenerateLeftGrid(i);
 
                 tabsHorizontal.Items.Add(z);
-                //TODO make memory suitable
+                //_TODO make memory suitable
             }
         }
 

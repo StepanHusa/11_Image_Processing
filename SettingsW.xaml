@@ -4,53 +4,95 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_11_Image_Processing"
+            xmlns:ln="clr-namespace:_11_Image_Processing.Resources.Strings"
         mc:Ignorable="d"
-        Title="SettingsW" Height="450" Width="800" Closing="Window_Closing">
+        Title="SettingsW" Height="550" Width="500"  
+        ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen"
+        Background="Beige"
+        Closing="Window_Closing">
     <Window.DataContext>
         <local:ST/>
     </Window.DataContext>
     <Grid >
-        <!--ShowGridLines="True"-->
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="68*"/>
-            <ColumnDefinition Width="125*"/>
-        </Grid.ColumnDefinitions>
+        <TabControl Margin="20" Grid.Row="0" Height="450">
+            <TabItem Header="{x:Static ln:Strings.}">
+                <StackPanel>
+                    <GroupBox Header="Paths" Margin="0,0,60,0" Height="208">
+                        
+                    </GroupBox>
+                    <GroupBox Header="2" Height="50"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Edit">
+                <StackPanel>
+                    <GroupBox Header="Colors">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="color1" Content="Set" Click="color1_Click" />
+                                <Label Content="Answer Box Color"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="color2" Content="Set" Click="color2_Click" />
+                                <Label Content="Answer Box Color"/>
+                            </StackPanel>
 
-        <TextBlock Text="template project name"                 Grid.Row="0" Grid.Column="0"/>
-        <TextBlock Text="bound pen"                             Grid.Row="1" Grid.Column="0"/>
-        <TextBlock Text="bound width"                           Grid.Row="2" Grid.Column="0"/>
-        <TextBlock Text="box size"                              Grid.Row="3" Grid.Column="0"/>
-        
-        <TextBlock Text="Advanced"                              Grid.Row="4" Grid.Column="0"/>
-        <TextBlock Text="tempory file folder"                   Grid.Row="5" Grid.Column="0"/>
-        <TextBlock Text="extension"                             Grid.Row="6" Grid.Column="0"/>
-        <TextBlock Text="file control code (8byte)"             Grid.Row="7" Grid.Column="0"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Colors">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Button  Content="Set" Click="color2_Click" />
+                                <Label Content="Answer Box Color"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Evaluation">
+
+            </TabItem>
+            <TabItem Header="T">
+
+            </TabItem>
+
+
+
+
+            <TextBlock Text="bound pen"                             Grid.Row="1" Grid.Column="0"/>
+            <TextBlock Text="template project name"                 Grid.Row="0" Grid.Column="0"/>
+            <TextBlock Text="bound width"                           Grid.Row="2" Grid.Column="0"/>
+            <TextBlock Text="box size"                              Grid.Row="3" Grid.Column="0"/>
+
+            <TextBlock Text="Advanced"                              Grid.Row="4" Grid.Column="0"/>
+            <TextBlock Text="tempory file folder"                   Grid.Row="5" Grid.Column="0"/>
+            <TextBlock Text="extension"                             Grid.Row="6" Grid.Column="0"/>
+            <TextBlock Text="file control code (8byte)"             Grid.Row="7" Grid.Column="0"/>
 
 
 
 
 
 
-        <TextBox x:Name="aa"         Grid.Row="0" Grid.Column="1" KeyDown="a_KeyDown"/>
-        <TextBox x:Name="ab"        Grid.Row="1" Grid.Column="1" KeyDown="a_KeyDown"/>
-        <TextBox x:Name="ac"        Grid.Row="2" Grid.Column="1" KeyDown="a_KeyDown"/>
-        <TextBox x:Name="ad"       Grid.Row="3" Grid.Column="1" KeyDown="a_KeyDown"/>
-        
-        <TextBox x:Name="ae"        Grid.Row="5" Grid.Column="1" KeyDown="a_KeyDown"/>
-        <TextBox x:Name="af"      Grid.Row="6" Grid.Column="1" KeyDown="a_KeyDown"/>
-        <TextBox x:Name="ag"           Grid.Row="7" Grid.Column="1" KeyDown="ag_KeyDown" MaxLength="8" LostFocus="ag_LostFocus"    />
+            <TextBox x:Name="aa"         Grid.Row="0" Grid.Column="1" KeyDown="IfEnterMoveFocus_KeyDown"/>
+            <TextBox x:Name="ab"        Grid.Row="1" Grid.Column="1" KeyDown="IfEnterMoveFocus_KeyDown"/>
+            <TextBox x:Name="ac"        Grid.Row="2" Grid.Column="1" KeyDown="IfEnterMoveFocus_KeyDown"/>
+            <TextBox x:Name="ad"       Grid.Row="3" Grid.Column="1" KeyDown="IfEnterMoveFocus_KeyDown"/>
 
+            <TextBox x:Name="ae"        Grid.Row="5" Grid.Column="1" KeyDown="IfEnterMoveFocus_KeyDown"/>
+            <TextBox x:Name="af"      Grid.Row="6" Grid.Column="1" KeyDown="IfEnterMoveFocus_KeyDown"/>
+            <TextBox x:Name="ag"           Grid.Row="7" Grid.Column="1" KeyDown="ag_KeyDown" MaxLength="8" LostFocus="ag_LostFocus"    />
+
+        </TabControl>
+
+        <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20,0,20,20">
+            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogApply_Click" MinWidth="60" Margin="0,0,10,0">_Apply</Button>
+            <Button IsCancel="True" MinWidth="60">_Cancel</Button>
+        </WrapPanel>
 
 
 

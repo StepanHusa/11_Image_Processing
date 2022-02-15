@@ -709,13 +709,15 @@ namespace _11_Image_Processing
 
     static class ImageProcessing
     {
-        public static List<List<List<bool>>> EvaluateWorks(this List<List<string>> works, List<List<Tuple<int, RectangleF, bool>>> questions)
+        public static List<List<List<bool>>> EvaluateWorks(this List<List<string>> works, List<List<Tuple<int, RectangleF, bool>>> questions, ProgressBar bar=null)
         {
             List<List<List<bool>>> resultsAll = new();
 
             foreach (var work in works)
             {
                 resultsAll.Add(work.EvaluateOneWork(questions));
+                if(bar!=null)
+                    bar.Value = (double)works.IndexOf(work)/works.Count;
             }
 
 
@@ -773,24 +775,6 @@ namespace _11_Image_Processing
                 }
             return cc / c;
         }
-        //public static float CenterEdgesNum(this Bitmap J, float centralization = 2,float threshold=1)
-        //{
-        //    var I = J.LaplasTransform1();
-
-        //    float c = 0;
-        //    float cc = 0;
-        //    for (int i = 0; i < I.Width; i++)
-        //        for (int j = 0; j < I.Height; j++)
-        //        {
-        //            //float w = CalculateWeightQuadratic(i, j, I.Width, I.Height, centralization);
-        //            float w= RelativeDistanceStar(i, j, I.Width, I.Height, (float)0.9).CalculateWeightBellShape(2,5);
-        //            c += w;
-        //            cc += I.GetPixel(i, j).GetBrightness() * w;
-        //        }
-        //    float result = cc / c * MathF.Sqrt(I.Height * I.Width) / threshold; //aroud 1 is a good treshold... meaning output is true if more than
-        //                                                                        //TODO measure the good th
-        //    return result;
-        //}
 
         public static List<Bitmap> GetCropedNames(this List<List<string>> works, Tuple<int, RectangleF> nameField)
         {

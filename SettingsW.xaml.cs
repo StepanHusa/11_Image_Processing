@@ -19,9 +19,22 @@ namespace _11_Image_Processing
     /// </summary>
     public partial class SettingsW : Window
     {
+        private System.Drawing.Color baundColor;
+        private System.Drawing.Color baundColorTwo;
+
+
+
         public SettingsW()
         {
             InitializeComponent();
+            Setup();
+        }
+
+        private void Setup()
+        {
+            color1.Background = new SolidColorBrush(ST.baundColor.ColorToDrawing());
+            color2.Background = new SolidColorBrush(ST.baundColorTwo.ColorToDrawing());
+
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -29,7 +42,7 @@ namespace _11_Image_Processing
             ST.settingsWindow = null;
         }
 
-        private void a_KeyDown(object sender, KeyEventArgs e)
+        private void IfEnterMoveFocus_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter) {
                 (sender as TextBox).MoveFocus(new TraversalRequest(0)); e.Handled = true;
@@ -38,12 +51,7 @@ namespace _11_Image_Processing
 
         private void ag_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                (sender as TextBox).MoveFocus(new TraversalRequest(0));
-                e.Handled = true;
-                return;
-            }
+            IfEnterMoveFocus_KeyDown(sender,e);
             if (e.Key == Key.Space)
             {
                 e.Handled = true;
@@ -68,6 +76,32 @@ namespace _11_Image_Processing
                 ST.fileCode = ag.Text.StringToByteArray();
             }
             
+        }
+
+        private void btnDialogApply_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+            this.Close();
+        }
+
+
+        private void color1_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.ColorDialog cd = new();
+            if (cd.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+
+            baundColor = cd.Color;
+            color1.Background= new SolidColorBrush(baundColor.ColorToDrawing());
+        }
+
+        private void color2_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.ColorDialog cd = new();
+            if (cd.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+
+            baundColorTwo = cd.Color;
+            color2.Background = new SolidColorBrush(baundColorTwo.ColorToDrawing());
+
         }
     }
 }

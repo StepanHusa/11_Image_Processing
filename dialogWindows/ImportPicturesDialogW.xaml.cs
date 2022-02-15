@@ -59,8 +59,7 @@ namespace _11_Image_Processing
 
         public Tuple<int,int> Answer
         {
-            get {
-                
+            get {                
                 return new((int)works.Content, (int)sldAnswer.Value); 
             }
         }

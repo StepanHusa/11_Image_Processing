@@ -196,6 +196,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluateing Works.
+        /// </summary>
+        public static string EvaluateingWorks {
+            get {
+                return ResourceManager.GetString("EvaluateingWorks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Export.
         /// </summary>
         public static string Export {

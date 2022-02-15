@@ -843,7 +843,6 @@ namespace _11_Image_Processing
         {
             ContextMenu cm = (ContextMenu)Resources["contextMenu"];
             cm.IsOpen = true;
-
         }
 
         private void undoFButton_Click(object sender, RoutedEventArgs e)

@@ -1,0 +1,21 @@
+﻿<Window x:Class="_11_Image_Processing.ProgressBarW"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_11_Image_Processing"
+        mc:Ignorable="d"
+            xmlns:ln="clr-namespace:_11_Image_Processing.Resources.Strings"
+
+        Title="Evaluatin..."     SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Height="450" Width="800">
+
+    <Grid Margin="20">
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="347*"/>
+        </Grid.ColumnDefinitions>
+        <Label         Grid.Column="0" Content="Finished:"               />
+        <ProgressBar   Grid.Column="1" x:Name="progressBar" Maximum="1" Height="20" Width="200"/>-->
+        <TextBlock Text="{x:Static ln:Strings.EvaluateingWorks}"/>
+    </Grid>
+</Window>

@@ -162,6 +162,9 @@
   <data name="Evaluate" xml:space="preserve">
     <value>_Evaluate</value>
   </data>
+  <data name="EvaluateingWorks" xml:space="preserve">
+    <value>Evaluateing Works</value>
+  </data>
   <data name="Export" xml:space="preserve">
     <value>_Export</value>
   </data>
