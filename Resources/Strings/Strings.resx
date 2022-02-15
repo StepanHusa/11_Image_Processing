@@ -120,11 +120,20 @@
   <data name="AddBoxes" xml:space="preserve">
     <value>_AddBoxes</value>
   </data>
+  <data name="Advanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
   <data name="Allfiles" xml:space="preserve">
     <value>All files</value>
   </data>
   <data name="Answer" xml:space="preserve">
     <value>Answer</value>
+  </data>
+  <data name="AnswerBoxColor" xml:space="preserve">
+    <value>Answer Box Color</value>
+  </data>
+  <data name="AnswerBoxColor2" xml:space="preserve">
+    <value>Answer Box Color 2</value>
   </data>
   <data name="AnswerBoxes" xml:space="preserve">
     <value>Answer Boxes</value>
@@ -132,14 +141,29 @@
   <data name="AnswerField" xml:space="preserve">
     <value>Answer Field</value>
   </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
   <data name="BlankPDFFile" xml:space="preserve">
     <value>_BlankPDFFile</value>
+  </data>
+  <data name="Boxes" xml:space="preserve">
+    <value>Boxes</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="Checked" xml:space="preserve">
     <value>Checked</value>
   </data>
   <data name="ChooseAction" xml:space="preserve">
     <value>Choose Action</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Colors" xml:space="preserve">
+    <value>Colors</value>
   </data>
   <data name="Correct" xml:space="preserve">
     <value>Correct</value>
@@ -165,6 +189,9 @@
   <data name="EvaluateingWorks" xml:space="preserve">
     <value>Evaluateing Works</value>
   </data>
+  <data name="Evaluation" xml:space="preserve">
+    <value>Evaluation</value>
+  </data>
   <data name="Export" xml:space="preserve">
     <value>_Export</value>
   </data>
@@ -176,6 +203,9 @@
   </data>
   <data name="FromWordDocument" xml:space="preserve">
     <value>_FromWordDocument</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
   </data>
   <data name="Grade" xml:space="preserve">
     <value>Grade</value>
@@ -191,6 +221,9 @@
   </data>
   <data name="JPEG" xml:space="preserve">
     <value>_JPEG</value>
+  </data>
+  <data name="Minimize" xml:space="preserve">
+    <value>Minimize</value>
   </data>
   <data name="More" xml:space="preserve">
     <value>_More</value>
@@ -251,6 +284,9 @@
   </data>
   <data name="Openlistofscans" xml:space="preserve">
     <value>Open list of scans</value>
+  </data>
+  <data name="Paths" xml:space="preserve">
+    <value>Paths</value>
   </data>
   <data name="PDF" xml:space="preserve">
     <value>_PDF</value>

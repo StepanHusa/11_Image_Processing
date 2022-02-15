@@ -793,6 +793,16 @@ namespace _11_Image_Processing
             e.CanExecute = true;
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void DockPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
 
 
 

@@ -70,6 +70,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Advanced.
+        /// </summary>
+        public static string Advanced {
+            get {
+                return ResourceManager.GetString("Advanced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All files.
         /// </summary>
         public static string Allfiles {
@@ -84,6 +93,24 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string Answer {
             get {
                 return ResourceManager.GetString("Answer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Answer Box Color.
+        /// </summary>
+        public static string AnswerBoxColor {
+            get {
+                return ResourceManager.GetString("AnswerBoxColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Answer Box Color 2.
+        /// </summary>
+        public static string AnswerBoxColor2 {
+            get {
+                return ResourceManager.GetString("AnswerBoxColor2", resourceCulture);
             }
         }
         
@@ -106,11 +133,38 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply.
+        /// </summary>
+        public static string Apply {
+            get {
+                return ResourceManager.GetString("Apply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _BlankPDFFile.
         /// </summary>
         public static string BlankPDFFile {
             get {
                 return ResourceManager.GetString("BlankPDFFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Boxes.
+        /// </summary>
+        public static string Boxes {
+            get {
+                return ResourceManager.GetString("Boxes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
             }
         }
         
@@ -129,6 +183,24 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string ChooseAction {
             get {
                 return ResourceManager.GetString("ChooseAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Colors.
+        /// </summary>
+        public static string Colors {
+            get {
+                return ResourceManager.GetString("Colors", resourceCulture);
             }
         }
         
@@ -205,6 +277,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluation.
+        /// </summary>
+        public static string Evaluation {
+            get {
+                return ResourceManager.GetString("Evaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Export.
         /// </summary>
         public static string Export {
@@ -237,6 +318,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string FromWordDocument {
             get {
                 return ResourceManager.GetString("FromWordDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string General {
+            get {
+                return ResourceManager.GetString("General", resourceCulture);
             }
         }
         
@@ -282,6 +372,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string JPEG {
             get {
                 return ResourceManager.GetString("JPEG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimize.
+        /// </summary>
+        public static string Minimize {
+            get {
+                return ResourceManager.GetString("Minimize", resourceCulture);
             }
         }
         
@@ -462,6 +561,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string Openlistofscans {
             get {
                 return ResourceManager.GetString("Openlistofscans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paths.
+        /// </summary>
+        public static string Paths {
+            get {
+                return ResourceManager.GetString("Paths", resourceCulture);
             }
         }
         

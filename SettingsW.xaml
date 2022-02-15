@@ -19,54 +19,53 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TabControl Margin="20" Grid.Row="0" Height="450">
-            <TabItem Header="{x:Static ln:Strings.}">
+            <TabItem Header="{x:Static ln:Strings.General}">
                 <StackPanel>
-                    <GroupBox Header="Paths" Margin="0,0,60,0" Height="208">
+                    <GroupBox Header="{x:Static ln:Strings.Paths}" Margin="0,0,60,0" Height="208">
                         
                     </GroupBox>
                     <GroupBox Header="2" Height="50"/>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Edit">
+            <TabItem Header="{x:Static ln:Strings.Edit}" HorizontalAlignment="Left" Width="32">
                 <StackPanel>
-                    <GroupBox Header="Colors">
+                    <GroupBox Header="{x:Static ln:Strings.Colors}">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Button x:Name="color1" Content="Set" Click="color1_Click" />
-                                <Label Content="Answer Box Color"/>
+                                <Button x:Name="color1" Content="" Click="color1_Click" Width="24"/>
+                                <Label Content="{x:Static ln:Strings.AnswerBoxColor}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Button x:Name="color2" Content="Set" Click="color2_Click" />
-                                <Label Content="Answer Box Color"/>
+                                <Button x:Name="color2" Content="" Click="color2_Click" Width="24" />
+                                <Label Content="{x:Static ln:Strings.AnswerBoxColor2}"/>
                             </StackPanel>
-
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="Colors">
+                    <GroupBox Header="{x:Static ln:Strings.Boxes}">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Button  Content="Set" Click="color2_Click" />
-                                <Label Content="Answer Box Color"/>
+                                <TextBox x:Name="size" Width="50" Margin="0,5,10,0"/>
+                                <TextBlock Text="box size"      Margin="0,5,10,0"/>
                             </StackPanel>
-
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="width" Width="50" Margin="0,5,10,0"/>
+                                <TextBlock Text="bound width" Margin="0,5,10,0"/>
+                            </StackPanel>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Evaluation">
+            <TabItem Header="{x:Static ln:Strings.Evaluation}">
 
             </TabItem>
-            <TabItem Header="T">
+            <TabItem Header="{x:Static ln:Strings.Advanced}">
 
             </TabItem>
 
 
 
 
-            <TextBlock Text="bound pen"                             Grid.Row="1" Grid.Column="0"/>
             <TextBlock Text="template project name"                 Grid.Row="0" Grid.Column="0"/>
-            <TextBlock Text="bound width"                           Grid.Row="2" Grid.Column="0"/>
-            <TextBlock Text="box size"                              Grid.Row="3" Grid.Column="0"/>
 
             <TextBlock Text="Advanced"                              Grid.Row="4" Grid.Column="0"/>
             <TextBlock Text="tempory file folder"                   Grid.Row="5" Grid.Column="0"/>
@@ -90,8 +89,8 @@
         </TabControl>
 
         <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20,0,20,20">
-            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogApply_Click" MinWidth="60" Margin="0,0,10,0">_Apply</Button>
-            <Button IsCancel="True" MinWidth="60">_Cancel</Button>
+            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogApply_Click" MinWidth="60" Margin="0,0,10,0" Content="{x:Static ln:Strings.Apply}"/>
+            <Button IsCancel="True" MinWidth="60" Content="{x:Static ln:Strings.Cancel}"/>
         </WrapPanel>
 
 
