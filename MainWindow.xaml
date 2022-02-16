@@ -27,59 +27,62 @@
 
 
         <DockPanel Grid.Row="0" MouseDown="DockPanel_MouseDown" Background="LightSkyBlue">
-                <Menu Style="{DynamicResource menuStyle}" DockPanel.Dock = "Left" IsMainMenu="True">
-                    <MenuItem x:Name="Menu_Project" Header="_Project" Height="30" >
-                        <MenuItem          Header="{x:Static ln:Strings.New}" >
-                            <MenuItem      Header="{x:Static ln:Strings.BlankPDFFile}"        Click="Menu_Load_New_Click"/>
-                            <MenuItem      Header="{x:Static ln:Strings.FromExistingPDF}"     Click="Menu_Load_Open_Click"/>
-                            <MenuItem      Header="{x:Static ln:Strings.FromWordDocument}"    Click="Menu_Load_Word_Click"/>
-                        </MenuItem>
-
-                        <MenuItem x:Name="Menu_Project_Open"     Header="{x:Static ln:Strings.Open}" Click="Menu_Open_Project_Click"/>
-
-                        <MenuItem x:Name="Menu_Project_Unload" Header="{x:Static ln:Strings.Unload}" Click="Menu_Project_Unload_Click"/>
-
-                        <MenuItem x:Name="Menu_Project_SaveAs" Header="{x:Static ln:Strings.SaveAs}" IsEnabled="False"  Click="Menu_Save_ProjectAs_Click" InputGestureText="Ctrl+Shift+S"/>
-                        <MenuItem  x:Name="Menu_Project_Save" Header="{x:Static ln:Strings.Save}" IsEnabled="False" Click="Menu_Save_Project_Click" InputGestureText="Ctrl+S"/>
+            <Menu Style="{DynamicResource menuStyle}" DockPanel.Dock = "Left" IsMainMenu="True">
+                <MenuItem x:Name="Menu_Project" Header="_Project" Height="30" >
+                    <MenuItem          Header="{x:Static ln:Strings.New}" >
+                        <MenuItem      Header="{x:Static ln:Strings.BlankPDFFile}"        Click="Menu_Load_New_Click"/>
+                        <MenuItem      Header="{x:Static ln:Strings.FromExistingPDF}"     Click="Menu_Load_Open_Click"/>
+                        <MenuItem      Header="{x:Static ln:Strings.FromWordDocument}"    Click="Menu_Load_Word_Click"/>
                     </MenuItem>
 
-                    <MenuItem x:Name="Menu_Edit" Header="{x:Static ln:Strings.Edit}" IsEnabled="False" >
-                        <MenuItem x:Name="Menu_Edit_NoTools" Header="{x:Static ln:Strings.NoTools}" Command="local:Commands.Edit"/>
+                    <MenuItem x:Name="Menu_Project_Open"     Header="{x:Static ln:Strings.Open}" Click="Menu_Open_Project_Click"/>
+
+                    <MenuItem x:Name="Menu_Project_Unload" Header="{x:Static ln:Strings.Unload}" Click="Menu_Project_Unload_Click"/>
+
+                    <MenuItem x:Name="Menu_Project_SaveAs" Header="{x:Static ln:Strings.SaveAs}" IsEnabled="False"  Click="Menu_Save_ProjectAs_Click" InputGestureText="Ctrl+Shift+S"/>
+                    <MenuItem  x:Name="Menu_Project_Save" Header="{x:Static ln:Strings.Save}" IsEnabled="False" Click="Menu_Save_Project_Click" InputGestureText="Ctrl+S"/>
+                </MenuItem>
+
+                <MenuItem x:Name="Menu_Edit" Header="{x:Static ln:Strings.Edit}" IsEnabled="False" >
+                    <MenuItem x:Name="Menu_Edit_NoTools" Header="{x:Static ln:Strings.NoTools}" Command="local:Commands.Edit"/>
+                </MenuItem>
+
+                <MenuItem x:Name="Menu_Export" Header="{x:Static ln:Strings.Export}" IsEnabled="False">
+                    <MenuItem x:Name="Menu_Export_ToJPEG" Header="{x:Static ln:Strings.JPEG}" Click="Menu_Export_ToJPEG_Click"/>
+                    <MenuItem x:Name="Menu_Export_ToPNG" Header="{x:Static ln:Strings.PNG}" Click="Menu_Export_ToPNG_Click"/>
+
+                    <MenuItem x:Name="Menu_PDF" Header="{x:Static ln:Strings.PDF}" Click="Menu_Save_PDF_Click"/>
+                </MenuItem>
+
+                <MenuItem x:Name="Menu_Print" Header="{x:Static ln:Strings.Print}" IsEnabled="False" Click="Menu_Print_Click"/>
+
+                <MenuItem x:Name="Menu_Read" Header="{x:Static ln:Strings.Read}" IsEnabled="False">
+                    <MenuItem x:Name="Menu_Read_PNG" Header="{x:Static ln:Strings.OnePNGtocheck}" Click="Menu_Read_PNG_Click"/>
+
+                    <MenuItem x:Name="Menu_Read_ListOfScans" Header="{x:Static ln:Strings.Files}">
+                        <MenuItem x:Name="Menu_Read_ListOfScans_OnePage" Header="{x:Static ln:Strings.OnePage}" Click="Menu_Read_ListOfScans_OnePage_Click"/>
+                        <MenuItem x:Name="Menu_Read_ListOfScans_Dialog" Header="{x:Static ln:Strings.More}" Click="Menu_Read_ListOfScans_Dialog_Click"/>
                     </MenuItem>
+                    <MenuItem x:Name="Menu_Read_Scan" Header="{x:Static ln:Strings.Scanner}" Click="Menu_Read_Scan_Click"/>
 
-                    <MenuItem x:Name="Menu_Export" Header="{x:Static ln:Strings.Export}" IsEnabled="False">
-                        <MenuItem x:Name="Menu_Export_ToJPEG" Header="{x:Static ln:Strings.JPEG}" Click="Menu_Export_ToJPEG_Click"/>
-                        <MenuItem x:Name="Menu_Export_ToPNG" Header="{x:Static ln:Strings.PNG}" Click="Menu_Export_ToPNG_Click"/>
+                </MenuItem>
 
-                        <MenuItem x:Name="Menu_PDF" Header="{x:Static ln:Strings.PDF}" Click="Menu_Save_PDF_Click"/>
-                    </MenuItem>
+                <MenuItem x:Name="Menu_Eavluate" Header="{x:Static ln:Strings.Evaluate}" Click="Menu_Eavluate_Click" IsEnabled="False"/>
 
-                    <MenuItem x:Name="Menu_Print" Header="{x:Static ln:Strings.Print}" IsEnabled="False" Click="Menu_Print_Click"/>
+                <MenuItem x:Name="Menu_Help" Header="{x:Static ln:Strings.Help}" Click="Menu_Help_Click">
+                    <MenuItem x:Name="Menu_Help_HTML" Header="{x:Static ln:Strings.HTML}" Click="Menu_Help_HTML_Click"/>
+                    <MenuItem x:Name="Menu_Help_CHM" Header="{x:Static ln:Strings.CHM}" Click="Menu_Help_CHM_Click"/>
+                </MenuItem>
 
-                    <MenuItem x:Name="Menu_Read" Header="{x:Static ln:Strings.Read}" IsEnabled="False">
-                        <MenuItem x:Name="Menu_Read_PNG" Header="{x:Static ln:Strings.OnePNGtocheck}" Click="Menu_Read_PNG_Click"/>
-
-                        <MenuItem x:Name="Menu_Read_ListOfScans" Header="{x:Static ln:Strings.Files}">
-                            <MenuItem x:Name="Menu_Read_ListOfScans_OnePage" Header="{x:Static ln:Strings.OnePage}" Click="Menu_Read_ListOfScans_OnePage_Click"/>
-                            <MenuItem x:Name="Menu_Read_ListOfScans_Dialog" Header="{x:Static ln:Strings.More}" Click="Menu_Read_ListOfScans_Dialog_Click"/>
-                        </MenuItem>
-                        <MenuItem x:Name="Menu_Read_Scan" Header="{x:Static ln:Strings.Scanner}" Click="Menu_Read_Scan_Click"/>
-
-                    </MenuItem>
-
-                    <MenuItem x:Name="Menu_Eavluate" Header="{x:Static ln:Strings.Evaluate}" Click="Menu_Eavluate_Click" IsEnabled="False"/>
-
-                    <MenuItem x:Name="Menu_Help" Header="{x:Static ln:Strings.Help}" Click="Menu_Help_Click"/>
-
-                    <MenuItem x:Name="Menu_Settions" Header="{x:Static ln:Strings.Settings}" Click="Menu_Settings_Click"/>
-                </Menu >
-                <Border HorizontalAlignment="Right" DockPanel.Dock="Right" Padding="5 5 5 5" >
-                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                <MenuItem x:Name="Menu_Settions" Header="{x:Static ln:Strings.Settings}" Click="Menu_Settings_Click"/>
+            </Menu >
+            <Border HorizontalAlignment="Right" DockPanel.Dock="Right" Padding="5 5 5 5" >
+                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
                     <Button Content="{x:Static ln:Strings.Close}" Width="50" Foreground="White" Background="Transparent" BorderBrush="#FFDDDDDD" BorderThickness="1" Click="Button_Click"/>
                     <Button Content="{x:Static ln:Strings.Minimize}" Width="60" Foreground="White" Background="Transparent" BorderBrush="#FFDDDDDD" BorderThickness="1" Margin="5 0 0 0"></Button>
-                    </StackPanel>
-                </Border>
-            </DockPanel>
+                </StackPanel>
+            </Border>
+        </DockPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="400*"/>

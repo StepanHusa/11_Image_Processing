@@ -649,7 +649,9 @@ namespace _11_Image_Processing
         //help and settings
         private void Menu_Help_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            //System.Windows.Forms.Help.ShowHelp(null, @"C:\Users\stepa\source\repos\11_Image_Processing\HTMLHelp.html"); //TODO make portable
+            System.Windows.Forms.Help.ShowHelp(null, @"C:\Users\stepa\source\repos\11_Image_Processing\StudentTesterHelp.chm");
+            
         }
 
         private void Menu_Settings_Click(object sender, RoutedEventArgs e)
@@ -801,6 +803,16 @@ namespace _11_Image_Processing
         private void DockPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
+        }
+
+        private void Menu_Help_HTML_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Menu_Help_CHM_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
 

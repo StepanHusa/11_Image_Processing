@@ -178,6 +178,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CHM.
+        /// </summary>
+        public static string CHM {
+            get {
+                return ResourceManager.GetString("CHM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose Action.
         /// </summary>
         public static string ChooseAction {
@@ -345,6 +354,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HTML.
+        /// </summary>
+        public static string HTML {
+            get {
+                return ResourceManager.GetString("HTML", resourceCulture);
             }
         }
         

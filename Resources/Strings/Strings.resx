@@ -156,6 +156,9 @@
   <data name="Checked" xml:space="preserve">
     <value>Checked</value>
   </data>
+  <data name="CHM" xml:space="preserve">
+    <value>CHM</value>
+  </data>
   <data name="ChooseAction" xml:space="preserve">
     <value>Choose Action</value>
   </data>
@@ -212,6 +215,9 @@
   </data>
   <data name="Help" xml:space="preserve">
     <value>_Help</value>
+  </data>
+  <data name="HTML" xml:space="preserve">
+    <value>HTML</value>
   </data>
   <data name="Image" xml:space="preserve">
     <value>Image</value>
