@@ -967,3 +967,4 @@ namespace _11_Image_Processing
 //TODO no green in export and print
 //TODO remake tuple to new variable, add bound width, mabe colors
 //TODO correct color of menu
+//TODO make second edit window
