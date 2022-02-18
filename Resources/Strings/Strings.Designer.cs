@@ -646,6 +646,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Printing.
+        /// </summary>
+        public static string Printing {
+            get {
+                return ResourceManager.GetString("Printing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project File Name.
         /// </summary>
         public static string ProjectFileName {
@@ -687,6 +696,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string question {
             get {
                 return ResourceManager.GetString("question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Questions.
+        /// </summary>
+        public static string Questions {
+            get {
+                return ResourceManager.GetString("Questions", resourceCulture);
             }
         }
         

@@ -11,7 +11,7 @@
         Background="Beige"
         Closing="Window_Closing">
     <Window.DataContext>
-        <local:ST/>
+        <local:Settings/>
     </Window.DataContext>
     <Grid >
         <Grid.RowDefinitions>

@@ -26,7 +26,7 @@
 
 
 
-        <DockPanel Grid.Row="0" MouseDown="DockPanel_MouseDown" Background="LightSkyBlue">
+        <DockPanel Grid.Row="0" MouseDown="DockPanel_MouseDown" Style="{DynamicResource mIStyle}">
             <Menu Style="{DynamicResource menuStyle}" DockPanel.Dock = "Left" IsMainMenu="True">
                 <MenuItem x:Name="Menu_Project" Header="_Project" Height="30" >
                     <MenuItem          Header="{x:Static ln:Strings.New}" >
@@ -44,7 +44,8 @@
                 </MenuItem>
 
                 <MenuItem x:Name="Menu_Edit" Header="{x:Static ln:Strings.Edit}" IsEnabled="False" >
-                    <MenuItem x:Name="Menu_Edit_NoTools" Header="{x:Static ln:Strings.NoTools}" Command="local:Commands.Edit"/>
+                    <MenuItem x:Name="Menu_Edit_Questions" Header="{x:Static ln:Strings.Questions}" Click="Menu_Edit_Questions_Click"/>
+                    <MenuItem x:Name="Menu_Edit_Boxes" Header="{x:Static ln:Strings.Boxes}" Command="local:Commands.Edit"/>
                 </MenuItem>
 
                 <MenuItem x:Name="Menu_Export" Header="{x:Static ln:Strings.Export}" IsEnabled="False">
@@ -69,7 +70,7 @@
 
                 <MenuItem x:Name="Menu_Eavluate" Header="{x:Static ln:Strings.Evaluate}" Click="Menu_Eavluate_Click" IsEnabled="False"/>
 
-                <MenuItem x:Name="Menu_Help" Header="{x:Static ln:Strings.Help}" Click="Menu_Help_Click">
+                <MenuItem x:Name="Menu_Help" Header="{x:Static ln:Strings.Help}">
                     <MenuItem x:Name="Menu_Help_HTML" Header="{x:Static ln:Strings.HTML}" Click="Menu_Help_HTML_Click"/>
                     <MenuItem x:Name="Menu_Help_CHM" Header="{x:Static ln:Strings.CHM}" Click="Menu_Help_CHM_Click"/>
                 </MenuItem>
@@ -157,12 +158,30 @@
 
     <Window.Resources>
         <Style x:Key="menuStyle" TargetType="Menu">
-            <Setter Property="Background" Value= "Transparent"/>
+            <!--<Setter Property="Background" Value= "Transparent"/>-->
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush>
+                        <SolidColorBrush.Color>
+                            <Color A="255" R="43" G="87" B="154"/>
+                        </SolidColorBrush.Color>
+                    </SolidColorBrush>
+                </Setter.Value>
+            </Setter>
+
         </Style>
-        <Style x:Key="mIStyle" TargetType="MenuItem">
-            <Setter Property="Background" Value="LightSkyBlue"/>
+        <Style x:Key="mIStyle" TargetType="DockPanel">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush>
+                            <SolidColorBrush.Color>
+                                <Color A="255" R="43" G="87" B="154"/>
+                            </SolidColorBrush.Color>
+                        </SolidColorBrush>
+                    </Setter.Value>
+                </Setter>
         </Style>
         <Style TargetType="{x:Type local:MainWindow}">
             <Setter Property="WindowChrome.WindowChrome">

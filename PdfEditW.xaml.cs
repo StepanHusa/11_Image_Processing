@@ -31,7 +31,7 @@ namespace _11_Image_Processing
     public partial class PdfEditW : Window
     {
 
-       private double offset;
+        private double offset;
         private bool drawingRectangle;
         private PageMouseMoveEventArgs argsFirstVertex;
         private System.Windows.Point locFirstVertex;
@@ -41,12 +41,12 @@ namespace _11_Image_Processing
             InitializeComponent();
 
 
-            if (ST.projectFileName != null)
-                this.Title = ST.projectFileName;
+            if (Settings.projectFileName != null)
+                this.Title = Settings.projectFileName;
             else this.Title = "*Untitled";
 
-            //pdfViewControl.Load(ST.document); 
-            pdfViewControl.Load(ST.tempFile);//this change prevented errors after closing this
+            //pdfViewControl.Load(Settings.document); 
+            pdfViewControl.Load(Settings.tempFile);//this change prevented errors after closing this
             pdfViewControl.MaximumZoomPercentage = 6400;
 
             pdfViewControl.MouseRightButtonUp += Pdfwcontrol_MouseRightButtonUp;
@@ -91,7 +91,7 @@ namespace _11_Image_Processing
             doc.Pages.Add();
 
             ReloadDocument();
-            File.Copy(ST.tempFile, ST.tempFileCopy, true);
+            File.Copy(Settings.tempFile, Settings.tempFileCopy, true);
 
             pdfViewControl.ScrollTo(offset);
             pdfViewControl.Zoom = zoom * 100;
@@ -103,7 +103,7 @@ namespace _11_Image_Processing
 
             doc.Pages.RemoveAt(pdfViewControl.CurrentPage - 1);
 
-            var l = ST.boxesInQuestions;
+            var l = Settings.boxesInQuestions;
             for (int i = l.Count - 1; i > -1; i--)
             {
                 if (l[i][0].Item1 == pdfViewControl.CurrentPage - 1)
@@ -118,7 +118,7 @@ namespace _11_Image_Processing
             }
 
             ReloadDocument();
-            File.Copy(ST.tempFile, ST.tempFileCopy, true);
+            File.Copy(Settings.tempFile, Settings.tempFileCopy, true);
 
 
             pdfViewControl.ScrollTo(offset);
@@ -363,7 +363,7 @@ namespace _11_Image_Processing
 
 
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
-            SizeF size = ST.sizeOfBox;
+            SizeF size = Settings.sizeOfBox;
 
             RectangleF bounds = new RectangleF(point, size);
             bounds.RelativateToPage(doc.Pages[pindex]);
@@ -401,9 +401,9 @@ namespace _11_Image_Processing
                     rect.RelativateToPage(doc.Pages[pindex]);
 
                     doc.DrawRectangleBounds(rect, pindex);
-                    doc.DrawStringNextToRectangle($"Text {ST.pagesFields.Count+1}:",rect, pindex);
+                    doc.DrawStringNextToRectangle($"Text {Settings.pagesFields.Count+1}:",rect, pindex);
 
-                    ST.pagesFields.Add(new(pindex,rect));
+                    Settings.pagesFields.Add(new(pindex,rect));
 
                     ReloadDocument();
                 }
@@ -422,29 +422,29 @@ namespace _11_Image_Processing
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
  
             //get the index of new question
-            int iQ = ST.boxesInQuestions.Count;
+            int iQ = Settings.boxesInQuestions.Count;
             //add list of answers in this question
-            ST.boxesInQuestions.Add(new());
+            Settings.boxesInQuestions.Add(new());
 
 
             var tb = new PdfTextBoxField(doc.Pages[args.PageIndex], Strings.question);
             tb.Text = $"Question";
-            tb.Bounds = new RectangleF(point.X, point.Y, ST.QS.widthOfQTBs, ST.QS.heightOfTB);
+            tb.Bounds = new RectangleF(point.X, point.Y, Settings.QS.widthOfQTBs, Settings.QS.heightOfTB);
             doc.Form.Fields.Add(tb);
 
 
 
-            for (int i = 0; i < ST.QS.n; i++)
+            for (int i = 0; i < Settings.QS.n; i++)
             {
                 //add answer i textbox field
                 PdfTextBoxField textBoxField = new PdfTextBoxField(doc.Pages[args.PageIndex],Strings.Enteryourtext);
                 textBoxField.Text = Strings.Answer+ (i + 1);
-                textBoxField.Bounds = new RectangleF(point.X + ST.QS.tab, point.Y + ST.QS.heightOfTB + ST.QS.spaceUnderQ + i * (ST.QS.heightOfTB + ST.QS.spaceBtwAn), ST.QS.widthOfQTBs - ST.QS.tab, ST.QS.heightOfTB);
+                textBoxField.Bounds = new RectangleF(point.X + Settings.QS.tab, point.Y + Settings.QS.heightOfTB + Settings.QS.spaceUnderQ + i * (Settings.QS.heightOfTB + Settings.QS.spaceBtwAn), Settings.QS.widthOfQTBs - Settings.QS.tab, Settings.QS.heightOfTB);
                 doc.Form.Fields.Add(textBoxField);
 
 
-                var pointb = new PointF(point.X + ST.QS.widthOfQTBs + ST.QS.spaceBeforeBox, point.Y + ST.QS.heightOfTB + ST.QS.spaceUnderQ + i * (ST.QS.heightOfTB + ST.QS.spaceBtwAn));
-                SizeF size = ST.sizeOfBox;
+                var pointb = new PointF(point.X + Settings.QS.widthOfQTBs + Settings.QS.spaceBeforeBox, point.Y + Settings.QS.heightOfTB + Settings.QS.spaceUnderQ + i * (Settings.QS.heightOfTB + Settings.QS.spaceBtwAn));
+                SizeF size = Settings.sizeOfBox;
 
 
                 //square
@@ -457,7 +457,7 @@ namespace _11_Image_Processing
 
                 bounds.RelativateToPage(doc.Pages[pindex]);
                 //add square to 'The List'
-                ST.boxesInQuestions[iQ].Add(pindex, bounds,false); 
+                Settings.boxesInQuestions[iQ].Add(pindex, bounds,false); 
             }
 
             ReloadDocument();
@@ -471,15 +471,15 @@ namespace _11_Image_Processing
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
 
             //get the index of new question
-            int iQ = ST.boxesInQuestions.Count;
+            int iQ = Settings.boxesInQuestions.Count;
             //add list of answers in this question
-            ST.boxesInQuestions.Add(new());
+            Settings.boxesInQuestions.Add(new());
 
 
-            for (int i = 0; i < ST.QS.n; i++)
+            for (int i = 0; i < Settings.QS.n; i++)
             {
-                var pointb = new PointF(point.X, point.Y+ i * (ST.sizeOfBox.Height + ST.QS.spaceBtwAn));
-                SizeF size = ST.sizeOfBox;
+                var pointb = new PointF(point.X, point.Y+ i * (Settings.sizeOfBox.Height + Settings.QS.spaceBtwAn));
+                SizeF size = Settings.sizeOfBox;
 
 
                 //square
@@ -491,7 +491,7 @@ namespace _11_Image_Processing
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + i.IntToAlphabet());
 
                 //add square to 'The List'
-                ST.boxesInQuestions[iQ].Add(pindex, bounds,false); 
+                Settings.boxesInQuestions[iQ].Add(pindex, bounds,false); 
             }
 
             ReloadDocument();
@@ -502,7 +502,7 @@ namespace _11_Image_Processing
             var doc = pdfViewControl.LoadedDocument;
             int pindex = args.PageIndex;
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
-            var b = ST.boxesInQuestions;
+            var b = Settings.boxesInQuestions;
 
             bool hit = false;
 
@@ -524,7 +524,7 @@ namespace _11_Image_Processing
         }
         private void Pdfwcontrol_PageClicked_name(object sender, PageClickedEventArgs args)
         {
-            if (ST.nameField != null)
+            if (Settings.nameField != null)
                 if (MessageBox.Show(Strings.WarningMoreThanOneNamefield, Strings.Warning, MessageBoxButton.YesNoCancel) != MessageBoxResult.Yes)
                     return;
 
@@ -556,7 +556,7 @@ namespace _11_Image_Processing
                     doc.DrawNameNextToRectangle(rect, pindex);
 
 
-                    ST.nameField = new(pindex, rect);
+                    Settings.nameField = new(pindex, rect);
                     ReloadDocument();
                 }
                 //this.MouseMove -= PdfEditW_MouseMove;
@@ -593,7 +593,7 @@ namespace _11_Image_Processing
 
 
             rect.Location = new((int)(Mouse.GetPosition(this).X + 2 * rectangleR.StrokeThickness), (int)(Mouse.GetPosition(this).Y + 2 * rectangleR.StrokeThickness));
-            rect.Size = ST.sizeOfBox.ToSize();
+            rect.Size = Settings.sizeOfBox.ToSize();
 
             Thickness thickness = new(rect.X, rect.Y, 0, 0);
             rectangleR.Margin = thickness;
@@ -606,7 +606,7 @@ namespace _11_Image_Processing
         {
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
             var doc = pdfViewControl.LoadedDocument;
-            doc.Save(ST.tempFile);
+            doc.Save(Settings.tempFile);
 
             MemoryStream stream = new MemoryStream();
             doc.Save(stream);
@@ -624,21 +624,21 @@ namespace _11_Image_Processing
         //undo
         private void UndoBox()
         {
-            int i = ST.boxesInQuestions.Count;
+            int i = Settings.boxesInQuestions.Count;
             if (i == 0) return;
-            int j=ST.boxesInQuestions[i-1].Count;
-            if (j == 0) { ST.boxesInQuestions.RemoveAt(i-1);UndoBox(); }
+            int j=Settings.boxesInQuestions[i-1].Count;
+            if (j == 0) { Settings.boxesInQuestions.RemoveAt(i-1);UndoBox(); }
             else
             {
-                ST.boxesInQuestions[i-1].RemoveAt(j-1);
+                Settings.boxesInQuestions[i-1].RemoveAt(j-1);
             }
             RemakeBoxex();
         }
         private void UndoQuestion()
         {
-            int i = ST.boxesInQuestions.Count;
+            int i = Settings.boxesInQuestions.Count;
             if (i == 0) return;
-            ST.boxesInQuestions.RemoveAt(i - 1); 
+            Settings.boxesInQuestions.RemoveAt(i - 1); 
             RemakeBoxex();
 
         }
@@ -653,18 +653,9 @@ namespace _11_Image_Processing
 
         private void RemakeBoxex()
         {
-            var doc = new PdfLoadedDocument(ST.tempFileCopy);
-            int i = 0;
-            foreach (var question in ST.boxesInQuestions) {
-                int j = 0;
-                foreach (var box in question)
-                {
-                    doc.DrawRectangleBounds(box.Item2, box.Item1);
-                    doc.DrawIndexNextToRectangle(box.Item2, box.Item1, (i + 1).ToString() + j.IntToAlphabet());
-                    j++;
-                }
-                i++;
-            }
+            var doc = new PdfLoadedDocument(Settings.tempFileCopy);
+            doc.RemakeBoxex();
+
             pdfViewControl.Load(doc);
             ReloadDocument();
         }
@@ -676,25 +667,25 @@ namespace _11_Image_Processing
             if (sizeSlider != null)
             {
                 float s = (float)Math.Round(sizeSlider.Value, 3);
-                ST.sizeOfBox = new SizeF(s, s);
-                ST.QS.indexFontSize = s/2;
+                Settings.sizeOfBox = new SizeF(s, s);
+                Settings.QS.indexFontSize = s/2;
 
             }
             if (widthSlider != null)
             {
                 float f = (float)Math.Round(widthSlider.Value, 3);
-                ST.baundWidth = f;
+                Settings.baundWidth = f;
             }
 
             if (spaceSlider != null)
             {
                 float p = (float)Math.Round(spaceSlider.Value, 3);
-                ST.QS.spaceBtwAn = p;
+                Settings.QS.spaceBtwAn = p;
             }
 
             if (countSlider != null)
             {
-                ST.QS.n = (int)countSlider.Value;
+                Settings.QS.n = (int)countSlider.Value;
             }
         }
 
@@ -832,7 +823,7 @@ namespace _11_Image_Processing
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            pdfViewControl.LoadedDocument.Save(ST.tempFile);
+            pdfViewControl.LoadedDocument.Save(Settings.tempFile);
         }
         private void CloseCommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {

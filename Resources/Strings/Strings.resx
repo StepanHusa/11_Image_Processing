@@ -312,6 +312,9 @@
   <data name="Print" xml:space="preserve">
     <value>_Print</value>
   </data>
+  <data name="Printing" xml:space="preserve">
+    <value>Printing</value>
+  </data>
   <data name="ProjectFileName" xml:space="preserve">
     <value>Project File Name</value>
   </data>
@@ -326,6 +329,9 @@
   </data>
   <data name="question" xml:space="preserve">
     <value>question</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Questions</value>
   </data>
   <data name="Read" xml:space="preserve">
     <value>_Read</value>

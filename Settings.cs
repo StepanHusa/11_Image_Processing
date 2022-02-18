@@ -12,7 +12,7 @@ using _11_Image_Processing.Resources.Strings;
 
 namespace _11_Image_Processing
 {
-    public class ST //"Static Variables (or maybe more like settings)
+    public class Settings 
     {
 
         //unchanging

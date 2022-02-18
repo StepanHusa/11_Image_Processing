@@ -24,7 +24,7 @@ namespace _11_Image_Processing
         {
             InitializeComponent();
 
-            //ST.scansInPagesInWorks.DrowCorrect();
+            //Settings.scansInPagesInWorks.DrowCorrect();
 
             SetupTabsOfView();
             SetUpAllResults();
@@ -34,13 +34,13 @@ namespace _11_Image_Processing
 
         public void SetupTabsOfView()
         {
-            for (int i = 0; i < ST.scansInPagesInWorks.Count; i++)
+            for (int i = 0; i < Settings.scansInPagesInWorks.Count; i++)
             {
                 TabItem z = new();
-                if (ST.namesScaned != null)
+                if (Settings.namesScaned != null)
                 {
                     Image wImage = new();
-                    wImage.Source = ST.namesScaned[i].BitmapToImageSource();
+                    wImage.Source = Settings.namesScaned[i].BitmapToImageSource();
                     wImage.Height = 32;
                     StackPanel sp = new();
                     sp.Children.Add(wImage);
@@ -132,18 +132,18 @@ namespace _11_Image_Processing
         {
             var list = new List<ResultOfQuestion>();
             int ii = 0;
-            foreach (var question in ST.boxesInQuestions)
+            foreach (var question in Settings.boxesInQuestions)
             {
                 ii++;
-                int q = ST.boxesInQuestions.IndexOf(question);
+                int q = Settings.boxesInQuestions.IndexOf(question);
                 string correct = string.Empty;
                 string checkedd = string.Empty;
 
                 foreach (var box in question)
                     if (box.Item3) correct += $"{question.IndexOf(box).IntToAlphabet()}, ";
 
-                for (int i = 0; i < ST.resultsInQuestionsInWorks[workindex][q].Count; i++)
-                    if (ST.resultsInQuestionsInWorks[workindex][q][i]) checkedd += $"{i.IntToAlphabet()}, ";
+                for (int i = 0; i < Settings.resultsInQuestionsInWorks[workindex][q].Count; i++)
+                    if (Settings.resultsInQuestionsInWorks[workindex][q][i]) checkedd += $"{i.IntToAlphabet()}, ";
 
                 list.Add(new(checkedd, correct, ii));
             }
@@ -169,7 +169,7 @@ namespace _11_Image_Processing
         private List<ResultOfAllOne> GetListOfAll()
         {
             var list = new List<ResultOfAllOne>();
-            for (int i = 0; i < ST.resultsInQuestionsInWorks.Count; i++)
+            for (int i = 0; i < Settings.resultsInQuestionsInWorks.Count; i++)
             {
                 var li = GetListToDisplay(i);
 
@@ -178,8 +178,8 @@ namespace _11_Image_Processing
                     if (item.CorrectBool)
                         right++;
                 ResultOfAllOne r;
-                if (ST.namesScaned.Count > i)
-                    r = new(i + 1, right, li.Count, ST.namesScaned[i]);
+                if (Settings.namesScaned.Count > i)
+                    r = new(i + 1, right, li.Count, Settings.namesScaned[i]);
                 else r = new(i + 1, right, li.Count);
 
                 list.Add(r);

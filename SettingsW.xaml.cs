@@ -32,14 +32,14 @@ namespace _11_Image_Processing
 
         private void Setup()
         {
-            color1.Background = new SolidColorBrush(ST.baundColor.ColorToDrawing());
-            color2.Background = new SolidColorBrush(ST.baundColorTwo.ColorToDrawing());
+            color1.Background = new SolidColorBrush(Settings.baundColor.ColorToDrawing());
+            color2.Background = new SolidColorBrush(Settings.baundColorTwo.ColorToDrawing());
 
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            ST.settingsWindow = null;
+            Settings.settingsWindow = null;
         }
 
         private void IfEnterMoveFocus_KeyDown(object sender, KeyEventArgs e)
@@ -73,7 +73,7 @@ namespace _11_Image_Processing
             if (ag.Text.Length != 8) MessageBox.Show("invalid number");
             else
             {
-                ST.fileCode = ag.Text.StringToByteArray();
+                Settings.fileCode = ag.Text.StringToByteArray();
             }
             
         }

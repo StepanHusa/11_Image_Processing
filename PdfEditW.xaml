@@ -9,7 +9,7 @@
         mc:Ignorable="d"
          Title="PdfEditW" HorizontalAlignment="Left" VerticalAlignment="Top" Closing="Window_Closing" PreviewKeyDown="Window_KeyDown" PreviewKeyUp="Window_KeyUp">
     <Window.DataContext>
-        <local:ST/>
+        <local:Settings/>
     </Window.DataContext>
     <Grid x:Name="gr">
         <PdfViewer:PdfViewerControl x:Name="pdfViewControl"  />

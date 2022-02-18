@@ -181,14 +181,14 @@ namespace _11_Image_Processing
         public static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rect, int pageint, bool SecondColor = false)
         {
             var page = doc.Pages[pageint];
-            var w = ST.baundWidth / 2;
+            var w = Settings.baundWidth / 2;
             rect.UnrelativateToPage(page);
             PointF[] vertexes = { new PointF(rect.Left - 2 * w, rect.Bottom + w), new PointF(rect.Right + w, rect.Bottom + w), new PointF(rect.Right + w, rect.Top - w), new PointF(rect.Left - w, rect.Top - w), new PointF(rect.Left - w, rect.Bottom + 2 * w) };
             byte[] types = { 0, 1, 1, 1, 1 };
             PdfPath path = new(vertexes, types);
-            path.Pen = ST.baundPen;
+            path.Pen = Settings.baundPen;
             if (SecondColor)
-                path.Pen = ST.baundPenTwo;
+                path.Pen = Settings.baundPenTwo;
 
             page.Graphics.DrawPath(path.Pen, path);
 
@@ -198,8 +198,8 @@ namespace _11_Image_Processing
         {
             var page = doc.Pages[pageint];
             rectangle.UnrelativateToPage(page);
-            var p = new PointF(rectangle.Right + ST.baundWidth, rectangle.Top);
-            page.Graphics.DrawString(index, new PdfStandardFont(PdfFontFamily.Courier, ST.QS.indexFontSize), new PdfPen(Color.Black), p);
+            var p = new PointF(rectangle.Right + Settings.baundWidth, rectangle.Top);
+            page.Graphics.DrawString(index, new PdfStandardFont(PdfFontFamily.Courier, Settings.QS.indexFontSize), new PdfPen(Color.Black), p);
 
             return doc;
         }
@@ -208,10 +208,10 @@ namespace _11_Image_Processing
             var page = doc.Pages[pageint];
             rectangle.UnrelativateToPage(page);
             rectangle.EvaluateInPositiveSize();
-            var p = new PointF(rectangle.Left - 2 * ST.baundWidth, rectangle.Top);
+            var p = new PointF(rectangle.Left - 2 * Settings.baundWidth, rectangle.Top);
 
             PdfStringFormat format = new() { Alignment = PdfTextAlignment.Right };
-            page.Graphics.DrawString(ST.nameString, new PdfStandardFont(PdfFontFamily.Courier, ST.QS.indexFontSize), new PdfPen(Color.Black), p, format);
+            page.Graphics.DrawString(Settings.nameString, new PdfStandardFont(PdfFontFamily.Courier, Settings.QS.indexFontSize), new PdfPen(Color.Black), p, format);
 
             return doc;
         }
@@ -220,10 +220,10 @@ namespace _11_Image_Processing
             var page = doc.Pages[pageint];
             rectangle.UnrelativateToPage(page);
             rectangle.EvaluateInPositiveSize();
-            var p = new PointF(rectangle.Left - 2 * ST.baundWidth, rectangle.Top);
+            var p = new PointF(rectangle.Left - 2 * Settings.baundWidth, rectangle.Top);
 
             PdfStringFormat format = new() { Alignment = PdfTextAlignment.Right };
-            page.Graphics.DrawString(Text, new PdfStandardFont(PdfFontFamily.Courier, ST.QS.indexFontSize), new PdfPen(Color.Black), p, format);
+            page.Graphics.DrawString(Text, new PdfStandardFont(PdfFontFamily.Courier, Settings.QS.indexFontSize), new PdfPen(Color.Black), p, format);
 
             return doc;
         }
@@ -235,6 +235,43 @@ namespace _11_Image_Processing
                 sizeFs.Add(doc.Pages[i].Size);
             return sizeFs;
         }
+
+
+        public static PdfLoadedDocument RemakeBoxex(this PdfLoadedDocument doc)
+        {
+            int i = 0;
+            foreach (var question in Settings.boxesInQuestions)
+            {
+                int j = 0;
+                foreach (var box in question)
+                {
+                    doc.DrawRectangleBounds(box.Item2, box.Item1,box.Item3);
+                    doc.DrawIndexNextToRectangle(box.Item2, box.Item1, (i + 1).ToString() + j.IntToAlphabet());
+                    j++;
+                }
+                i++;
+            }
+            return doc;
+        }
+        public static PdfLoadedDocument RemakeBoxexOneColor(this PdfLoadedDocument doc)
+        {
+            int i = 0;
+            foreach (var question in Settings.boxesInQuestions)
+            {
+                int j = 0;
+                foreach (var box in question)
+                {
+                    doc.DrawRectangleBounds(box.Item2, box.Item1);
+                    doc.DrawIndexNextToRectangle(box.Item2, box.Item1, (i + 1).ToString() + j.IntToAlphabet());
+                    j++;
+                }
+                i++;
+            }
+            return doc;
+        }
+
+        //TODO add methods to remake fields and name field
+        //TODO saparate element and text editing
 
     }
 
@@ -661,7 +698,7 @@ namespace _11_Image_Processing
             else if (size > 100) { size = 50; resize = true; }
             if (resize) J = J.Resize(size);
 
-            var I = J.ProcessFilter(ST.LaplacianOWNEdgeFilter);
+            var I = J.ProcessFilter(Settings.LaplacianOWNEdgeFilter);
 
             float c = 0;
             float cc = 0;
@@ -855,7 +892,7 @@ namespace _11_Image_Processing
         {
             for (int i = 0; i < works.Count; i++)
             {
-                foreach (var question in ST.boxesInQuestions)
+                foreach (var question in Settings.boxesInQuestions)
                 {
                     foreach (var box in question)
                     {

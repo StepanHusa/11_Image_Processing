@@ -28,7 +28,7 @@ namespace _11_Image_Processing
         }
         public ViewModel()
         {
-            string tempFileName = ST.tempFile;
+            string tempFileName = Settings.tempFile;
             //string tempFileName = @"D:\0_DW\result_20211015.pdf";
             Debug.Write(tempFileName);
             docStream = new FileStream(tempFileName, FileMode.OpenOrCreate);
