@@ -99,6 +99,10 @@
                 <ColumnDefinition Width="400*"/>
                 <ColumnDefinition Width="429*"/>
             </Grid.ColumnDefinitions>
+            <!--<Grid.Effect>
+                <DropShadowEffect BlurRadius="15" Direction="-90"
+                              RenderingBias="Quality" ShadowDepth="2"/>
+            </Grid.Effect>-->
 
             <PdfViewer:PdfDocumentView x:Name="pdfDocumentView" HorizontalAlignment="Center"  Grid.Column="1" Grid.Row="1" SizeChanged="pdfDocumentView_SizeChanged" />
 
@@ -201,7 +205,7 @@
         <Style TargetType="{x:Type local:MainWindow}">
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
-                    <WindowChrome CornerRadius="0" GlassFrameThickness="0" ResizeBorderThickness="0" CaptionHeight="0"></WindowChrome>
+                    <WindowChrome CornerRadius="0" GlassFrameThickness="1" ResizeBorderThickness="0" CaptionHeight="0"></WindowChrome>
                 </Setter.Value>
             </Setter>
         </Style>
