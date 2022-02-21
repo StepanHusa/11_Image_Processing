@@ -13,7 +13,7 @@
     </Window.DataContext>
     <Grid x:Name="gr">
         <PdfViewer:PdfViewerControl x:Name="pdfViewControl"  />
-        <Rectangle x:Name="rectangleR" Stroke="Black" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Rectangle x:Name="rectangleR" Stroke="Black" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False"/>
         <Canvas HorizontalAlignment="Right" VerticalAlignment="Center" Height="400" Width="300" >
             <Label Content="{x:Static ln:Strings.widthofbound}"             Canvas.Top="0"     Canvas.Right="200"/>
             <TextBox x:Name="widthLabel"                  Canvas.Top="0"      Canvas.Right="120"  Text="{Binding ElementName=widthSlider,Path=Value }" MaxWidth="20"/>
@@ -51,9 +51,9 @@
             <!--<MenuItem x:Name="d" Header="_Add Question Textboxes" IsCheckable="True" Checked="d_Checked" Unchecked="d_Unchecked"/>-->
             <MenuItem x:Name="Menu_NewPage" Header="{x:Static ln:Strings.NewPage}" Click="Menu_NewPage_Click" />
             <MenuItem x:Name="deletePage" Header="{x:Static ln:Strings.DeletePage}" Click="deletePage_Click"/>
-            <MenuItem x:Name="nameField" Header="{x:Static ln:Strings.NameField}" IsCheckable="True" Checked="nameField_Checked" Unchecked="nameField_Unchecked" Command="local:Commands.NameField"/>
-            <MenuItem x:Name="b" Header="{x:Static ln:Strings.AnswerField}"  IsCheckable="True" Checked="b_Checked" Unchecked="b_Unchecked" Command="local:Commands.AnswerField"/>
-            <MenuItem x:Name="e" Header="{x:Static ln:Strings.AnswerBoxes}" IsCheckable="True" Checked="e_Checked" Unchecked="e_Unchecked" Command="local:Commands.AnswerBoxes"/>
+            <MenuItem x:Name="nameField" Header="{x:Static ln:Strings.NameField}" IsCheckable="True" Checked="nameField_Checked" Unchecked="nameField_Unchecked"/> <!--Command="local:Commands.NameField"-->
+            <MenuItem x:Name="b" Header="{x:Static ln:Strings.AnswerField}"  IsCheckable="True" Checked="b_Checked" Unchecked="b_Unchecked" /> <!--Command="local:Commands.AnswerField"-->
+            <MenuItem x:Name="e" Header="{x:Static ln:Strings.AnswerBoxes}" IsCheckable="True" Checked="e_Checked" Unchecked="e_Unchecked" /><!--Command="local:Commands.AnswerBoxes"-->
             <MenuItem x:Name="toogleAn" Header="{x:Static ln:Strings.ToogleCorrect}" IsCheckable="True" Checked="toogleAn_Checked" Unchecked="toogleAn_Unchecked"/>
         </ContextMenu>
     </Window.Resources>

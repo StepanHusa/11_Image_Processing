@@ -199,7 +199,7 @@ namespace _11_Image_Processing
             var page = doc.Pages[pageint];
             rectangle.UnrelativateToPage(page);
             var p = new PointF(rectangle.Right + Settings.baundWidth, rectangle.Top);
-            page.Graphics.DrawString(index, new PdfStandardFont(PdfFontFamily.Courier, Settings.QS.indexFontSize), new PdfPen(Color.Black), p);
+            page.Graphics.DrawString(index, new PdfStandardFont(Settings.stringFont, Settings.QS.indexFontSize, Settings.stringStyle), new PdfPen(Color.Black), p);
 
             return doc;
         }
@@ -211,7 +211,7 @@ namespace _11_Image_Processing
             var p = new PointF(rectangle.Left - 2 * Settings.baundWidth, rectangle.Top);
 
             PdfStringFormat format = new() { Alignment = PdfTextAlignment.Right };
-            page.Graphics.DrawString(Settings.nameString, new PdfStandardFont(PdfFontFamily.Courier, Settings.QS.indexFontSize), new PdfPen(Color.Black), p, format);
+            page.Graphics.DrawString(Settings.nameString, new PdfStandardFont(Settings.stringFont, Settings.QS.indexFontSize, Settings.stringStyle), new PdfPen(Color.Black), p, format);
 
             return doc;
         }
@@ -223,7 +223,7 @@ namespace _11_Image_Processing
             var p = new PointF(rectangle.Left - 2 * Settings.baundWidth, rectangle.Top);
 
             PdfStringFormat format = new() { Alignment = PdfTextAlignment.Right };
-            page.Graphics.DrawString(Text, new PdfStandardFont(PdfFontFamily.Courier, Settings.QS.indexFontSize), new PdfPen(Color.Black), p, format);
+            page.Graphics.DrawString(Text, new PdfStandardFont(Settings.stringFont, Settings.QS.indexFontSize, Settings.stringStyle), new PdfPen(Color.Black), p, format);
 
             return doc;
         }

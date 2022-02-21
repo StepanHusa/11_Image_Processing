@@ -573,7 +573,7 @@ namespace _11_Image_Processing
 
 
             rect.Location = new((int)locFirstVertex.X, (int)locFirstVertex.Y);
-            rect.Size = new((int)(Mouse.GetPosition(this).X - locFirstVertex.X - 2 * rectangleR.StrokeThickness), (int)(Mouse.GetPosition(this).Y - locFirstVertex.Y - 2 * rectangleR.StrokeThickness));
+            rect.Size = new((int)(Mouse.GetPosition(this).X - locFirstVertex.X /*- 2 * rectangleR.StrokeThickness*/), (int)(Mouse.GetPosition(this).Y - locFirstVertex.Y /*- 2 * rectangleR.StrokeThickness*/));
 
             rect = rect.EvaluateInPositiveSize();
 

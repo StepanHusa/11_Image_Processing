@@ -547,16 +547,16 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _OnePage.
+        ///   Looks up a localized string similar to _One Paged.
         /// </summary>
-        public static string OnePage {
+        public static string OnePaged {
             get {
-                return ResourceManager.GetString("OnePage", resourceCulture);
+                return ResourceManager.GetString("OnePaged", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _OnePNGtocheck.
+        ///   Looks up a localized string similar to _One PNG to check.
         /// </summary>
         public static string OnePNGtocheck {
             get {
@@ -610,7 +610,7 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pictures(all readable).
+        ///   Looks up a localized string similar to Pictures (all readable).
         /// </summary>
         public static string Picturesallreadable {
             get {

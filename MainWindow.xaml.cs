@@ -423,18 +423,6 @@ namespace _11_Image_Processing
         }
 
         //Read
-        //one
-        //TODO eventualy remove fromm menu
-        private void Menu_Read_PNG_Click(object sender, RoutedEventArgs e)
-        {
-            var open = new OpenFileDialog() { Title = "open PNG", Filter = "PNG(*.png)|*.png" };
-            if (open.ShowDialog() != true) return;
-            //open.FileName;
-
-            Settings.scansInPagesInWorks = new();
-            Settings.scansInPagesInWorks.Add(new());
-            Settings.scansInPagesInWorks[0][0] = open.FileName;
-        }
         //one page files
         private void Menu_Read_ListOfScans_OnePage_Click(object sender, RoutedEventArgs e)
         {
@@ -807,14 +795,31 @@ namespace _11_Image_Processing
             e.CanExecute = true;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CloceClick(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
         private void DockPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (this.WindowState != WindowState.Normal)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+
             this.DragMove();
+        }
+
+        private void MinimazeClick(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void MaximazeClick(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState != WindowState.Maximized)
+                this.WindowState = WindowState.Maximized;
+            else this.WindowState = WindowState.Normal;
         }
 
 
@@ -964,7 +969,8 @@ namespace _11_Image_Processing
 
 //TODO add help and settings (help not finished) (settings not even designed)
 //TODO add lock function
-//TODO no green in export and print
+
 //TODO remake tuple to new variable, add bound width, mabe colors
 //TODO correct color of menu
 //TODO make second edit window
+//todo repair commands in pdfviewer

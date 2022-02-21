@@ -26,6 +26,8 @@ namespace _11_Image_Processing
         internal static Color baundColor = Color.Red;
         internal static Color baundColorTwo = Color.Green;
         internal static string nameString = Strings.Name+":";
+        internal static PdfFontFamily stringFont = PdfFontFamily.TimesRoman;
+        internal static PdfFontStyle stringStyle = PdfFontStyle.Regular;
 
         internal static float sizeOfBoxF = 20;
         internal static float spaceBetweenBoxes =10;
@@ -53,8 +55,8 @@ namespace _11_Image_Processing
         internal static List<string> versions = new();
         internal static string projectName = templateProjectName;
 
-        internal static List<string> tempScans; //".tiff" format but .tmp extension
 
+        internal static List<string> tempScans; //".tiff" format but .tmp extension
 
 
 

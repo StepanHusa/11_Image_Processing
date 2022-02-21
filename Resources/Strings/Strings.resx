@@ -279,11 +279,11 @@
   <data name="One" xml:space="preserve">
     <value>_One</value>
   </data>
-  <data name="OnePage" xml:space="preserve">
-    <value>_OnePage</value>
+  <data name="OnePaged" xml:space="preserve">
+    <value>_One Paged</value>
   </data>
   <data name="OnePNGtocheck" xml:space="preserve">
-    <value>_OnePNGtocheck</value>
+    <value>_One PNG to check</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>_Open</value>
@@ -301,7 +301,7 @@
     <value>Percents</value>
   </data>
   <data name="Picturesallreadable" xml:space="preserve">
-    <value>Pictures(all readable)</value>
+    <value>Pictures (all readable)</value>
   </data>
   <data name="PNG" xml:space="preserve">
     <value>_PNG</value>

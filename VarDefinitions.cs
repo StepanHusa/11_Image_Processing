@@ -72,4 +72,19 @@ namespace _11_Image_Processing
         }
 
     }
+
+    internal class Box //unused
+    {
+        public int Page { get; set; }
+
+        public System.Drawing.RectangleF Rectangle { get; set; }
+
+        public bool Correct { get; set; }
+    }
+    internal class Field //unused
+    {
+        public int Page { get; set; }
+
+        public System.Drawing.RectangleF Rectangle { get; set; }
+    }
 }
