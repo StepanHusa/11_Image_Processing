@@ -401,7 +401,7 @@ namespace _11_Image_Processing
                     rect.RelativateToPage(doc.Pages[pindex]);
 
                     doc.DrawRectangleBounds(rect, pindex);
-                    doc.DrawStringNextToRectangle($"Text {Settings.pagesFields.Count+1}:",rect, pindex);
+                    doc.DrawStringNextToRectangle(Strings.text+ (Settings.pagesFields.Count+1)+":",rect, pindex);
 
                     Settings.pagesFields.Add(new(pindex,rect));
 
@@ -632,14 +632,14 @@ namespace _11_Image_Processing
             {
                 Settings.boxesInQuestions[i-1].RemoveAt(j-1);
             }
-            RemakeBoxex();
+            RemakeBoxexAndFieldsN();
         }
         private void UndoQuestion()
         {
             int i = Settings.boxesInQuestions.Count;
             if (i == 0) return;
             Settings.boxesInQuestions.RemoveAt(i - 1); 
-            RemakeBoxex();
+            RemakeBoxexAndFieldsN();
 
         }
         private void undoBButton_Click(object sender, RoutedEventArgs e)
@@ -650,11 +650,28 @@ namespace _11_Image_Processing
         {
             UndoQuestion();
         }
+        private void undoFButton_Click(object sender, RoutedEventArgs e)
+        {
+            int i = Settings.pagesFields.Count;
+            if (i == 0) return;
+            Settings.pagesFields.RemoveAt(i - 1);
+            RemakeBoxexAndFieldsN();
 
-        private void RemakeBoxex()
+        }
+
+        private void undoNFButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Settings.nameField == null) return;
+            Settings.nameField = null;
+            RemakeBoxexAndFieldsN();
+        }
+
+        private void RemakeBoxexAndFieldsN()
         {
             var doc = new PdfLoadedDocument(Settings.tempFileCopy);
             doc.RemakeBoxex();
+            doc.RemakeFields();
+            doc.RemakeNameField();
 
             pdfViewControl.Load(doc);
             ReloadDocument();
@@ -836,15 +853,6 @@ namespace _11_Image_Processing
             cm.IsOpen = true;
         }
 
-        private void undoFButton_Click(object sender, RoutedEventArgs e)
-        {
-            //TODO make undo for all 
-        }
-
-        private void undoNFButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {

@@ -9,7 +9,7 @@
     xmlns:ln="clr-namespace:_11_Image_Processing.Resources.Strings"
         mc:Ignorable="d"
     Title="{x:Static ln:Strings.NameOfAplication}"
-       Height="750" Width="1200" Background="Azure">
+       Height="600" Width="1000" Background="Azure">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -205,7 +205,7 @@
         <Style TargetType="{x:Type local:MainWindow}">
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
-                    <WindowChrome CornerRadius="0" GlassFrameThickness="1" ResizeBorderThickness="0" CaptionHeight="0"></WindowChrome>
+                    <WindowChrome CornerRadius="0" GlassFrameThickness="1" ResizeBorderThickness="0" CaptionHeight="0"></WindowChrome> 
                 </Setter.Value>
             </Setter>
         </Style>

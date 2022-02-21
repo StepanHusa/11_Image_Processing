@@ -808,6 +808,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to text.
+        /// </summary>
+        public static string text {
+            get {
+                return ResourceManager.GetString("text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Toogle Correct.
         /// </summary>
         public static string ToogleCorrect {
@@ -906,6 +915,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string WarningnoNameFieldadded {
             get {
                 return ResourceManager.GetString("WarningnoNameFieldadded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One or more works don&apos;t have enaught pages..
+        /// </summary>
+        public static string warningScansDontHaveEnaughtPages {
+            get {
+                return ResourceManager.GetString("warningScansDontHaveEnaughtPages", resourceCulture);
             }
         }
         

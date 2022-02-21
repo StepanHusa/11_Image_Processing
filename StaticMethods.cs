@@ -253,6 +253,26 @@ namespace _11_Image_Processing
             }
             return doc;
         }
+        public static PdfLoadedDocument RemakeFields(this PdfLoadedDocument doc)
+        {
+            int j = 0;
+            foreach (var field in Settings.pagesFields)
+            {
+                doc.DrawRectangleBounds(field.Item2, field.Item1);
+                doc.DrawIndexNextToRectangle(field.Item2, field.Item1, Strings.text + (j + 1).ToString() + ":");
+                j++;
+            }
+
+            return doc;
+        }
+        public static PdfLoadedDocument RemakeNameField(this PdfLoadedDocument doc)
+        {
+            if (Settings.nameField == null) return doc;
+            doc.DrawRectangleBounds(Settings.nameField.Item2, Settings.nameField.Item1);
+            doc.DrawNameNextToRectangle(Settings.nameField.Item2, Settings.nameField.Item1);
+            return doc;
+        }
+
         public static PdfLoadedDocument RemakeBoxexOneColor(this PdfLoadedDocument doc)
         {
             int i = 0;

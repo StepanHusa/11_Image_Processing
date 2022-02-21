@@ -426,7 +426,7 @@ namespace _11_Image_Processing
         //one page files
         private void Menu_Read_ListOfScans_OnePage_Click(object sender, RoutedEventArgs e)
         {
-            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };//todo add more filters 
+            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; 
             if (open.ShowDialog() == false) return;
 
             int l = Settings.scansInPagesInWorks.Count();//moves indexing if there are already bitmaps in the list
@@ -440,7 +440,7 @@ namespace _11_Image_Processing
         private async void Menu_Read_ListOfScans_Dialog_Click(object sender, RoutedEventArgs e)
         {
             // var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; //TODO make for images (maybe make method for strings)
-            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };//todo add more filters 
+            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };
             if (open.ShowDialog() == false) return;
 
             await LoadNumberOfFiles(open.FileNames.Count(), open.FileNames);
@@ -631,11 +631,24 @@ namespace _11_Image_Processing
 
         }
 
+        //evaluate
         private async void Menu_Eavluate_Click(object sender, RoutedEventArgs e)
         {
+            int highestPageIndex=0;
+            foreach (var question in Settings.boxesInQuestions)
+                foreach (var box in question)
+                    if (box.Item1 > highestPageIndex)
+                        highestPageIndex = box.Item1;
+            int lowestPagesInWork = int.MaxValue;
+            foreach (var work in Settings.scansInPagesInWorks)
+                if (work.Count < lowestPagesInWork)
+                    lowestPagesInWork = work.Count;
+            if (highestPageIndex > lowestPagesInWork) MessageBox.Show(Strings.warningScansDontHaveEnaughtPages, Strings.Warning);
+
+
             var pbw = new ProgressBarW();
             pbw.Show();
-            await Task.Run(()=>Settings.resultsInQuestionsInWorks = Settings.scansInPagesInWorks.EvaluateWorks(Settings.boxesInQuestions));
+            await Task.Run(() => Settings.resultsInQuestionsInWorks = Settings.scansInPagesInWorks.EvaluateWorks(Settings.boxesInQuestions));
 
             Settings.namesScaned = Settings.scansInPagesInWorks.GetCropedNames(Settings.nameField);
             new ViewResultW().Show();
@@ -971,6 +984,4 @@ namespace _11_Image_Processing
 //TODO add lock function
 
 //TODO remake tuple to new variable, add bound width, mabe colors
-//TODO correct color of menu
-//TODO make second edit window
 //todo repair commands in pdfviewer
