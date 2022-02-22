@@ -290,7 +290,7 @@ namespace _11_Image_Processing
             return doc;
         }
 
-        //TODO add methods to remake fields and name field
+        //TODODone add methods to remake fields and name field
         //TODO saparate element and text editing
 
     }

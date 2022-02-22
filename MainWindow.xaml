@@ -46,7 +46,7 @@
 
                 <MenuItem x:Name="Menu_Edit" Header="{x:Static ln:Strings.Edit}" IsEnabled="False" >
                     <MenuItem x:Name="Menu_Edit_Questions" Header="{x:Static ln:Strings.Questions}" Click="Menu_Edit_Questions_Click"/>
-                    <MenuItem x:Name="Menu_Edit_Boxes" Header="{x:Static ln:Strings.Boxes}" Command="local:Commands.Edit"/>
+                    <MenuItem x:Name="Menu_Edit_Boxes" Header="{x:Static ln:Strings.AddBoxes}" Command="local:Commands.Edit"/>
                 </MenuItem>
 
                 <MenuItem x:Name="Menu_Export" Header="{x:Static ln:Strings.Export}" IsEnabled="False">

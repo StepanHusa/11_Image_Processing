@@ -1,0 +1,16 @@
+﻿<Window x:Class="_11_Image_Processing.PdfEditWithoutToolsW"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" 
+    xmlns:ln="clr-namespace:_11_Image_Processing.Resources.Strings"
+
+        xmlns:local="clr-namespace:_11_Image_Processing"
+        mc:Ignorable="d"
+        Title="PdfEditWithoutToolsW" Height="450" Width="800"
+        Closing="Window_Closing">
+    <Grid>
+        <PdfViewer:PdfViewerControl x:Name="pdfViewControl"/>
+    </Grid>
+</Window>

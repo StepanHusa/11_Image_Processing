@@ -238,7 +238,8 @@ namespace _11_Image_Processing
         //Edit
         private void Menu_Edit_Questions_Click(object sender, RoutedEventArgs e)
         {
-            //TODO add second window for edit
+            PdfEditWithoutToolsW m = new();
+            m.Show();
         }
         private void CommandBinding_Edit_Executed(object sender, ExecutedRoutedEventArgs e)
         {
