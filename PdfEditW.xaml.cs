@@ -63,26 +63,6 @@ namespace _11_Image_Processing
 
 
         #region CheckingMenu
-        //clik methods not used
-        private void A_Click(object sender, RoutedEventArgs e)
-        {
-            UncheckAllOthers(sender);
-            if ((sender as MenuItem).IsChecked)
-                pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_A;
-            //else
-            //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_A;
-
-        }
-        private void B_Click(object sender, RoutedEventArgs e)
-        {
-            UncheckAllOthers(sender);
-
-            if ((sender as MenuItem).IsChecked)
-                pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_B;
-            //else
-            //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_B;
-
-        }
         private void Menu_NewPage_Click(object sender, RoutedEventArgs e)
         {
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
@@ -100,7 +80,7 @@ namespace _11_Image_Processing
         {
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
             var doc = pdfViewControl.LoadedDocument;
-            if (doc.Pages.Count == 1) { MessageBox.Show("cannot delete last page");return; }//TODo to strings
+            if (doc.Pages.Count == 1) { MessageBox.Show(Strings.cannotDeleteLastPage);return; }
 
             doc.Pages.RemoveAt(pdfViewControl.CurrentPage - 1);
 
@@ -124,6 +104,26 @@ namespace _11_Image_Processing
 
             pdfViewControl.ScrollTo(offset);
             pdfViewControl.Zoom = zoom * 100;
+
+        }
+        //clik methods not used
+        private void A_Click(object sender, RoutedEventArgs e)
+        {
+            UncheckAllOthers(sender);
+            if ((sender as MenuItem).IsChecked)
+                pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_A;
+            //else
+            //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_A;
+
+        }
+        private void B_Click(object sender, RoutedEventArgs e)
+        {
+            UncheckAllOthers(sender);
+
+            if ((sender as MenuItem).IsChecked)
+                pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_B;
+            //else
+            //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_B;
 
         }
         private void C_Click(object sender, RoutedEventArgs e)
@@ -166,11 +166,11 @@ namespace _11_Image_Processing
         }
         private void toogleAn_Click(object sender, RoutedEventArgs e)
         {
-            UncheckAllOthers(sender);
+            //UncheckAllOthers(sender);
 
-            if ((sender as MenuItem).IsChecked)
-                pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_Tog;
-            //else
+            //if ((sender as MenuItem).IsChecked)
+            //    pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_Tog;
+            ////else
             //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_Tog;
 
         }
@@ -184,19 +184,23 @@ namespace _11_Image_Processing
             //    pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_name;
         }
 
-        private List<MenuItem> chacked = new();
+        private MenuItem chacked = null;
         private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
+        {            
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Alt)
             {
-                ContextMenu cm = (ContextMenu)Resources["contextMenu"];
-                foreach (MenuItem item in cm.Items)
-                    if (item.IsChecked)
-                    {
-                        chacked.Add(item);
-                        item.IsChecked = false;
-                    }
+                foreach (MenuItem item in toolMenu.Children)
+                    if (item != toogleAn)
+                        if (item.IsChecked)
+                        {
+                            chacked = item;
+                            item.IsChecked = false;
+                        }
+
+                toogleAn.IsChecked = true;
+                pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_Tog;
                 pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_Tog;
+                this.PreviewKeyUp += Window_KeyUp;
             }
 
 
@@ -205,17 +209,22 @@ namespace _11_Image_Processing
         {
             if (e.KeyboardDevice.Modifiers != ModifierKeys.Alt)
             {
-                ContextMenu cm = (ContextMenu)Resources["contextMenu"];
-                foreach (var item in chacked)
+                if (chacked != null)
                 {
-                    item.IsChecked = true;
+                    chacked.IsChecked = true;
+                    chacked = null;
                 }
-                chacked = new();
 
+                toogleAn.IsChecked = false;
                 pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_Tog;
+                this.PreviewKeyUp -= Window_KeyUp;
             }
         }
 
+        private void CheckMenuItem(object sender, RoutedEventArgs e)
+        {
+            (sender as MenuItem).IsChecked ^= true;
+        }
         private void a_Checked(object sender, RoutedEventArgs e)
         {
             UncheckAllOthers(sender);
@@ -284,13 +293,16 @@ namespace _11_Image_Processing
             pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_E;
 
         }
-        private void toogleAn_Checked(object sender, RoutedEventArgs e)
+        private void toogleAn_Checked(object sender, RoutedEventArgs e) 
         {
             UncheckAllOthers(sender);
 
             if ((sender as MenuItem).IsChecked)
+            {
+                pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_Tog;
                 pdfViewControl.PageClicked += Pdfwcontrol_PageClicked_Tog;
-
+            }
+            
         }
         private void toogleAn_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -331,7 +343,7 @@ namespace _11_Image_Processing
         }
         private void UncheckAllOthers(object contextMenuItem)
         {
-            foreach (MenuItem item in cm.Items)
+            foreach (MenuItem item in toolMenu.Children)
             {
                 if(item!=contextMenuItem)
                     item.IsChecked = false;
@@ -345,7 +357,6 @@ namespace _11_Image_Processing
             //pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_E;
             //pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_Tog;
             //pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_name;
-
 
         }
 
@@ -841,27 +852,32 @@ namespace _11_Image_Processing
         {
             pdfViewControl.LoadedDocument.Save(Settings.tempFile);
         }
-        private void CloseCommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void functionButton_Click(object sender, RoutedEventArgs e)
-        {
-            ContextMenu cm = (ContextMenu)Resources["contextMenu"];
-            cm.IsOpen = true;
-        }
-
-
-        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            //Todo Commands
-        }
 
         private void CommandBinding_CanExecuteTRUE(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
             
+        }
+
+        private void CloseCommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
+        private void CommandBindingNameField_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            nameField.IsChecked ^= true;
+        }
+        private void CommandBindingBoxes_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            boxex.IsChecked ^= true;
+        }
+        private void CommandBindingFields_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            b.IsChecked ^= true;
+        }
+        private void CommandBindingUndoQ_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            UndoQuestion();
         }
 
     }

@@ -16,6 +16,7 @@ namespace _11_Image_Processing
         public static readonly RoutedCommand AnswerField = new RoutedCommand("AnswerField", typeof(Commands), new InputGestureCollection() { new KeyGesture(Key.F, ModifierKeys.Control) });
         public static readonly RoutedCommand AnswerBoxes = new RoutedCommand("AnswerBoxes", typeof(Commands), new InputGestureCollection() { new KeyGesture(Key.B, ModifierKeys.Control) });
 
+        public static readonly RoutedCommand UndoQuestion = new("UndoQuestion", typeof(Commands), new InputGestureCollection() { new KeyGesture(Key.Z, ModifierKeys.Control) });
 
 
 

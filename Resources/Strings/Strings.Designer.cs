@@ -88,6 +88,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alt (Hold).
+        /// </summary>
+        public static string AltHold {
+            get {
+                return ResourceManager.GetString("AltHold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Answer.
         /// </summary>
         public static string Answer {
@@ -178,6 +187,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot delete last page.
+        /// </summary>
+        public static string cannotDeleteLastPage {
+            get {
+                return ResourceManager.GetString("cannotDeleteLastPage", resourceCulture);
             }
         }
         

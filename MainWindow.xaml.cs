@@ -838,12 +838,13 @@ namespace _11_Image_Processing
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var f = MessageBox.Show(Strings.savequestion, Strings.closing, MessageBoxButton.YesNoCancel,MessageBoxImage.Warning);
-            if (f == MessageBoxResult.Cancel) { e.Cancel = true; return; }//TODO debug
-            if (f != MessageBoxResult.Yes) return;
+            //TODO Uncomment
+            //var f = MessageBox.Show(Strings.savequestion, Strings.closing, MessageBoxButton.YesNoCancel,MessageBoxImage.Warning);
+            //if (f == MessageBoxResult.Cancel) { e.Cancel = true; return; }//TODO debug
+            //if (f != MessageBoxResult.Yes) return;
 
-            if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
-            else Menu_Save_ProjectAs_Click(null, null);
+            //if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
+            //else Menu_Save_ProjectAs_Click(null, null);
         }
 
 
@@ -994,5 +995,5 @@ namespace _11_Image_Processing
 //TODO add help and settings (help not finished) (settings not even designed)
 //TODO add lock function
 
-//TODO remake tuple to new variable, add bound width, mabe colors
-//todo repair commands in pdfviewer
+//TODO remake tuple to new variable, add bound width, mabe colors (or at least add bound width to tuple)
+//todoDone repair commands in pdfviewer

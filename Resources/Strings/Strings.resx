@@ -126,6 +126,9 @@
   <data name="Allfiles" xml:space="preserve">
     <value>All files</value>
   </data>
+  <data name="AltHold" xml:space="preserve">
+    <value>Alt (Hold)</value>
+  </data>
   <data name="Answer" xml:space="preserve">
     <value>Answer</value>
   </data>
@@ -159,6 +162,9 @@ or export the document.</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="cannotDeleteLastPage" xml:space="preserve">
+    <value>Cannot delete last page</value>
   </data>
   <data name="Checked" xml:space="preserve">
     <value>Checked</value>
