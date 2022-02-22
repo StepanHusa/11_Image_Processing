@@ -658,7 +658,7 @@ namespace _11_Image_Processing
         //help and settings
         private void Menu_Help_HTML_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.Help.ShowHelp(null, "StudentTesterHelp.html"); //TODO make portable
+            System.Windows.Forms.Help.ShowHelp(null, "StudentTesterHelp.html"); 
 
         }
         private void Menu_Help_CHM_Click(object sender, RoutedEventArgs e)
@@ -833,6 +833,16 @@ namespace _11_Image_Processing
             if (this.WindowState != WindowState.Maximized)
                 this.WindowState = WindowState.Maximized;
             else this.WindowState = WindowState.Normal;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var f = MessageBox.Show(Strings.savequestion, Strings.closing, MessageBoxButton.YesNoCancel,MessageBoxImage.Warning);
+            if (f == MessageBoxResult.Cancel) { e.Cancel = true; return; }//TODO debug
+            if (f != MessageBoxResult.Yes) return;
+
+            if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
+            else Menu_Save_ProjectAs_Click(null, null);
         }
 
 

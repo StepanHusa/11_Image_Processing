@@ -142,6 +142,19 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The document is linked to the project, 
+        ///if you close this window, 
+        ///changes will preserve
+        ///and you can save the whole project 
+        ///or export the document..
+        /// </summary>
+        public static string autosaveAffirmation {
+            get {
+                return ResourceManager.GetString("autosaveAffirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _BlankPDFFile.
         /// </summary>
         public static string BlankPDFFile {
@@ -201,6 +214,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string Close {
             get {
                 return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closing....
+        /// </summary>
+        public static string closing {
+            get {
+                return ResourceManager.GetString("closing", resourceCulture);
             }
         }
         
@@ -750,6 +772,16 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string SaveAs {
             get {
                 return ResourceManager.GetString("SaveAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project is not saved.
+        ///Do you want to save it?.
+        /// </summary>
+        public static string savequestion {
+            get {
+                return ResourceManager.GetString("savequestion", resourceCulture);
             }
         }
         

@@ -144,6 +144,13 @@
   <data name="Apply" xml:space="preserve">
     <value>Apply</value>
   </data>
+  <data name="autosaveAffirmation" xml:space="preserve">
+    <value>The document is linked to the project, 
+if you close this window, 
+changes will preserve
+and you can save the whole project 
+or export the document.</value>
+  </data>
   <data name="BlankPDFFile" xml:space="preserve">
     <value>_BlankPDFFile</value>
   </data>
@@ -164,6 +171,9 @@
   </data>
   <data name="Close" xml:space="preserve">
     <value>Close</value>
+  </data>
+  <data name="closing" xml:space="preserve">
+    <value>Closing...</value>
   </data>
   <data name="Colors" xml:space="preserve">
     <value>Colors</value>
@@ -347,6 +357,10 @@
   </data>
   <data name="SaveAs" xml:space="preserve">
     <value>_SaveAs</value>
+  </data>
+  <data name="savequestion" xml:space="preserve">
+    <value>Project is not saved.
+Do you want to save it?</value>
   </data>
   <data name="Scanner" xml:space="preserve">
     <value>_Scanner</value>

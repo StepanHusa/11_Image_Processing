@@ -41,6 +41,8 @@
             <Button x:Name="undoNFButton" Content="{x:Static ln:Strings.UndoNameField}"  Canvas.Top="250"     Canvas.Right="100" Click="undoNFButton_Click"/>
 
             <TextBlock  Canvas.Top="300"     Canvas.Right="100" TextAlignment="Right" Text="{x:Static ln:Strings.UndoNotCompatible}" />
+            <TextBlock  Canvas.Top="350"     Canvas.Right="100" TextAlignment="Right" Text="{x:Static ln:Strings.autosaveAffirmation}" />
+
 
         </Canvas>
     </Grid>
