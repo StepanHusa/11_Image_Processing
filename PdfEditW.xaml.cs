@@ -100,6 +100,7 @@ namespace _11_Image_Processing
         {
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
             var doc = pdfViewControl.LoadedDocument;
+            if (doc.Pages.Count == 1) { MessageBox.Show("cannot delete last page");return; }//TODo to strings
 
             doc.Pages.RemoveAt(pdfViewControl.CurrentPage - 1);
 
@@ -330,8 +331,6 @@ namespace _11_Image_Processing
         }
         private void UncheckAllOthers(object contextMenuItem)
         {
-            var mItem = contextMenuItem as MenuItem;
-            var cm = mItem.Parent as ContextMenu;
             foreach (MenuItem item in cm.Items)
             {
                 if(item!=contextMenuItem)
