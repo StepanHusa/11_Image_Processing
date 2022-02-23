@@ -5,6 +5,7 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <RootNamespace>_11_Image_Processing</RootNamespace>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\imag.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
