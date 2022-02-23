@@ -62,13 +62,15 @@ namespace _11_StudentTester
 
             //debug
             {
-                string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
+                //string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
+                //LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
+
+
                 //this.WindowState = WindowState.Minimized;
                 //Menu_Load_New_Click(new object(), new RoutedEventArgs());
                 //Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
 
                 //LoadDataFromFile(debugFolder + "\\01" + Settings.projectExtension);
-                LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
 
                 //Menu_Save_Project.IsEnabled = true;
 
