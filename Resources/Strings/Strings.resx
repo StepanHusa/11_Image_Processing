@@ -190,6 +190,9 @@ or export the document.</value>
   <data name="Count" xml:space="preserve">
     <value>Count</value>
   </data>
+  <data name="crossmethod" xml:space="preserve">
+    <value>Cross recognition</value>
+  </data>
   <data name="Dateoflastsave" xml:space="preserve">
     <value>Date of last save</value>
   </data>
@@ -216,6 +219,9 @@ or export the document.</value>
   </data>
   <data name="Files" xml:space="preserve">
     <value>_Files</value>
+  </data>
+  <data name="fillOfWholeSquare" xml:space="preserve">
+    <value>Fill of the whole square</value>
   </data>
   <data name="FromExistingPDF" xml:space="preserve">
     <value>_FromExistingPDF</value>

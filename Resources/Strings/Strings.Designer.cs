@@ -272,6 +272,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cross recognition.
+        /// </summary>
+        public static string crossmethod {
+            get {
+                return ResourceManager.GetString("crossmethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date of last save.
         /// </summary>
         public static string Dateoflastsave {
@@ -349,6 +358,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string Files {
             get {
                 return ResourceManager.GetString("Files", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fill of the whole square.
+        /// </summary>
+        public static string fillOfWholeSquare {
+            get {
+                return ResourceManager.GetString("fillOfWholeSquare", resourceCulture);
             }
         }
         

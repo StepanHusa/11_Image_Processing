@@ -56,7 +56,21 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="{x:Static ln:Strings.Evaluation}">
+                <StackPanel>
+                    <GroupBox Header="Methods">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="fillOfWholeSquareCheck"/>
+                                <Label Content="{x:Static ln:Strings.fillOfWholeSquare}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="crossmethodCheck"/>
+                                <Label Content="{x:Static ln:Strings.crossmethod}"/>
+                            </StackPanel>
 
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
             </TabItem>
             <TabItem Header="{x:Static ln:Strings.Advanced}">
 
