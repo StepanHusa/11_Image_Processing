@@ -38,6 +38,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -132,6 +140,17 @@
                 {
                 }
             }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_C97170B16EF44FD8BDA1A89B5FF67736"
+            {
+            "Name" = "8:#1915"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:AppDataFolder"
+                "Folders"
+                {
+                }
+            }
             "{1525181F-901A-416C-8A58-119130FE478E}:_D10EFBE77E824CBC8B8536342EC6D897"
             {
             "Name" = "8:#1919"
@@ -160,7 +179,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:StudentTesterSetup"
         "ProductCode" = "8:{F6B3A2CB-4896-4852-ACCD-B426C98637F1}"
-        "PackageCode" = "8:{DA3A610E-AAF0-4E3F-B694-A510C1B57757}"
+        "PackageCode" = "8:{9D1A9F15-2F3D-45E9-9E82-229C22F25ADC}"
         "UpgradeCode" = "8:{D21544AB-39F9-4C73-B260-430E1FC4DA84}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -280,7 +299,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0148024A085B4C3D93B6F14EF0D192EE"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_08809DE7329A4EB1AD28CBAAB2C02C1F"
             {
             "Name" = "8:Shortcut to 11_Image_Processing.exe"
             "Arguments" = "8:"
@@ -290,7 +309,7 @@
             "Transitive" = "11:FALSE"
             "Target" = "8:"
             "Folder" = "8:_46A7F9AD5EED465EA948B3BDDBCA0CDC"
-            "WorkingFolder" = "8:_3CEE1AE0F53A48C18885CCACFC2564AC"
+            "WorkingFolder" = "8:"
             "Icon" = "8:"
             "Feature" = "8:"
             }
