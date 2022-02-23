@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _11_Image_Processing.Properties {
+namespace _11_StudentTester.Properties {
     using System;
     
     

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _11_Image_Processing.Resources.Strings {
+namespace _11_StudentTester.Resources.Strings {
     using System;
     
     

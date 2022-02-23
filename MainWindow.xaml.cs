@@ -31,10 +31,10 @@ using System.Windows.Xps.Packaging;
 //using Aspose.Pdf;
 using PdfPrintingNet;
 using Syncfusion.Windows.PdfViewer;
-using _11_Image_Processing.Resources.Strings;
+using _11_StudentTester.Resources.Strings;
 using System.Threading;
 
-namespace _11_Image_Processing
+namespace _11_StudentTester
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -838,13 +838,12 @@ namespace _11_Image_Processing
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //TODO Uncomment
-            //var f = MessageBox.Show(Strings.savequestion, Strings.closing, MessageBoxButton.YesNoCancel,MessageBoxImage.Warning);
-            //if (f == MessageBoxResult.Cancel) { e.Cancel = true; return; }//TODO debug
-            //if (f != MessageBoxResult.Yes) return;
+            var f = MessageBox.Show(Strings.savequestion, Strings.closing, MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+            if (f == MessageBoxResult.Cancel) { e.Cancel = true; return; }//TODO debug
+            if (f != MessageBoxResult.Yes) return;
 
-            //if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
-            //else Menu_Save_ProjectAs_Click(null, null);
+            if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
+            else Menu_Save_ProjectAs_Click(null, null);
         }
 
 

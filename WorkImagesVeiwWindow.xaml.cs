@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace _11_Image_Processing
+namespace _11_StudentTester
 {
     /// <summary>
     /// Interaction logic for WorkImagesVeiwWindow.xaml

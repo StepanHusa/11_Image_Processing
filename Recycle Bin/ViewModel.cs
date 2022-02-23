@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _11_Image_Processing
+namespace _11_StudentTester
 {
     public class ViewModel : INotifyPropertyChanged
     {

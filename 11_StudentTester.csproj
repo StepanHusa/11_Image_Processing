@@ -39,7 +39,6 @@
     <PackageReference Include="Aspose.Words" Version="21.11.0" />
     <PackageReference Include="ImageProcessor" Version="2.9.1" />
     <PackageReference Include="IronOcr" Version="2021.11.0" />
-    <PackageReference Include="Pdfium.Net.SDK" Version="4.64.2704" />
     <PackageReference Include="PdfPrintingNet" Version="4.10.7" />
     <PackageReference Include="QRCoder" Version="1.4.2" />
     <PackageReference Include="Syncfusion.Licensing" Version="19.3.0.56" />

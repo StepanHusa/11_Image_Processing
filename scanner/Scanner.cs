@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WIA;
 using System.Windows.Forms;
 
-namespace _11_Image_Processing
+namespace _11_StudentTester
 {
     class Scanner
     {

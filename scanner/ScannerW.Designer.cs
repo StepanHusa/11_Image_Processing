@@ -1,4 +1,4 @@
-﻿namespace _11_Image_Processing
+﻿namespace _11_StudentTester
 {
     partial class ScanForm
     {

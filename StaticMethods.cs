@@ -19,10 +19,10 @@ using System.ComponentModel;
 using System.Windows.Input;
 using System.Runtime.InteropServices;
 //using System.Windows.Media.Imaging;
-using _11_Image_Processing.Resources.Strings;
+using _11_StudentTester.Resources.Strings;
 using ImageProcessor.Common.Extensions;
 
-namespace _11_Image_Processing
+namespace _11_StudentTester
 {
     public static class Pdf
     {

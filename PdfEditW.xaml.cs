@@ -19,10 +19,10 @@ using Syncfusion.Pdf.Graphics;
 using System.Drawing;
 using Syncfusion.Pdf;
 using Syncfusion.Pdf.Interactive;
-using _11_Image_Processing.Resources.Strings;
+using _11_StudentTester.Resources.Strings;
 
 
-namespace _11_Image_Processing
+namespace _11_StudentTester
 {
 
     /// <summary>
