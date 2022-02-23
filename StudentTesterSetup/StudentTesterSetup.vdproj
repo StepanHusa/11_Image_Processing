@@ -299,20 +299,6 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_08809DE7329A4EB1AD28CBAAB2C02C1F"
-            {
-            "Name" = "8:Shortcut to 11_Image_Processing.exe"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:"
-            "Folder" = "8:_46A7F9AD5EED465EA948B3BDDBCA0CDC"
-            "WorkingFolder" = "8:"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
         }
         "UserInterface"
         {
