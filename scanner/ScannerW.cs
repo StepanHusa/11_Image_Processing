@@ -9,10 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WIA;
-using _11_StudentTester.Resources.Strings;
+using _11_Image_Processing.Resources.Strings;
 
 
-namespace _11_StudentTester
+namespace _11_Image_Processing
 {
     public partial class ScanForm : Form
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using _11_StudentTester.Resources.Strings;
+using _11_Image_Processing.Resources.Strings;
 
-namespace _11_StudentTester
+namespace _11_Image_Processing
 {
     public static class Commands
     {

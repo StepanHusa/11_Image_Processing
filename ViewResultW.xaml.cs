@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace _11_StudentTester
+namespace _11_Image_Processing
 {
     /// <summary>
     /// Interaction logic for ViewResultW.xaml

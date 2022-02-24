@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using _11_Image_Processing.Resources.Strings;
 
 namespace _11_Image_Processing
 {
@@ -22,6 +23,28 @@ namespace _11_Image_Processing
         public ControlBeforeEvaluatonW()
         {
             InitializeComponent();
+            BuildMenu();
+        }
+        private void BuildMenu()
+        {
+            foreach (var work in Settings.scansInPagesInWorks)
+            {
+            var mI = new MenuItem();
+                mI.Header = Settings.scansInPagesInWorks.IndexOf(work);
+                foreach (string page in work)
+                {
+                    var mII = new MenuItem();
+                    mII.Header = Strings.ViewPage + " " + work.IndexOf(page);
+                    //mII.Click += ();
+                    mI.Items.Add(mII);
+                }
+                menu.Items.Add(mI);
+            }
+
+
+
+
+
         }
     }
 }

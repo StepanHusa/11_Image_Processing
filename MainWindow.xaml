@@ -4,9 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF"
-    x:Class="_11_StudentTester.MainWindow"
-    xmlns:local="clr-namespace:_11_StudentTester"
-    xmlns:ln="clr-namespace:_11_StudentTester.Resources.Strings"
+    x:Class="_11_Image_Processing.MainWindow"
+    xmlns:local="clr-namespace:_11_Image_Processing"
+    xmlns:ln="clr-namespace:_11_Image_Processing.Resources.Strings"
         mc:Ignorable="d"
     Title="{x:Static ln:Strings.NameOfAplication}"
         Icon="/Resources/imag.ico"
@@ -61,7 +61,7 @@
 
                 <MenuItem x:Name="Menu_Read" Header="{x:Static ln:Strings.Read}" IsEnabled="False">
                     <!--<MenuItem x:Name="Menu_Read_PNG" Header="{x:Static ln:Strings.OnePNGtocheck}" Click="Menu_Read_PNG_Click"/>-->
-                    <MenuItem x:Name="Menu_Read_PDF" Header="{x:Static ln:Strings.onePDFfile}" Click="Menu_Read_PDF_Click"/>
+                    <MenuItem x:Name="Menu_Read_PDF" Header="{x:Static ln:Strings.PDFfile}" Click="Menu_Read_PDF_Click"/>
 
                     <MenuItem x:Name="Menu_Read_ListOfScans" Header="{x:Static ln:Strings.Files}">
                         <MenuItem x:Name="Menu_Read_ListOfScans_OnePage" Header="{x:Static ln:Strings.OnePaged}" Click="Menu_Read_ListOfScans_OnePage_Click"/>

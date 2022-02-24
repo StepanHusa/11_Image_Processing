@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace _11_StudentTester
+namespace _11_Image_Processing
 {
     /// <summary>
     /// Interaction logic for App.xaml

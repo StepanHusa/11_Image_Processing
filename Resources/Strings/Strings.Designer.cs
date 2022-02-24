@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _11_StudentTester.Resources.Strings {
+namespace _11_Image_Processing.Resources.Strings {
     using System;
     
     
@@ -614,15 +614,6 @@ namespace _11_StudentTester.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to One PDF.
-        /// </summary>
-        public static string onePDFfile {
-            get {
-                return ResourceManager.GetString("onePDFfile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to _One PNG to check.
         /// </summary>
         public static string OnePNGtocheck {
@@ -664,6 +655,15 @@ namespace _11_StudentTester.Resources.Strings {
         public static string PDF {
             get {
                 return ResourceManager.GetString("PDF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PDF.
+        /// </summary>
+        public static string PDFfile {
+            get {
+                return ResourceManager.GetString("PDFfile", resourceCulture);
             }
         }
         
@@ -963,6 +963,15 @@ namespace _11_StudentTester.Resources.Strings {
         public static string Untitled {
             get {
                 return ResourceManager.GetString("Untitled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Page.
+        /// </summary>
+        public static string ViewPage {
+            get {
+                return ResourceManager.GetString("ViewPage", resourceCulture);
             }
         }
         

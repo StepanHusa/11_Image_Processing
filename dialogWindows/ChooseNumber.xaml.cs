@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace _11_StudentTester.dialogWindows
+namespace _11_Image_Processing.dialogWindows
 {
     /// <summary>
     /// Interaction logic for Read.xaml

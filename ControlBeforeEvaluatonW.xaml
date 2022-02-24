@@ -7,6 +7,14 @@
         mc:Ignorable="d"
         Title="ControlBeforeEvaluatonW" Height="450" Width="800">
     <Grid>
-        
+        <ScrollViewer>
+            <Menu x:Name="menu">
+                <Menu.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </Menu.ItemsPanel>
+            </Menu>
+        </ScrollViewer>
     </Grid>
 </Window>

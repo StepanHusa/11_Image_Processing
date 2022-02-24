@@ -31,10 +31,10 @@ using System.Windows.Xps.Packaging;
 //using Aspose.Pdf;
 using PdfPrintingNet;
 using Syncfusion.Windows.PdfViewer;
-using _11_StudentTester.Resources.Strings;
+using _11_Image_Processing.Resources.Strings;
 using System.Threading;
 
-namespace _11_StudentTester
+namespace _11_Image_Processing
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -468,6 +468,7 @@ namespace _11_StudentTester
 
                     } while (File.Exists(path));
                     bitmap.Save(path);
+                    bitmap.Dispose();
                     tempScans.Add(path);
                 }
             }
@@ -671,7 +672,7 @@ namespace _11_StudentTester
         //evaluate
         private async void Menu_Eavluate_Click(object sender, RoutedEventArgs e)
         {
-
+            new ControlBeforeEvaluatonW().ShowDialog();
 
 
             int highestPageIndex=0;

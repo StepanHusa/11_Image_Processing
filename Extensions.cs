@@ -1,4 +1,4 @@
-﻿using _11_StudentTester.Resources.Strings;
+﻿using _11_Image_Processing.Resources.Strings;
 using ImageProcessor.Imaging.Filters.EdgeDetection;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace _11_StudentTester
+namespace _11_Image_Processing
 {
     static class ByteExtensions
     {

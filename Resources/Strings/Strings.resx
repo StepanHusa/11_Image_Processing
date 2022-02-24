@@ -304,9 +304,6 @@ or export the document.</value>
   <data name="OnePaged" xml:space="preserve">
     <value>_One Paged</value>
   </data>
-  <data name="onePDFfile" xml:space="preserve">
-    <value>One PDF</value>
-  </data>
   <data name="OnePNGtocheck" xml:space="preserve">
     <value>_One PNG to check</value>
   </data>
@@ -321,6 +318,9 @@ or export the document.</value>
   </data>
   <data name="PDF" xml:space="preserve">
     <value>_PDF</value>
+  </data>
+  <data name="PDFfile" xml:space="preserve">
+    <value>PDF</value>
   </data>
   <data name="Percents" xml:space="preserve">
     <value>Percents</value>
@@ -422,6 +422,9 @@ Do you want to save it?</value>
   </data>
   <data name="Untitled" xml:space="preserve">
     <value>Untitled</value>
+  </data>
+  <data name="ViewPage" xml:space="preserve">
+    <value>View Page</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>
