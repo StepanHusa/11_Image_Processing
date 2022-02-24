@@ -614,6 +614,15 @@ namespace _11_StudentTester.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to One PDF.
+        /// </summary>
+        public static string onePDFfile {
+            get {
+                return ResourceManager.GetString("onePDFfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _One PNG to check.
         /// </summary>
         public static string OnePNGtocheck {

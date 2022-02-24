@@ -304,6 +304,9 @@ or export the document.</value>
   <data name="OnePaged" xml:space="preserve">
     <value>_One Paged</value>
   </data>
+  <data name="onePDFfile" xml:space="preserve">
+    <value>One PDF</value>
+  </data>
   <data name="OnePNGtocheck" xml:space="preserve">
     <value>_One PNG to check</value>
   </data>

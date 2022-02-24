@@ -56,7 +56,6 @@ namespace _11_StudentTester
         internal static string projectName = templateProjectName;
 
 
-        internal static List<string> tempScans; //".tiff" format but .tmp extension
 
 
 

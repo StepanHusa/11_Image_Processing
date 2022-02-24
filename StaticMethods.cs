@@ -766,15 +766,13 @@ namespace _11_StudentTester
 
     static class ImageProcessing
     {
-        public static List<List<List<bool>>> EvaluateWorks(this List<List<string>> works, List<List<Tuple<int, RectangleF, bool>>> questions, ProgressBar bar=null)
+        public static List<List<List<bool>>> EvaluateWorks(this List<List<string>> works, List<List<Tuple<int, RectangleF, bool>>> questions)
         {
             List<List<List<bool>>> resultsAll = new();
 
             foreach (var work in works)
             {
                 resultsAll.Add(work.EvaluateOneWork(questions));
-                if(bar!=null)
-                    bar.Value = (double)works.IndexOf(work)/works.Count;
             }
 
 
@@ -792,6 +790,12 @@ namespace _11_StudentTester
                     int pageindex = box.Item1;
                     var workBitmap = new Bitmap(work[pageindex]);
                     Bitmap crop = workBitmap.Corp(box.Item2);
+                    //debug feature
+                    string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
+                    int i = Directory.GetFiles(f).Length;
+                    f = f + "\\" + i + ".Bmp";
+                    crop.Save(f, ImageFormat.Bmp);
+
                     bool IsDark = crop.IsDarkRocognize();
                     bool IsCross = crop.IsEdgyInTheCenterRecognize();
 

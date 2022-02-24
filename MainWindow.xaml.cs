@@ -62,8 +62,9 @@ namespace _11_StudentTester
 
             //debug
             {
-                //string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
-                //LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
+                string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
+                LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
+                //TODo Comment
 
 
                 //this.WindowState = WindowState.Minimized;
@@ -439,14 +440,47 @@ namespace _11_StudentTester
                 Settings.scansInPagesInWorks[l + i].Add(open.FileNames[i]);
             }
         }
+        private async void Menu_Read_PDF_Click(object sender, RoutedEventArgs e)
+        {
+            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.PDF + $"|*.PDF|"+Strings.Allfiles+" (*.*)|*.*", Multiselect = true };
+            if (open.ShowDialog() == false) return;
+
+            List<string> tempScans = new();
+            string path;
+
+
+
+
+            foreach (var item in open.FileNames)
+            {
+                var doc = new PdfLoadedDocument(item);
+                for (int j = 0; j < doc.Pages.Count; j++)
+                {
+                    Bitmap bitmap = doc.ExportAsImage(j, 600, 600);
+                    do
+                    {
+                        path = Path.GetTempFileName();
+                        if (File.Exists(path))
+                        {
+                            File.Delete(path);
+                        }
+                        path=Path.ChangeExtension(path, ".bmp");
+
+                    } while (File.Exists(path));
+                    bitmap.Save(path);
+                    tempScans.Add(path);
+                }
+            }
+            await LoadNumberOfFiles(tempScans.ToArray());
+        }
         //advanced read
         private async void Menu_Read_ListOfScans_Dialog_Click(object sender, RoutedEventArgs e)
         {
             // var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; //TODO make for images (maybe make method for strings)
-            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };
+            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|" + Strings.Allfiles + " (*.*)|*.*", Multiselect = true };
             if (open.ShowDialog() == false) return;
 
-            await LoadNumberOfFiles(open.FileNames.Count(), open.FileNames);
+            await LoadNumberOfFiles( open.FileNames);
 
         }
         private async void Menu_Read_Scan_Click(object sender, RoutedEventArgs e)
@@ -454,11 +488,11 @@ namespace _11_StudentTester
             var a = new ScanForm();
             if (a.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
-            await LoadNumberOfFiles(a.tempScans.Count, a.tempScans.ToArray());
+            await LoadNumberOfFiles( a.tempScans.ToArray());
         }
-        private async Task LoadNumberOfFiles(int Number, string[] ImageFiles)
+        private async Task LoadNumberOfFiles( string[] ImageFiles)
         {
-            var a = new ImportPicturesDialogW(Number);
+            var a = new ImportPicturesDialogW(ImageFiles.Length);
             if (a.ShowDialog() != true)
             {
                 if (MessageBox.Show("Realy return?", "caption", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -637,6 +671,9 @@ namespace _11_StudentTester
         //evaluate
         private async void Menu_Eavluate_Click(object sender, RoutedEventArgs e)
         {
+
+
+
             int highestPageIndex=0;
             foreach (var question in Settings.boxesInQuestions)
                 foreach (var box in question)
@@ -811,7 +848,7 @@ namespace _11_StudentTester
             e.CanExecute = true;
         }
 
-        private void CloceClick(object sender, RoutedEventArgs e)
+        private void CloseClick(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
@@ -847,6 +884,7 @@ namespace _11_StudentTester
             if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
             else Menu_Save_ProjectAs_Click(null, null);
         }
+
 
 
 

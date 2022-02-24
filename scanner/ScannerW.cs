@@ -148,7 +148,7 @@ namespace _11_StudentTester
                 {
                     File.Delete(path);
                 }
-                Path.ChangeExtension(path, imageExtension);
+               path= Path.ChangeExtension(path, imageExtension);
 
             } while (File.Exists(path));
 

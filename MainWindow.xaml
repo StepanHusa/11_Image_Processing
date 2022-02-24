@@ -61,6 +61,7 @@
 
                 <MenuItem x:Name="Menu_Read" Header="{x:Static ln:Strings.Read}" IsEnabled="False">
                     <!--<MenuItem x:Name="Menu_Read_PNG" Header="{x:Static ln:Strings.OnePNGtocheck}" Click="Menu_Read_PNG_Click"/>-->
+                    <MenuItem x:Name="Menu_Read_PDF" Header="{x:Static ln:Strings.onePDFfile}" Click="Menu_Read_PDF_Click"/>
 
                     <MenuItem x:Name="Menu_Read_ListOfScans" Header="{x:Static ln:Strings.Files}">
                         <MenuItem x:Name="Menu_Read_ListOfScans_OnePage" Header="{x:Static ln:Strings.OnePaged}" Click="Menu_Read_ListOfScans_OnePage_Click"/>
@@ -81,7 +82,7 @@
             </Menu >
             <Border HorizontalAlignment="Right" DockPanel.Dock="Right" >
                 <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
-                    <Button  Background="Transparent" BorderBrush="Transparent" Click="CloceClick" Height="30" Width="40">
+                    <Button  Background="Transparent" BorderBrush="Transparent" Click="CloseClick" Height="30" Width="40">
                         <Image Source="/Resources/icons8-close-50.png" Height="15"/>
                     </Button>
                     <!--Content="{x:Static ln:Strings.Close}"-->
