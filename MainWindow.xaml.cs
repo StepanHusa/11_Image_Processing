@@ -879,10 +879,9 @@ namespace _11_Image_Processing
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var f = MessageBox.Show(Strings.savequestion, Strings.closing, MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-            if (f == MessageBoxResult.Cancel) { e.Cancel = true; return; }//TODO debug
-            if (f != MessageBoxResult.Yes) return;
-
-            if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
+            if (f == MessageBoxResult.Cancel) e.Cancel = true;//TODO debug
+            else if (f != MessageBoxResult.Yes) return;
+            else if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
             else Menu_Save_ProjectAs_Click(null, null);
         }
 

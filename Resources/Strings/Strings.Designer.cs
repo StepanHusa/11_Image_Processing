@@ -1012,6 +1012,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View scan.
+        /// </summary>
+        public static string ViewScan {
+            get {
+                return ResourceManager.GetString("ViewScan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning.
         /// </summary>
         public static string Warning {

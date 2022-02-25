@@ -15,7 +15,7 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
-        <TabControl x:Name="tabsHorizontal"  TabStripPlacement="Left" Grid.Column="0" SelectionChanged="tabsHorizontal_SelectionChanged"/>
+        <TabControl x:Name="tabsHorizontal"  TabStripPlacement="Left" Grid.Column="0"/>
 
         <StackPanel x:Name="namesPanel" Grid.Column="1">
             <MenuItem Header="Name"/>

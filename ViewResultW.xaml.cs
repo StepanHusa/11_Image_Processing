@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using _11_Image_Processing.Resources.Strings;
+
 
 namespace _11_Image_Processing
 {
@@ -55,30 +57,17 @@ namespace _11_Image_Processing
             }
         }
 
-        private void tabsHorizontal_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //foreach (TabItem item in tabsHorizontal.Items)
-            //{
-            //    if (item is TabItem)
-            //    {
-            //        item.Content = null;
-            //    }
-            //}
-
-
-        }
-
         private Grid GenerateLeftGrid(int i)
         {
             //var imagesTabs = ViewWorks(i); 
             var imagesTabsButton = (Button)Resources["butView"];
-            imagesTabsButton.Content = "View Scen";
+            imagesTabsButton.Content = Strings.ViewScan;
             imagesTabsButton.Tag = i;
             imagesTabsButton.Click += ImagesTabsButton_Click;
 
             var table = ResultsList(i);
             var result = new TextBox();
-            result.Text = "undone"; //TODO finish this section and add statistics
+            result.Text = "feature not added yet"; //TODO finish this section and add statistics
 
             Grid grid = new();
             grid.RowDefinitions.Add(new() { Height = GridLength.Auto });
