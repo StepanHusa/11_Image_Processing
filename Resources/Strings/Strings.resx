@@ -184,6 +184,9 @@ or export the document.</value>
   <data name="Colors" xml:space="preserve">
     <value>Colors</value>
   </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
   <data name="Correct" xml:space="preserve">
     <value>Correct</value>
   </data>
@@ -298,6 +301,9 @@ or export the document.</value>
   <data name="Numberoftextfields" xml:space="preserve">
     <value>Number of text fields</value>
   </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="One" xml:space="preserve">
     <value>_One</value>
   </data>
@@ -366,6 +372,12 @@ or export the document.</value>
   </data>
   <data name="RightAnswer" xml:space="preserve">
     <value>Right Answer</value>
+  </data>
+  <data name="Rotate" xml:space="preserve">
+    <value>Rotate</value>
+  </data>
+  <data name="RotateAll" xml:space="preserve">
+    <value>Rotate All</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>_Save</value>

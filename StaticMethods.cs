@@ -291,7 +291,7 @@ namespace _11_Image_Processing
         }
 
         //TODODone add methods to remake fields and name field
-        //TODO saparate element and text editing
+        //TODODone saparate element and text editing
 
     }
 
@@ -791,10 +791,11 @@ namespace _11_Image_Processing
                     var workBitmap = new Bitmap(work[pageindex]);
                     Bitmap crop = workBitmap.Corp(box.Item2);
                     //debug feature
-                    string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
-                    int i = Directory.GetFiles(f).Length;
-                    f = f + "\\" + i + ".Bmp";
-                    crop.Save(f, ImageFormat.Bmp);
+                    //TODO comment
+                    //string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
+                    //int i = Directory.GetFiles(f).Length;
+                    //f = f + "\\" + i + ".Bmp";
+                    //crop.Save(f, ImageFormat.Bmp);
 
                     bool IsDark = crop.IsDarkRocognize();
                     bool IsCross = crop.IsEdgyInTheCenterRecognize();

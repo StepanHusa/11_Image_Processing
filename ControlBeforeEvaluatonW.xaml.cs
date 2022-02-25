@@ -9,17 +9,23 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+//using System.Windows.Media.Imaging;
+using System.Drawing;
 using System.Windows.Shapes;
 using _11_Image_Processing.Resources.Strings;
 
 namespace _11_Image_Processing
 {
+
+    
     /// <summary>
     /// Interaction logic for ControlBeforeEvaluatonW.xaml
     /// </summary>
     public partial class ControlBeforeEvaluatonW : Window
     {
+
+
+        private string currentImage = null;
         public ControlBeforeEvaluatonW()
         {
             InitializeComponent();
@@ -27,23 +33,68 @@ namespace _11_Image_Processing
         }
         private void BuildMenu()
         {
-            foreach (var work in Settings.scansInPagesInWorks)
-            {
+            for (int i = 0; i < Settings.scansInPagesInWorks.Count; i++)
+         {
             var mI = new MenuItem();
-                mI.Header = Settings.scansInPagesInWorks.IndexOf(work);
-                foreach (string page in work)
+                mI.Header =(i+1).ToString();
+                for (int j = 0; j < Settings.scansInPagesInWorks[i].Count; j++)
                 {
                     var mII = new MenuItem();
-                    mII.Header = Strings.ViewPage + " " + work.IndexOf(page);
-                    //mII.Click += ();
+                    mII.Header = Strings.ViewPage + " " + j;
+                    mII.Tag = Settings.scansInPagesInWorks[i][j];
+                    mII.Click += MII_Click;
                     mI.Items.Add(mII);
                 }
                 menu.Items.Add(mI);
             }
+        }
 
+        private void MII_Click(object sender, RoutedEventArgs e)
+        {
+            string file = (sender as MenuItem).Tag as string;
+            var f = new Bitmap(file);
+            image.Source = f.BitmapToImageSource();
+            f.Dispose();
+            currentImage = file;
+        }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+            this.Close();
+        }
 
+        private void rotate_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentImage!=null)
+            {
+                var bm = new Bitmap(currentImage);
+                bm.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                bm.Save(currentImage);
+                image.Source = bm.BitmapToImageSource();
+                bm.Dispose();
+            }
+        }
 
+        private void rotateAll_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var work in Settings.scansInPagesInWorks)
+            {   
+                foreach (string file in work)
+                {
+                    var bm = new Bitmap(currentImage);
+                    bm.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    bm.Save(currentImage);
+                    bm.Dispose();
+                }
+            }
+
+            if (currentImage != null)
+            {
+                var bm = new Bitmap(currentImage);
+                image.Source = bm.BitmapToImageSource();
+                bm.Dispose();
+            }
 
         }
     }

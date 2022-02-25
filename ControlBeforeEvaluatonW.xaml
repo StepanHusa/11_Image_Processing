@@ -4,10 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_11_Image_Processing"
+        xmlns:ln="clr-namespace:_11_Image_Processing.Resources.Strings"
+
         mc:Ignorable="d"
         Title="ControlBeforeEvaluatonW" Height="450" Width="800">
     <Grid>
-        <ScrollViewer>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Column="0">
             <Menu x:Name="menu">
                 <Menu.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -16,5 +22,14 @@
                 </Menu.ItemsPanel>
             </Menu>
         </ScrollViewer>
+
+        <Image x:Name="image" Grid.Column="1"/>
+
+        <Button x:Name="rotate" Content="{x:Static ln:Strings.Rotate}" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="10" Margin="0,20,10,0" Click="rotate_Click"/>
+        <Button x:Name="rotateAll" Content="{x:Static ln:Strings.RotateAll}" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="10" Margin="0,50,10,0" Click="rotateAll_Click"/>
+
+
+        <Button Content="{x:Static ln:Strings.Continue}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.ColumnSpan="10" Margin="0,0,10,20" Click="Button_Click"/>
+
     </Grid>
 </Window>
