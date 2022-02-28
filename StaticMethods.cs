@@ -182,7 +182,7 @@ namespace _11_Image_Processing
         {
             var page = doc.Pages[pageint];
             var w = Settings.baundWidth / 2;
-            rect.UnrelativateToPage(page);
+            rect.UnrelatitivizeToPage(page);
             PointF[] vertexes = { new PointF(rect.Left - 2 * w, rect.Bottom + w), new PointF(rect.Right + w, rect.Bottom + w), new PointF(rect.Right + w, rect.Top - w), new PointF(rect.Left - w, rect.Top - w), new PointF(rect.Left - w, rect.Bottom + 2 * w) };
             byte[] types = { 0, 1, 1, 1, 1 };
             PdfPath path = new(vertexes, types);
@@ -197,7 +197,7 @@ namespace _11_Image_Processing
         public static PdfLoadedDocument DrawIndexNextToRectangle(this PdfLoadedDocument doc, RectangleF rectangle, int pageint, string index)
         {
             var page = doc.Pages[pageint];
-            rectangle.UnrelativateToPage(page);
+            rectangle.UnrelatitivizeToPage(page);
             var p = new PointF(rectangle.Right + Settings.baundWidth, rectangle.Top);
             page.Graphics.DrawString(index, new PdfStandardFont(Settings.stringFont, Settings.QS.indexFontSize, Settings.stringStyle), new PdfPen(Color.Black), p);
 
@@ -206,7 +206,7 @@ namespace _11_Image_Processing
         public static PdfLoadedDocument DrawNameNextToRectangle(this PdfLoadedDocument doc, RectangleF rectangle, int pageint)
         {
             var page = doc.Pages[pageint];
-            rectangle.UnrelativateToPage(page);
+            rectangle.UnrelatitivizeToPage(page);
             rectangle.EvaluateInPositiveSize();
             var p = new PointF(rectangle.Left - 2 * Settings.baundWidth, rectangle.Top);
 
@@ -218,7 +218,7 @@ namespace _11_Image_Processing
         public static PdfLoadedDocument DrawStringNextToRectangle(this PdfLoadedDocument doc, string Text, RectangleF rectangle, int pageint)
         {
             var page = doc.Pages[pageint];
-            rectangle.UnrelativateToPage(page);
+            rectangle.UnrelatitivizeToPage(page);
             rectangle.EvaluateInPositiveSize();
             var p = new PointF(rectangle.Left - 2 * Settings.baundWidth, rectangle.Top);
 
@@ -287,6 +287,46 @@ namespace _11_Image_Processing
                 }
                 i++;
             }
+            return doc;
+        }
+
+        public static PdfLoadedDocument AddPositioners(this PdfLoadedDocument doc)
+        {
+            List<RectangleF> posis = new();
+
+            foreach (PdfPageBase page in doc.Pages)
+            {
+                var w = Settings.positionersWidth / 2;
+                float ll = Settings.positionersLegLength * page.Size.Width;//leglength
+                float marg = Settings.positionersMargin * page.Size.Width;
+                byte[] types = { 0, 1, 1 };
+
+                PointF VexTopLeft = new(marg + w, marg + w);//A1 in mm 594*841 blank page shows 595*842 random internet doc was in 595.32*842.04
+                PointF[] vertexes = { new PointF(VexTopLeft.X + ll, VexTopLeft.Y), VexTopLeft, new PointF(VexTopLeft.X, VexTopLeft.Y + ll) };
+                PdfPath path = new(vertexes, types);
+                page.Graphics.DrawPath(Settings.positionersPen, path);
+
+                VexTopLeft = new(page.Size.Width - marg - w, marg + w);
+                vertexes = new PointF[] { new PointF(VexTopLeft.X - ll, VexTopLeft.Y), VexTopLeft, new PointF(VexTopLeft.X, VexTopLeft.Y + ll) };
+                path = new(vertexes, types);
+                page.Graphics.DrawPath(Settings.positionersPen, path);
+
+                VexTopLeft = new(page.Size.Width - marg - w, page.Size.Height - marg - w);
+                vertexes = new PointF[] { new PointF(VexTopLeft.X - ll, VexTopLeft.Y), VexTopLeft, new PointF(VexTopLeft.X, VexTopLeft.Y - ll) };
+                path = new(vertexes, types);
+                page.Graphics.DrawPath(Settings.positionersPen, path);
+
+                VexTopLeft = new(marg + w, page.Size.Height - marg - w);
+                vertexes = new PointF[] { new PointF(VexTopLeft.X + ll, VexTopLeft.Y), VexTopLeft, new PointF(VexTopLeft.X, VexTopLeft.Y - ll) };
+                path = new(vertexes, types);
+                page.Graphics.DrawPath(Settings.positionersPen, path);
+
+                //save for evaluation
+                RectangleF marginRect = new RectangleF(marg, marg, page.Size.Width - 2*marg, page.Size.Height - 2*marg);
+                posis.Add(marginRect.RelatitivizeToPage(page));
+            }
+            Settings.positioners = posis;
+
             return doc;
         }
 
@@ -792,10 +832,10 @@ namespace _11_Image_Processing
                     Bitmap crop = workBitmap.Corp(box.Item2);
                     //debug feature
                     //TODO comment
-                    //string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
-                    //int i = Directory.GetFiles(f).Length;
-                    //f = f + "\\" + i + ".Bmp";
-                    //crop.Save(f, ImageFormat.Bmp);
+                    string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
+                    int i = Directory.GetFiles(f).Length;
+                    f = f + "\\" + i + ".Bmp";
+                    crop.Save(f, ImageFormat.Bmp);
 
                     bool IsDark = crop.IsDarkRocognize();
                     bool IsCross = crop.IsEdgyInTheCenterRecognize();
@@ -961,7 +1001,7 @@ namespace _11_Image_Processing
     }
     static class Rectangles
     {
-        public static RectangleF UnrelativateToPage(this ref RectangleF rect, PdfPageBase page)
+        public static RectangleF UnrelatitivizeToPage(this ref RectangleF rect, PdfPageBase page)
         {
             rect.X *= page.Size.Width;
             rect.Y *= page.Size.Height;
@@ -969,17 +1009,17 @@ namespace _11_Image_Processing
             rect.Height *= page.Size.Height;
             return rect;
         }
-        public static void RelativateToPage(this ref RectangleF rect, PdfPageBase page)
+        public static RectangleF RelatitivizeToPage(this ref RectangleF rect, PdfPageBase page)
         {
             rect.X /= page.Size.Width;
             rect.Y /= page.Size.Height;
             rect.Width /= page.Size.Width;
             rect.Height /= page.Size.Height;
-
+            return rect;
 
         }
 
-        public static Rectangle UnrelativateToImage(this RectangleF relativeRect, Bitmap image)
+        public static Rectangle UnrelatitivizeToImage(this RectangleF relativeRect, Bitmap image)
         {
             Rectangle cropRect = new((int)Math.Ceiling(relativeRect.X * image.Width), (int)Math.Ceiling(relativeRect.Y * image.Height), (int)Math.Floor(relativeRect.Width * image.Width), (int)Math.Floor(relativeRect.Height * image.Height));
 

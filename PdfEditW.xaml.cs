@@ -215,7 +215,7 @@ namespace _11_Image_Processing
                     chacked = null;
                 }
 
-                toogleAn.IsChecked = false;
+                    toogleAn.IsChecked = false;
                 pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_Tog;
                 this.PreviewKeyUp -= Window_KeyUp;
             }
@@ -376,7 +376,7 @@ namespace _11_Image_Processing
             SizeF size = Settings.sizeOfBox;
 
             RectangleF bounds = new RectangleF(point, size);
-            bounds.RelativateToPage(doc.Pages[pindex]);
+            bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
             doc.DrawRectangleBounds(bounds, pindex);
 
@@ -408,7 +408,7 @@ namespace _11_Image_Processing
                     RectangleF rect = new();
                     rect.Location = new((float)(argsFirstVertex.Position.X * 0.75 / zoom), (float)(argsFirstVertex.Position.Y * 0.75 / zoom));
                     rect.Size = new((float)((args.Position.X - argsFirstVertex.Position.X) * 0.75 / zoom), (float)((args.Position.Y - argsFirstVertex.Position.Y) * 0.75 / zoom));
-                    rect.RelativateToPage(doc.Pages[pindex]);
+                    rect.RelatitivizeToPage(doc.Pages[pindex]);
 
                     doc.DrawRectangleBounds(rect, pindex);
                     doc.DrawStringNextToRectangle(Strings.text+ (Settings.pagesFields.Count+1)+":",rect, pindex);
@@ -459,13 +459,13 @@ namespace _11_Image_Processing
 
                 //square
                 RectangleF bounds = new RectangleF(pointb, size);
-                bounds.RelativateToPage(doc.Pages[pindex]);
+                bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
                 doc.DrawRectangleBounds(bounds, pindex);
 
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + i.IntToAlphabet());
 
-                bounds.RelativateToPage(doc.Pages[pindex]);
+                bounds.RelatitivizeToPage(doc.Pages[pindex]);
                 //add square to 'The List'
                 Settings.boxesInQuestions[iQ].Add(pindex, bounds,false); 
             }
@@ -494,7 +494,7 @@ namespace _11_Image_Processing
 
                 //square
                 RectangleF bounds = new RectangleF(pointb, size);
-                bounds.RelativateToPage(doc.Pages[pindex]);
+                bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
                 doc.DrawRectangleBounds(bounds, pindex);
 
@@ -523,7 +523,7 @@ namespace _11_Image_Processing
                     if (b[i][j].Item1 == pindex)
                     {
                         var r= b[i][j].Item2;
-                        if (r.UnrelativateToPage(doc.Pages[pindex]).Contains(point))
+                        if (r.UnrelatitivizeToPage(doc.Pages[pindex]).Contains(point))
                         {
                             b[i][j] = new Tuple<int, RectangleF, bool>(b[i][j].Item1, b[i][j].Item2, !b[i][j].Item3);
                             doc.DrawRectangleBounds(b[i][j].Item2, b[i][j].Item1, b[i][j].Item3);
@@ -560,7 +560,7 @@ namespace _11_Image_Processing
                     rect.Location = new((float)(argsFirstVertex.Position.X * 0.75 / zoom), (float)(argsFirstVertex.Position.Y * 0.75 / zoom));
                     rect.Size = new((float)((args.Position.X - argsFirstVertex.Position.X) * 0.75 / zoom), (float)((args.Position.Y - argsFirstVertex.Position.Y) * 0.75 / zoom));
 
-                    rect.RelativateToPage(doc.Pages[pindex]);
+                    rect.RelatitivizeToPage(doc.Pages[pindex]);
 
                     doc.DrawRectangleBounds(rect, pindex);
                     doc.DrawNameNextToRectangle(rect, pindex);

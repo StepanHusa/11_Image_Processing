@@ -23,8 +23,11 @@ namespace _11_Image_Processing
         internal static string templateProjectName = "*"+ Strings.Untitled;
 
         internal static float baundWidth = 2;
+        internal static float positionersWidth = 2;
         internal static Color baundColor = Color.Red;
         internal static Color baundColorTwo = Color.Green;
+        internal static Color positionersColor = Color.Black;
+
         internal static string nameString = Strings.Name+":";
         internal static PdfFontFamily stringFont = PdfFontFamily.TimesRoman;
         internal static PdfFontStyle stringStyle = PdfFontStyle.Regular;
@@ -33,6 +36,9 @@ namespace _11_Image_Processing
         internal static float spaceBetweenBoxes =10;
 
         internal static float dpiExport = 600;
+        internal static float dpiEvaluatePdf = 600;
+        internal static float positionersMargin = (float)0.02;
+        internal static float positionersLegLength = (float)0.02;
 
         internal static double treshold = 0.7;
 
@@ -41,6 +47,7 @@ namespace _11_Image_Processing
         internal static byte[] fileCode = "008800ff001100aa".StringToByteArray(); //8 bytes file format conformation
 
         //get variables
+        internal static PdfPen positionersPen { get { return new PdfPen(positionersColor, positionersWidth); } }
         internal static PdfPen baundPen     { get { return new PdfPen(baundColor, baundWidth); } }
         internal static PdfPen baundPenTwo  { get { return new PdfPen(baundColorTwo, baundWidth); } }
         internal static SizeF sizeOfBox     { get { return new SizeF(sizeOfBoxF, sizeOfBoxF); } set { sizeOfBoxF = value.Height; } }
@@ -54,6 +61,7 @@ namespace _11_Image_Processing
         internal static string tempFileCopy;
         internal static List<string> versions = new();
         internal static string projectName = templateProjectName;
+        internal static List<RectangleF> positioners;
 
 
 

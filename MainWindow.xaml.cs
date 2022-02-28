@@ -425,118 +425,6 @@ namespace _11_Image_Processing
             ReloadWindowContent();
             Menu_Project_Save.IsEnabled = true;
         }
-
-        //Read
-        //one page files
-        private void Menu_Read_ListOfScans_OnePage_Click(object sender, RoutedEventArgs e)
-        {
-            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; 
-            if (open.ShowDialog() == false) return;
-
-            int l = Settings.scansInPagesInWorks.Count();//moves indexing if there are already bitmaps in the list
-            for (int i = 0; i < open.FileNames.Length; i++)
-            {
-                Settings.scansInPagesInWorks.Add(new());
-                Settings.scansInPagesInWorks[l + i].Add(open.FileNames[i]);
-            }
-        }
-        private async void Menu_Read_PDF_Click(object sender, RoutedEventArgs e)
-        {
-            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.PDF + $"|*.PDF|"+Strings.Allfiles+" (*.*)|*.*", Multiselect = true };
-            if (open.ShowDialog() == false) return;
-
-            List<string> tempScans = new();
-            string path;
-
-
-
-
-            foreach (var item in open.FileNames)
-            {
-                var doc = new PdfLoadedDocument(item);
-                for (int j = 0; j < doc.Pages.Count; j++)
-                {
-                    Bitmap bitmap = doc.ExportAsImage(j, 600, 600);
-                    do
-                    {
-                        path = Path.GetTempFileName();
-                        if (File.Exists(path))
-                        {
-                            File.Delete(path);
-                        }
-                        path=Path.ChangeExtension(path, ".bmp");
-
-                    } while (File.Exists(path));
-                    bitmap.Save(path);
-                    bitmap.Dispose();
-                    tempScans.Add(path);
-                }
-            }
-            await LoadNumberOfFiles(tempScans.ToArray());
-        }
-        //advanced read
-        private async void Menu_Read_ListOfScans_Dialog_Click(object sender, RoutedEventArgs e)
-        {
-            // var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; //TODO make for images (maybe make method for strings)
-            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|" + Strings.Allfiles + " (*.*)|*.*", Multiselect = true };
-            if (open.ShowDialog() == false) return;
-
-            await LoadNumberOfFiles( open.FileNames);
-
-        }
-        private async void Menu_Read_Scan_Click(object sender, RoutedEventArgs e)
-        {
-            var a = new ScanForm();
-            if (a.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
-
-            await LoadNumberOfFiles( a.tempScans.ToArray());
-        }
-        private async Task LoadNumberOfFiles( string[] ImageFiles)
-        {
-            var a = new ImportPicturesDialogW(ImageFiles.Length);
-            if (a.ShowDialog() != true)
-            {
-                if (MessageBox.Show("Realy return?", "caption", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                    return;
-                else a.ShowDialog();
-            }
-
-            var da = a.Answer;
-            var invert = a.Invert.Value;
-            a.Close();
-
-            Settings.scansInPagesInWorks = await Task.Run(() => { 
-
-            List<List<string>> works = new();
-            int ii = 0;
-            if (!invert)
-                for (int i = 0; i < da.Item1; i++)
-                {
-                    works.Add(new());
-                    for (int j = 0; j < da.Item2; j++)
-                    {
-                        works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
-                        ii++;
-                    }
-                }
-            else
-            {
-                for (int i = 0; i < da.Item1; i++)
-                    works.Add(new());
-                for (int j = 0; j < da.Item2; j++)
-                {
-                    for (int i = 0; i < da.Item1; i++)
-                    {
-                        works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
-                        ii++;
-                    }
-                }
-            }
-                return works;
-            });
-
-        }
-
         //Print
         private void Menu_Export_ToJPEG_Click(object sender, RoutedEventArgs e)
         {
@@ -561,10 +449,16 @@ namespace _11_Image_Processing
             if (save.ShowDialog() != true) return;
             PdfLoadedDocument doc = new(Settings.tempFile);
             doc.RemakeBoxexOneColor();
+            doc.AddPositioners();
 
             for (int i = 0; i < doc.Pages.Count; i++)
             {
                 Bitmap image = doc.ExportAsImage(i, Settings.dpiExport, Settings.dpiExport);
+
+                //debug
+                //TODO comment
+                //var rect = Settings.positioners[i].UnrelatitivizeToImage(image);
+                //image.SetPixel((rect.X+rect.Width), rect.Y, Color.Yellow);
 
                 string fn =Path.GetDirectoryName(save.FileName)+"\\"+ Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
 
@@ -668,6 +562,118 @@ namespace _11_Image_Processing
             //}
 
         }
+
+        //Read
+        //one page files
+        private void Menu_Read_ListOfScans_OnePage_Click(object sender, RoutedEventArgs e)
+        {
+            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; 
+            if (open.ShowDialog() == false) return;
+
+            int l = Settings.scansInPagesInWorks.Count();//moves indexing if there are already bitmaps in the list
+            for (int i = 0; i < open.FileNames.Length; i++)
+            {
+                Settings.scansInPagesInWorks.Add(new());
+                Settings.scansInPagesInWorks[l + i].Add(open.FileNames[i]);
+            }
+        }
+        private async void Menu_Read_PDF_Click(object sender, RoutedEventArgs e)
+        {
+            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.PDF + $"|*.PDF|"+Strings.Allfiles+" (*.*)|*.*", Multiselect = true };
+            if (open.ShowDialog() == false) return;
+
+            List<string> tempScans = new();
+            string path;
+
+
+
+
+            foreach (var item in open.FileNames)
+            {
+                var doc = new PdfLoadedDocument(item);
+                for (int j = 0; j < doc.Pages.Count; j++)
+                {
+                    Bitmap bitmap = doc.ExportAsImage(j, Settings.dpiEvaluatePdf, Settings.dpiEvaluatePdf);
+                    do
+                    {
+                        path = Path.GetTempFileName();
+                        if (File.Exists(path))
+                        {
+                            File.Delete(path);
+                        }
+                        path=Path.ChangeExtension(path, ".bmp");
+
+                    } while (File.Exists(path));
+                    bitmap.Save(path);
+                    bitmap.Dispose();
+                    tempScans.Add(path);
+                }
+            }
+            await LoadNumberOfFiles(tempScans.ToArray());
+        }
+        //advanced read
+        private async void Menu_Read_ListOfScans_Dialog_Click(object sender, RoutedEventArgs e)
+        {
+            // var open = new OpenFileDialog() { Title = "Open list of scans PDF", Filter = $"Pictures (all readable)|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; //TODO make for images (maybe make method for strings)
+            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|" + Strings.Allfiles + " (*.*)|*.*", Multiselect = true };
+            if (open.ShowDialog() == false) return;
+
+            await LoadNumberOfFiles( open.FileNames);
+
+        }
+        private async void Menu_Read_Scan_Click(object sender, RoutedEventArgs e)
+        {
+            var a = new ScanForm();
+            if (a.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+
+            await LoadNumberOfFiles( a.tempScans.ToArray());
+        }
+        private async Task LoadNumberOfFiles( string[] ImageFiles)
+        {
+            var a = new ImportPicturesDialogW(ImageFiles.Length);
+            if (a.ShowDialog() != true)
+            {
+                if (MessageBox.Show("Realy return?", "caption", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    return;
+                else a.ShowDialog();
+            }
+
+            var da = a.Answer;
+            var invert = a.Invert.Value;
+            a.Close();
+
+            Settings.scansInPagesInWorks = await Task.Run(() => { 
+
+            List<List<string>> works = new();
+            int ii = 0;
+            if (!invert)
+                for (int i = 0; i < da.Item1; i++)
+                {
+                    works.Add(new());
+                    for (int j = 0; j < da.Item2; j++)
+                    {
+                        works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
+                        ii++;
+                    }
+                }
+            else
+            {
+                for (int i = 0; i < da.Item1; i++)
+                    works.Add(new());
+                for (int j = 0; j < da.Item2; j++)
+                {
+                    for (int i = 0; i < da.Item1; i++)
+                    {
+                        works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
+                        ii++;
+                    }
+                }
+            }
+                return works;
+            });
+
+        }
+
 
         //evaluate
         private async void Menu_Eavluate_Click(object sender, RoutedEventArgs e)

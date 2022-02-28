@@ -449,7 +449,7 @@ namespace _11_Image_Processing
         }
         public static Bitmap Corp(this Bitmap orig, RectangleF relativeRect)
         {
-            Rectangle cropRect = relativeRect.UnrelativateToImage(orig);
+            Rectangle cropRect = relativeRect.UnrelatitivizeToImage(orig);
             Size size = new(cropRect.Width, cropRect.Height);
 
             Bitmap crop = new Bitmap((int)size.Width, (int)size.Height);
