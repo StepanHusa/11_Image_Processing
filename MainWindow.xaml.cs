@@ -66,7 +66,18 @@ namespace _11_Image_Processing
                 LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
                 //TODo Comment
 
+                Bitmap b = new(debugFolder + "test\\posits\\a.png");
+                //b.ProcessFilter(Settings.LaplFilterForPositioners).Save(debugFolder + "test\\posits\\b.bmp");
 
+              //var f=  b.FindPositsFromSettings();
+
+                for (int i = 0; i < b.Width; i++)
+                    for (int j = 0; j < b.Height; j++)
+                    {
+                        var s = new System.Drawing.Point(i, j).GetEdgeValue(b, Settings.LaplFilterForPositioners);
+                        b.SetPixel(i, j, Color.FromArgb(s,s,s));
+                    }
+                b.Save(debugFolder + "test\\posits\\b.bmp");
                 //this.WindowState = WindowState.Minimized;
                 //Menu_Load_New_Click(new object(), new RoutedEventArgs());
                 //Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
@@ -377,7 +388,7 @@ namespace _11_Image_Processing
                         nameField = br.ReadBytes(nameFieldLength);
 
                         listPositionresLength = br.ReadInt32();
-                        listPositionres = br.ReadBytes(nameFieldLength);
+                        listPositionres = br.ReadBytes(listPositionresLength);
 
                         hash = br.ReadBytes(20);
                     }
@@ -411,7 +422,7 @@ namespace _11_Image_Processing
             //hash check
             if (!hash.SequenceEqual(hashNew))
             {
-                MessageBoxResult dialogResult = MessageBox.Show("The File you opened was propably changed by other program \n Ignore by clicking OK, or Cancel", "Warning", MessageBoxButton.OKCancel);
+                MessageBoxResult dialogResult = MessageBox.Show("The File you opened was propably changed by other program \n Ignore by clicking OK, or Cancel", Strings.Warning, MessageBoxButton.OKCancel);
                 if (dialogResult == MessageBoxResult.Cancel)
                     return;
             }

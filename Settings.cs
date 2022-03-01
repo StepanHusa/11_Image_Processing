@@ -37,8 +37,8 @@ namespace _11_Image_Processing
 
         internal static float dpiExport = 600;
         internal static float dpiEvaluatePdf = 600;
-        internal static float positionersMargin = (float)0.02;
-        internal static float positionersLegLength = (float)0.02;
+        internal static float positionersMargin = (float)0.02; //relative to width!!
+        internal static float positionersLegLength = (float)0.02; //relative to width
 
         internal static double treshold = 0.7;
 
@@ -61,7 +61,6 @@ namespace _11_Image_Processing
         internal static string tempFileCopy;
         internal static List<string> versions = new();
         internal static string projectName = templateProjectName;
-        internal static List<RectangleF> positioners;
 
 
 
@@ -74,6 +73,8 @@ namespace _11_Image_Processing
         internal static List<Tuple<int, RectangleF>> pagesFields = new(); //of lists containing fields (tuple of rectangle and page index)
 
         internal static List<List<Tuple<int, RectangleF,bool>>> boxesInQuestions = new();// the main listing tuple: <page index, rectangle on page, is the answer right>  (rectangle relative to page size)
+
+        internal static List<RectangleF> positioners=null;
 
         internal static List<List<string>> scansInPagesInWorks = new(); //outside list are the separete works and inside are pages
 
@@ -110,5 +111,15 @@ namespace _11_Image_Processing
             { -1  , -1  ,-1 , -1 , -1 },
             { -1, -1 ,  -1 , -1 ,  -1 }
         };
+
+        internal static double[,] LaplFilterForPositioners = new double[,]
+        {
+            { 1, 1 ,  1 , 1 , 1 },
+            { 1  , 1  ,1 , 1 , 1 },
+            { 1 , 1 , -24 , 1,  1 },
+            { 1, 1 ,  1 , 1 , 1 },
+            { 1  , 1  ,1 , 1 , 1 },
+        };
+
     }
 }

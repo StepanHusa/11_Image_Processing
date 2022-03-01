@@ -21,6 +21,7 @@ using System.Runtime.InteropServices;
 //using System.Windows.Media.Imaging;
 using _11_Image_Processing.Resources.Strings;
 using ImageProcessor.Common.Extensions;
+using System.Diagnostics;
 
 namespace _11_Image_Processing
 {
@@ -290,10 +291,21 @@ namespace _11_Image_Processing
             return doc;
         }
 
-        public static PdfLoadedDocument AddPositioners(this PdfLoadedDocument doc)
+        public static List<RectangleF> GetPositionerRectangles(this PdfLoadedDocument doc)
         {
             List<RectangleF> posis = new();
 
+            foreach (PdfPageBase page in doc.Pages)
+            {
+                float marg = Settings.positionersMargin * page.Size.Width;
+                RectangleF marginRect = new RectangleF(marg, marg, page.Size.Width - 2 * marg, page.Size.Height - 2 * marg);
+                posis.Add(marginRect.RelatitivizeToPage(page));
+            }
+            return posis;
+        }
+
+        public static PdfLoadedDocument AddPositioners(this PdfLoadedDocument doc)
+        {
             foreach (PdfPageBase page in doc.Pages)
             {
                 var w = Settings.positionersWidth / 2;
@@ -322,16 +334,63 @@ namespace _11_Image_Processing
                 page.Graphics.DrawPath(Settings.positionersPen, path);
 
                 //save for evaluation
-                RectangleF marginRect = new RectangleF(marg, marg, page.Size.Width - 2*marg, page.Size.Height - 2*marg);
-                posis.Add(marginRect.RelatitivizeToPage(page));
             }
-            Settings.positioners = posis;
-
             return doc;
         }
 
-        public static RectangleF FindPositionersInBitmap(this Bitmap bitmap, RectangleF expectedPositioners)
+        public static RectangleF FindPositsFromSettings( this Bitmap bitmap)
         {
+            int legLength = (int)(Settings.positionersLegLength * bitmap.Width);
+            int Margin = (int)(Settings.positionersMargin * bitmap.Width);
+
+            return bitmap.FindPositionersInBitmap(legLength, Margin);
+
+        }
+
+
+
+        public static RectangleF FindPositionersInBitmap(this Bitmap bitmap, int legLength, int margin)
+        {
+
+            Rectangle cropRect = new(0,0, legLength+2*margin, legLength+2*margin);
+            var crop = bitmap.Corp(cropRect);
+            var converted = crop.ProcessFilter(Settings.LaplFilterForPositioners);
+            float threshold = (float)0.5;
+
+
+            Point[] linesPoints = new Point[2 * legLength - 1];
+            for (int i = 0; i < legLength; i++)
+            {
+                //Point starting = new(0, i);
+
+                //float[] line = new float[2 * margin];
+                for (int j = 0; j < 2 * margin; j++)
+                {
+                    if(converted.GetPixel(j, j + i).GetBrightness() > threshold)
+                    {
+                        linesPoints[legLength - 1 - i] = new(j, j + i);
+                        break;
+                    }
+                }
+                //linesPoints[legLength - 1 - i] = new(margin, margin);//todo correct
+            }
+            for (int i = 1; i < legLength; i++)
+            {
+                for (int j = 0; j < 2 * margin; j++)
+                {
+                    if (converted.GetPixel(j + i, j).GetBrightness() > threshold)
+                    {
+                        linesPoints[legLength - 1 + i] = new(j + i, j);
+                        break;
+                    }
+                }
+            }
+
+
+
+
+
+
             return new();
         }
 
@@ -343,6 +402,138 @@ namespace _11_Image_Processing
 
     static class MineEdgeProcess
     {
+        public static Bitmap ProcessFilterGray(this Bitmap source, double[,] horizontalFilter)
+        {
+            int width = source.Width;
+            int height = source.Height;
+            int maxWidth = width + 1;
+            int maxHeight = height + 1;
+            int bufferedWidth = width + 2;
+            int bufferedHeight = height + 2;
+
+            var destination = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
+            var input = new Bitmap(bufferedWidth, bufferedHeight, PixelFormat.Format32bppPArgb);
+            destination.SetResolution(source.HorizontalResolution, source.VerticalResolution);
+            input.SetResolution(source.HorizontalResolution, source.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(input))
+            {
+                // Fixes an issue with transparency not converting properly.
+                graphics.Clear(Color.Transparent);
+
+                var destinationRectangle = new Rectangle(0, 0, bufferedWidth, bufferedHeight);
+                var rectangle = new Rectangle(0, 0, width, height);
+
+                // If it's greyscale apply a colormatrix to the image.
+                using (var attributes = new ImageAttributes())
+                {
+                    // We use a trick here to detect right to the edges of the image.
+                    // flip/tile the image with a pixel in excess in each direction to duplicate pixels.
+                    // Later on we draw pixels without that excess.
+                    using (var tb = new TextureBrush(source, rectangle, attributes))
+                    {
+                        tb.WrapMode = WrapMode.TileFlipXY;
+                        tb.TranslateTransform(1, 1);
+
+                        graphics.FillRectangle(tb, destinationRectangle);
+                    }
+                }
+            }
+
+            try
+            {
+
+                int kernelLength = horizontalFilter.GetLength(0);
+                int radius = kernelLength >> 1;
+
+                using (var sourceBitmap = new FastBitmap(input))
+                {
+                    using (var destinationBitmap = new FastBitmap(destination))
+                    {
+                        // Loop through the pixels.
+                        Parallel.For(
+                            0,
+                            bufferedHeight,
+                            y =>
+                            {
+                                for (int x = 0; x < bufferedWidth; x++)
+                                {
+                                    double rX = 0;
+                                    double gX = 0;
+                                    double bX = 0;
+
+                                    // Apply each matrix multiplier to the color components for each pixel.
+                                    for (int fy = 0; fy < kernelLength; fy++)
+                                    {
+                                        int fyr = fy - radius;
+                                        int offsetY = y + fyr;
+
+                                        // Skip the current row
+                                        if (offsetY < 0)
+                                        {
+                                            continue;
+                                        }
+
+                                        // Outwith the current bounds so break.
+                                        if (offsetY >= bufferedHeight)
+                                        {
+                                            break;
+                                        }
+
+                                        for (int fx = 0; fx < kernelLength; fx++)
+                                        {
+                                            int fxr = fx - radius;
+                                            int offsetX = x + fxr;
+
+                                            // Skip the column
+                                            if (offsetX < 0)
+                                            {
+                                                continue;
+                                            }
+
+                                            if (offsetX < bufferedWidth)
+                                            {
+                                                // ReSharper disable once AccessToDisposedClosure
+                                                Color currentColor = sourceBitmap.GetPixel(offsetX, offsetY);
+                                                double r = currentColor.R;
+                                                double g = currentColor.G;
+                                                double b = currentColor.B;
+
+                                                rX += horizontalFilter[fy, fx] * r;
+
+                                                gX += horizontalFilter[fy, fx] * g;
+
+                                                bX += horizontalFilter[fy, fx] * b;
+                                            }
+                                        }
+                                    }
+
+
+                                    // Apply the equation and sanitize.
+                                    byte red = rX.ToByte();
+                                    byte green = gX.ToByte();
+                                    byte blue = bX.ToByte();
+
+
+                                    var newColor = Color.FromArgb(red, green, blue);
+                                    if (y > 0 && x > 0 && y < maxHeight && x < maxWidth)
+                                    {
+                                        // ReSharper disable once AccessToDisposedClosure
+                                        destinationBitmap.SetPixel(x - 1, y - 1, newColor);
+                                    }
+                                }
+                            });
+                    }
+                }
+            }
+            finally
+            {
+                // We created a new image. Cleanup.
+                input.Dispose();
+            }
+
+            return destination;
+        }
         public static Bitmap ProcessFilter(this Bitmap source, double[,] horizontalFilter)
         {
             int width = source.Width;

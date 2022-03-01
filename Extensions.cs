@@ -208,14 +208,20 @@ namespace _11_Image_Processing
             {
                 using (var bw = new BinaryWriter(ms))
                 {
-                    bw.Write(list.Count);
-                    foreach (var rect in list)
+                    if (list == null)
+                        bw.Write(true); //is null
+                    else
                     {
+                        bw.Write(false);
+                        bw.Write(list.Count);
+                        foreach (var rect in list)
+                        {
                             bw.Write(rect.X);
                             bw.Write(rect.Y);
-                        bw.Write(rect.Width);
-                        bw.Write(rect.Height);
+                            bw.Write(rect.Width);
+                            bw.Write(rect.Height);
 
+                        }
                     }
                 }
                 data = ms.ToArray();
@@ -230,6 +236,9 @@ namespace _11_Image_Processing
             {
                 using (var r = new BinaryReader(ms))
                 {
+                    bool isNull = r.ReadBoolean();
+                    if (isNull) return null;
+
                     int lengthOfList = r.ReadInt32();
                     list = new();
                     for (int i = 0; i != lengthOfList; i++)
