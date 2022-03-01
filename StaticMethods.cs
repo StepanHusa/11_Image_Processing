@@ -330,6 +330,11 @@ namespace _11_Image_Processing
             return doc;
         }
 
+        public static RectangleF FindPositionersInBitmap(this Bitmap bitmap, RectangleF expectedPositioners)
+        {
+            return new();
+        }
+
         //TODODone add methods to remake fields and name field
         //TODODone saparate element and text editing
 

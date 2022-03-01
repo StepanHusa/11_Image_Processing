@@ -291,12 +291,15 @@ namespace _11_Image_Processing
             byte[] listBoxesInQuestions = Settings.boxesInQuestions.IntRectangleFBoolTupleListListToByteArray();
             byte[] listOfFields = Settings.pagesFields.RectangleListToByteArray();
             byte[] nameField = Settings.nameField.RectangleTupleToByteArray();
+            byte[] listPositionres = Settings.positioners.RectangleFListToByteArray();
 
             int docLength = documentpdf.Length; //int32
             //int listPLength = listOfPointFsArray.Length; //int 32
             int bInQLength = listBoxesInQuestions.Length;
             int listFLength = listOfFields.Length;//int 32
             int nameFieldLength = nameField.Length;//int 32
+            int listPositionresLength = listPositionres.Length;//int 32
+
 
 
             using (MemoryStream ms = new())
@@ -314,6 +317,9 @@ namespace _11_Image_Processing
                     bw.Write(documentpdf);
                     bw.Write(nameFieldLength);
                     bw.Write(nameField);
+                    bw.Write(listPositionresLength);
+                    bw.Write(listPositionres);
+
                     bw.Write(ms.ToArray().GetHashSHA1()); //closes file with hashcode to check if the file is the same and if we got to the end at the right time
 
 
@@ -332,7 +338,8 @@ namespace _11_Image_Processing
             //byte[] listOfPointFsArray;
             byte[] listBoxesInQuestions;
             byte[] listOfFields;
-            byte[] nameField = Settings.nameField.RectangleTupleToByteArray();
+            byte[] nameField;
+            byte[] listPositionres;
 
             byte[] hash;
 
@@ -340,7 +347,8 @@ namespace _11_Image_Processing
             //int listPLength;
             int bInQLength;
             int listFLength;
-            int nameFieldLength = nameField.Length;//int 32
+            int nameFieldLength;//int 32
+            int listPositionresLength;
 
 
             //load components from file
@@ -368,6 +376,9 @@ namespace _11_Image_Processing
                         nameFieldLength = br.ReadInt32();
                         nameField = br.ReadBytes(nameFieldLength);
 
+                        listPositionresLength = br.ReadInt32();
+                        listPositionres = br.ReadBytes(nameFieldLength);
+
                         hash = br.ReadBytes(20);
                     }
                     catch { MessageBox.Show("Not able to load this file"); return; }
@@ -390,6 +401,9 @@ namespace _11_Image_Processing
                     bw.Write(documentpdf);
                     bw.Write(nameFieldLength);
                     bw.Write(nameField);
+                    bw.Write(listPositionresLength);
+                    bw.Write(listPositionres);
+
                     hashNew = ms.ToArray().GetHashSHA1();
                 }
 
@@ -419,8 +433,9 @@ namespace _11_Image_Processing
             Settings.projectFileName = filename;
             //Settings.pagesPoints = listOfPointFsArray.ByteArrayToPointFListArray();
             Settings.boxesInQuestions = listBoxesInQuestions.ByteArrayToIntRectangleFBoolTupleListList();
-            Settings.pagesFields = listOfFields.ByteArrayToRectangleList();
-            Settings.nameField = nameField.ByteArrayToRectangleTuple();
+            Settings.pagesFields = listOfFields.ByteArrayToRectangleFTupleList();
+            Settings.nameField = nameField.ByteArrayToRectangleFTuple();
+            Settings.positioners = listPositionres.ByteArrayToRectangleFList();
 
             ReloadWindowContent();
             Menu_Project_Save.IsEnabled = true;
@@ -1042,3 +1057,4 @@ namespace _11_Image_Processing
 
 //TODO remake tuple to new variable, add bound width, mabe colors (or at least add bound width to tuple)
 //todoDone repair commands in pdfviewer
+//TODO positioning in evaluation

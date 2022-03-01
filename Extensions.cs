@@ -156,7 +156,7 @@ namespace _11_Image_Processing
 
             return data;
         }
-        public static List<Tuple<int, RectangleF>> ByteArrayToRectangleList(this byte[] bArray)
+        public static List<Tuple<int, RectangleF>> ByteArrayToRectangleFTupleList(this byte[] bArray)
         {
             List<Tuple<int, RectangleF>> list = new();
             using (var ms = new MemoryStream(bArray))
@@ -199,7 +199,50 @@ namespace _11_Image_Processing
 
             return data;
         }
-        public static Tuple<int, RectangleF> ByteArrayToRectangleTuple(this byte[] bArray)
+        public static byte[] RectangleFListToByteArray(this List<RectangleF> list)
+        {
+
+            byte[] data;
+
+            using (var ms = new MemoryStream())
+            {
+                using (var bw = new BinaryWriter(ms))
+                {
+                    bw.Write(list.Count);
+                    foreach (var rect in list)
+                    {
+                            bw.Write(rect.X);
+                            bw.Write(rect.Y);
+                        bw.Write(rect.Width);
+                        bw.Write(rect.Height);
+
+                    }
+                }
+                data = ms.ToArray();
+            }
+
+            return data;
+        }
+        public static List<RectangleF> ByteArrayToRectangleFList(this byte[] bArray)
+        {
+            List<RectangleF> list;
+            using (var ms = new MemoryStream(bArray))
+            {
+                using (var r = new BinaryReader(ms))
+                {
+                    int lengthOfList = r.ReadInt32();
+                    list = new();
+                    for (int i = 0; i != lengthOfList; i++)
+                    {
+                        int Count = r.ReadInt32();
+                        list.Add(new(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()));
+                    }
+                }
+            }
+            return list;
+        }
+
+        public static Tuple<int, RectangleF> ByteArrayToRectangleFTuple(this byte[] bArray)
         {
             using (var ms = new MemoryStream(bArray))
             {
@@ -213,6 +256,7 @@ namespace _11_Image_Processing
                 }
             }
         }
+
         public static byte[] GetHashSHA1(this byte[] data)
         {
             using (var sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider())
