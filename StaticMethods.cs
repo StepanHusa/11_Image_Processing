@@ -338,61 +338,7 @@ namespace _11_Image_Processing
             return doc;
         }
 
-        public static RectangleF FindPositsFromSettings( this Bitmap bitmap)
-        {
-            int legLength = (int)(Settings.positionersLegLength * bitmap.Width);
-            int Margin = (int)(Settings.positionersMargin * bitmap.Width);
 
-            return bitmap.FindPositionersInBitmap(legLength, Margin);
-
-        }
-
-
-
-        public static RectangleF FindPositionersInBitmap(this Bitmap bitmap, int legLength, int margin)
-        {
-
-            Rectangle cropRect = new(0,0, legLength+2*margin, legLength+2*margin);
-            var crop = bitmap.Corp(cropRect);
-            var converted = crop.ProcessFilter(Settings.LaplFilterForPositioners);
-            float threshold = (float)0.5;
-
-
-            Point[] linesPoints = new Point[2 * legLength - 1];
-            for (int i = 0; i < legLength; i++)
-            {
-                //Point starting = new(0, i);
-
-                //float[] line = new float[2 * margin];
-                for (int j = 0; j < 2 * margin; j++)
-                {
-                    if(converted.GetPixel(j, j + i).GetBrightness() > threshold)
-                    {
-                        linesPoints[legLength - 1 - i] = new(j, j + i);
-                        break;
-                    }
-                }
-                //linesPoints[legLength - 1 - i] = new(margin, margin);//todo correct
-            }
-            for (int i = 1; i < legLength; i++)
-            {
-                for (int j = 0; j < 2 * margin; j++)
-                {
-                    if (converted.GetPixel(j + i, j).GetBrightness() > threshold)
-                    {
-                        linesPoints[legLength - 1 + i] = new(j + i, j);
-                        break;
-                    }
-                }
-            }
-
-
-
-
-
-
-            return new();
-        }
 
         //TODODone add methods to remake fields and name field
         //TODODone saparate element and text editing
@@ -1014,9 +960,281 @@ namespace _11_Image_Processing
 
             return resultsAll;
         }
+        public static QuadrilateralF FindPositsFromSettings(this Bitmap bitmap)
+        {
+            int legLength = (int)(Settings.positionersLegLength * bitmap.Width);
+            int Margin = (int)(Settings.positionersMargin * bitmap.Width);
+
+            return bitmap.FindPositionersInBitmap(legLength, Margin);
+        }
+
+        public static Tuple<PointF, float, float, float> AnalyzePositionersInBitmap(this Bitmap bitmap)
+        {
+            float l = Settings.positionersLegLength;
+            int legLength = (int)(l * bitmap.Width);
+            float m = Settings.positionersMargin;
+            int margin = (int)(m * bitmap.Width);
+            var P = bitmap.FindPositionersInBitmap(legLength, margin); //positioners
+
+            float rotation = (P.p1.X - P.p2.X) / (P.p1.Y - P.p2.Y);    //tan(alpha)
+
+
+            //corners
+            QuadrilateralF c = new();
+
+            var dx = P.p2.X - P.p1.X;//distance between points still in page size
+            var dy = P.p4.Y - P.p1.Y;//in the calculation only one difference is used, the other is neglected which is good until the rotation is more then 10deg (i guess)
+
+            float widthNew = dx / (1 - 2 * m);
+            float heightNew = dy / (1 - 2 * m);
+            float ratio = heightNew/bitmap.Height;
+
+            var mNew = m * dx / (1 - 2 * m); //diminished margins still in page size
+            c.p1 = new(P.p1.X - mNew, P.p1.Y - mNew);
+            c.p2 = new(P.p2.X + mNew, P.p2.Y - mNew);
+            c.p3 = new(P.p3.X + mNew, P.p3.Y + mNew);
+            c.p4 = new(P.p4.X - mNew, P.p4.Y + mNew);
+
+            string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
+            int i = Directory.GetFiles(f).Length;
+            var g = f + "\\" + i + "s.Bmp";
+            f = f + "\\" + i + ".Bmp";
+            bitmap.SetPixel((int)P.p1.X, (int)P.p1.Y, Color.Red);
+            bitmap.SetPixel((int)P.p3.X, (int)P.p3.Y, Color.Red);
+            bitmap.Save(g);
+            bitmap.Corp(new((int)c.p1.X, (int)c.p1.Y, (int)widthNew, (int)heightNew)).Save(f);
+
+            //todo work on finding best lines and the geometry of locating the rectangles
+
+            return new Tuple<PointF,float,float,float>(P.p1, widthNew, dy, mNew);
+        }
+        public static QuadrilateralF FindPositionersInBitmapDiagonal(this Bitmap bitmap, int legLength, int margin)//not a good idea
+        {
+            Rectangle cropRect = new(0, 0, legLength + 2 * margin, legLength + 2 * margin);
+            var crop = bitmap.CorpRelativeToImage(cropRect);
+            var converted = crop.ProcessFilter(Settings.LaplFilterForPositioners);
+            float threshold = (float)0.5;
+
+
+            Point[] linesPoints = new Point[2 * legLength - 1];
+            for (int i = 0; i < legLength; i++)
+            {
+                //Point starting = new(0, i);
+
+                //float[] line = new float[2 * margin];
+                for (int j = 0; j < 2 * margin; j++)
+                {
+                    if (converted.GetPixel(j, j + i).GetBrightness() > threshold)
+                    {
+                        linesPoints[legLength - 1 - i] = new(j, j + i);
+                        break;
+                    }
+                }
+                //linesPoints[legLength - 1 - i] = new(margin, margin);//todo correct
+            }
+            for (int i = 1; i < legLength; i++)
+            {
+                for (int j = 0; j < 2 * margin; j++)
+                {
+                    if (converted.GetPixel(j + i, j).GetBrightness() > threshold)
+                    {
+                        linesPoints[legLength - 1 + i] = new(j + i, j);
+                        break;
+                    }
+                }
+            }
+
+            //var line1= linesPoints.LinearRegression();
+            //var line2 = linesPoints.LinearRegression();
+            //PointF p1 = line1.Item1.CrossectionOfTwoLines(line2.Item1);
+
+
+
+            return null;
+        }
+        public static QuadrilateralF FindPositionersInBitmap(this Bitmap bitmap, int legLength, int margin)
+        {
+            int side = legLength + margin;
+            int sidemarg = side + margin;
+            float threshold = Settings.positionersEdgenessThreshold;
+
+            Rectangle cropRect = new(margin, margin, side, side);
+            var crop = bitmap.Corp(cropRect);
+            var converted = crop.ProcessFilter(Settings.LaplFilterForPositioners);
+
+
+
+            //goes through square where the angle is expected in lines left to right and finds first point of edge
+            List<Point> linesPointsVer = new();
+            for (int i = 0; i < side; i++)
+            {
+                //Point starting = new(margin,margin+ i);
+
+                //float[] line = new float[2 * margin];
+                for (int j = 0; j < side; j++)
+                {
+                    if (converted.GetPixel(i, j).GetBrightness() > threshold)
+                    {
+                        linesPointsVer.Add(new(i, j));
+                        break;
+                    }
+                }
+            }
+            var lineVert = linesPointsVer.LinearRegression();//todo remove debuging
+
+            //goes verticaly
+            List<Point> linesPointsHor = new();
+            for (int j = 0; j < side; j++)
+                for (int i = 0; i < side; i++)
+                {
+                    if (converted.GetPixel(i, j).GetBrightness() > threshold)
+                    {
+                        linesPointsHor.Add(new(i, j));
+                        break;
+                    }
+                }
+            var lineHor = linesPointsHor.LinearRegression();
+
+
+            PointF p1 = lineHor.CrossectionOfTwoLines(lineVert);
+            //add margin
+            p1 += new Size(margin, margin);
+
+            //top right
+            cropRect = new(bitmap.Width - sidemarg, margin, side, side);
+            crop = bitmap.Corp(cropRect);
+            //crop.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            converted = crop.ProcessFilter(Settings.LaplFilterForPositioners);
+
+            linesPointsVer = new();
+            for (int i = 0; i < side; i++)
+                for (int j = 0; j < side; j++)
+                {
+                    if (converted.GetPixel(side - i - 1, j).GetBrightness() > threshold)
+                    {
+                        linesPointsVer.Add(new(side - i - 1, j));
+                        break;
+                    }
+                }
+            lineVert = linesPointsVer.LinearRegression();
+
+            linesPointsHor = new();
+            for (int j = 0; j < side; j++)
+                for (int i = 0; i < side; i++)
+                {
+                    if (converted.GetPixel(side - i - 1, j).GetBrightness() > threshold)
+                    {
+                        linesPointsHor.Add(new(side - i - 1, j));
+                        break;
+                    }
+                }
+            lineHor = linesPointsHor.LinearRegression();
+
+
+            PointF p2 = lineHor.CrossectionOfTwoLines(lineVert);
+            p2 += new Size(bitmap.Width - sidemarg, margin);
+
+            //bottom right
+            cropRect = new(bitmap.Width - sidemarg, bitmap.Height - sidemarg, side, side);
+            crop = bitmap.Corp(cropRect);
+            converted = crop.ProcessFilter(Settings.LaplFilterForPositioners);
+
+            linesPointsVer = new();
+            for (int i = 0; i < side; i++)
+                for (int j = 0; j < side; j++)
+                {
+                    if (converted.GetPixel(side - i - 1, side - j - 1).GetBrightness() > threshold)
+                    {
+                        linesPointsVer.Add(new(side - i - 1, side - j - 1));
+                        break;
+                    }
+                }
+            lineVert = linesPointsVer.LinearRegression();
+
+            linesPointsHor = new();
+            for (int j = 0; j < side; j++)
+                for (int i = 0; i < side; i++)
+                {
+                    if (converted.GetPixel(side - i - 1, side - j - 1).GetBrightness() > threshold)
+                    {
+                        linesPointsHor.Add(new(side - i - 1, side - j - 1));
+                        break;
+                    }
+                }
+            lineHor = linesPointsHor.LinearRegression();
+
+
+            PointF p3 = lineHor.CrossectionOfTwoLines(lineVert);
+            p3 += new Size(bitmap.Width - sidemarg, bitmap.Height - sidemarg);
+
+            //bottom left
+            cropRect = new(margin, bitmap.Height - sidemarg, side, side);
+            crop = bitmap.Corp(cropRect);
+            converted = crop.ProcessFilter(Settings.LaplFilterForPositioners);
+
+            linesPointsVer = new();
+            for (int i = 0; i < side; i++)
+                for (int j = 0; j < side; j++)
+                {
+                    if (converted.GetPixel(i, side - j - 1).GetBrightness() > threshold)
+                    {
+                        linesPointsVer.Add(new(i, side - j - 1));
+                        break;
+                    }
+                }
+            lineVert = linesPointsVer.LinearRegression();
+
+            linesPointsHor = new();
+            for (int j = 0; j < side; j++)
+                for (int i = 0; i < side; i++)
+                {
+                    if (converted.GetPixel(i, side - j - 1).GetBrightness() > threshold)
+                    {
+                        linesPointsHor.Add(new(i, side - j - 1));
+                        break;
+                    }
+                }
+            lineHor = linesPointsHor.LinearRegression();
+
+
+            PointF p4 = lineHor.CrossectionOfTwoLines(lineVert);
+            p4 += new Size(margin, bitmap.Height - sidemarg);
+
+            //todo comment
+            //foreach (var point in linesPointsVer)
+            //{
+            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
+            //}
+            //crop.Save(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\test\posits\crop.bmp");
+            //converted.Save(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\test\posits\converted.bmp");
+
+
+            //bitmap.SetPixel((int)p1.X,(int) p1.Y, Color.Yellow);
+            //bitmap.Save(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\test\posits\bit.bmp");
+
+
+
+
+            return new(p1, p2, p3, p4);
+        }
+        public static QuadrilateralF FindCornersOfScanWithPositionersFromSettings(this Bitmap bitmap)
+        {
+            return bitmap.FindPositionersInBitmap((int)(Settings.positionersLegLength * bitmap.Width), (int)(Settings.positionersMargin * bitmap.Width)); //positioners
+        }
+
         public static List<List<bool>> EvaluateOneWork(this List<string> work, List<List<Tuple<int, RectangleF, bool>>> questions)
         {
             List<List<bool>> resultsOneWork = new();
+            Bitmap[] pages = new Bitmap[work.Count];
+            var positioners = new Tuple<PointF, float, float, float>[work.Count];
+            
+            for (int i = 0; i < work.Count; i++)
+            {
+                pages[i] = new Bitmap(work[i]);
+                positioners[i] = pages[i].AnalyzePositionersInBitmap();
+            }
+
+
 
             foreach (var question in questions)
             {
@@ -1024,24 +1242,38 @@ namespace _11_Image_Processing
                 foreach (var box in question)
                 {
                     int pageindex = box.Item1;
-                    var workBitmap = new Bitmap(work[pageindex]);
-                    Bitmap crop = workBitmap.Corp(box.Item2);
+                    //var rect = box.Item2;
+                    //var ps = positioners[pageindex];
+                    //float r = ps.Item2;
+                    //float rx = rect.X*r - ps.Item4 + ps.Item1.X;
+                    //float ry= rect.Y*r - ps.Item4 + ps.Item1.Y;
+                    //float rw = rect.Width*r;
+                    //float rh = rect.Width * r;//todo not the correct way of doing so
+                    //var rNew = Rectangle.Round(new(rx, ry, rw, rh));
+
+                    //Bitmap crop = pages[pageindex].Corp(rNew); 
+
+                    Bitmap crop = pages[pageindex].CorpRelativeToImage(box.Item2); 
+
+
                     //debug feature
                     //TODO comment
                     string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
                     int i = Directory.GetFiles(f).Length;
                     f = f + "\\" + i + ".Bmp";
-                    crop.Save(f, ImageFormat.Bmp);
+                    crop.Save(f);
 
-                    bool IsDark = crop.IsDarkRocognize();
+                    //add to settings
+                    //bool IsDark = crop.IsDarkRocognize();
                     bool IsCross = crop.IsEdgyInTheCenterRecognize();
 
                     resultsQuestion.Add(IsCross);
-
-                    workBitmap.Dispose(); //otherwise the memory explodes
+                    crop.Dispose();
                 }
                 resultsOneWork.Add(resultsQuestion);
             }
+
+
             return resultsOneWork;
         }
 
@@ -1081,7 +1313,7 @@ namespace _11_Image_Processing
             List<Bitmap> l = new();
             foreach (var work in works)
             {
-                l.Add(new Bitmap(work[nameField.Item1]).Corp(nameField.Item2));
+                l.Add(new Bitmap(work[nameField.Item1]).CorpRelativeToImage(nameField.Item2));
             }
             return l;
         }
@@ -1222,6 +1454,7 @@ namespace _11_Image_Processing
             return cropRect;
 
         }
+
     }
 
 }

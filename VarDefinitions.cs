@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
+//using System.Windows.Controls;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using _11_Image_Processing.Resources.Strings;
-
+using System.Drawing;
 
 namespace _11_Image_Processing
 {
@@ -32,7 +32,7 @@ namespace _11_Image_Processing
 
     internal class ResultOfAllOne
     {
-        public Image Name { get; set; }
+        public System.Windows.Controls.Image Name { get; set; }
 
         public int Index { get; set; } //from One so it can be binded to dispay 
 
@@ -66,7 +66,7 @@ namespace _11_Image_Processing
             this.Points = Points;
             this.MaxPoints = MaxPoints;
 
-            Image wImage = new();
+            System.Windows.Controls.Image wImage = new();
             wImage.Source = bitmap.BitmapToImageSource();
             this.Name = wImage;
         }
@@ -87,4 +87,52 @@ namespace _11_Image_Processing
 
         public System.Drawing.RectangleF Rectangle { get; set; }
     }
+
+
+    public class QuadrilateralF
+    {
+        public PointF p1 { get; set; }
+        public PointF p2 { get; set; }
+        public PointF p3 { get; set; }
+        public PointF p4 { get; set; }
+
+        public QuadrilateralF()
+        {
+
+        }
+        public QuadrilateralF(PointF point1, PointF point2, PointF point3, PointF point4)
+        {
+            this.p1 = point1;
+            this.p2 = point2;
+            this.p3 = point3;
+            this.p4 = point4;
+
+        }
+    }
+    /// <summary>
+    /// line of ax+by+c=0
+    /// </summary>
+    public class Line
+    {
+        public double a { get; set; }
+        public double b { get; set; }
+        public double c { get; set; }
+
+        public Line(double a,double b,double c)
+        {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 }

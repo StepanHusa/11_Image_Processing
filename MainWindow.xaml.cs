@@ -66,18 +66,35 @@ namespace _11_Image_Processing
                 LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
                 //TODo Comment
 
-                Bitmap b = new(debugFolder + "test\\posits\\a.png");
                 //b.ProcessFilter(Settings.LaplFilterForPositioners).Save(debugFolder + "test\\posits\\b.bmp");
 
-              //var f=  b.FindPositsFromSettings();
+                //var f=  b.FindPositsFromSettings();
 
-                for (int i = 0; i < b.Width; i++)
-                    for (int j = 0; j < b.Height; j++)
-                    {
-                        var s = new System.Drawing.Point(i, j).GetEdgeValue(b, Settings.LaplFilterForPositioners);
-                        b.SetPixel(i, j, Color.FromArgb(s,s,s));
-                    }
-                b.Save(debugFolder + "test\\posits\\b.bmp");
+                //var point = new Line(1, -1, 0).CrossectionOfTwoLines(new Line(1, -1, 1));
+
+                var ls = new List<List<string>>();
+                var ff = debugFolder + "test\\posits\\";
+                ls.Add(new() { ff + "a.bmp", ff + "b.bmp" });
+                ls.EvaluateWorks(Settings.boxesInQuestions);
+
+
+                //var bs = new System.Drawing.Point[] { new (0, 1), new (0,1 ) ,new(0,2),new(4,4) };
+                //_ = bs.LinearRegression();
+
+                // Bitmap bitm = new(debugFolder + "test\\posits\\a.png");
+                //var q= bitm.FindPositionersInBitmap((int)(Settings.positionersLegLength * bitm.Width), (int)(Settings.positionersMargin * bitm.Width));
+                // var r = RectangleExtensions.FromFourPoints((int)((q.p1.X + q.p4.X) / 2), (int)((q.p1.Y + q.p2.Y) / 2), (int)((q.p2.X + q.p3.X) / 2), (int)((q.p3.Y + q.p4.Y) / 2));
+
+
+                //bitm.Corp(r).Save(debugFolder + "test\\posits\\crop.png");
+
+                //for (int i = 0; i < b.Width; i++)
+                //    for (int j = 0; j < b.Height; j++)
+                //    {
+                //        var s = new System.Drawing.Point(i, j).GetEdgeValue(b, Settings.LaplFilterForPositioners);
+                //        b.SetPixel(i, j, Color.FromArgb(s,s,s));
+                //    }
+                //b.Save(debugFolder + "test\\posits\\b.bmp");
                 //this.WindowState = WindowState.Minimized;
                 //Menu_Load_New_Click(new object(), new RoutedEventArgs());
                 //Menu_Edit_AddBoxex_Click(new object(), new RoutedEventArgs());
@@ -284,15 +301,6 @@ namespace _11_Image_Processing
 
             ReloadWindowContent();
         }
-        private void Menu_Save_PDF_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog save = new() { Title = "Save PDF", Filter = $"File Template(*.PDF)|*.PDF", FileName = Settings.projectName };
-            if (save.ShowDialog() == false) return;
-
-
-            File.Copy(Settings.tempFile, save.FileName, true);
-            File.Copy(Settings.tempFile, Settings.tempFileCopy, true);
-        }
 
         private void SaveDataToFile(string fileName)
         {
@@ -491,6 +499,16 @@ namespace _11_Image_Processing
                 image.Save(fn, System.Drawing.Imaging.ImageFormat.Png);
             }
 
+        }
+        private void Menu_Export_PDF_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog save = new() { Title = "Save PDF", Filter = $"File Template(*.PDF)|*.PDF", FileName = Settings.projectName };
+            if (save.ShowDialog() == false) return;
+            PdfLoadedDocument doc = new(Settings.tempFile);
+            doc.RemakeBoxexOneColor();
+            doc.AddPositioners();
+
+            doc.Save(save.FileName);
         }
         private void Menu_Print_Click(object sender, RoutedEventArgs e)
         {
@@ -717,6 +735,8 @@ namespace _11_Image_Processing
                 if (work.Count < lowestPagesInWork)
                     lowestPagesInWork = work.Count;
             if (highestPageIndex > lowestPagesInWork) MessageBox.Show(Strings.warningScansDontHaveEnaughtPages, Strings.Warning);
+
+            
 
 
             var pbw = new ProgressBarW();

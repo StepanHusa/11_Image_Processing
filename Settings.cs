@@ -37,8 +37,9 @@ namespace _11_Image_Processing
 
         internal static float dpiExport = 600;
         internal static float dpiEvaluatePdf = 600;
-        internal static float positionersMargin = (float)0.02; //relative to width!!
-        internal static float positionersLegLength = (float)0.02; //relative to width
+        internal static float positionersMargin = (float)0.02; //relative to width!!    keep it greater then expected addup by scaning (0.05)
+        internal static float positionersLegLength = (float)0.02; //relative to width (0.05)
+        internal static float positionersEdgenessThreshold = (float)0.5;
 
         internal static double treshold = 0.7;
 

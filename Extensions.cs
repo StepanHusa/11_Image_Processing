@@ -441,6 +441,15 @@ namespace _11_Image_Processing
             }
             return rect;
         }
+        public static Rectangle FromFourPoints(int x, int y, int xw, int yh)
+        {
+            return new(x, y, xw - x, yh - y);
+        }
+        public static RectangleF FromFourPoints(float x, float y, float xw, float yh)
+        {
+            return new(x, y, xw - x, yh - y);
+        }
+
     }
 
     static class ObjectExtensions
@@ -483,6 +492,126 @@ namespace _11_Image_Processing
 
 
     }
+    static class MathExtensions
+    {
+        /// <summary>
+        /// Fits a line to a collection of (x,y) points.
+        /// </summary>
+        public static Tuple<Line, double> LinearRegressionOld( this Point[] points)
+        {
+            int n = points.Length;
+            double sumOfX = 0;
+            double sumOfY = 0;
+            double sumOfXSq = 0;
+            double sumOfYSq = 0;
+            double sumCodeviates = 0;
+
+            for (var i = 0; i < n; i++)
+            {
+                var x = points[i].X;
+                var y = points[i].Y;
+                sumCodeviates += x * y;
+                sumOfX += x;
+                sumOfY += y;
+                sumOfXSq += x * x;
+                sumOfYSq += y * y;
+            }
+
+            //var ssY = sumOfYSq - ((sumOfY * sumOfY) / n);
+
+            var ssX = n * sumOfXSq - sumOfX * sumOfX;
+            double a = (n * sumCodeviates - sumOfX * sumOfY) / ssX;
+            double b = (sumOfXSq * sumOfY - sumOfX * sumCodeviates) / ssX;
+
+            bool invertedXY=false;
+            if (ssX==0)
+            {
+               a=double.PositiveInfinity;
+                var ssY = n*sumOfYSq - sumOfY * sumOfY;
+                b = points[0].X;
+            }
+
+            //var dblR = rNumerator / Math.Sqrt(rDenom);
+            var rNumerator = (n * sumCodeviates) - (sumOfX * sumOfY);
+            var rDenom = (n * sumOfXSq - (sumOfX * sumOfX)) * (n * sumOfYSq - (sumOfY * sumOfY));
+            double rSquared = rNumerator*rNumerator/rDenom;
+
+            return new Tuple<Line,double>(new Line(a, b,0), rSquared);
+        }
+
+        public static PointF CrossectionOfTwoLines(this Line line1,Line line2)
+        {
+            double Det = line1.a * line2.b - line1.b * line2.a;
+
+            double detA = line1.b * line2.c - line1.c * line2.b;
+            double detB = line1.c * line2.a - line1.a * line2.c;
+
+            return new PointF((float)(detA / Det),(float) (detB / Det));
+
+
+        }
+
+        public static Line LinearRegression(this List<Point> points)
+        {
+            //a*x+b*y+c=0
+            double a; //coefficience of x
+            double b; //coefficience of y
+            double c; //constant
+
+            int n = points.Count;
+            double sumOfX = 0;
+            double sumOfY = 0;
+            double sumOfXSq = 0;
+            double sumOfYSq = 0;
+            double sumCodeviates = 0;
+
+            for (var i = 0; i < n; i++)
+            {
+                var x = points[i].X;
+                var y = points[i].Y;
+                sumCodeviates += x * y;
+                sumOfX += x;
+                sumOfY += y;
+                sumOfXSq += x * x;
+                sumOfYSq += y * y;
+            }
+
+            //var ssY = sumOfYSq - ((sumOfY * sumOfY) / n);
+
+            var ssX = n * sumOfXSq - sumOfX * sumOfX;
+            var ssY = n * sumOfYSq - sumOfY * sumOfY;
+            if (ssX == 0)
+            {
+                a = 1;
+                b = 0;
+                c = -points[0].X;
+
+            }
+            else if (ssY == 0)
+            {
+                a = 0;
+                b = 1;
+                c = -points[0].Y;
+            }
+            else
+            {
+                a = (n * sumCodeviates - sumOfX * sumOfY) / ssX;
+                b = -1;
+                c = (sumOfXSq * sumOfY - sumOfX * sumCodeviates) / ssX;
+
+            }
+
+            //var dblR = rNumerator / Math.Sqrt(rDenom);
+            //var rNumerator = (n * sumCodeviates) - (sumOfX * sumOfY);
+            //var rDenom = (n * sumOfXSq - (sumOfX * sumOfX)) * (n * sumOfYSq - (sumOfY * sumOfY));
+            //double rSquared = rNumerator * rNumerator / rDenom;
+
+
+            return new(a, b, c);
+        }
+
+    }
+
     static class BitmapExtensions
     {
         public static System.Windows.Media.Imaging.BitmapImage BitmapToImageSource(this Bitmap bitmap)
@@ -500,12 +629,13 @@ namespace _11_Image_Processing
                 return bitmapimage;
             }
         }
-        public static Bitmap Corp(this Bitmap orig, RectangleF relativeRect)
+
+        public static Bitmap CorpRelativeToImage(this Bitmap orig, RectangleF relativeRect)
         {
             Rectangle cropRect = relativeRect.UnrelatitivizeToImage(orig);
             Size size = new(cropRect.Width, cropRect.Height);
 
-            Bitmap crop = new Bitmap((int)size.Width, (int)size.Height);
+            Bitmap crop = new Bitmap(size.Width, size.Height);
 
             using (Graphics g = Graphics.FromImage(crop))
             {
@@ -515,6 +645,21 @@ namespace _11_Image_Processing
             }
             return crop;
         }
+        public static Bitmap Corp(this Bitmap orig, Rectangle rect)
+        {
+            Size size = new(rect.Width, rect.Height);
+
+            Bitmap crop = new Bitmap(size.Width, size.Height);
+
+            using (Graphics g = Graphics.FromImage(crop))
+            {
+                g.DrawImage(orig, new Rectangle(0, 0, crop.Width, crop.Height),
+                                 rect,
+                                 GraphicsUnit.Pixel);
+            }
+            return crop;
+        }
+
 
     }
     static class WindowsMediaExtensions

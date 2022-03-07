@@ -54,7 +54,7 @@
                     <MenuItem x:Name="Menu_Export_ToJPEG" Header="{x:Static ln:Strings.JPEG}" Click="Menu_Export_ToJPEG_Click"/>
                     <MenuItem x:Name="Menu_Export_ToPNG" Header="{x:Static ln:Strings.PNG}" Click="Menu_Export_ToPNG_Click"/>
 
-                    <MenuItem x:Name="Menu_PDF" Header="{x:Static ln:Strings.PDF}" Click="Menu_Save_PDF_Click"/>
+                    <MenuItem x:Name="Menu_PDF" Header="{x:Static ln:Strings.PDF}" Click="Menu_Export_PDF_Click"/>
                 </MenuItem>
 
                 <MenuItem x:Name="Menu_Print" Header="{x:Static ln:Strings.Print}" IsEnabled="False" Click="Menu_Print_Click"/>
