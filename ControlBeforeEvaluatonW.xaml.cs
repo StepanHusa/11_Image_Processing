@@ -82,9 +82,9 @@ namespace _11_Image_Processing
             {   
                 foreach (string file in work)
                 {
-                    var bm = new Bitmap(currentImage);
+                    var bm = new Bitmap(file);
                     bm.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                    bm.Save(currentImage);
+                    bm.Save(file);
                     bm.Dispose();
                 }
             }
