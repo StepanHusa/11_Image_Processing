@@ -988,7 +988,6 @@ namespace _11_Image_Processing
             float widthNew = dx / (1 - 2 * m);
             var marNew = m * widthNew; //diminished margins still in page size
             float heightNew = dy +2*marNew;
-            float ratio = heightNew/bitmap.Height;
 
             c.p1 = new(P.p1.X - marNew, P.p1.Y - marNew);
             c.p2 = new(P.p2.X + marNew, P.p2.Y - marNew);
@@ -1005,6 +1004,8 @@ namespace _11_Image_Processing
             //bitmap.Corp(new((int)c.p1.X, (int)c.p1.Y, (int)widthNew, (int)heightNew)).Save(f);
 
             //todo work on finding best lines and the geometry of locating the rectangles
+            bitmap.SetPixel((int)(P.p1.X + widthNew - 2 * marNew), (int)(P.p1.Y + heightNew - 2 * marNew),Color.Red);
+            bitmap.SaveToDebugFolder();
 
             return new Tuple<PointF,float,float,float>(P.p1, widthNew, heightNew, marNew);
         }
@@ -1218,7 +1219,6 @@ namespace _11_Image_Processing
 
             //crop.Save(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\test\posits\crop.bmp");
             //converted.Save(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\test\posits\converted.bmp");
-            bitmap.Corp(Rectangle.Round(RectangleExtensions.FromFourPoints(p1.X, p1.Y, p3.X, p3.Y))).SaveToDebugFolder();
 
             //bitmap.SetPixel((int)p1.X,(int) p1.Y, Color.Yellow);
             //bitmap.Save(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\test\posits\bit.bmp");
@@ -1256,14 +1256,16 @@ namespace _11_Image_Processing
                 List<bool> resultsQuestion = new();
                 foreach (var box in question)
                 {
+                    //TODO acount for rotation
                     int pageindex = box.Item1;
                     var rect = box.Item2;
                     var ps = positioners[pageindex];
-                    float r = ps.Item2;
-                    float rx = rect.X * r - ps.Item4 + ps.Item1.X;
-                    float ry = rect.Y * ps.Item3 - ps.Item4 + ps.Item1.Y;
-                    float rw = rect.Width * r;
-                    float rh = rect.Width * r;//todo not the correct way of doing so
+                    float nw = ps.Item2;
+                    float nh = ps.Item3;
+                    float rx = rect.X * nw - ps.Item4 + ps.Item1.X;
+                    float ry = rect.Y * nh - ps.Item4 + ps.Item1.Y;
+                    float rw = rect.Width * nw;
+                    float rh = rect.Height * nh;//todo not the correct way of doing so
                     var rNew = Rectangle.Round(new(rx, ry, rw, rh));
 
                     Bitmap crop = pages[pageindex].Corp(rNew);
