@@ -523,7 +523,6 @@ namespace _11_Image_Processing
             double a = (n * sumCodeviates - sumOfX * sumOfY) / ssX;
             double b = (sumOfXSq * sumOfY - sumOfX * sumCodeviates) / ssX;
 
-            bool invertedXY=false;
             if (ssX==0)
             {
                a=double.PositiveInfinity;
@@ -596,9 +595,17 @@ namespace _11_Image_Processing
             else
             {
                 a = (n * sumCodeviates - sumOfX * sumOfY) / ssX;
-                b = -1;
-                c = (sumOfXSq * sumOfY - sumOfX * sumCodeviates) / ssX;
-
+                if (a > 1| a<-1)
+                {
+                    a = -1;
+                    b = (n * sumCodeviates - sumOfY * sumOfX) / ssY;
+                    c = (sumOfYSq * sumOfX - sumOfY * sumCodeviates) / ssY;
+                }
+                else
+                {
+                    b = -1;
+                    c = (sumOfXSq * sumOfY - sumOfX * sumCodeviates) / ssX;
+                }
             }
 
             //var dblR = rNumerator / Math.Sqrt(rDenom);
@@ -608,6 +615,94 @@ namespace _11_Image_Processing
 
 
             return new(a, b, c);
+        }
+
+        public static Line LinearRegressionAndOutliers(this List<Point> points)
+        {
+            Line l=points.LinearRegression();
+            List<double> list = new();
+
+            double invPythagorusAB = 1 / Math.Sqrt(l.a * l.a + l.b * l.b);
+            for (int i = 0; i < points.Count; i++)
+            {
+                list.Add(invPythagorusAB * Math.Abs(l.a * points[i].X + l.b * points[i].Y + l.c));
+            }
+            double aver= list.Average();
+            while (list.Max() > 8 * aver)
+            {
+                int i = list.IndexOf(list.Max());
+                points.RemoveAt(i);
+                list.RemoveAt(i);
+            }
+
+            l = points.LinearRegression();
+            return l;
+
+
+        }
+
+
+        public static Line LinearRegressionHorizontalOutliers(this List<Point> points)
+        {
+            List<int> Xs = new();
+            List<int> Ys = new();
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                Xs.Add(points[i].X);
+                Ys.Add(points[i].Y);
+            }
+
+            double avr = Xs.Average();
+            double outThr = (Ys.Max() - Ys.Min()) /2.0;
+
+            while (Xs.Max() - avr > outThr )
+            {
+                int i = Xs.IndexOf(Xs.Max());
+                points.RemoveAt(i);
+                Xs.RemoveAt(i);
+                Ys.RemoveAt(i);
+            }
+            while (avr - Xs.Min() > outThr)
+            {
+                int i = Xs.IndexOf(Xs.Min());
+                points.RemoveAt(i);
+                Xs.RemoveAt(i);
+                Ys.RemoveAt(i);
+            }
+           return points.LinearRegressionAndOutliers();
+
+        }
+        public static Line LinearRegressionVerticalOutliers(this List<Point> points)
+        {
+            List<int> Xs = new();
+            List<int> Ys = new();
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                Xs.Add(points[i].X);
+                Ys.Add(points[i].Y);
+            }
+
+            double avr = Ys.Average();
+            double outThr = (Xs.Max() - Xs.Min()) / 2.0;
+
+            while (Ys.Max() - avr > outThr)
+            {
+                int i = Ys.IndexOf(Ys.Max());
+                points.RemoveAt(i);
+                Xs.RemoveAt(i);
+                Ys.RemoveAt(i);
+            }
+            while (avr -Ys.Min() > outThr)
+            {
+                int i = Ys.IndexOf(Ys.Min());
+                points.RemoveAt(i);
+                Xs.RemoveAt(i);
+                Ys.RemoveAt(i);
+            }
+            return points.LinearRegressionAndOutliers();
+
         }
 
     }
@@ -629,6 +724,8 @@ namespace _11_Image_Processing
                 return bitmapimage;
             }
         }
+
+
 
         public static Bitmap CorpRelativeToImage(this Bitmap orig, RectangleF relativeRect)
         {

@@ -68,7 +68,7 @@ namespace _11_Image_Processing
         {
             if (currentImage!=null)
             {
-                var bm = new Bitmap(currentImage);
+                var bm =new Bitmap(currentImage);
                 bm.RotateFlip(RotateFlipType.Rotate90FlipNone);
                 bm.Save(currentImage);
                 image.Source = bm.BitmapToImageSource();
