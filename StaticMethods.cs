@@ -948,6 +948,13 @@ namespace _11_Image_Processing
 
     static class ImageProcessing
     {
+        public static void SaveToDebugFolder(this Bitmap bit)
+        {
+            string g = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
+            int k = Directory.GetFiles(g).Length;
+            var h = g + "\\" + k + ".Bmp";
+            bit.Save(h);
+        }
         public static List<List<List<bool>>> EvaluateWorks(this List<List<string>> works, List<List<Tuple<int, RectangleF, bool>>> questions)
         {
             List<List<List<bool>>> resultsAll = new();
@@ -968,7 +975,7 @@ namespace _11_Image_Processing
             return bitmap.FindPositionersInBitmap(legLength, Margin);
         }
 
-        public static Tuple<PointF, float, float, float> AnalyzePositionersInBitmap(this Bitmap bitmap)
+        public static Tuple<Matrix, float, float, float> AnalyzePositionersInBitmap(this Bitmap bitmap)
         {
             float l = Settings.positionersLegLength;
             int legLength = (int)(l * bitmap.Width);
@@ -994,6 +1001,10 @@ namespace _11_Image_Processing
             c.p3 = new(P.p3.X + marNew, P.p3.Y + marNew);
             c.p4 = new(P.p4.X - marNew, P.p4.Y + marNew);
 
+            float sinAvr = (P.p1.X - P.p2.X) / (P.p1.Y - P.p2.Y) + (P.p1.X - P.p3.X) / (P.p1.Y - P.p3.Y) + (P.p1.X - P.p4.X) / (P.p1.Y - P.p4.Y);
+            float cosAvr = 1 - sinAvr * sinAvr / 2;
+            Matrix matrix = new(cosAvr, -sinAvr, sinAvr, cosAvr, P.p1.X, P.p1.Y);
+
             //string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
             //int i = Directory.GetFiles(f).Length;
             //var g = f + "\\" + i + "s.Bmp";
@@ -1007,7 +1018,7 @@ namespace _11_Image_Processing
             bitmap.SetPixel((int)(P.p1.X + widthNew - 2 * marNew), (int)(P.p1.Y + heightNew - 2 * marNew),Color.Red);
             bitmap.SaveToDebugFolder();
 
-            return new Tuple<PointF,float,float,float>(P.p1, widthNew, heightNew, marNew);
+            return new Tuple<Matrix,float,float,float>(matrix, widthNew, heightNew, marNew);
         }
         public static QuadrilateralF FindPositionersInBitmapDiagonal(this Bitmap bitmap, int legLength, int margin)//not a good idea
         {
@@ -1228,20 +1239,12 @@ namespace _11_Image_Processing
 
             return new(p1, p2, p3, p4);
         }
-
-        public static void SaveToDebugFolder(this Bitmap bit)
-        {
-            string g = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
-            int k = Directory.GetFiles(g).Length;
-            var h = g + "\\" + k + ".Bmp";
-            bit.Save(h);
-        }
-
         public static List<List<bool>> EvaluateOneWork(this List<string> work, List<List<Tuple<int, RectangleF, bool>>> questions)
         {
             List<List<bool>> resultsOneWork = new();
             Bitmap[] pages = new Bitmap[work.Count];
-            var positioners = new Tuple<PointF, float, float, float>[work.Count];
+            var positioners = new Tuple<Matrix, float, float, float>[work.Count];
+            float marginST = Settings.positionersMargin;
             
             for (int i = 0; i < work.Count; i++)
             {
@@ -1249,24 +1252,25 @@ namespace _11_Image_Processing
                 positioners[i] = pages[i].AnalyzePositionersInBitmap();
             }
 
-
-
             foreach (var question in questions)
             {
                 List<bool> resultsQuestion = new();
                 foreach (var box in question)
                 {
-                    //TODO acount for rotation
+                    //TODO all to matrix
                     int pageindex = box.Item1;
                     var rect = box.Item2;
                     var ps = positioners[pageindex];
                     float nw = ps.Item2;
                     float nh = ps.Item3;
-                    float rx = rect.X * nw - ps.Item4 + ps.Item1.X;
-                    float ry = rect.Y * nh - ps.Item4 + ps.Item1.Y;
+                    //float rx = rect.X * nw - ps.Item4 + ps.Item1.X;
+                    //float ry = rect.Y * nh - ps.Item4 + ps.Item1.Y;
+                    float rx = (rect.X-marginST) * nw;//to positioner
+                    float ry = (rect.Y-marginST) * nh;
+                    PointF locat = new(rx, ry);
                     float rw = rect.Width * nw;
-                    float rh = rect.Height * nh;//todo not the correct way of doing so
-                    var rNew = Rectangle.Round(new(rx, ry, rw, rh));
+                    float rh = rect.Height * nh;
+                    SizeF size = new(rw, rh);
 
                     Bitmap crop = pages[pageindex].Corp(rNew);
 

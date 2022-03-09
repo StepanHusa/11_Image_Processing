@@ -300,6 +300,17 @@ namespace _11_Image_Processing
 
             return points[0];
         }
+        public static PointF ApplyMatrix(this PointF p, Matrix m)
+        {
+            p.X = m.MatrixElements.M11 * p.X + m.MatrixElements.M21 * p.Y + m.MatrixElements.M31;
+            p.Y = m.MatrixElements.M12 * p.X + m.MatrixElements.M22 * p.Y + m.MatrixElements.M32;
+            return p;
+        }
+        public static void ApplyMatrixRef(this ref PointF p, Matrix m)
+        {
+            p.X = m.MatrixElements.M11 * p.X + m.MatrixElements.M21 * p.Y + m.MatrixElements.M31;
+            p.Y = m.MatrixElements.M12 * p.X + m.MatrixElements.M22 * p.Y + m.MatrixElements.M32;
+        }
 
     }
     static class StringExtensions
