@@ -39,7 +39,7 @@ namespace _11_Image_Processing
         internal static float dpiEvaluatePdf = 600;
         internal static float positionersMargin = (float)0.02; //relative to width!!    keep it greater then expected addup by scaning (0.05)
         internal static float positionersLegLength = (float)0.02; //relative to width (0.05)
-        internal static float positionersEdgenessThreshold = (float)0.5;
+        internal static float positionersEdgenessThreshold = (float)0.35;
 
         internal static double treshold = 0.7;
 
@@ -75,8 +75,7 @@ namespace _11_Image_Processing
 
         internal static List<List<Tuple<int, RectangleF,bool>>> boxesInQuestions = new();// the main listing tuple: <page index, rectangle on page, is the answer right>  (rectangle relative to page size)
 
-        internal static List<RectangleF> positioners=null;
-
+        internal static List<RectangleF> positioners = null;
         internal static List<List<string>> scansInPagesInWorks = new(); //outside list are the separete works and inside are pages
 
         internal static List<List<List<bool>>> resultsInQuestionsInWorks; //list of results
@@ -113,7 +112,7 @@ namespace _11_Image_Processing
             { -1, -1 ,  -1 , -1 ,  -1 }
         };
 
-        internal static double[,] LaplFilterForPositioners = new double[,]
+        internal static double[,] LaplFilterForPositioners = new double[,] //not used
         {
             { 1, 1 ,  1 , 1 , 1 },
             { 1  , 1  ,1 , 1 , 1 },
@@ -121,6 +120,23 @@ namespace _11_Image_Processing
             { 1, 1 ,  1 , 1 , 1 },
             { 1  , 1  ,1 , 1 , 1 },
         };
+        internal static double[,] LaplFilterForPositionersBetter = new double[,]
+{
+            { .2, .2 ,  .2 , .2 , .2 },
+            { .2  , .2  ,.2 , .2 , .2 },
+            { .2 , .2 , -4.8 , .2,  .2 },
+            { .2, .2 ,  .2 , .2 , .2 },
+            { .2  , .2  ,.2 , .2 , .2 },
+};
+        internal static double[,] LaplFilterForPositioners2 = new double[,]
+{
+            { .1, .1 ,  .1 , .1 , .1 },
+            { .1  , .1  ,.1 , .1 , .1 },
+            { .1 , .1 , -2.4 , .1,  .1 },
+            { .1, .1 ,  .1 , .1 , .1 },
+            { .1  , .1  ,.1 , .1 , .1 },
+};
+
 
     }
 }

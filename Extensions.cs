@@ -199,7 +199,7 @@ namespace _11_Image_Processing
 
             return data;
         }
-        public static byte[] RectangleFListToByteArray(this List<RectangleF> list)
+        public static byte[] PositionersListToByteArray(this List<RectangleF> list)
         {
 
             byte[] data;
@@ -229,7 +229,7 @@ namespace _11_Image_Processing
 
             return data;
         }
-        public static List<RectangleF> ByteArrayToRectangleFList(this byte[] bArray)
+        public static List<RectangleF> ByteArrayToPositionersList(this byte[] bArray)
         {
             List<RectangleF> list;
             using (var ms = new MemoryStream(bArray))
@@ -302,15 +302,22 @@ namespace _11_Image_Processing
         }
         public static PointF ApplyMatrix(this PointF p, Matrix m)
         {
-            p.X = m.MatrixElements.M11 * p.X + m.MatrixElements.M21 * p.Y + m.MatrixElements.M31;
-            p.Y = m.MatrixElements.M12 * p.X + m.MatrixElements.M22 * p.Y + m.MatrixElements.M32;
-            return p;
+            return new(
+                m.MatrixElements.M11 * p.X + m.MatrixElements.M21 * p.Y + m.MatrixElements.M31,
+                m.MatrixElements.M12 * p.X + m.MatrixElements.M22 * p.Y + m.MatrixElements.M32);
+        }
+        public static SizeF ApplyMatrix(this SizeF p, Matrix m)
+        {
+            return new(
+                m.MatrixElements.M11 * p.Width + m.MatrixElements.M21 * p.Height,
+                m.MatrixElements.M12 * p.Width + m.MatrixElements.M22 * p.Height);
         }
         public static void ApplyMatrixRef(this ref PointF p, Matrix m)
         {
             p.X = m.MatrixElements.M11 * p.X + m.MatrixElements.M21 * p.Y + m.MatrixElements.M31;
             p.Y = m.MatrixElements.M12 * p.X + m.MatrixElements.M22 * p.Y + m.MatrixElements.M32;
         }
+
 
     }
     static class StringExtensions
@@ -452,14 +459,15 @@ namespace _11_Image_Processing
             }
             return rect;
         }
-        public static Rectangle FromFourPoints(int x, int y, int xw, int yh)
+        public static Rectangle FromTwoPoints(int x, int y, int xw, int yh)
         {
             return new(x, y, xw - x, yh - y);
         }
-        public static RectangleF FromFourPoints(float x, float y, float xw, float yh)
+        public static RectangleF FromTwoPoints(float x, float y, float xw, float yh)
         {
             return new(x, y, xw - x, yh - y);
         }
+
 
     }
 
@@ -630,16 +638,17 @@ namespace _11_Image_Processing
 
         public static Line LinearRegressionAndOutliers(this List<Point> points)
         {
+            //based on distance from line d = |a*px+b*x+c| / sqrt( a^2 + b^2 )
             Line l=points.LinearRegression();
             List<double> list = new();
-
+           
             double invPythagorusAB = 1 / Math.Sqrt(l.a * l.a + l.b * l.b);
             for (int i = 0; i < points.Count; i++)
             {
                 list.Add(invPythagorusAB * Math.Abs(l.a * points[i].X + l.b * points[i].Y + l.c));
             }
             double aver= list.Average();
-            while (list.Max() > 8 * aver)
+            while (list.Max() > 2 * aver)
             {
                 int i = list.IndexOf(list.Max());
                 points.RemoveAt(i);
@@ -695,23 +704,27 @@ namespace _11_Image_Processing
                 Ys.Add(points[i].Y);
             }
 
-            double avr = Ys.Average();
-            double outThr = (Xs.Max() - Xs.Min()) / 2.0;
+            double outThr = (Xs.Max() - Xs.Min()) / 3.0; //TODO find better way of making shure few outliers far away dont flip the line 90
+            for (int k = 0; k < 2; k++)//do it two times (after correcting the average)
+            {
+                double avr = Ys.Average();
 
-            while (Ys.Max() - avr > outThr)
-            {
-                int i = Ys.IndexOf(Ys.Max());
-                points.RemoveAt(i);
-                Xs.RemoveAt(i);
-                Ys.RemoveAt(i);
+                while (Ys.Max() - avr > outThr)
+                {
+                    int i = Ys.IndexOf(Ys.Max());
+                    points.RemoveAt(i);
+                    Xs.RemoveAt(i);
+                    Ys.RemoveAt(i);
+                }
+                while (avr - Ys.Min() > outThr)
+                {
+                    int i = Ys.IndexOf(Ys.Min());
+                    points.RemoveAt(i);
+                    Xs.RemoveAt(i);
+                    Ys.RemoveAt(i);
+                }
             }
-            while (avr -Ys.Min() > outThr)
-            {
-                int i = Ys.IndexOf(Ys.Min());
-                points.RemoveAt(i);
-                Xs.RemoveAt(i);
-                Ys.RemoveAt(i);
-            }
+
             return points.LinearRegressionAndOutliers();
 
         }
@@ -738,7 +751,7 @@ namespace _11_Image_Processing
 
 
 
-        public static Bitmap CorpRelativeToImage(this Bitmap orig, RectangleF relativeRect)
+        public static Bitmap CropRelativeToImage(this Bitmap orig, RectangleF relativeRect)
         {
             Rectangle cropRect = relativeRect.UnrelatitivizeToImage(orig);
             Size size = new(cropRect.Width, cropRect.Height);
@@ -753,7 +766,7 @@ namespace _11_Image_Processing
             }
             return crop;
         }
-        public static Bitmap Corp(this Bitmap orig, Rectangle rect)
+        public static Bitmap Crop(this Bitmap orig, Rectangle rect)
         {
             Size size = new(rect.Width, rect.Height);
 

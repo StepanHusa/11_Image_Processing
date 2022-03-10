@@ -33,6 +33,7 @@ using PdfPrintingNet;
 using Syncfusion.Windows.PdfViewer;
 using _11_Image_Processing.Resources.Strings;
 using System.Threading;
+using System.Drawing.Drawing2D;
 
 namespace _11_Image_Processing
 {
@@ -68,9 +69,19 @@ namespace _11_Image_Processing
 
                 //b.ProcessFilter(Settings.LaplFilterForPositioners).Save(debugFolder + "test\\posits\\b.bmp");
 
+                //Matrix matrix = new(new(0,0,1,1), new PointF[3] { new(0,0),new(1,1),new(1,-1) });
+
+                //var p3set = new PointF[1] { new PointF(1,1) };
+                //matrix.TransformPoints( p3set );
+
+
+
                 //var f=  b.FindPositsFromSettings();
 
                 //var point = new Line(1, -1, 0).CrossectionOfTwoLines(new Line(1, -1, 1));
+                PdfLoadedDocument doc = new(Settings.tempFile);
+                doc.AddPositioners();
+
 
                 var ls = new List<List<string>>();
                 var ff = debugFolder + "test\\posits\\";
@@ -86,7 +97,7 @@ namespace _11_Image_Processing
                 // var r = RectangleExtensions.FromFourPoints((int)((q.p1.X + q.p4.X) / 2), (int)((q.p1.Y + q.p2.Y) / 2), (int)((q.p2.X + q.p3.X) / 2), (int)((q.p3.Y + q.p4.Y) / 2));
 
 
-                //bitm.Corp(r).Save(debugFolder + "test\\posits\\crop.png");
+                //bitm.Crop(r).Save(debugFolder + "test\\posits\\crop.png");
 
                 //for (int i = 0; i < b.Width; i++)
                 //    for (int j = 0; j < b.Height; j++)
@@ -310,7 +321,7 @@ namespace _11_Image_Processing
             byte[] listBoxesInQuestions = Settings.boxesInQuestions.IntRectangleFBoolTupleListListToByteArray();
             byte[] listOfFields = Settings.pagesFields.RectangleListToByteArray();
             byte[] nameField = Settings.nameField.RectangleTupleToByteArray();
-            byte[] listPositionres = Settings.positioners.RectangleFListToByteArray();
+            byte[] listPositionres = Settings.positioners.PositionersListToByteArray();
 
             int docLength = documentpdf.Length; //int32
             //int listPLength = listOfPointFsArray.Length; //int 32
@@ -454,7 +465,7 @@ namespace _11_Image_Processing
             Settings.boxesInQuestions = listBoxesInQuestions.ByteArrayToIntRectangleFBoolTupleListList();
             Settings.pagesFields = listOfFields.ByteArrayToRectangleFTupleList();
             Settings.nameField = nameField.ByteArrayToRectangleFTuple();
-            Settings.positioners = listPositionres.ByteArrayToRectangleFList();
+            Settings.positioners = listPositionres.ByteArrayToPositionersList();
 
             ReloadWindowContent();
             Menu_Project_Save.IsEnabled = true;
@@ -1089,3 +1100,5 @@ namespace _11_Image_Processing
 //TODO remake tuple to new variable, add bound width, mabe colors (or at least add bound width to tuple)
 //todoDone repair commands in pdfviewer
 //TODO positioning in evaluation
+//make edge detection direction dependent
+//add non linar transformation

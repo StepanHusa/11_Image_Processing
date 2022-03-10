@@ -21,6 +21,11 @@
             <MenuItem Header="Name"/>
         </StackPanel>
         <ListView x:Name="allResults" Grid.Column="2">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Height" Value="40" /><!--should by same as height of Image-->
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="">
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Index}"  Header="{x:Static ln:Strings.Index}" Width="30"/>

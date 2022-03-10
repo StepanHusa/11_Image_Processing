@@ -145,7 +145,7 @@ namespace _11_Image_Processing
             var s = GetListOfAll();
             allResults.ItemsSource = s;
 
-            int height = 21;
+            int height = 40; //same as allResults listview height of row
 
             foreach (var item in s)
             {
