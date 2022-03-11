@@ -625,11 +625,11 @@ namespace _11_Image_Processing
             var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; 
             if (open.ShowDialog() == false) return;
 
-            int l = Settings.scansInPagesInWorks.Count();//moves indexing if there are already bitmaps in the list
+            int l = Settings.scanPagesInWorks.Count();//moves indexing if there are already bitmaps in the list
             for (int i = 0; i < open.FileNames.Length; i++)
             {
-                Settings.scansInPagesInWorks.Add(new());
-                Settings.scansInPagesInWorks[l + i].Add(open.FileNames[i]);
+                Settings.scanPagesInWorks.Add(new());
+                Settings.scanPagesInWorks[l + i].Add(open.FileNames[i]);
             }
         }
         private async void Menu_Read_PDF_Click(object sender, RoutedEventArgs e)
@@ -697,7 +697,7 @@ namespace _11_Image_Processing
             var invert = a.Invert.Value;
             a.Close();
 
-            Settings.scansInPagesInWorks = await Task.Run(() => { 
+            Settings.scanPagesInWorks = await Task.Run(() => { 
 
             List<List<string>> works = new();
             int ii = 0;
@@ -742,7 +742,7 @@ namespace _11_Image_Processing
                     if (box.Item1 > highestPageIndex)
                         highestPageIndex = box.Item1;
             int lowestPagesInWork = int.MaxValue;
-            foreach (var work in Settings.scansInPagesInWorks)
+            foreach (var work in Settings.scanPagesInWorks)
                 if (work.Count < lowestPagesInWork)
                     lowestPagesInWork = work.Count;
             if (highestPageIndex > lowestPagesInWork) MessageBox.Show(Strings.warningScansDontHaveEnaughtPages, Strings.Warning);
@@ -752,9 +752,9 @@ namespace _11_Image_Processing
 
             var pbw = new ProgressBarW();
             pbw.Show();
-            await Task.Run(() => Settings.resultsInQuestionsInWorks = Settings.scansInPagesInWorks.EvaluateWorks(Settings.boxesInQuestions));
+            await Task.Run(() => Settings.resultsInQuestionsInWorks = Settings.scanPagesInWorks.EvaluateWorks(Settings.boxesInQuestions));
 
-            Settings.namesScaned = Settings.scansInPagesInWorks.GetCropedNames(Settings.nameField);
+            //Settings.namesScaned = Settings.scansInPagesInWorks.GetCropedNames(Settings.nameField);
             new ViewResultW().Show();
             pbw.Close();
         }
@@ -855,7 +855,7 @@ namespace _11_Image_Processing
             Settings.pagesFields = new();
             Settings.boxesInQuestions = new();
             Settings.resultsInQuestionsInWorks = null;
-            Settings.scansInPagesInWorks = new();
+            Settings.scanPagesInWorks = new();
 
             reloadButton.IsEnabled = false;
             this.Activated -= Window_Activated;

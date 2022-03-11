@@ -32,17 +32,30 @@ namespace _11_Image_Processing
             SetUpAllResults();
 
         }
+        internal static List<System.Drawing.Bitmap> namesScaned;
 
 
         public void SetupTabsOfView()
         {
-            for (int i = 0; i < Settings.scansInPagesInWorks.Count; i++)
+            for (int i = 0; i < Settings.scanPagesInWorks.Count; i++)
             {
                 TabItem z = new();
-                if (Settings.namesScaned != null)
+                if (namesScaned == null & Settings.nameField != null)
+                {
+                    namesScaned = new();
+                    foreach (var item in Settings.scanPagesInWorks)
+                    {
+                        var rect = Settings.nameField.Item2;
+                        var b = new System.Drawing.Bitmap(item[Settings.nameField.Item1]);
+                        var mat = b.MakeTransformationMatrixFromPositioners(Settings.nameField.Item1);
+                        var newRect = new System.Drawing.RectangleF(rect.Location.ApplyMatrix(mat), rect.Size.ApplyMatrix(mat));
+                        namesScaned.Add(b.Crop(System.Drawing.Rectangle.Round(newRect)));
+                    }
+                }
+                if (namesScaned != null)
                 {
                     Image wImage = new();
-                    wImage.Source = Settings.namesScaned[i].BitmapToImageSource();
+                    wImage.Source = namesScaned[i].BitmapToImageSource();
                     wImage.Height = 32;
                     StackPanel sp = new();
                     sp.Children.Add(wImage);
@@ -66,8 +79,19 @@ namespace _11_Image_Processing
             imagesTabsButton.Click += ImagesTabsButton_Click;
 
             var table = ResultsList(i);
-            var result = new TextBox();
-            result.Text = "feature not added yet"; //TODO finish this section and add statistics
+            var result = new StackPanel();
+            var tupleTextCheckbox = new StackPanel();
+            tupleTextCheckbox.Orientation = Orientation.Horizontal;
+            tupleTextCheckbox.Children.Add(new Image());//TODO add evaluation of fields
+            tupleTextCheckbox.Children.Add(new CheckBox());
+
+
+
+
+            result.Children.Add(tupleTextCheckbox); 
+            
+            
+            //TODO finish this section and add statistics
 
             Grid grid = new();
             grid.RowDefinitions.Add(new() { Height = GridLength.Auto });
@@ -139,6 +163,9 @@ namespace _11_Image_Processing
             return list;
         }
 
+
+
+
         private void SetUpAllResults()
         {
 
@@ -167,8 +194,8 @@ namespace _11_Image_Processing
                     if (item.CorrectBool)
                         right++;
                 ResultOfAllOne r;
-                if (Settings.namesScaned.Count > i)
-                    r = new(i + 1, right, li.Count, Settings.namesScaned[i]);
+                if (namesScaned.Count > i)
+                    r = new(i + 1, right, li.Count, namesScaned[i]);
                 else r = new(i + 1, right, li.Count);
 
                 list.Add(r);

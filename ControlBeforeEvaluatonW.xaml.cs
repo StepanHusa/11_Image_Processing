@@ -33,15 +33,15 @@ namespace _11_Image_Processing
         }
         private void BuildMenu()
         {
-            for (int i = 0; i < Settings.scansInPagesInWorks.Count; i++)
+            for (int i = 0; i < Settings.scanPagesInWorks.Count; i++)
          {
             var mI = new MenuItem();
                 mI.Header =(i+1).ToString();
-                for (int j = 0; j < Settings.scansInPagesInWorks[i].Count; j++)
+                for (int j = 0; j < Settings.scanPagesInWorks[i].Count; j++)
                 {
                     var mII = new MenuItem();
                     mII.Header = Strings.ViewPage + " " + j;
-                    mII.Tag = Settings.scansInPagesInWorks[i][j];
+                    mII.Tag = Settings.scanPagesInWorks[i][j];
                     mII.Click += MII_Click;
                     mI.Items.Add(mII);
                 }
@@ -78,7 +78,7 @@ namespace _11_Image_Processing
 
         private void rotateAll_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var work in Settings.scansInPagesInWorks)
+            foreach (var work in Settings.scanPagesInWorks)
             {   
                 foreach (string file in work)
                 {
