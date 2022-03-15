@@ -215,7 +215,7 @@ namespace _11_Image_Processing
                     chacked = null;
                 }
 
-                    toogleAn.IsChecked = false;
+                toogleAn.IsChecked = false;
                 pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_Tog;
                 this.PreviewKeyUp -= Window_KeyUp;
             }

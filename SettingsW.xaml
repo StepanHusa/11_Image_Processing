@@ -6,25 +6,50 @@
         xmlns:local="clr-namespace:_11_Image_Processing"
             xmlns:ln="clr-namespace:_11_Image_Processing.Resources.Strings"
         mc:Ignorable="d"
-        Title="SettingsW" Height="550" Width="500"  
+        Title="{x:Static ln:Strings.Settings}" Height="500" Width="500"  
         ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen"
         Background="Beige"
-        Closing="Window_Closing">
+        Closing="Window_Closing" ><!--KeyDown="IfEnterMoveFocus_KeyDown"-->
     <Window.DataContext>
         <local:Settings/>
     </Window.DataContext>
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition/>
+            <RowDefinition MinHeight="60"/>
         </Grid.RowDefinitions>
-        <TabControl Margin="20" Grid.Row="0" Height="450">
+        <TabControl Margin="20" Grid.Row="0">
             <TabItem Header="{x:Static ln:Strings.General}">
                 <StackPanel>
-                    <GroupBox Header="{x:Static ln:Strings.Paths}" Margin="0,0,60,0" Height="208">
-                        
+                    <GroupBox Header="" Margin="0,0,0,0" Height="208"><!--{x:Static ln:Strings.Paths}-->
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="Language" Width="150"/>
+                                <TextBox HorizontalAlignment="Stretch" Width="150"/>
+                                <Button Content="select" Width="40" Margin="10,0" />
+                                <Button Content="addNew" Width="50"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="TempFolder" Width="150"/>
+                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                                <Button Content="find" Width="50" Margin="10,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="templateProjectName" Width="150"/>
+                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="projectExtension" Width="150"/>
+                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="fileCode" Width="150"/>
+                                <TextBox HorizontalAlignment="Stretch" Width="200" x:Name="ag"    KeyDown="ag_KeyDown" MaxLength="8" LostFocus="ag_LostFocus"/>
+                            </StackPanel>
+
+
+                        </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="2" Height="50"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="{x:Static ln:Strings.Edit}" HorizontalAlignment="Left" Width="32">
@@ -32,11 +57,11 @@
                     <GroupBox Header="{x:Static ln:Strings.Colors}">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Button x:Name="color1" Content="" Click="color1_Click" Width="24"/>
+                                <Button x:Name="color1" Content="set" FontSize="10" Click="color1_Click" Width="24"/>
                                 <Label Content="{x:Static ln:Strings.AnswerBoxColor}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Button x:Name="color2" Content="" Click="color2_Click" Width="24" />
+                                <Button x:Name="color2" Content="set" FontSize="10" Click="color2_Click" Width="24" />
                                 <Label Content="{x:Static ln:Strings.AnswerBoxColor2}"/>
                             </StackPanel>
                         </StackPanel>
@@ -53,6 +78,7 @@
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
+
                 </StackPanel>
             </TabItem>
             <TabItem Header="{x:Static ln:Strings.Evaluation}">
@@ -60,26 +86,60 @@
                     <GroupBox Header="Methods">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox x:Name="fillOfWholeSquareCheck"/>
-                                <Label Content="{x:Static ln:Strings.fillOfWholeSquare}"/>
+                                <CheckBox x:Name="fillOfWholeSquareCheck" Margin="0,10"/>
+                                <Label Content="{x:Static ln:Strings.fillOfWholeSquare}" Margin="0,5"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox x:Name="crossmethodCheck"/>
-                                <Label Content="{x:Static ln:Strings.crossmethod}"/>
+                                <CheckBox x:Name="crossmethodCheck" Margin="0,10"/>
+                                <Label Content="{x:Static ln:Strings.crossmethod}" Margin="0,5"/>
                             </StackPanel>
 
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="{x:Static ln:Strings.Advanced}">
+            <TabItem Header="Locators">
+                <StackPanel>
+                    <GroupBox Header="Setting">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="colorPosits" Content="set" FontSize="10" Click="color1_Click" Width="24"/>
+                                <Label Content="pos color" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="boundWithPositioners" Width="50" Margin="0,5,10,0"/>
+                                <TextBlock Text="box size"      Margin="0,5,10,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="positionersMargin" Width="50" Margin="0,5,10,0"/>
+                                <TextBlock Text="positionersMargin"      Margin="0,5,10,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="positionersLegLength" Width="50" Margin="0,5,10,0"/>
+                                <TextBlock Text="positionersLegLength"      Margin="0,5,10,0"/>
+                            </StackPanel>
 
+
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Finding">
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="matrixPosits" Content="set" FontSize="10" Click="color1_Click" Width="24"/>
+                            <Label Content="EdgeMatrixPositioners" />
+                        </StackPanel>
+
+                    </GroupBox>
+                </StackPanel>
             </TabItem>
 
+            <!--<TabItem Header="{x:Static ln:Strings.Advanced}">
+
+            </TabItem>-->
 
 
 
-            <TextBlock Text="template project name"                 Grid.Row="0" Grid.Column="0"/>
+
+            <!--<TextBlock Text="template project name"                 Grid.Row="0" Grid.Column="0"/>
 
             <TextBlock Text="Advanced"                              Grid.Row="4" Grid.Column="0"/>
             <TextBlock Text="tempory file folder"                   Grid.Row="5" Grid.Column="0"/>
@@ -97,8 +157,7 @@
             <TextBox x:Name="ad"       Grid.Row="3" Grid.Column="1" KeyDown="IfEnterMoveFocus_KeyDown"/>
 
             <TextBox x:Name="ae"        Grid.Row="5" Grid.Column="1" KeyDown="IfEnterMoveFocus_KeyDown"/>
-            <TextBox x:Name="af"      Grid.Row="6" Grid.Column="1" KeyDown="IfEnterMoveFocus_KeyDown"/>
-            <TextBox x:Name="ag"           Grid.Row="7" Grid.Column="1" KeyDown="ag_KeyDown" MaxLength="8" LostFocus="ag_LostFocus"    />
+            <TextBox x:Name="af"      Grid.Row="6" Grid.Column="1" KeyDown="IfEnterMoveFocus_KeyDown"/>-->
 
         </TabControl>
 

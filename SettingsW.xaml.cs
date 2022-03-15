@@ -39,19 +39,17 @@ namespace _11_Image_Processing
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Settings.settingsWindow = null;
         }
 
         private void IfEnterMoveFocus_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter) {
+            if (e.Key == Key.Enter) {                
                 (sender as TextBox).MoveFocus(new TraversalRequest(0)); e.Handled = true;
             }
         }
 
         private void ag_KeyDown(object sender, KeyEventArgs e)
         {
-            IfEnterMoveFocus_KeyDown(sender,e);
             if (e.Key == Key.Space)
             {
                 e.Handled = true;

@@ -17,7 +17,6 @@ namespace _11_Image_Processing
 
         //unchanging
         internal static string appName = Strings.NameOfAplication;
-        internal static SettingsW settingsWindow;
 
         //settings
         internal static string templateProjectName = "*"+ Strings.Untitled;
@@ -129,7 +128,7 @@ namespace _11_Image_Processing
             { .2, .2 ,  .2 , .2 , .2 },
             { .2  , .2  ,.2 , .2 , .2 },
 };
-        internal static double[,] LaplFilterForPositioners2 = new double[,]
+        internal static double[,] LaplFilterForPositioners2 = new double[,]//not used
 {
             { .1, .1 ,  .1 , .1 , .1 },
             { .1  , .1  ,.1 , .1 , .1 },
