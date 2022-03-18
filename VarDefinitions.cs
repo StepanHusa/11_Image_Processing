@@ -73,7 +73,7 @@ namespace _11_Image_Processing
 
     }
 
-    internal class Box //unused
+    internal struct Box //unused
     {
         public int Page { get; set; }
 
@@ -98,7 +98,6 @@ namespace _11_Image_Processing
 
         public QuadrilateralF()
         {
-
         }
         public QuadrilateralF(PointF point1, PointF point2, PointF point3, PointF point4)
         {
@@ -112,7 +111,7 @@ namespace _11_Image_Processing
     /// <summary>
     /// line of ax+by+c=0
     /// </summary>
-    public class Line
+    public struct Line
     {
         public double a { get; set; }
         public double b { get; set; }
@@ -124,6 +123,27 @@ namespace _11_Image_Processing
             this.b = b;
             this.c = c;
         }
+    }
+
+    public class AplicationSettingsVariable
+    {
+        //general
+        public string Language { get; set; }
+        public string TempFolder { get; set; }
+        public string TemplateProjectName { get; set; }
+        public string ProjectExtension { get; set; }
+        public string FileCode { get; set; }
+        public string NameString { get; set; }
+        public Syncfusion.Pdf.Graphics.PdfFontFamily StringFont = Syncfusion.Pdf.Graphics.PdfFontFamily.TimesRoman;
+        public Syncfusion.Pdf.Graphics.PdfFontStyle stringStyle = Syncfusion.Pdf.Graphics.PdfFontStyle.Regular;
+
+        //Edit
+        public Color BaundColor { get; set; }
+        public Color baundColorTwo { get; set; }
+        public float SizeOfBox { get; set; }
+        public float BoundWidth { get; set; }
+        public int NumberOfBoxes { get; set; }
+
     }
 
 

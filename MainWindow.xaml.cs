@@ -59,12 +59,13 @@ namespace _11_Image_Processing
 
             InitializeComponent();
 
+            CheckArgsForFiles();
 
 
             //debug
             {
-                string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
-                LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
+                //string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
+                //LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
                 //TODo Comment
 
                 //b.ProcessFilter(Settings.LaplFilterForPositioners).Save(debugFolder + "test\\posits\\b.bmp");
@@ -79,14 +80,14 @@ namespace _11_Image_Processing
                 //var f=  b.FindPositsFromSettings();
 
                 //var point = new Line(1, -1, 0).CrossectionOfTwoLines(new Line(1, -1, 1));
-                PdfLoadedDocument doc = new(Settings.tempFile);
-                doc.AddPositioners();
+                //PdfLoadedDocument doc = new(Settings.tempFile);
+                //doc.AddPositioners();
 
 
-                var ls = new List<List<string>>();
-                var ff = debugFolder + "test\\posits\\";
-                ls.Add(new() { ff + "a.bmp", ff + "b.bmp" });
-                ls.EvaluateWorks(Settings.boxesInQuestions);
+                //var ls = new List<List<string>>();
+                //var ff = debugFolder + "test\\posits\\";
+                //ls.Add(new() { ff + "a.bmp", ff + "b.bmp" });
+                //ls.EvaluateWorks(Settings.boxesInQuestions);
 
 
                 //var bs = new System.Drawing.Point[] { new (0, 1), new (0,1 ) ,new(0,2),new(4,4) };
@@ -195,8 +196,40 @@ namespace _11_Image_Processing
             }
         }
 
-        //load
-        private void Menu_Load_Open_Click(object sender, RoutedEventArgs e)
+        private void CheckArgsForFiles()
+        {
+            String[] arguments = Environment.GetCommandLineArgs();
+
+            if (arguments.GetLength(0) > 1)
+            {
+                string filePathFormMainArgs = arguments[1];
+                if (File.Exists(arguments[1]))
+                {
+                    string FileExtension = Path.GetExtension(filePathFormMainArgs);
+                    if(FileExtension==".pdf")
+                        LoadDocument(filePathFormMainArgs);
+                    else if (FileExtension==".doc" | FileExtension==".docx")
+                    {
+                        Word2Pdf objWorPdf = new Word2Pdf();
+                        string FromLocation = filePathFormMainArgs;
+                        string ToLocation = Path.GetDirectoryName(FromLocation) + "\\" + Path.GetFileNameWithoutExtension(FromLocation) + "_(ConvertedFromWord)" + ".pdf";
+
+
+                        objWorPdf.InputLocation = FromLocation;
+                        objWorPdf.OutputLocation = ToLocation;
+                        objWorPdf.Word2PdfCOnversion();
+                        LoadDocument(ToLocation);
+                    }
+                    else if (FileExtension == Settings.projectExtension)
+                    {
+                        LoadDataFromFile(filePathFormMainArgs);
+                    }
+                }
+
+            }
+        }
+            //load
+            private void Menu_Load_Open_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog() { Filter = "PDF(*.pdf)|*.pdf", Title = "Open PDF" };
             if (open.ShowDialog() != true) return;
@@ -212,7 +245,7 @@ namespace _11_Image_Processing
         }
         private void Menu_Load_Word_Click(object sender, RoutedEventArgs e)
         {
-            var open = new OpenFileDialog() { Title = "Open Word Doc", Filter = "Word Document(*.doc;*docx)|*.doc;*docx" };
+            var open = new OpenFileDialog() { Title = "Open Word Doc", Filter = "Word Document(*.doc;*.docx)|*.doc;*.docx" };
             if (!(bool)open.ShowDialog()) return;
 
             Word2Pdf objWorPdf = new Word2Pdf();
@@ -270,7 +303,7 @@ namespace _11_Image_Processing
         //open
         private void Menu_Open_Project_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog open = new() { Title = "Open Template", Filter = $"File Template(*{Settings.projectExtension})|*{Settings.projectExtension}" };
+            OpenFileDialog open = new() { Title = Strings.OpenProject, Filter = Strings.StudentTesterProjects+ $"(*{Settings.projectExtension})|*{Settings.projectExtension}" };
             if (open.ShowDialog() == false) return;
 
             LoadDataFromFile(open.FileName);
@@ -411,7 +444,7 @@ namespace _11_Image_Processing
 
                         hash = br.ReadBytes(20);
                     }
-                    catch { MessageBox.Show("Not able to load this file"); return; }
+                    catch { MessageBox.Show("Not able to load this file"); return; }//todo add to strings
                 }
             }
             //get hash of created files
@@ -945,7 +978,8 @@ namespace _11_Image_Processing
             if (f == MessageBoxResult.Cancel) e.Cancel = true;//TODO debug
             else if (f != MessageBoxResult.Yes) return;
             else if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
-            else Menu_Save_ProjectAs_Click(null, null);
+            else if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null);
+            else MessageBox.Show(Strings.NoProjectLoaded,"Exception", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
 
@@ -1102,3 +1136,4 @@ namespace _11_Image_Processing
 //TODO positioning in evaluation
 //make edge detection direction dependent
 //add non linar transformation
+//todo topbar bug when maximazed

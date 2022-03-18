@@ -7,10 +7,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+//using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using _11_Image_Processing.Resources.Strings;
+
 
 namespace _11_Image_Processing
 {
@@ -21,8 +24,12 @@ namespace _11_Image_Processing
     {
         private System.Drawing.Color baundColor;
         private System.Drawing.Color baundColorTwo;
+        private string language = Strings.THIS_LANGUAGE;
+        private string languagefile= Settings.Language;
 
 
+
+        private string nameString = Settings.nameString;
 
         public SettingsW()
         {
@@ -34,7 +41,7 @@ namespace _11_Image_Processing
         {
             color1.Background = new SolidColorBrush(Settings.baundColor.ColorToDrawing());
             color2.Background = new SolidColorBrush(Settings.baundColorTwo.ColorToDrawing());
-
+            languageTB.Text = language;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -44,7 +51,7 @@ namespace _11_Image_Processing
         private void IfEnterMoveFocus_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter) {                
-                (sender as TextBox).MoveFocus(new TraversalRequest(0)); e.Handled = true;
+                //(sender as TextBox).MoveFocus(new TraversalRequest(0)); e.Handled = true;
             }
         }
 
@@ -67,12 +74,12 @@ namespace _11_Image_Processing
 
         private void ag_LostFocus(object sender, RoutedEventArgs e)
         {
-            while (ag.Text.Length < 8) ag.Text += "0";
-            if (ag.Text.Length != 8) MessageBox.Show("invalid number");
-            else
-            {
-                Settings.fileCode = ag.Text.StringToByteArray();
-            }
+            //while (ag.Text.Length < 8) ag.Text += "0";
+            //if (ag.Text.Length != 8) MessageBox.Show("invalid number");
+            //else
+            //{
+            //    Settings.fileCode = ag.Text.StringToByteArray();
+            //}
             
         }
 
@@ -99,6 +106,16 @@ namespace _11_Image_Processing
 
             baundColorTwo = cd.Color;
             color2.Background = new SolidColorBrush(baundColorTwo.ColorToDrawing());
+
+        }
+
+        private void SelectLanguageButton_Click(object sender, RoutedEventArgs e)
+        {
+            //OpenFileDialog open = new() { Title = "Open Template", Filter = $"File Template(*{Settings.projectExtension})|*{Settings.projectExtension}" };
+        }
+
+        private void AddLanguageButton(object sender, RoutedEventArgs e)
+        {
 
         }
     }

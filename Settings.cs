@@ -19,6 +19,8 @@ namespace _11_Image_Processing
         internal static string appName = Strings.NameOfAplication;
 
         //settings
+        internal static string Language;
+        internal static string languagefile;
         internal static string templateProjectName = "*"+ Strings.Untitled;
 
         internal static float baundWidth = 2;
@@ -36,8 +38,8 @@ namespace _11_Image_Processing
 
         internal static float dpiExport = 600;
         internal static float dpiEvaluatePdf = 600;
-        internal static float positionersMargin = (float)0.02; //relative to width!!    keep it greater then expected addup by scaning (0.03)
-        internal static float positionersLegLength = (float)0.02; //relative to width (0.03)
+        internal static float positionersMargin = (float)0.03; //relative to width!!    keep it greater then expected addup by scaning (0.03)
+        internal static float positionersLegLength = (float)0.03; //relative to width (0.03)
         //TODO 0.03
         internal static float positionersEdgenessThreshold = (float)0.35;
 
@@ -62,6 +64,7 @@ namespace _11_Image_Processing
         internal static string tempFileCopy;
         internal static List<string> versions = new();
         internal static string projectName = templateProjectName;
+        internal static bool IsLocked = false;
 
 
 

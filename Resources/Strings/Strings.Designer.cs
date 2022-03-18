@@ -542,6 +542,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Project Loaded.
+        /// </summary>
+        public static string NoProjectLoaded {
+            get {
+                return ResourceManager.GetString("NoProjectLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _NoTools.
         /// </summary>
         public static string NoTools {
@@ -655,6 +664,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string Openlistofscans {
             get {
                 return ResourceManager.GetString("Openlistofscans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Project.
+        /// </summary>
+        public static string OpenProject {
+            get {
+                return ResourceManager.GetString("OpenProject", resourceCulture);
             }
         }
         
@@ -912,6 +930,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Student Tester Projects.
+        /// </summary>
+        public static string StudentTesterProjects {
+            get {
+                return ResourceManager.GetString("StudentTesterProjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to succesfully scanned.
         /// </summary>
         public static string succesfullyscanned {
@@ -926,6 +953,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string text {
             get {
                 return ResourceManager.GetString("text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string THIS_LANGUAGE {
+            get {
+                return ResourceManager.GetString("THIS LANGUAGE", resourceCulture);
             }
         }
         

@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:_11_Image_Processing"
             xmlns:ln="clr-namespace:_11_Image_Processing.Resources.Strings"
         mc:Ignorable="d"
-        Title="{x:Static ln:Strings.Settings}" Height="500" Width="500"  
-        ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen"
-        Background="Beige"
+            Title="{x:Static ln:Strings.Settings}" Height="500" Width="500"  
+            ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen"
+            Background="Beige"
         Closing="Window_Closing" ><!--KeyDown="IfEnterMoveFocus_KeyDown"-->
     <Window.DataContext>
         <local:Settings/>
@@ -25,9 +25,9 @@
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="Language" Width="150"/>
-                                <TextBox HorizontalAlignment="Stretch" Width="150"/>
-                                <Button Content="select" Width="40" Margin="10,0" />
-                                <Button Content="addNew" Width="50"/>
+                                <TextBox x:Name="languageTB" IsEnabled="False" HorizontalAlignment="Stretch" Width="150"/>
+                                <Button Content="select" Width="40" Margin="10,0" Click="SelectLanguageButton_Click"/>
+                                <Button Content="addNew" Width="50" Click="AddLanguageButton"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="TempFolder" Width="150"/>
@@ -50,9 +50,21 @@
 
                         </StackPanel>
                     </GroupBox>
+                    <GroupBox Header="TextStrings">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="NameString" Width="150"/>
+                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="Font" Width="150"/>
+                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="{x:Static ln:Strings.Edit}" HorizontalAlignment="Left" Width="32">
+            <TabItem Header="{x:Static ln:Strings.Edit}" Width="32">
                 <StackPanel>
                     <GroupBox Header="{x:Static ln:Strings.Colors}">
                         <StackPanel>
@@ -76,6 +88,15 @@
                                 <TextBox x:Name="width" Width="50" Margin="0,5,10,0"/>
                                 <TextBlock Text="bound width" Margin="0,5,10,0"/>
                             </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="numberOfBoxes" Width="50" Margin="0,5,10,0"/>
+                                <TextBlock Text="numberOfBoxes" Margin="0,5,10,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="between" Width="50" Margin="0,5,10,0"/>
+                                <TextBlock Text="SpaceBetween" Margin="0,5,10,0"/>
+                            </StackPanel>
+
                         </StackPanel>
                     </GroupBox>
 
@@ -96,11 +117,19 @@
 
                         </StackPanel>
                     </GroupBox>
+                    <GroupBox Header="Cross method">
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="matrixCross" Content="set" FontSize="10" Click="color1_Click" Width="24"/>
+                            <Label Content="EdgeMatrixPositioners" />
+                        </StackPanel>
+
+                    </GroupBox>
+
                 </StackPanel>
             </TabItem>
             <TabItem Header="Locators">
                 <StackPanel>
-                    <GroupBox Header="Setting">
+                    <GroupBox Header="SettingUp">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="colorPosits" Content="set" FontSize="10" Click="color1_Click" Width="24"/>
@@ -113,6 +142,8 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBox x:Name="positionersMargin" Width="50" Margin="0,5,10,0"/>
                                 <TextBlock Text="positionersMargin"      Margin="0,5,10,0"/>
+                                <TextBlock Text="keepGreaterThanExpectedMarginOfScanning" FontSize="8"   Margin="0,5,10,0" Height="10"/>
+
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBox x:Name="positionersLegLength" Width="50" Margin="0,5,10,0"/>
@@ -129,7 +160,29 @@
                         </StackPanel>
 
                     </GroupBox>
+
                 </StackPanel>
+            </TabItem>
+            <TabItem Header="results">
+                
+            </TabItem>
+            <TabItem Header="More">
+                <StackPanel>
+
+                    <GroupBox Header="Resolutions">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <Label Content="ExportToPicturesdpi" Width="150"/>
+                        <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <Label Content="Evaluationdpi" Width="150"/>
+                        <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </GroupBox>
+            </StackPanel>
             </TabItem>
 
             <!--<TabItem Header="{x:Static ln:Strings.Advanced}">

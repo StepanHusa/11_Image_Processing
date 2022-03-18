@@ -280,6 +280,9 @@ or export the document.</value>
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="NoProjectLoaded" xml:space="preserve">
+    <value>No Project Loaded</value>
+  </data>
   <data name="NoTools" xml:space="preserve">
     <value>_NoTools</value>
   </data>
@@ -318,6 +321,9 @@ or export the document.</value>
   </data>
   <data name="Openlistofscans" xml:space="preserve">
     <value>Open list of scans</value>
+  </data>
+  <data name="OpenProject" xml:space="preserve">
+    <value>Open Project</value>
   </data>
   <data name="Paths" xml:space="preserve">
     <value>Paths</value>
@@ -404,11 +410,17 @@ Do you want to save it?</value>
   <data name="spacebetween" xml:space="preserve">
     <value>space between</value>
   </data>
+  <data name="StudentTesterProjects" xml:space="preserve">
+    <value>Student Tester Projects</value>
+  </data>
   <data name="succesfullyscanned" xml:space="preserve">
     <value>succesfully scanned</value>
   </data>
   <data name="text" xml:space="preserve">
     <value>text</value>
+  </data>
+  <data name="THIS LANGUAGE" xml:space="preserve">
+    <value>English</value>
   </data>
   <data name="ToogleCorrect" xml:space="preserve">
     <value>Toogle Correct</value>
