@@ -66,6 +66,50 @@ namespace _11_Image_Processing
             {
                 //string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
                 //LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
+                LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\VálekSSS" + Settings.projectExtension);
+
+                //load from pdf
+                {
+                    List<string> tempScans = new();
+                    string path;
+
+                    var doc = new PdfLoadedDocument(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\Stepan_sken.pdf");
+                    for (int j = 0; j < doc.Pages.Count; j++)
+                    {
+                        Bitmap bitmap = doc.ExportAsImage(j, Settings.dpiEvaluatePdf, Settings.dpiEvaluatePdf);
+                        do
+                        {
+                            path = Path.GetTempFileName();
+                            if (File.Exists(path))
+                            {
+                                File.Delete(path);
+                            }
+                            path = Path.ChangeExtension(path, ".bmp");
+
+                        } while (File.Exists(path));
+                        bitmap.Save(path);
+                        bitmap.Dispose();
+                        tempScans.Add(path);
+                    }
+                    var ImageFiles = tempScans.ToArray();
+
+                    List<List<string>> works = new();
+                    int ii = 0;
+                    for (int i = 0; i < 1; i++)
+                    {
+                        works.Add(new());
+                        for (int j = 0; j < 2; j++)
+                        {
+                            works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
+                            ii++;
+                        }
+                    }
+                    Settings.scanPagesInWorks = works;
+                }
+
+                Settings.resultsInQuestionsInWorks = Settings.scanPagesInWorks.EvaluateWorks(Settings.boxesInQuestions);
+
+
                 //TODo Comment
 
                 //b.ProcessFilter(Settings.LaplFilterForPositioners).Save(debugFolder + "test\\posits\\b.bmp");
@@ -212,7 +256,7 @@ namespace _11_Image_Processing
                     {
                         Word2Pdf objWorPdf = new Word2Pdf();
                         string FromLocation = filePathFormMainArgs;
-                        string ToLocation = Path.GetDirectoryName(FromLocation) + "\\" + Path.GetFileNameWithoutExtension(FromLocation) + "_(ConvertedFromWord)" + ".pdf";
+                        string ToLocation = Path.GetDirectoryName(FromLocation) + "\\" + Path.GetFileNameWithoutExtension(FromLocation) + "_(ConvertedFromWord)" + ".pdf";//todo add to strings
 
 
                         objWorPdf.InputLocation = FromLocation;
@@ -229,7 +273,7 @@ namespace _11_Image_Processing
             }
         }
             //load
-            private void Menu_Load_Open_Click(object sender, RoutedEventArgs e)
+        private void Menu_Load_Open_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog() { Filter = "PDF(*.pdf)|*.pdf", Title = "Open PDF" };
             if (open.ShowDialog() != true) return;
@@ -1137,3 +1181,4 @@ namespace _11_Image_Processing
 //make edge detection direction dependent
 //add non linar transformation
 //todo topbar bug when maximazed
+//tododone debug starting from file

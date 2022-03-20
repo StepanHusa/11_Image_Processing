@@ -291,6 +291,7 @@ namespace _11_Image_Processing
             return doc;
         }
 
+        //not used
         public static List<RectangleF> GetPositionerRectangles(this PdfLoadedDocument doc)
         {
             List<RectangleF> posis = new();
