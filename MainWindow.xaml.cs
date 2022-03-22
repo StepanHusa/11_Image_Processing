@@ -64,10 +64,13 @@ namespace _11_Image_Processing
 
             //debug
             {
-                //string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
+                string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
                 //LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
                 LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\VálekSSS" + Settings.projectExtension);
 
+                PdfLoadedDocument ddoc = new(Settings.tempFile);
+                ddoc.AddPositioners();
+                ddoc.Save(Settings.tempFile);
                 //load from pdf
                 {
                     List<string> tempScans = new();
@@ -76,7 +79,8 @@ namespace _11_Image_Processing
                     var doc = new PdfLoadedDocument(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\Stepan_sken.pdf");
                     for (int j = 0; j < doc.Pages.Count; j++)
                     {
-                        Bitmap bitmap = doc.ExportAsImage(j, Settings.dpiEvaluatePdf, Settings.dpiEvaluatePdf);
+                        Bitmap bitmap = doc.ExportAsImage(j, Settings.dpiEvaluatePdf, Settings.dpiEvaluatePdf).CropAddMarginFromSettings();
+
                         do
                         {
                             path = Path.GetTempFileName();
@@ -108,7 +112,7 @@ namespace _11_Image_Processing
                 }
 
                 Settings.resultsInQuestionsInWorks = Settings.scanPagesInWorks.EvaluateWorks(Settings.boxesInQuestions);
-
+                new ViewResultW().Show();
 
                 //TODo Comment
 
@@ -250,9 +254,9 @@ namespace _11_Image_Processing
                 if (File.Exists(arguments[1]))
                 {
                     string FileExtension = Path.GetExtension(filePathFormMainArgs);
-                    if(FileExtension==".pdf")
+                    if (FileExtension == ".pdf")
                         LoadDocument(filePathFormMainArgs);
-                    else if (FileExtension==".doc" | FileExtension==".docx")
+                    else if (FileExtension == ".doc" | FileExtension == ".docx")
                     {
                         Word2Pdf objWorPdf = new Word2Pdf();
                         string FromLocation = filePathFormMainArgs;
@@ -272,7 +276,7 @@ namespace _11_Image_Processing
 
             }
         }
-            //load
+        //load
         private void Menu_Load_Open_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog() { Filter = "PDF(*.pdf)|*.pdf", Title = "Open PDF" };
@@ -338,7 +342,9 @@ namespace _11_Image_Processing
 
 
             Settings.tempFile = tempPdf;
+            Settings.tempFilesToDelete.Add(tempPdf);
             Settings.tempFileCopy = tempCopy;
+            Settings.tempFilesToDelete.Add(tempCopy);
             Settings.fileName = fileName;
 
             ReloadWindowContent();
@@ -347,7 +353,7 @@ namespace _11_Image_Processing
         //open
         private void Menu_Open_Project_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog open = new() { Title = Strings.OpenProject, Filter = Strings.StudentTesterProjects+ $"(*{Settings.projectExtension})|*{Settings.projectExtension}" };
+            OpenFileDialog open = new() { Title = Strings.OpenProject, Filter = Strings.StudentTesterProjects + $"(*{Settings.projectExtension})|*{Settings.projectExtension}" };
             if (open.ShowDialog() == false) return;
 
             LoadDataFromFile(open.FileName);
@@ -536,7 +542,10 @@ namespace _11_Image_Processing
             File.WriteAllBytes(tempCopy, documentpdf);
 
             Settings.tempFile = tempPdf;
+            Settings.tempFilesToDelete.Add(tempPdf);
             Settings.tempFileCopy = tempCopy;
+            Settings.tempFilesToDelete.Add(tempCopy);
+
             Settings.projectFileName = filename;
             //Settings.pagesPoints = listOfPointFsArray.ByteArrayToPointFListArray();
             Settings.boxesInQuestions = listBoxesInQuestions.ByteArrayToIntRectangleFBoolTupleListList();
@@ -557,11 +566,12 @@ namespace _11_Image_Processing
 
             for (int i = 0; i < doc.Pages.Count; i++)
             {
-                Bitmap image = doc.ExportAsImage(i,Settings.dpiExport,Settings.dpiExport);
+                Bitmap image = doc.ExportAsImage(i, Settings.dpiExport, Settings.dpiExport).CropAddMarginFromSettings();
+                image.SaveToDebugFolder();
 
                 string fn = Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
 
-                image.Save(fn,System.Drawing.Imaging.ImageFormat.Jpeg);
+                image.Save(fn, System.Drawing.Imaging.ImageFormat.Jpeg);
             }
 
         }
@@ -582,7 +592,7 @@ namespace _11_Image_Processing
                 //var rect = Settings.positioners[i].UnrelatitivizeToImage(image);
                 //image.SetPixel((rect.X+rect.Width), rect.Y, Color.Yellow);
 
-                string fn =Path.GetDirectoryName(save.FileName)+"\\"+ Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
+                string fn = Path.GetDirectoryName(save.FileName) + "\\" + Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
 
                 image.Save(fn, System.Drawing.Imaging.ImageFormat.Png);
             }
@@ -647,7 +657,7 @@ namespace _11_Image_Processing
             doc.Save(stream);
 
 
-            PrintDialog printDialog = new() { SelectedPagesEnabled = true, UserPageRangeEnabled=true, CurrentPageEnabled=true};
+            PrintDialog printDialog = new() { SelectedPagesEnabled = true, UserPageRangeEnabled = true, CurrentPageEnabled = true };
             if (printDialog.ShowDialog() != true) return;
 
             string xps = Path.GetTempFileName();
@@ -699,7 +709,7 @@ namespace _11_Image_Processing
         //one page files
         private void Menu_Read_ListOfScans_OnePage_Click(object sender, RoutedEventArgs e)
         {
-            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true }; 
+            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };
             if (open.ShowDialog() == false) return;
 
             int l = Settings.scanPagesInWorks.Count();//moves indexing if there are already bitmaps in the list
@@ -711,7 +721,7 @@ namespace _11_Image_Processing
         }
         private async void Menu_Read_PDF_Click(object sender, RoutedEventArgs e)
         {
-            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.PDF + $"|*.PDF|"+Strings.Allfiles+" (*.*)|*.*", Multiselect = true };
+            var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.PDF + $"|*.PDF|" + Strings.Allfiles + " (*.*)|*.*", Multiselect = true };
             if (open.ShowDialog() == false) return;
 
             List<string> tempScans = new();
@@ -723,6 +733,7 @@ namespace _11_Image_Processing
             foreach (var item in open.FileNames)
             {
                 var doc = new PdfLoadedDocument(item);
+                var child = doc.DocumentInformation.XmpMetadata.XmlData.FirstChild;
                 for (int j = 0; j < doc.Pages.Count; j++)
                 {
                     Bitmap bitmap = doc.ExportAsImage(j, Settings.dpiEvaluatePdf, Settings.dpiEvaluatePdf);
@@ -733,7 +744,7 @@ namespace _11_Image_Processing
                         {
                             File.Delete(path);
                         }
-                        path=Path.ChangeExtension(path, ".bmp");
+                        path = Path.ChangeExtension(path, ".bmp");
 
                     } while (File.Exists(path));
                     bitmap.Save(path);
@@ -750,7 +761,7 @@ namespace _11_Image_Processing
             var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|" + Strings.Allfiles + " (*.*)|*.*", Multiselect = true };
             if (open.ShowDialog() == false) return;
 
-            await LoadNumberOfFiles( open.FileNames);
+            await LoadNumberOfFiles(open.FileNames);
 
         }
         private async void Menu_Read_Scan_Click(object sender, RoutedEventArgs e)
@@ -758,9 +769,9 @@ namespace _11_Image_Processing
             var a = new ScanForm();
             if (a.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
-            await LoadNumberOfFiles( a.tempScans.ToArray());
+            await LoadNumberOfFiles(a.tempScans.ToArray());
         }
-        private async Task LoadNumberOfFiles( string[] ImageFiles)
+        private async Task LoadNumberOfFiles(string[] ImageFiles)
         {
             var a = new ImportPicturesDialogW(ImageFiles.Length);
             if (a.ShowDialog() != true)
@@ -774,33 +785,34 @@ namespace _11_Image_Processing
             var invert = a.Invert.Value;
             a.Close();
 
-            Settings.scanPagesInWorks = await Task.Run(() => { 
-
-            List<List<string>> works = new();
-            int ii = 0;
-            if (!invert)
-                for (int i = 0; i < da.Item1; i++)
-                {
-                    works.Add(new());
-                    for (int j = 0; j < da.Item2; j++)
-                    {
-                        works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
-                        ii++;
-                    }
-                }
-            else
+            Settings.scanPagesInWorks = await Task.Run(() =>
             {
-                for (int i = 0; i < da.Item1; i++)
-                    works.Add(new());
-                for (int j = 0; j < da.Item2; j++)
-                {
+
+                List<List<string>> works = new();
+                int ii = 0;
+                if (!invert)
                     for (int i = 0; i < da.Item1; i++)
                     {
-                        works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
-                        ii++;
+                        works.Add(new());
+                        for (int j = 0; j < da.Item2; j++)
+                        {
+                            works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
+                            ii++;
+                        }
+                    }
+                else
+                {
+                    for (int i = 0; i < da.Item1; i++)
+                        works.Add(new());
+                    for (int j = 0; j < da.Item2; j++)
+                    {
+                        for (int i = 0; i < da.Item1; i++)
+                        {
+                            works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
+                            ii++;
+                        }
                     }
                 }
-            }
                 return works;
             });
 
@@ -813,7 +825,7 @@ namespace _11_Image_Processing
             new ControlBeforeEvaluatonW().ShowDialog();
 
 
-            int highestPageIndex=0;
+            int highestPageIndex = 0;
             foreach (var question in Settings.boxesInQuestions)
                 foreach (var box in question)
                     if (box.Item1 > highestPageIndex)
@@ -824,7 +836,7 @@ namespace _11_Image_Processing
                     lowestPagesInWork = work.Count;
             if (highestPageIndex > lowestPagesInWork) MessageBox.Show(Strings.warningScansDontHaveEnaughtPages, Strings.Warning);
 
-            
+
 
 
             var pbw = new ProgressBarW();
@@ -839,7 +851,7 @@ namespace _11_Image_Processing
         //help and settings
         private void Menu_Help_HTML_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.Help.ShowHelp(null, "StudentTesterHelp.html"); 
+            System.Windows.Forms.Help.ShowHelp(null, "StudentTesterHelp.html");
 
         }
         private void Menu_Help_CHM_Click(object sender, RoutedEventArgs e)
@@ -875,7 +887,7 @@ namespace _11_Image_Processing
 
         private void ReloadWindowContent()
         {
-            if (Settings.tempFile==null) throw new Exception("ReloadWindowContent whan no loaded document");
+            if (Settings.tempFile == null) throw new Exception("ReloadWindowContent whan no loaded document");
             var doc = new PdfLoadedDocument(Settings.tempFile);
 
             Menu_Edit.IsEnabled = true;
@@ -910,7 +922,7 @@ namespace _11_Image_Processing
             boxcounttext.Text = ii.ToString();
             ii = 0;
             foreach (var tuples in Settings.pagesFields)
-                ii ++;
+                ii++;
             fieldcounttext.Text = ii.ToString();
 
             versionCombobox.Items.Clear();
@@ -921,7 +933,7 @@ namespace _11_Image_Processing
 
             if (Settings.versions.Count != 0)
                 dateoflastsavetext.Text = Settings.versions.Last();
-            else dateoflastsavetext.Text =Strings.notsavedyet;
+            else dateoflastsavetext.Text = Strings.notsavedyet;
 
             //dateoflastsavetext.Text = Settings.versions.Last().ToStringOfRegularFormat();
 
@@ -980,8 +992,8 @@ namespace _11_Image_Processing
         {
             double r = e.NewSize.Width / e.PreviousSize.Width;
 
-            int newZoom =(int) (pdfDocumentView.ZoomPercentage*r);
-                pdfDocumentView.ZoomTo(newZoom);
+            int newZoom = (int)(pdfDocumentView.ZoomPercentage * r);
+            pdfDocumentView.ZoomTo(newZoom);
         }
 
         private void CommandBinding_CanExecuteTRUE(object sender, CanExecuteRoutedEventArgs e)
@@ -1023,18 +1035,21 @@ namespace _11_Image_Processing
             else if (f != MessageBoxResult.Yes) return;
             else if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
             else if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null);
-            else MessageBox.Show(Strings.NoProjectLoaded,"Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            else MessageBox.Show(Strings.NoProjectLoaded, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-
-
-
-
-
-
-
-
-
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            DeleteTempFiles();
+        }
+        public static void DeleteTempFiles()
+        {
+            foreach (var file in Settings.tempFilesToDelete)
+            {
+                if (File.Exists(file))
+                    File.Delete(file);
+            }
+        }
         ///// <summary>
         ///// Print all pages of an XPS document.
         ///// Optionally, hide the print dialog window.
@@ -1168,7 +1183,7 @@ namespace _11_Image_Processing
     }
 }
 
-	
+
 //TODO update the save project property 
 //  (add saving preferences)
 
@@ -1182,3 +1197,4 @@ namespace _11_Image_Processing
 //add non linar transformation
 //todo topbar bug when maximazed
 //tododone debug starting from file
+//todo find the right moment to add mositioners

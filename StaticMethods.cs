@@ -1046,7 +1046,12 @@ namespace _11_Image_Processing
             int margin = (int)(m * bitmap.Width);
             var P = bitmap.FindPositionersInBitmap(legLength, margin); //positioners
 
-
+            if (Settings.positioners == null)
+            {
+                PdfLoadedDocument ddoc = new(Settings.tempFile);
+                ddoc.AddPositioners();
+                ddoc.Save(Settings.tempFile);
+            }
             Matrix matrix = new(Settings.positioners[pageindex], new PointF[3] { P.p1, P.p2, P.p4 });
 
             return matrix;
@@ -1095,18 +1100,54 @@ namespace _11_Image_Processing
 
             return null;
         }
-        public static QuadrilateralF FindPositionersInBitmap(this Bitmap bitmap, int legLength, int margin)
+        private static float BitmapMean(this Bitmap bitmap)
+        {
+            int count = 0;
+            int sum = 0;
+            for (int i = 0; i < bitmap.Width; i++)
+            {
+                for (int j = 0; j < bitmap.Height; j++)
+                {
+                    count += 3;
+                    var c= bitmap.GetPixel(i, j);
+                    sum += c.R + c.G + c.B;
+                }
+            }
+            return (float)sum / (count * 255);
+
+        }
+        public static QuadrilateralF FindPositionersInBitmapOld(this Bitmap bitmap, int legLength, int margin)
         {
             int side = legLength + margin;
             int sidemarg = side + margin;
             float threshold = Settings.positionersEdgenessThreshold;
+            double[,] filter;
+            if (bitmap.Width>2000)
+                filter = Settings.LaplFilterForPositionersBetterLarger;
+            else filter = Settings.LaplFilterForPositionersBetter;
+
+
+            //things that can go wrong:
+            //edge of the paper can be in the crop region
+            //changing resolution can defuse edges of positioners
+            //noise can confuse the algorythm
+            //page gets smaller (instead of larger)
+
+
+
 
             Rectangle cropRect = new(margin, margin, side, side);
             var crop = bitmap.Crop(cropRect);
-            var converted = crop.ProcessFilter(Settings.LaplFilterForPositionersBetter);
+            var a = crop.GetPixel(241, 115);
+            a = crop.GetPixel(284,121);
+            a = crop.GetPixel(250, 123);
+            //var converted = crop.ProcessFilter(Settings.LaplFilterForPositionersBetter);
+            var converted = crop.ProcessFilter(filter);
 
 
-
+            //todo comment
+            crop.SaveToDebugFolder();
+            converted.SaveToDebugFolder();
             //goes through square where the angle is expected in lines left to right and finds first point of edge
             List<Point> linesPointsVer = new();
             for (int i = 0; i < side; i++)
@@ -1124,6 +1165,7 @@ namespace _11_Image_Processing
                 }
             }
             var lineVert = linesPointsVer.LinearRegressionVerticalOutliers();
+
 
             //goes horizontaly and finds vertical line
             List<Point> linesPointsHor = new();
@@ -1280,67 +1322,260 @@ namespace _11_Image_Processing
 
             return new(p1, p2, p3, p4);
         }
+        public static QuadrilateralF FindPositionersInBitmap(this Bitmap bitmap, int legLength, int margin)
+        {
+            int side = legLength + margin;
+            int sidemarg = side + margin;
+            float threshold = Settings.positionersEdgenessThreshold;
+
+            //things that can go wrong:
+            //edge of the paper can be in the crop region
+            //changing resolution can defuse edges of positioners
+            //noise can confuse the algorythm
+            //page gets smaller (instead of larger)
+
+
+
+
+            Rectangle cropRect = new(margin, margin, side, side);
+            var crop = bitmap.Crop(cropRect);
+            var a = crop.GetPixel(241, 115);
+            a = crop.GetPixel(284, 121);
+            a = crop.GetPixel(250, 123);
+            //var converted = crop.ProcessFilter(Settings.LaplFilterForPositionersBetter);
+            //var converted = crop.ProcessFilter(filter);
+
+
+            //todo comment
+            //crop.SaveToDebugFolder();
+            //converted.SaveToDebugFolder();
+            //goes through square where the angle is expected in lines left to right and finds first point of edge
+
+            List<Point> linesPointsVer = new();
+            for (int i = 0; i < side; i++)
+            {
+                //Point starting = new(margin,margin+ i);
+
+                //float[] line = new float[2 * margin];
+                for (int j = 0; j < side; j++)
+                {
+                    if (crop.GetPixel(i, j).GetBrightness() < threshold)
+                    {
+                        linesPointsVer.Add(new(i, j));
+                        break;
+                    }
+                }
+            }
+            var lineVert = linesPointsVer.LinearRegressionVerticalOutliers();
+
+
+            //goes horizontaly and finds vertical line
+            List<Point> linesPointsHor = new();
+            for (int j = 0; j < side; j++)
+                for (int i = 0; i < side; i++)
+                {
+                    if (crop.GetPixel(i, j).GetBrightness() < threshold)
+                    {
+                        linesPointsHor.Add(new(i, j));
+                        break;
+                    }
+                }
+            var lineHor = linesPointsHor.LinearRegressionHorizontalOutliers();
+
+
+            PointF p1 = lineHor.CrossectionOfTwoLines(lineVert);
+            //add margin
+            p1 += new Size(margin, margin);
+
+            //top right
+            cropRect = new(bitmap.Width - sidemarg, margin, side, side);
+            crop = bitmap.Crop(cropRect);
+            //crop.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            //converted = crop.ProcessFilter(Settings.LaplFilterForPositionersBetter);
+
+            linesPointsVer = new();
+            for (int i = 0; i < side; i++)
+                for (int j = 0; j < side; j++)
+                {
+                    if (crop.GetPixel(side - i - 1, j).GetBrightness() < threshold)
+                    {
+                        linesPointsVer.Add(new(side - i - 1, j));
+                        break;
+                    }
+                }
+            lineVert = linesPointsVer.LinearRegressionVerticalOutliers();
+
+            linesPointsHor = new();
+            for (int j = 0; j < side; j++)
+                for (int i = 0; i < side; i++)
+                {
+                    if (crop.GetPixel(side - i - 1, j).GetBrightness() < threshold)
+                    {
+                        linesPointsHor.Add(new(side - i - 1, j));
+                        break;
+                    }
+                }
+            lineHor = linesPointsHor.LinearRegressionHorizontalOutliers();
+
+
+            PointF p2 = lineHor.CrossectionOfTwoLines(lineVert);
+            p2 += new Size(bitmap.Width - sidemarg, margin);
+            //bottom right
+            cropRect = new(bitmap.Width - sidemarg, bitmap.Height - sidemarg, side, side);
+            crop = bitmap.Crop(cropRect);
+            //converted = crop.ProcessFilter(Settings.LaplFilterForPositionersBetter);
+
+            linesPointsVer = new();
+            for (int i = 0; i < side; i++)
+                for (int j = 0; j < side; j++)
+                {
+                    if (crop.GetPixel(side - i - 1, side - j - 1).GetBrightness() < threshold)
+                    {
+                        linesPointsVer.Add(new(side - i - 1, side - j - 1));
+                        break;
+                    }
+                }
+            lineVert = linesPointsVer.LinearRegressionVerticalOutliers();
+
+            linesPointsHor = new();
+            for (int j = 0; j < side; j++)
+                for (int i = 0; i < side; i++)
+                {
+                    if (crop.GetPixel(side - i - 1, side - j - 1).GetBrightness() < threshold)
+                    {
+                        linesPointsHor.Add(new(side - i - 1, side - j - 1));
+                        break;
+                    }
+                }
+            lineHor = linesPointsHor.LinearRegressionHorizontalOutliers();
+
+
+            PointF p3 = lineHor.CrossectionOfTwoLines(lineVert);
+            p3 += new Size(bitmap.Width - sidemarg, bitmap.Height - sidemarg);
+
+            //TODOd comment
+            //foreach (var point in linesPointsHor)
+            //{
+            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
+            //}
+            //ii = Directory.GetFiles(f).Length;
+            //g = f + "\\" + ii + ".Bmp";
+            //crop.Save(g);
+            //bottom left
+            cropRect = new(margin, bitmap.Height - sidemarg, side, side);
+            crop = bitmap.Crop(cropRect);
+            //converted = crop.ProcessFilter(Settings.LaplFilterForPositionersBetter);
+
+            linesPointsVer = new();
+            for (int i = 0; i < side; i++)
+                for (int j = 0; j < side; j++)
+                {
+                    if (crop.GetPixel(i, side - j - 1).GetBrightness() < threshold)
+                    {
+                        linesPointsVer.Add(new(i, side - j - 1));
+                        break;
+                    }
+                }
+            lineVert = linesPointsVer.LinearRegressionVerticalOutliers();
+
+            linesPointsHor = new();
+            for (int j = 0; j < side; j++)
+                for (int i = 0; i < side; i++)
+                {
+                    if (crop.GetPixel(i, side - j - 1).GetBrightness() < threshold)
+                    {
+                        linesPointsHor.Add(new(i, side - j - 1));
+                        break;
+                    }
+                }
+            lineHor = linesPointsHor.LinearRegressionHorizontalOutliers();
+
+            ////TODOd comment
+            //foreach (var point in linesPointsHor)
+            //{
+            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
+            //}
+            //foreach (var point in linesPointsVer)
+            //{
+            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
+            //}
+            //crop.SaveToDebugFolder();
+            //converted.SaveToDebugFolder();
+
+
+            PointF p4 = lineHor.CrossectionOfTwoLines(lineVert);
+            p4 += new Size(margin, bitmap.Height - sidemarg);
+
+            //TODO comment
+            bitmap.SetPixel((int)p1.X, (int)p1.Y, Color.Red);
+            bitmap.SetPixel((int)p2.X, (int)p2.Y, Color.Red);
+            bitmap.SetPixel((int)p3.X, (int)p3.Y, Color.Red);
+            bitmap.SetPixel((int)p4.X, (int)p4.Y, Color.Red);
+            bitmap.SaveToDebugFolder();
+
+            //crop.Save(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\test\posits\crop.bmp");
+            //converted.Save(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\test\posits\converted.bmp");
+
+            //bitmap.SetPixel((int)p1.X,(int) p1.Y, Color.Yellow);
+            //bitmap.Save(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\test\posits\bit.bmp");
+
+
+
+
+            return new(p1, p2, p3, p4);
+        }
+
         public static List<List<bool>> EvaluateOneWork(this List<string> work, List<List<Tuple<int, RectangleF, bool>>> questions)
         {
             List<List<bool>> resultsOneWork = new();
             Bitmap[] pages = new Bitmap[work.Count];
             var matrixes = new Matrix[work.Count];
             float marginST = Settings.positionersMargin;
-            
-            for (int i = 0; i < work.Count; i++)
-            {
-                pages[i] = new Bitmap(work[i]);
-                matrixes[i] = pages[i].MakeTransformationMatrixFromPositioners(i);
-            }
+
+            //for (int i = 0; i < work.Count; i++)
+            //{
+            //    pages[i] = new Bitmap(work[i]);
+            //    matrixes[i] = pages[i].MakeTransformationMatrixFromPositioners(i);
+            //}
+
+            pages[0] = new Bitmap(work[0]);
+            matrixes[0] = pages[0].MakeTransformationMatrixFromPositioners(0);
 
             foreach (var question in questions)
             {
                 List<bool> resultsQuestion = new();
                 foreach (var box in question)
                 {
-                    //TODOdone all to matrix
                     int pageindex = box.Item1;
-                    var rect = box.Item2;
-                    RectangleF newRect = new(rect.Location.ApplyMatrix(matrixes[pageindex]), rect.Size.ApplyMatrix(matrixes[pageindex]));
-                    Bitmap crop = pages[pageindex].Crop(Rectangle.Round(newRect));
+
+                    //todo take back after debug
+                    if (pageindex == 0)
+                    {
+                        var rect = box.Item2;
+                        RectangleF newRect = new(rect.Location.ApplyMatrix(matrixes[pageindex]), rect.Size.ApplyMatrix(matrixes[pageindex]));
+                        Bitmap crop = pages[pageindex].Crop(Rectangle.Round(newRect));
+
+                        //debug feature
+                        pages[pageindex].DrowRectangle(newRect);
+                        //TODO comment
+                        //string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
+                        //int i = Directory.GetFiles(f).Length;
+                        //f = f + "\\" + i + ".Bmp";
+                        //crop.Save(f);
+
+                        bool IsCross = crop.IsEdgyInTheCenterRecognize();
+
+                        resultsQuestion.Add(IsCross);
+                        crop.Dispose();
+                    }
+                    else resultsQuestion.Add(true);
 
 
-                    //float nw = ps.Item2;
-                    //float nh = ps.Item3;
-                    ////float rx = rect.X * nw - ps.Item4 + ps.Item1.X;
-                    ////float ry = rect.Y * nh - ps.Item4 + ps.Item1.Y;
-                    //float rx = (rect.X-marginST) * nw;//to positioner
-                    //float ry = (rect.Y-marginST) * nh;
-                    //PointF locat = new(rx, ry);
-                    //float rw = rect.Width * nw;
-                    //float rh = rect.Height * nh;
-                    //SizeF size = new(rw, rh);
-
-
-
-                    //Bitmap crop = null; /*pages[pageindex].Crop(new());*/
-
-
-
-                    //debug feature
-                    //pages[pageindex].DrowRectangle(newRect);
-                    //TODOd comment
-                    //string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
-                    //int i = Directory.GetFiles(f).Length;
-                    //f = f + "\\" + i + ".Bmp";
-                    //crop.Save(f);
-
-                    //add to settings
-                    //bool IsDark = crop.IsDarkRocognize();
-                    bool IsCross = crop.IsEdgyInTheCenterRecognize();
-
-                    resultsQuestion.Add(IsCross);
-                    crop.Dispose();
                 }
                 resultsOneWork.Add(resultsQuestion);
             }
 
-            //pages[0].SaveToDebugFolder();
+            pages[0].SaveToDebugFolder();
             //pages[1].SaveToDebugFolder();
 
 

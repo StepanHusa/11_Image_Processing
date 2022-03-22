@@ -104,6 +104,40 @@
             </TabItem>
             <TabItem Header="{x:Static ln:Strings.Evaluation}">
                 <StackPanel>
+
+                    <GroupBox Header="Local Settings">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="noCutting" Margin="0,10"/>
+                                <Label Content="Iknowmyscannerdoesentcutedgesofpage" Margin="0,5"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="noChangesByScanning" Margin="0,10"/>
+                                <Label Content="" Margin="0,5"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Margins">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="mLeft" Width="50" Margin="0,5,10,0"/>
+                                <TextBlock Text="uppermargin" Margin="0,5,10,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="mTop" Width="50" Margin="0,5,10,0"/>
+                                <TextBlock Text="uppermargin" Margin="0,5,10,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="mRight" Width="50" Margin="0,5,10,0"/>
+                                <TextBlock Text="uppermargin" Margin="0,5,10,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="mBottom" Width="50" Margin="0,5,10,0"/>
+                                <TextBlock Text="uppermargin" Margin="0,5,10,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
                     <GroupBox Header="Methods">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">

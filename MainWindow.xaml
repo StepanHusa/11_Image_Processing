@@ -11,7 +11,7 @@
     Title="{x:Static ln:Strings.NameOfAplication}"
         Icon="/Resources/imag.ico"
        Height="600" Width="1000" Background="Azure"
-    Closing="Window_Closing">
+    Closing="Window_Closing" Closed="Window_Closed">
 
     <Grid>
         <Grid.RowDefinitions>

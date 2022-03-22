@@ -516,7 +516,7 @@ namespace _11_Image_Processing
         /// <summary>
         /// Fits a line to a collection of (x,y) points.
         /// </summary>
-        public static Tuple<Line, double> LinearRegressionOld( this Point[] points)
+        public static Tuple<Line, double> LinearRegressionOld(this Point[] points)
         {
             int n = points.Length;
             double sumOfX = 0;
@@ -542,29 +542,29 @@ namespace _11_Image_Processing
             double a = (n * sumCodeviates - sumOfX * sumOfY) / ssX;
             double b = (sumOfXSq * sumOfY - sumOfX * sumCodeviates) / ssX;
 
-            if (ssX==0)
+            if (ssX == 0)
             {
-               a=double.PositiveInfinity;
-                var ssY = n*sumOfYSq - sumOfY * sumOfY;
+                a = double.PositiveInfinity;
+                var ssY = n * sumOfYSq - sumOfY * sumOfY;
                 b = points[0].X;
             }
 
             //var dblR = rNumerator / Math.Sqrt(rDenom);
             var rNumerator = (n * sumCodeviates) - (sumOfX * sumOfY);
             var rDenom = (n * sumOfXSq - (sumOfX * sumOfX)) * (n * sumOfYSq - (sumOfY * sumOfY));
-            double rSquared = rNumerator*rNumerator/rDenom;
+            double rSquared = rNumerator * rNumerator / rDenom;
 
-            return new Tuple<Line,double>(new Line(a, b,0), rSquared);
+            return new Tuple<Line, double>(new Line(a, b, 0), rSquared);
         }
 
-        public static PointF CrossectionOfTwoLines(this Line line1,Line line2)
+        public static PointF CrossectionOfTwoLines(this Line line1, Line line2)
         {
             double Det = line1.a * line2.b - line1.b * line2.a;
 
             double detA = line1.b * line2.c - line1.c * line2.b;
             double detB = line1.c * line2.a - line1.a * line2.c;
 
-            return new PointF((float)(detA / Det),(float) (detB / Det));
+            return new PointF((float)(detA / Det), (float)(detB / Det));
 
 
         }
@@ -600,21 +600,21 @@ namespace _11_Image_Processing
             var ssY = n * sumOfYSq - sumOfY * sumOfY;
             if (ssX == 0)
             {
-                a = 1;
+                a = -1;
                 b = 0;
-                c = -points[0].X;
+                c = points[0].X;
 
             }
             else if (ssY == 0)
             {
                 a = 0;
-                b = 1;
-                c = -points[0].Y;
+                b = -1;
+                c = points[0].Y;
             }
             else
             {
                 a = (n * sumCodeviates - sumOfX * sumOfY) / ssX;
-                if (a > 1| a<-1)
+                if (a > 1 | a < -1)
                 {
                     a = -1;
                     b = (n * sumCodeviates - sumOfY * sumOfX) / ssY;
@@ -639,15 +639,15 @@ namespace _11_Image_Processing
         public static Line LinearRegressionAndOutliers(this List<Point> points)
         {
             //based on distance from line d = |a*px+b*x+c| / sqrt( a^2 + b^2 )
-            Line l=points.LinearRegression();
+            Line l = points.LinearRegression();
             List<double> list = new();
-           
+
             double invPythagorusAB = 1 / Math.Sqrt(l.a * l.a + l.b * l.b);
             for (int i = 0; i < points.Count; i++)
             {
                 list.Add(invPythagorusAB * Math.Abs(l.a * points[i].X + l.b * points[i].Y + l.c));
             }
-            double aver= list.Average();
+            double aver = list.Average();
             while (list.Max() > 2 * aver)
             {
                 int i = list.IndexOf(list.Max());
@@ -674,9 +674,9 @@ namespace _11_Image_Processing
             }
 
             double avr = Xs.Average();
-            double outThr = (Ys.Max() - Ys.Min()) /2.0;
+            double outThr = (Ys.Max() - Ys.Min()) / 2.0;
 
-            while (Xs.Max() - avr > outThr )
+            while (Xs.Max() - avr > outThr)
             {
                 int i = Xs.IndexOf(Xs.Max());
                 points.RemoveAt(i);
@@ -690,7 +690,7 @@ namespace _11_Image_Processing
                 Xs.RemoveAt(i);
                 Ys.RemoveAt(i);
             }
-           return points.LinearRegressionAndOutliers();
+            return points.LinearRegressionAndOutliers();
 
         }
         public static Line LinearRegressionVerticalOutliers(this List<Point> points)
@@ -768,15 +768,44 @@ namespace _11_Image_Processing
         }
         public static Bitmap Crop(this Bitmap orig, Rectangle rect)
         {
-            Size size = new(rect.Width, rect.Height);
-
-            Bitmap crop = new Bitmap(size.Width, size.Height);
+            Bitmap crop = new Bitmap(rect.Width, rect.Height);
 
             using (Graphics g = Graphics.FromImage(crop))
             {
                 g.DrawImage(orig, new Rectangle(0, 0, crop.Width, crop.Height),
                                  rect,
                                  GraphicsUnit.Pixel);
+            }
+            return crop;
+        }
+        public static Bitmap CropAddMarginFromSettings(this Bitmap orig)
+        {
+            var th = Settings.scanExpectedMargins;
+
+            var wNew = orig.Width / (1 + th.Left + th.Right);
+            var hNew = orig.Height / (1 + th.Top + th.Bottom);
+
+            Rectangle rect = new((int)Math.Round(wNew * th.Left), (int)Math.Round(hNew * th.Top), (int)Math.Round(wNew), (int)Math.Round(hNew));
+
+            Bitmap crop = new Bitmap(rect.Width, rect.Height);
+
+            using (Graphics g = Graphics.FromImage(crop))
+            {
+                g.DrawImage(orig, new Rectangle(0, 0, crop.Width, crop.Height),
+                                 rect,
+                                 GraphicsUnit.Pixel);
+
+                using (Brush border = new SolidBrush(Color.White /* Change it to whichever color you want. */))
+                {
+                    if (rect.X < 0)
+                        g.FillRectangle(border, 0, 0, -rect.X, crop.Height);
+                    if (rect.Y < 0)
+                        g.FillRectangle(border, 0, 0, crop.Width, -rect.Y);
+                    if (rect.Right > orig.Width)
+                        g.FillRectangle(border, orig.Width - rect.X, 0, crop.Width, crop.Height);
+                    if (rect.Bottom > orig.Height)
+                        g.FillRectangle(border, 0, orig.Height - rect.Y, crop.Width, crop.Height);
+                }
             }
             return crop;
         }

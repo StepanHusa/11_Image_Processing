@@ -41,7 +41,10 @@ namespace _11_Image_Processing
         internal static float positionersMargin = (float)0.03; //relative to width!!    keep it greater then expected addup by scaning (0.03)
         internal static float positionersLegLength = (float)0.03; //relative to width (0.03)
         //TODO 0.03
-        internal static float positionersEdgenessThreshold = (float)0.35;
+        internal static float positionersEdgenessThresholdOld = (float)0.35;
+        internal static float positionersEdgenessThreshold = (float)0.3;
+        //internal static System.Windows.Thickness scanExpectedMargins = new(); //relative to page width
+        internal static System.Windows.Thickness scanExpectedMargins = new(0.03,0,-0.03,0);//todo comment valek
 
         internal static double treshold = 0.7;
 
@@ -56,7 +59,7 @@ namespace _11_Image_Processing
         internal static SizeF sizeOfBox     { get { return new SizeF(sizeOfBoxF, sizeOfBoxF); } set { sizeOfBoxF = value.Height; } }
         internal static int pagesOfDocument { get { return new PdfLoadedDocument(tempFile).Pages.Count; } }
 
-
+        internal static List<string> tempFilesToDelete = new();
         //file specified info
         internal static string projectFileName;
         internal static string fileName;
@@ -121,7 +124,7 @@ namespace _11_Image_Processing
             { 1  , 1  ,1 , 1 , 1 },
             { 1 , 1 , -24 , 1,  1 },
             { 1, 1 ,  1 , 1 , 1 },
-            { 1  , 1  ,1 , 1 , 1 },
+            { 1  , 1  ,1 , 1 , 1 }
         };
         internal static double[,] LaplFilterForPositionersBetter = new double[,]
 {
@@ -131,13 +134,27 @@ namespace _11_Image_Processing
             { .2, .2 ,  .2 , .2 , .2 },
             { .2  , .2  ,.2 , .2 , .2 },
 };
+        internal static double[,] LaplFilterForPositionersBetterLarger = new double[,]
+{
+            { .2 , .2 , .2, .2,  .2  , .2, .2, .2,  .2 },
+            { .2 , .2 , .2, .2,  .2  , .2, .2, .2,  .2 },
+            { .2 , .2 , .2, .2,  .2  , .2, .2, .2,  .2 },
+            { .2 , .2 , .2, .2,  .2  , .2, .2, .2,  .2 },
+            { .2 , .2 , .2, .2, -16.2 , .2, .2, .2,  .2 },
+            { .2 , .2 , .2, .2,  .2  , .2, .2, .2,  .2 },
+            { .2 , .2 , .2, .2,  .2  , .2, .2, .2,  .2 },
+            { .2 , .2 , .2, .2,  .2  , .2, .2, .2,  .2 },
+            { .2 , .2 , .2, .2,  .2  , .2, .2, .2,  .2 },
+
+};
+
         internal static double[,] LaplFilterForPositioners2 = new double[,]//not used
 {
             { .1, .1 ,  .1 , .1 , .1 },
             { .1  , .1  ,.1 , .1 , .1 },
             { .1 , .1 , -2.4 , .1,  .1 },
             { .1, .1 ,  .1 , .1 , .1 },
-            { .1  , .1  ,.1 , .1 , .1 },
+            { .1  , .1  ,.1 , .1 , .1 }
 };
 
 

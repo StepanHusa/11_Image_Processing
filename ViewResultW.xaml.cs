@@ -24,10 +24,22 @@ namespace _11_Image_Processing
     {
         public ViewResultW()
         {
+            if (namesScaned == null & Settings.nameField != null)
+            {
+                namesScaned = new();
+                foreach (var item in Settings.scanPagesInWorks)
+                {
+                    var rect = Settings.nameField.Item2;
+                    var b = new System.Drawing.Bitmap(item[Settings.nameField.Item1]);
+                    var mat = b.MakeTransformationMatrixFromPositioners(Settings.nameField.Item1);
+                    var newRect = new System.Drawing.RectangleF(rect.Location.ApplyMatrix(mat), rect.Size.ApplyMatrix(mat));
+                    namesScaned.Add(b.Crop(System.Drawing.Rectangle.Round(newRect)));
+                }
+            }
+
             InitializeComponent();
 
             //Settings.scansInPagesInWorks.DrowCorrect();
-
             SetupTabsOfView();
             SetUpAllResults();
 
@@ -40,18 +52,6 @@ namespace _11_Image_Processing
             for (int i = 0; i < Settings.scanPagesInWorks.Count; i++)
             {
                 TabItem z = new();
-                if (namesScaned == null & Settings.nameField != null)
-                {
-                    namesScaned = new();
-                    foreach (var item in Settings.scanPagesInWorks)
-                    {
-                        var rect = Settings.nameField.Item2;
-                        var b = new System.Drawing.Bitmap(item[Settings.nameField.Item1]);
-                        var mat = b.MakeTransformationMatrixFromPositioners(Settings.nameField.Item1);
-                        var newRect = new System.Drawing.RectangleF(rect.Location.ApplyMatrix(mat), rect.Size.ApplyMatrix(mat));
-                        namesScaned.Add(b.Crop(System.Drawing.Rectangle.Round(newRect)));
-                    }
-                }
                 if (namesScaned != null)
                 {
                     Image wImage = new();
@@ -176,9 +176,13 @@ namespace _11_Image_Processing
 
             foreach (var item in s)
             {
-                Image x = item.Name;
-                x.Height = height;
-                namesPanel.Children.Add(x);
+                if (item.Name != null)
+                {
+                    Image x = item.Name;
+                    x.Height = height;
+                    namesPanel.Children.Add(x);
+                }
+                else namesPanel.Children.Add(new TextBlock() {Text=item.Index.ToString() });
             }
         }
 
@@ -194,8 +198,10 @@ namespace _11_Image_Processing
                     if (item.CorrectBool)
                         right++;
                 ResultOfAllOne r;
-                if (namesScaned.Count > i)
-                    r = new(i + 1, right, li.Count, namesScaned[i]);
+                if (namesScaned != null)
+                    if (namesScaned.Count > i)
+                        r = new(i + 1, right, li.Count, namesScaned[i]);
+                    else r = new(i + 1, right, li.Count);
                 else r = new(i + 1, right, li.Count);
 
                 list.Add(r);
