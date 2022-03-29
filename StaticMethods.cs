@@ -348,6 +348,7 @@ namespace _11_Image_Processing
 
                 //save for evaluation
                 save.Add(new RectangleF((marg + w) / page.Size.Width, (marg + w) / page.Size.Height, 1 - 2*(marg + w) / page.Size.Width, 1- 2*(marg + w) / page.Size.Height));//set to the middle of lines
+                //todo make relative to width only
             }
             Settings.positioners = save;
             return doc;
@@ -995,6 +996,16 @@ namespace _11_Image_Processing
                 catch
                 {
                     System.Windows.MessageBox.Show(Strings.errorEvaluating + (i+1), Strings.Error);
+                    for (int l = 0; l < questions.Count; l++)
+                    {
+                        List<bool> resultsQuestion = new();
+
+                        for (int j = 0; j < questions[l].Count; j++)
+                        {
+                            resultsQuestion.Add(false);
+                        }
+                        resultsAll[i].Add(resultsQuestion);
+                    }
                 }
             });
 
@@ -1078,11 +1089,11 @@ namespace _11_Image_Processing
             var P = bitmap.FindPositionersInBitmapShape(legLength, margin, 2); //positioners
 
             //TODO comment
-            bitmap.SetPixel((int)P.p1.X, (int)P.p1.Y, Color.Red);
-            bitmap.SetPixel((int)P.p2.X, (int)P.p2.Y, Color.Red);
-            bitmap.SetPixel((int)P.p3.X, (int)P.p3.Y, Color.Red);
-            bitmap.SetPixel((int)P.p4.X, (int)P.p4.Y, Color.Red);
-            bitmap.SaveToDebugFolder();
+            //bitmap.SetPixel((int)P.p1.X, (int)P.p1.Y, Color.Red);
+            //bitmap.SetPixel((int)P.p2.X, (int)P.p2.Y, Color.Red);
+            //bitmap.SetPixel((int)P.p3.X, (int)P.p3.Y, Color.Red);
+            //bitmap.SetPixel((int)P.p4.X, (int)P.p4.Y, Color.Red);
+            //bitmap.SaveToDebugFolder();
 
 
 
@@ -1733,35 +1744,30 @@ namespace _11_Image_Processing
                 {
                     int pageindex = box.Item1;
 
-                    //todo take back after debug
-                    if (pageindex == 0)
-                    {
-                        var rect = box.Item2;
-                        RectangleF newRect = new(rect.Location.ApplyMatrix(matrixes[pageindex]), rect.Size.ApplyMatrix(matrixes[pageindex]));
-                        Bitmap crop = pages[pageindex].Crop(Rectangle.Round(newRect));
+                    var rect = box.Item2;
+                    RectangleF newRect = new(rect.Location.ApplyMatrix(matrixes[pageindex]), rect.Size.ApplyMatrix(matrixes[pageindex]));
+                    Bitmap crop = pages[pageindex].Crop(Rectangle.Round(newRect));
 
-                        //debug feature
-                        pages[pageindex].DrowRectangle(newRect);
-                        //TODO comment
-                        //string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
-                        //int i = Directory.GetFiles(f).Length;
-                        //f = f + "\\" + i + ".Bmp";
-                        //crop.Save(f);
+                    //debug feature
+                    pages[pageindex].DrowRectangle(newRect);
+                    //TODO comment
+                    //string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
+                    //int i = Directory.GetFiles(f).Length;
+                    //f = f + "\\" + i + ".Bmp";
+                    //crop.Save(f);
 
-                        bool IsCross = crop.IsEdgyInTheCenterRecognize();
+                    bool IsCross = crop.IsEdgyInTheCenterRecognize();
 
-                        resultsQuestion.Add(IsCross);
-                        crop.Dispose();
-                    }
-                    else resultsQuestion.Add(true);
+                    resultsQuestion.Add(IsCross);
+                    crop.Dispose();
 
 
                 }
                 resultsOneWork.Add(resultsQuestion);
             }
 
-            pages[0].SaveToDebugFolder();
-            pages[1].SaveToDebugFolder();
+            //pages[0].SaveToDebugFolder();
+            //pages[1].SaveToDebugFolder();
 
 
             return resultsOneWork;
@@ -1946,6 +1952,14 @@ namespace _11_Image_Processing
             return cropRect;
 
         }
+        public static Rectangle UnrelatitivizeToWidthofImage(this RectangleF relativeRect, Bitmap image)
+        {
+            Rectangle cropRect = new((int)Math.Ceiling(relativeRect.X * image.Width), (int)Math.Ceiling(relativeRect.Y * image.Width), (int)Math.Floor(relativeRect.Width * image.Width), (int)Math.Floor(relativeRect.Height * image.Width));
+
+            return cropRect;
+
+        }
+
     }
 
 }

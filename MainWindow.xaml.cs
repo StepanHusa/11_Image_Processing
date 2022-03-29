@@ -587,16 +587,17 @@ namespace _11_Image_Processing
             if (save.ShowDialog() != true) return;
             PdfLoadedDocument doc = new(Settings.tempFile);
             doc.RemakeBoxexOneColor();
-            doc.AddPositioners();
+            //doc.AddPositioners();
 
             for (int i = 0; i < doc.Pages.Count; i++)
             {
                 Bitmap image = doc.ExportAsImage(i, Settings.dpiExport, Settings.dpiExport);
 
                 //debug
-                //TODO comment
+                //TODOd comment
                 //var rect = Settings.positioners[i].UnrelatitivizeToImage(image);
-                //image.SetPixel((rect.X+rect.Width), rect.Y, Color.Yellow);
+                //image.SetPixel(rect.X + rect.Width, rect.Y, Color.Yellow);
+                //image.SaveToDebugFolder();
 
                 string fn = Path.GetDirectoryName(save.FileName) + "\\" + Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
 
@@ -1375,3 +1376,4 @@ namespace _11_Image_Processing
 //todo topbar bug when maximazed
 //tododone debug starting from file
 //todo find the right moment to add mositioners
+//TODO all in one window
