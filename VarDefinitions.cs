@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using _11_Image_Processing.Resources.Strings;
 using System.Drawing;
+using ImageProcessor.Imaging;
 
 namespace _11_Image_Processing
 {
@@ -144,6 +145,41 @@ namespace _11_Image_Processing
         public float BoundWidth { get; set; }
         public int NumberOfBoxes { get; set; }
 
+    }
+
+    public class BitmapInGrayscale255
+    {
+        private byte[,] _pixels;
+        public BitmapInGrayscale255(Bitmap bitmap)
+        {
+            _pixels = new byte[bitmap.Width, bitmap.Height];
+            int h = bitmap.Height;
+
+            using (var fbmp = new FastBitmap(bitmap))
+            {
+                //for (int i = 0; i < bitmap.Width; i++)
+                //    for (int j = 0; j < bitmap.Height; j++)
+                //    {
+                //        _pixels[i, j] = fbmp.GetPixel(i, j).ColorToGrayscale();
+                //    }
+                Parallel.For(0, bitmap.Width, (i) => {
+                    for (int j = 0; j < h; j++)
+                        _pixels[i, j] = fbmp.GetPixel(i, j).ColorToGrayscale();
+                });
+            }
+        }
+        public byte this[int x,int y]
+        {
+            get
+            {
+                return _pixels[x,y];
+            }
+
+            set
+            {
+                _pixels[x, y] = value;
+            }
+        }
     }
 
 

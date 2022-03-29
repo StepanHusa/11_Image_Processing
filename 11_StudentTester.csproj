@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="debug files\s\**" />
+    <EmbeddedResource Remove="debug files\s\**" />
+    <None Remove="debug files\s\**" />
+    <Page Remove="debug files\s\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Recycle Bin\Recycle.cs" />
   </ItemGroup>
 

@@ -19,7 +19,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-            <!--<Button x:Name="ButtonOpen"             Content="Open"                      HorizontalAlignment="Left" Margin="91,61,0,0"       VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="53"/>
+        <!--<Button x:Name="ButtonOpen"             Content="Open"                      HorizontalAlignment="Left" Margin="91,61,0,0"       VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="53"/>
         <Button x:Name="ButtonSavePdf"          Content="Save"                      HorizontalAlignment="Left" Margin="183,251,0,0"     VerticalAlignment="Top" FontSize="20" Click="ButtonSave_Click"  Grid.Column="0" Height="31" Width="45"/>
         <Button x:Name="Edit"                   Content="Edit in Viewer"            HorizontalAlignment="Left" Margin="168,61,0,0"      VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="38"/>
         <Button x:Name="ButtonRun"              Content="Run"                       HorizontalAlignment="Left" Margin="183,176,0,0"     VerticalAlignment="Top" FontSize="20" Click="ButtonRun_Click"   Grid.Column="0" Height="31" Width="45"/>
@@ -97,83 +97,139 @@
                 </StackPanel>
             </Border>
         </DockPanel>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="400*"/>
-                <ColumnDefinition Width="429*"/>
-            </Grid.ColumnDefinitions>
-            <!--<Grid.Effect>
+
+        <Grid Grid.Row="1" Name="bottomSpaceOfWindow">
+            <Grid x:Name="projectInfo" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="400*"/>
+                    <ColumnDefinition Width="429*"/>
+                </Grid.ColumnDefinitions>
+                <!--<Grid.Effect>
                 <DropShadowEffect BlurRadius="15" Direction="-90"
                               RenderingBias="Quality" ShadowDepth="2"/>
             </Grid.Effect>-->
 
-            <PdfViewer:PdfDocumentView x:Name="pdfDocumentView" HorizontalAlignment="Center"  Grid.Column="1" Grid.Row="1" SizeChanged="pdfDocumentView_SizeChanged" />
+                <PdfViewer:PdfDocumentView x:Name="pdfDocumentView" HorizontalAlignment="Center"  Grid.Column="1" Grid.Row="1" SizeChanged="pdfDocumentView_SizeChanged" />
 
-            <Grid Grid.Row="1" Margin="10,5,0,0" >
-                <!--ShowGridLines="True"-->
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="68*"/>
-                    <ColumnDefinition Width="125*"/>
-                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="1" Margin="10,5,0,0" >
+                    <!--ShowGridLines="True"-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="68*"/>
+                        <ColumnDefinition Width="125*"/>
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock Text="{x:Static ln:Strings.ProjectName}"                   Grid.Row="0" Grid.Column="0"/>
-                <TextBlock Text="{x:Static ln:Strings.ProjectFileName}"         Grid.Row="1" Grid.Column="0"/>
-                <TextBlock Text="{x:Static ln:Strings.ProjectLocation}"          Grid.Row="2" Grid.Column="0"/>
-                <TextBlock Text="{x:Static ln:Strings.Numberofpages}"           Grid.Row="3" Grid.Column="0"/>
-                <TextBlock Text="{x:Static ln:Strings.Numberofquestions}"       Grid.Row="4" Grid.Column="0"/>
-                <TextBlock Text="{x:Static ln:Strings.Numberofboxes}"           Grid.Row="5" Grid.Column="0"/>
-                <TextBlock Text="{x:Static ln:Strings.Numberoftextfields}"     Grid.Row="6" Grid.Column="0"/>
-                <TextBlock Text="{x:Static ln:Strings.Projectversion}"           Grid.Row="7" Grid.Column="0"/>
-                <TextBlock Text="{x:Static ln:Strings.Dateoflastsave}"         Grid.Row="8" Grid.Column="0"/>
-
-
+                    <TextBlock Text="{x:Static ln:Strings.ProjectName}"                   Grid.Row="0" Grid.Column="0"/>
+                    <TextBlock Text="{x:Static ln:Strings.ProjectFileName}"         Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="{x:Static ln:Strings.ProjectLocation}"          Grid.Row="2" Grid.Column="0"/>
+                    <TextBlock Text="{x:Static ln:Strings.Numberofpages}"           Grid.Row="3" Grid.Column="0"/>
+                    <TextBlock Text="{x:Static ln:Strings.Numberofquestions}"       Grid.Row="4" Grid.Column="0"/>
+                    <TextBlock Text="{x:Static ln:Strings.Numberofboxes}"           Grid.Row="5" Grid.Column="0"/>
+                    <TextBlock Text="{x:Static ln:Strings.Numberoftextfields}"     Grid.Row="6" Grid.Column="0"/>
+                    <TextBlock Text="{x:Static ln:Strings.Projectversion}"           Grid.Row="7" Grid.Column="0"/>
+                    <TextBlock Text="{x:Static ln:Strings.Dateoflastsave}"         Grid.Row="8" Grid.Column="0"/>
 
 
 
-                <TextBox x:Name="projecttext"         Grid.Row="0" Grid.Column="1"  LostFocus="projecttext_LostFocus"/>
-                <TextBox x:Name="projectfilenametext" Grid.Row="1" Grid.Column="1"  IsReadOnly="True"/>
-                <TextBox x:Name="locationtext"        Grid.Row="2" Grid.Column="1" IsReadOnly="True"/>
-                <TextBox x:Name="pagecounttext"       Grid.Row="3" Grid.Column="1"  IsReadOnly="True"/>
-                <TextBox x:Name="questioncounttext"   Grid.Row="4" Grid.Column="1" IsReadOnly="True"/>
-                <TextBox x:Name="boxcounttext"        Grid.Row="5" Grid.Column="1"  IsReadOnly="True"/>
-                <TextBox x:Name="fieldcounttext"      Grid.Row="6" Grid.Column="1" IsReadOnly="True"/>
-                <ComboBox  x:Name="versionCombobox"    Grid.Row="7" Grid.Column="1">
-                    <ComboBox.ItemContainerStyle>
-                        <Style TargetType="ComboBoxItem">
-                            <Setter
+
+
+                    <TextBox x:Name="projecttext"         Grid.Row="0" Grid.Column="1"  LostFocus="projecttext_LostFocus"/>
+                    <TextBox x:Name="projectfilenametext" Grid.Row="1" Grid.Column="1"  IsReadOnly="True"/>
+                    <TextBox x:Name="locationtext"        Grid.Row="2" Grid.Column="1" IsReadOnly="True"/>
+                    <TextBox x:Name="pagecounttext"       Grid.Row="3" Grid.Column="1"  IsReadOnly="True"/>
+                    <TextBox x:Name="questioncounttext"   Grid.Row="4" Grid.Column="1" IsReadOnly="True"/>
+                    <TextBox x:Name="boxcounttext"        Grid.Row="5" Grid.Column="1"  IsReadOnly="True"/>
+                    <TextBox x:Name="fieldcounttext"      Grid.Row="6" Grid.Column="1" IsReadOnly="True"/>
+                    <ComboBox  x:Name="versionCombobox"    Grid.Row="7" Grid.Column="1">
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter
                     Property="IsEnabled"
                     Value="False" />
-                        </Style>
-                    </ComboBox.ItemContainerStyle>
-                </ComboBox>
-                <TextBox x:Name="dateoflastsavetext"  Grid.Row="8" Grid.Column="1" IsReadOnly="True"/>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+                    <TextBox x:Name="dateoflastsavetext"  Grid.Row="8" Grid.Column="1" IsReadOnly="True"/>
 
+
+                </Grid>
+                <Label x:Name="loadedPdfLabel" Content="" Grid.Row="1" HorizontalAlignment="Center" Margin="0,351,0,0" Grid.Column="2" VerticalAlignment="Top"/>
+
+                <Button Content="{x:Static ln:Strings.Reload}" x:Name="reloadButton" Style="{DynamicResource buttonsStyle}" HorizontalAlignment="Center" Width="100" Height="30" Margin="0,0,0,30" Grid.Row="1" VerticalAlignment="Bottom" IsEnabled="False"  Click="reloadButton_Click"  />
+
+
+
+            </Grid >
+            <Grid x:Name="results" Visibility="Hidden">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TabControl x:Name="tabsHorizontal"  TabStripPlacement="Left" Grid.Column="0"/>
+
+                <StackPanel x:Name="namesPanel" Grid.Column="1">
+                    <MenuItem Header="Name"/>
+                </StackPanel>
+                <ListView x:Name="allResults" Grid.Column="2">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Height" Value="40" />
+                            <!--should by same as height of Image-->
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="">
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Index}"  Header="{x:Static ln:Strings.Index}" Width="30"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Points}"  Header="{x:Static ln:Strings.Points}" Width="50"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Percents}"  Header="{x:Static ln:Strings.Percents}" Width="50"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Grade}"  Header="{x:Static ln:Strings.Grade}" Width="50"/>
+
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
 
             </Grid>
-            <Label x:Name="loadedPdfLabel" Content="" Grid.Row="1" HorizontalAlignment="Center" Margin="0,351,0,0" Grid.Column="2" VerticalAlignment="Top"/>
-
-            <Button Content="{x:Static ln:Strings.Reload}" x:Name="reloadButton" Style="{DynamicResource buttonsStyle}" HorizontalAlignment="Center" Width="100" Height="30" Margin="0,0,0,30" Grid.Row="1" VerticalAlignment="Bottom" IsEnabled="False"  Click="reloadButton_Click"  />
-
-
 
         </Grid>
     </Grid>
-
     <Window.Resources>
+        <ListView x:Key="lview" Background="LightCyan" x:Shared="false" >
+
+            <ListView.View>
+
+                <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Number}"  Header="{x:Static ln:Strings.Number}" Width="40"/>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Checked}"  Header="{x:Static ln:Strings.Checked}" Width="100"/>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=RightAnswer }" Width="100" Header="{x:Static ln:Strings.RightAnswer}"/>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Correct}" Header="{x:Static ln:Strings.Correct}" Width="100"/>
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+        <!--<ScrollViewer x:Key="scr">
+            
+        </ScrollViewer>-->
+        <!--<TabItem x:Key="leftdef" Selector.Selected="leftdef_Selected" Selector.Unselected="TabItem_Unselected" x:Shared="false"/>-->
+        <Button x:Key="butView" x:Shared="false"  Background="Cyan"/>
         <Style x:Key="menuStyle" TargetType="Menu">
             <Setter Property="Background" Value= "Transparent"/>
             <Setter Property="Foreground" Value="White"/>
@@ -181,7 +237,8 @@
         </Style>
         <SolidColorBrush x:Key="menuBrushBackground">
             <SolidColorBrush.Color>
-                <Color A="255" R="43" G="87" B="154"/> <!-- #FF2B5799-->
+                <Color A="255" R="43" G="87" B="154"/>
+                <!-- #FF2B5799-->
             </SolidColorBrush.Color>
         </SolidColorBrush>
 
@@ -208,7 +265,7 @@
         <Style TargetType="{x:Type local:MainWindow}">
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
-                    <WindowChrome CornerRadius="0" GlassFrameThickness="1" ResizeBorderThickness="0" CaptionHeight="0"></WindowChrome> 
+                    <WindowChrome CornerRadius="0" GlassFrameThickness="1" ResizeBorderThickness="0" CaptionHeight="0"></WindowChrome>
                 </Setter.Value>
             </Setter>
         </Style>

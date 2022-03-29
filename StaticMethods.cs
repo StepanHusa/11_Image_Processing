@@ -25,6 +25,17 @@ using System.Diagnostics;
 
 namespace _11_Image_Processing
 {
+    public static class StaticMethods
+    {
+        public static void DeleteTempFiles()
+        {
+            foreach (var file in Settings.tempFilesToDelete)
+            {
+                if (File.Exists(file))
+                    File.Delete(file);
+            }
+        }
+    }
     public static class Pdf
     {
 
@@ -962,30 +973,49 @@ namespace _11_Image_Processing
         public static List<List<List<bool>>> EvaluateWorks(this List<List<string>> works, List<List<Tuple<int, RectangleF, bool>>> questions)
         {
             List<List<List<bool>>> resultsAll = new();
-
-            foreach (var work in works)
+            for (int i = 0; i < works.Count; i++)
+                resultsAll.Add(new());
+            //foreach (var work in works)
+            //{
+            //    try
+            //    {
+            //        resultsAll.Add(work.EvaluateOneWork(questions));
+            //    }
+            //    catch
+            //    {
+            //        System.Windows.MessageBox.Show(Strings.errorEvaluating + works.IndexOf(work), Strings.Error);
+            //    }
+            //}
+            Parallel.For(0, works.Count, (i) =>
             {
-                resultsAll.Add(work.EvaluateOneWork(questions));
-            }
-
+                try
+                {
+                    resultsAll[i]=works[i].EvaluateOneWork(questions);
+                }
+                catch
+                {
+                    System.Windows.MessageBox.Show(Strings.errorEvaluating + (i+1), Strings.Error);
+                }
+            });
 
             return resultsAll;
         }
         public static QuadrilateralF FindPositsFromSettings(this Bitmap bitmap)
         {
             int legLength = (int)(Settings.positionersLegLength * bitmap.Width);
-            int Margin = (int)(Settings.positionersMargin * bitmap.Width);
+            int margin = (int)(Settings.positionersMargin * bitmap.Width);
 
-            return bitmap.FindPositionersInBitmap(legLength, Margin);
-        }
 
-        public static void AnalyzePositionersInBitmap(this Bitmap bitmap,int pageindex)
+            return bitmap.FindPositionersInBitmap(legLength, margin);
+        }//not used
+        public static void AnalyzePositionersInBitmap(this Bitmap bitmap,int pageindex)//not used
         {
             float l = Settings.positionersLegLength;
             int legLength = (int)(l * bitmap.Width);
             float m = Settings.positionersMargin;
             int margin = (int)(m * bitmap.Width);
             var P = bitmap.FindPositionersInBitmap(legLength, margin); //positioners
+
 
             float rotation = (P.p1.X - P.p4.X) / (P.p1.Y - P.p4.Y);    //tan(alpha)
 
@@ -1045,6 +1075,8 @@ namespace _11_Image_Processing
             float m = Settings.positionersMargin;
             int margin = (int)(m * bitmap.Width);
             var P = bitmap.FindPositionersInBitmap(legLength, margin); //positioners
+            bitmap.FindPositionersInBitmapShape(legLength, margin, 2);
+
 
             if (Settings.positioners == null)
             {
@@ -1100,7 +1132,7 @@ namespace _11_Image_Processing
 
             return null;
         }
-        private static float BitmapMean(this Bitmap bitmap)
+        public static float BitmapMean(this Bitmap bitmap)
         {
             int count = 0;
             int sum = 0;
@@ -1324,8 +1356,8 @@ namespace _11_Image_Processing
         }
         public static QuadrilateralF FindPositionersInBitmap(this Bitmap bitmap, int legLength, int margin)
         {
-            int side = legLength + margin;
-            int sidemarg = side + margin;
+            int side = legLength + 2*margin;
+            int sidemarg = side /*+ margin*/;
             float threshold = Settings.positionersEdgenessThreshold;
 
             //things that can go wrong:
@@ -1334,14 +1366,14 @@ namespace _11_Image_Processing
             //noise can confuse the algorythm
             //page gets smaller (instead of larger)
 
+            //Rectangle cropRect = new(margin, margin, side, side);
+            Rectangle cropRect = new(0, 0, side, side);
 
-
-
-            Rectangle cropRect = new(margin, margin, side, side);
             var crop = bitmap.Crop(cropRect);
             var a = crop.GetPixel(241, 115);
             a = crop.GetPixel(284, 121);
             a = crop.GetPixel(250, 123);
+            //bitmap.SaveToDebugFolder();
             //var converted = crop.ProcessFilter(Settings.LaplFilterForPositionersBetter);
             //var converted = crop.ProcessFilter(filter);
 
@@ -1383,6 +1415,17 @@ namespace _11_Image_Processing
             var lineHor = linesPointsHor.LinearRegressionHorizontalOutliers();
 
 
+            ////TODO comment
+            foreach (var point in linesPointsHor)
+            {
+                crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
+            }
+            foreach (var point in linesPointsVer)
+            {
+                crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
+            }
+            crop.SaveToDebugFolder();
+
             PointF p1 = lineHor.CrossectionOfTwoLines(lineVert);
             //add margin
             p1 += new Size(margin, margin);
@@ -1417,6 +1460,17 @@ namespace _11_Image_Processing
                 }
             lineHor = linesPointsHor.LinearRegressionHorizontalOutliers();
 
+
+            ////TODO comment
+            foreach (var point in linesPointsHor)
+            {
+                crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
+            }
+            foreach (var point in linesPointsVer)
+            {
+                crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
+            }
+            crop.SaveToDebugFolder();
 
             PointF p2 = lineHor.CrossectionOfTwoLines(lineVert);
             p2 += new Size(bitmap.Width - sidemarg, margin);
@@ -1453,14 +1507,19 @@ namespace _11_Image_Processing
             PointF p3 = lineHor.CrossectionOfTwoLines(lineVert);
             p3 += new Size(bitmap.Width - sidemarg, bitmap.Height - sidemarg);
 
-            //TODOd comment
-            //foreach (var point in linesPointsHor)
-            //{
-            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
-            //}
-            //ii = Directory.GetFiles(f).Length;
-            //g = f + "\\" + ii + ".Bmp";
-            //crop.Save(g);
+            ////TODO comment
+            foreach (var point in linesPointsHor)
+            {
+                crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
+            }
+            foreach (var point in linesPointsVer)
+            {
+                crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
+            }
+            crop.SaveToDebugFolder();
+
+
+
             //bottom left
             cropRect = new(margin, bitmap.Height - sidemarg, side, side);
             crop = bitmap.Crop(cropRect);
@@ -1490,16 +1549,16 @@ namespace _11_Image_Processing
                 }
             lineHor = linesPointsHor.LinearRegressionHorizontalOutliers();
 
-            ////TODOd comment
-            //foreach (var point in linesPointsHor)
-            //{
-            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
-            //}
-            //foreach (var point in linesPointsVer)
-            //{
-            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
-            //}
-            //crop.SaveToDebugFolder();
+            ////TODO comment
+            foreach (var point in linesPointsHor)
+            {
+                crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
+            }
+            foreach (var point in linesPointsVer)
+            {
+                crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
+            }
+            crop.SaveToDebugFolder();
             //converted.SaveToDebugFolder();
 
 
@@ -1524,6 +1583,44 @@ namespace _11_Image_Processing
 
             return new(p1, p2, p3, p4);
         }
+        public static QuadrilateralF FindPositionersInBitmapShape(this Bitmap bitmap, int legLength, int margin,int width)
+        {
+            var bmg = new BitmapInGrayscale255(bitmap);
+
+            int min = int.MaxValue;
+            Point minP = new();
+
+            for (int i = 0; i < 2 * margin+legLength; i++)
+                for (int j = 0; j < 2 * margin+legLength; j++)
+                {
+                    int sum = 0;
+                    for (int k = 0; k < width; k++)
+                        for (int l = 0; l < legLength; l++)
+                            sum += bmg[i + k, j + l];
+
+                    for (int k = 0; k < legLength; k++)
+                        for (int l = 0; l < width; l++)
+                            sum += bmg[i + k, j + l];
+
+                    if(sum<min)
+                    {
+                        min = sum;
+                        minP = new(i,j);
+                    }    
+                }
+
+            //todo comment
+            for (int k = 0; k < width; k++)
+                for (int l = 0; l < legLength; l++)
+                    bitmap.SetPixel(minP.X + k, minP.Y + l, Color.Green);
+
+            for (int k = 0; k < legLength; k++)
+                for (int l = 0; l < width; l++)
+                    bitmap.SetPixel(minP.X + k, minP.Y + l, Color.Green);
+
+            return new();
+        }
+
 
         public static List<List<bool>> EvaluateOneWork(this List<string> work, List<List<Tuple<int, RectangleF, bool>>> questions)
         {
@@ -1532,14 +1629,14 @@ namespace _11_Image_Processing
             var matrixes = new Matrix[work.Count];
             float marginST = Settings.positionersMargin;
 
-            //for (int i = 0; i < work.Count; i++)
-            //{
-            //    pages[i] = new Bitmap(work[i]);
-            //    matrixes[i] = pages[i].MakeTransformationMatrixFromPositioners(i);
-            //}
+            for (int i = 0; i < work.Count; i++)
+            {
+                pages[i] = new Bitmap(work[i]);
+                matrixes[i] = pages[i].MakeTransformationMatrixFromPositioners(i);
+            }
 
-            pages[0] = new Bitmap(work[0]);
-            matrixes[0] = pages[0].MakeTransformationMatrixFromPositioners(0);
+            //pages[0] = new Bitmap(work[0]);
+            //matrixes[0] = pages[0].MakeTransformationMatrixFromPositioners(0);
 
             foreach (var question in questions)
             {
@@ -1576,7 +1673,7 @@ namespace _11_Image_Processing
             }
 
             pages[0].SaveToDebugFolder();
-            //pages[1].SaveToDebugFolder();
+            pages[1].SaveToDebugFolder();
 
 
             return resultsOneWork;

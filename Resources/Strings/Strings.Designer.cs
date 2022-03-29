@@ -326,6 +326,24 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not evaluate work number.
+        /// </summary>
+        public static string errorEvaluating {
+            get {
+                return ResourceManager.GetString("errorEvaluating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Evaluate.
         /// </summary>
         public static string Evaluate {

@@ -810,6 +810,26 @@ namespace _11_Image_Processing
             return crop;
         }
 
+        public static Byte ColorToGrayscale(this Color color)
+        {
+            int r = color.R;
+            int g = color.G;
+            int b = color.B;
+
+            int max, min;
+
+            max = r; min = r;
+
+            if (g > max) max = g;
+            if (b > max) max = b;
+
+            if (g < min) min = g;
+            if (b < min) min = b;
+
+
+            return (byte)((max + min) / 2);
+        }
+
 
     }
     static class WindowsMediaExtensions

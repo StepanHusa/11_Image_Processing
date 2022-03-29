@@ -79,7 +79,7 @@ namespace _11_Image_Processing
                     var doc = new PdfLoadedDocument(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\Stepan_sken.pdf");
                     for (int j = 0; j < doc.Pages.Count; j++)
                     {
-                        Bitmap bitmap = doc.ExportAsImage(j, Settings.dpiEvaluatePdf, Settings.dpiEvaluatePdf).CropAddMarginFromSettings();
+                        Bitmap bitmap = doc.ExportAsImage(j, Settings.dpiEvaluatePdf, Settings.dpiEvaluatePdf)/*.CropAddMarginFromSettings()*/;
 
                         do
                         {
@@ -110,9 +110,15 @@ namespace _11_Image_Processing
                     }
                     Settings.scanPagesInWorks = works;
                 }
+                Bitmap bm = new(Settings.scanPagesInWorks[0][0]);
+                bm.MakeTransformationMatrixFromPositioners(0);
+                bm.SaveToDebugFolder();
+
 
                 Settings.resultsInQuestionsInWorks = Settings.scanPagesInWorks.EvaluateWorks(Settings.boxesInQuestions);
-                new ViewResultW().Show();
+                ShowResultView();
+                //var f = new ViewResultW();
+                //f.Show();
 
                 //TODo Comment
 
@@ -566,7 +572,7 @@ namespace _11_Image_Processing
 
             for (int i = 0; i < doc.Pages.Count; i++)
             {
-                Bitmap image = doc.ExportAsImage(i, Settings.dpiExport, Settings.dpiExport).CropAddMarginFromSettings();
+                Bitmap image = doc.ExportAsImage(i, Settings.dpiExport, Settings.dpiExport)/*.CropAddMarginFromSettings()*/;
                 image.SaveToDebugFolder();
 
                 string fn = Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
@@ -972,7 +978,7 @@ namespace _11_Image_Processing
             versionCombobox.Items.Clear();
             dateoflastsavetext.Text = string.Empty;
 
-            Title = Settings.appName + " -- #Unloaded";
+            Title = Settings.appName + " -- Unloaded";
 
             pdfDocumentView.Unload();
             loadedPdfLabel.Content = "";
@@ -996,16 +1002,204 @@ namespace _11_Image_Processing
             pdfDocumentView.ZoomTo(newZoom);
         }
 
-        private void CommandBinding_CanExecuteTRUE(object sender, CanExecuteRoutedEventArgs e)
+        //resultView
+        private void ShowResultView()
         {
-            e.CanExecute = true;
+            projectInfo.Visibility = Visibility.Hidden;
+            results.Visibility = Visibility.Visible;
+
+            if (namesScaned == null & Settings.nameField != null)
+            {
+                namesScaned = new();
+                foreach (var item in Settings.scanPagesInWorks)
+                {
+                    var rect = Settings.nameField.Item2;
+                    var b = new System.Drawing.Bitmap(item[Settings.nameField.Item1]);
+                    var mat = b.MakeTransformationMatrixFromPositioners(Settings.nameField.Item1);
+                    var newRect = new System.Drawing.RectangleF(rect.Location.ApplyMatrix(mat), rect.Size.ApplyMatrix(mat));
+                    namesScaned.Add(b.Crop(System.Drawing.Rectangle.Round(newRect)));
+                }
+            }
+
+            //Settings.scansInPagesInWorks.DrowCorrect();
+            SetupTabsOfView();
+            SetUpAllResults();
+
         }
+        internal static List<System.Drawing.Bitmap> namesScaned;
+        public void SetupTabsOfView()
+        {
+            for (int i = 0; i < Settings.scanPagesInWorks.Count; i++)
+            {
+                TabItem z = new();
+                if (namesScaned != null)
+                {
+                    System.Windows.Controls.Image wImage = new();
+                    wImage.Source = namesScaned[i].BitmapToImageSource();
+                    wImage.Height = 32;
+                    StackPanel sp = new();
+                    sp.Children.Add(wImage);
+                    z.Header = sp;
+                }
+                else z.Header = i + 1;
+
+                z.Content = GenerateLeftGrid(i);
+
+                tabsHorizontal.Items.Add(z);
+                //_TODO make memory suitable
+            }
+        }
+        private Grid GenerateLeftGrid(int i)
+        {
+            //var imagesTabs = ViewWorks(i); 
+            var imagesTabsButton = (Button)Resources["butView"];
+            imagesTabsButton.Content = Strings.ViewScan;
+            imagesTabsButton.Tag = i;
+            imagesTabsButton.Click += ImagesTabsButton_Click;
+
+            var table = ResultsList(i);
+            var result = new StackPanel();
+            var tupleTextCheckbox = new StackPanel();
+            tupleTextCheckbox.Orientation = Orientation.Horizontal;
+            tupleTextCheckbox.Children.Add(new System.Windows.Controls.Image());//TODO add evaluation of fields
+            tupleTextCheckbox.Children.Add(new CheckBox());
+
+
+
+
+            result.Children.Add(tupleTextCheckbox);
+
+
+            //TODO finish this section and add statistics
+
+            Grid grid = new();
+            grid.RowDefinitions.Add(new() { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new());
+            grid.RowDefinitions.Add(new() { Height = new GridLength(40) });
+            grid.Children.Add(imagesTabsButton);
+            grid.Children.Add(table);
+            grid.Children.Add(result);
+            Grid.SetRow(imagesTabsButton, 3);
+            Grid.SetRow(table, 0);
+            Grid.SetRow(result, 1);
+
+            return grid;
+        }
+        private void ImagesTabsButton_Click(object sender, RoutedEventArgs e)
+        {
+            int i = (int)(sender as Button).Tag;
+            new WorkImagesVeiwWindow(i).Show();
+        }
+        private ListView ResultsList(int workindex)
+        {
+            var lv = (ListView)Resources["lview"];
+            var list = GetListToDisplay(workindex);
+            lv.ItemsSource = list;
+
+            return lv;
+        }
+        private void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var sen = sender as TabControl;
+            int ii = sen.SelectedIndex;
+
+            for (int i = 0; i < tabsHorizontal.Items.Count; i++)
+            {
+                var tabs = (tabsHorizontal.Items[i] as TabItem).Content as TabControl;
+                if (tabs.Items.Count > ii)
+                    tabs.SelectedIndex = ii;
+                else tabs.SelectedIndex = tabs.Items.Count - 1;
+            }
+
+
+
+
+        }
+        private List<ResultOfQuestion> GetListToDisplay(int workindex)
+        {
+            var list = new List<ResultOfQuestion>();
+            int ii = 0;
+            foreach (var question in Settings.boxesInQuestions)
+            {
+                ii++;
+                int q = Settings.boxesInQuestions.IndexOf(question);
+                string correct = string.Empty;
+                string checkedd = string.Empty;
+
+                foreach (var box in question)
+                    if (box.Item3) correct += $"{question.IndexOf(box).IntToAlphabet()}, ";
+
+                for (int i = 0; i < Settings.resultsInQuestionsInWorks[workindex][q].Count; i++)
+                    if (Settings.resultsInQuestionsInWorks[workindex][q][i]) checkedd += $"{i.IntToAlphabet()}, ";
+
+                list.Add(new(checkedd, correct, ii));
+            }
+            return list;
+        }
+        private void SetUpAllResults()
+        {
+
+            var s = GetListOfAll();
+            allResults.ItemsSource = s;
+
+            int height = 40; //same as allResults listview height of row
+
+            foreach (var item in s)
+            {
+                if (item.Name != null)
+                {
+                    System.Windows.Controls.Image x = item.Name;
+                    x.Height = height;
+                    namesPanel.Children.Add(x);
+                }
+                else namesPanel.Children.Add(new TextBlock() { Text = item.Index.ToString() });
+            }
+        }
+        private List<ResultOfAllOne> GetListOfAll()
+        {
+            var list = new List<ResultOfAllOne>();
+            for (int i = 0; i < Settings.resultsInQuestionsInWorks.Count; i++)
+            {
+                var li = GetListToDisplay(i);
+
+                int right = 0;
+                foreach (var item in li)
+                    if (item.CorrectBool)
+                        right++;
+                ResultOfAllOne r;
+                if (namesScaned != null)
+                    if (namesScaned.Count > i)
+                        r = new(i + 1, right, li.Count, namesScaned[i]);
+                    else r = new(i + 1, right, li.Count);
+                else r = new(i + 1, right, li.Count);
+
+                list.Add(r);
+            }
+
+
+            return list;
+        }
+
+
 
         private void CloseClick(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
-
+        private void MinimazeClick(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+        private void MaximazeClick(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState != WindowState.Maximized)
+                this.WindowState = WindowState.Maximized;
+            else this.WindowState = WindowState.Normal;
+        }
+        private void CommandBinding_CanExecuteTRUE(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
         private void DockPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (this.WindowState != WindowState.Normal)
@@ -1016,17 +1210,7 @@ namespace _11_Image_Processing
             this.DragMove();
         }
 
-        private void MinimazeClick(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
 
-        private void MaximazeClick(object sender, RoutedEventArgs e)
-        {
-            if (this.WindowState != WindowState.Maximized)
-                this.WindowState = WindowState.Maximized;
-            else this.WindowState = WindowState.Normal;
-        }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -1040,16 +1224,9 @@ namespace _11_Image_Processing
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            DeleteTempFiles();
+           StaticMethods.DeleteTempFiles();
         }
-        public static void DeleteTempFiles()
-        {
-            foreach (var file in Settings.tempFilesToDelete)
-            {
-                if (File.Exists(file))
-                    File.Delete(file);
-            }
-        }
+
         ///// <summary>
         ///// Print all pages of an XPS document.
         ///// Optionally, hide the print dialog window.

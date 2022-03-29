@@ -24,7 +24,6 @@ namespace _11_Image_Processing
         internal static string templateProjectName = "*"+ Strings.Untitled;
 
         internal static float baundWidth = 2;
-        internal static float positionersWidth = 2;
         internal static Color baundColor = Color.Red;
         internal static Color baundColorTwo = Color.Green;
         internal static Color positionersColor = Color.Black;
@@ -38,13 +37,14 @@ namespace _11_Image_Processing
 
         internal static float dpiExport = 600;
         internal static float dpiEvaluatePdf = 600;
+
+        internal static float positionersWidth = 2;
         internal static float positionersMargin = (float)0.03; //relative to width!!    keep it greater then expected addup by scaning (0.03)
         internal static float positionersLegLength = (float)0.03; //relative to width (0.03)
-        //TODO 0.03
         internal static float positionersEdgenessThresholdOld = (float)0.35;
         internal static float positionersEdgenessThreshold = (float)0.3;
         //internal static System.Windows.Thickness scanExpectedMargins = new(); //relative to page width
-        internal static System.Windows.Thickness scanExpectedMargins = new(0.03,0,-0.03,0);//todo comment valek
+        internal static System.Windows.Thickness scanExpectedMargins = new(0,0,0,0);//todo comment valek
 
         internal static double treshold = 0.7;
 
