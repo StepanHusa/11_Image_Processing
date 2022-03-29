@@ -347,7 +347,7 @@ namespace _11_Image_Processing
                 page.Graphics.DrawPath(Settings.positionersPen, path);
 
                 //save for evaluation
-                save.Add(new RectangleF(marg / page.Size.Width, marg / page.Size.Height, 1 - 2*marg / page.Size.Width, 1- 2*marg / page.Size.Height));
+                save.Add(new RectangleF(marg + w / page.Size.Width, marg + w / page.Size.Height, 1 - 2*(marg + w) / page.Size.Width, 1- 2*(marg + w) / page.Size.Height));//set to the middle of lines
             }
             Settings.positioners = save;
             return doc;
@@ -1074,8 +1074,16 @@ namespace _11_Image_Processing
             int legLength = (int)(l * bitmap.Width);
             float m = Settings.positionersMargin;
             int margin = (int)(m * bitmap.Width);
-            var P = bitmap.FindPositionersInBitmap(legLength, margin); //positioners
-            bitmap.FindPositionersInBitmapShape(legLength, margin, 2);
+             //bitmap.FindPositionersInBitmap(legLength, margin);
+            var P = bitmap.FindPositionersInBitmapShape(legLength, margin, 2); //positioners
+
+            //TODO comment
+            bitmap.SetPixel((int)P.p1.X, (int)P.p1.Y, Color.Red);
+            bitmap.SetPixel((int)P.p2.X, (int)P.p2.Y, Color.Red);
+            bitmap.SetPixel((int)P.p3.X, (int)P.p3.Y, Color.Red);
+            bitmap.SetPixel((int)P.p4.X, (int)P.p4.Y, Color.Red);
+            bitmap.SaveToDebugFolder();
+
 
 
             if (Settings.positioners == null)
@@ -1570,7 +1578,7 @@ namespace _11_Image_Processing
             bitmap.SetPixel((int)p2.X, (int)p2.Y, Color.Red);
             bitmap.SetPixel((int)p3.X, (int)p3.Y, Color.Red);
             bitmap.SetPixel((int)p4.X, (int)p4.Y, Color.Red);
-            bitmap.SaveToDebugFolder();
+            //bitmap.SaveToDebugFolder();
 
             //crop.Save(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\test\posits\crop.bmp");
             //converted.Save(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\test\posits\converted.bmp");
@@ -1586,12 +1594,14 @@ namespace _11_Image_Processing
         public static QuadrilateralF FindPositionersInBitmapShape(this Bitmap bitmap, int legLength, int margin,int width)
         {
             var bmg = new BitmapInGrayscale255(bitmap);
+            int w = bitmap.Width;
+            int h = bitmap.Height;
 
             int min = int.MaxValue;
             Point minP = new();
 
-            for (int i = 0; i < 2 * margin+legLength; i++)
-                for (int j = 0; j < 2 * margin+legLength; j++)
+            for (int i = 0; i < 2 * margin + legLength; i++)
+                for (int j = 0; j < 2 * margin + legLength; j++)
                 {
                     int sum = 0;
                     for (int k = 0; k < width; k++)
@@ -1602,23 +1612,101 @@ namespace _11_Image_Processing
                         for (int l = 0; l < width; l++)
                             sum += bmg[i + k, j + l];
 
-                    if(sum<min)
+                    if (sum < min)
                     {
                         min = sum;
-                        minP = new(i,j);
-                    }    
+                        minP = new(i + width / 2, j + width / 2);
+                    }
+                }
+            var p1 = minP;
+
+            min = int.MaxValue;
+
+            for (int i = 0; i < 2 * margin + legLength; i++)
+                for (int j = 0; j < 2 * margin + legLength; j++)
+                {
+                    int sum = 0;
+                    for (int k = 0; k < width; k++)
+                        for (int l = 0; l < legLength; l++)
+                            sum += bmg[w - i - k - 1, j + l];
+
+                    for (int k = 0; k < legLength; k++)
+                        for (int l = 0; l < width; l++)
+                            sum += bmg[w - i - k - 1, j + l];
+
+                    if (sum < min)
+                    {
+                        min = sum;
+                        minP = new(w - i - width / 2 - 1, j + width / 2);
+                    }
                 }
 
+            var p2 = minP;
+
+            min = int.MaxValue;
+
+            for (int i = 0; i < 2 * margin + legLength; i++)
+                for (int j = 0; j < 2 * margin + legLength; j++)
+                {
+                    int sum = 0;
+                    for (int k = 0; k < width; k++)
+                        for (int l = 0; l < legLength; l++)
+                            sum += bmg[w - i - k - 1, h - j - l - 1];
+
+                    for (int k = 0; k < legLength; k++)
+                        for (int l = 0; l < width; l++)
+                            sum += bmg[w - i - k - 1, h - j - l - 1];
+
+                    if (sum < min)
+                    {
+                        min = sum;
+                        minP = new(w - i - width / 2 - 1, h - j - width / 2 - 1);
+                    }
+                }
+
+            var p3 = minP;
+
+            min = int.MaxValue;
+
+            for (int i = 0; i < 2 * margin + legLength; i++)
+                for (int j = 0; j < 2 * margin + legLength; j++)
+                {
+                    int sum = 0;
+                    for (int k = 0; k < width; k++)
+                        for (int l = 0; l < legLength; l++)
+                            sum += bmg[i + k, h - j - l - 1];
+
+                    for (int k = 0; k < legLength; k++)
+                        for (int l = 0; l < width; l++)
+                            sum += bmg[i + k, h - j - l - 1];
+
+                    if (sum < min)
+                    {
+                        min = sum;
+                        minP = new(i + width / 2, h - j - width / 2 - 1);
+                    }
+                }
+
+            var p4 = minP;
+
+
+
+
+
+
+
+
+
             //todo comment
-            for (int k = 0; k < width; k++)
-                for (int l = 0; l < legLength; l++)
-                    bitmap.SetPixel(minP.X + k, minP.Y + l, Color.Green);
+            //for (int k = 0; k < width; k++)
+            //    for (int l = 0; l < legLength; l++)
+            //        bitmap.SetPixel(minP.X + k, minP.Y + l, Color.Green);
 
-            for (int k = 0; k < legLength; k++)
-                for (int l = 0; l < width; l++)
-                    bitmap.SetPixel(minP.X + k, minP.Y + l, Color.Green);
+            //for (int k = 0; k < legLength; k++)
+            //    for (int l = 0; l < width; l++)
+            //        bitmap.SetPixel(minP.X + k, minP.Y + l, Color.Green);
 
-            return new();
+            return new(p1,p2,p3,p4);
         }
 
 

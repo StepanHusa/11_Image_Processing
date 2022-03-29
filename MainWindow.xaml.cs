@@ -110,9 +110,9 @@ namespace _11_Image_Processing
                     }
                     Settings.scanPagesInWorks = works;
                 }
-                Bitmap bm = new(Settings.scanPagesInWorks[0][0]);
-                bm.MakeTransformationMatrixFromPositioners(0);
-                bm.SaveToDebugFolder();
+                //Bitmap bm = new(Settings.scanPagesInWorks[0][0]);
+                //bm.MakeTransformationMatrixFromPositioners(0);
+                //bm.SaveToDebugFolder();
 
 
                 Settings.resultsInQuestionsInWorks = Settings.scanPagesInWorks.EvaluateWorks(Settings.boxesInQuestions);
