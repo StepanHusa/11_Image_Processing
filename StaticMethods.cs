@@ -347,7 +347,7 @@ namespace _11_Image_Processing
                 page.Graphics.DrawPath(Settings.positionersPen, path);
 
                 //save for evaluation
-                save.Add(new RectangleF(marg + w / page.Size.Width, marg + w / page.Size.Height, 1 - 2*(marg + w) / page.Size.Width, 1- 2*(marg + w) / page.Size.Height));//set to the middle of lines
+                save.Add(new RectangleF((marg + w) / page.Size.Width, (marg + w) / page.Size.Height, 1 - 2*(marg + w) / page.Size.Width, 1- 2*(marg + w) / page.Size.Height));//set to the middle of lines
             }
             Settings.positioners = save;
             return doc;
