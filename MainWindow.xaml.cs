@@ -66,7 +66,7 @@ namespace _11_Image_Processing
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
                 //LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
-                LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\VálekSSS" + Settings.projectExtension);
+                //LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\VálekSSS" + Settings.projectExtension);
 
                 PdfLoadedDocument ddoc = new(Settings.tempFile);
                 ddoc.AddPositioners();
@@ -110,12 +110,13 @@ namespace _11_Image_Processing
                     }
                     Settings.scanPagesInWorks = works;
                 }
-                //Bitmap bm = new(Settings.scanPagesInWorks[0][0]);
-                //bm.MakeTransformationMatrixFromPositioners(0);
-                //bm.SaveToDebugFolder();
+                Bitmap bm = new(Settings.scanPagesInWorks[0][0]);
+                bm.MakeTransformationMatrixFromPositioners(0);
+                bm.SaveToDebugFolder();
 
 
                 Settings.resultsInQuestionsInWorks = Settings.scanPagesInWorks.EvaluateWorks(Settings.boxesInQuestions);
+                Menu_View_Result.IsEnabled = true;
                 ShowResultView();
                 //var f = new ViewResultW();
                 //f.Show();
@@ -851,10 +852,31 @@ namespace _11_Image_Processing
             await Task.Run(() => Settings.resultsInQuestionsInWorks = Settings.scanPagesInWorks.EvaluateWorks(Settings.boxesInQuestions));
 
             //Settings.namesScaned = Settings.scansInPagesInWorks.GetCropedNames(Settings.nameField);
-            new ViewResultW().Show();
+            //new ViewResultW().Show();
+            ShowResultView();
+            Menu_View_Edit.IsEnabled = true;
             pbw.Close();
         }
 
+        //view
+        private void Menu_View_Main_Click(object sender, RoutedEventArgs e)
+        {
+            projectInfo.Visibility = Visibility.Visible;
+            results.Visibility = Visibility.Hidden;
+            editView.Visibility = Visibility.Hidden;
+        }
+        private void Menu_View_Result_Click(object sender, RoutedEventArgs e)
+        {
+            projectInfo.Visibility = Visibility.Hidden;
+            results.Visibility = Visibility.Visible;
+            editView.Visibility = Visibility.Hidden;
+        }
+        private void Menu_View_Edit_Click(object sender, RoutedEventArgs e)
+        {
+            projectInfo.Visibility = Visibility.Hidden;
+            results.Visibility = Visibility.Hidden;
+            editView.Visibility = Visibility.Visible;
+        }
         //help and settings
         private void Menu_Help_HTML_Click(object sender, RoutedEventArgs e)
         {
@@ -898,6 +920,7 @@ namespace _11_Image_Processing
             var doc = new PdfLoadedDocument(Settings.tempFile);
 
             Menu_Edit.IsEnabled = true;
+            Menu_View_Edit.IsEnabled = true;
             Menu_Project_SaveAs.IsEnabled = true;
             Menu_Print.IsEnabled = true;
             Menu_Read.IsEnabled = true;
@@ -992,6 +1015,10 @@ namespace _11_Image_Processing
             Menu_Export.IsEnabled = false;
             Menu_Read.IsEnabled = false;
             Menu_Eavluate.IsEnabled = false;
+
+            Menu_View_Edit.IsEnabled = false;
+            Menu_View_Result.IsEnabled = false;
+            Menu_View_Main_Click(null, null);
         }
 
 
@@ -1227,6 +1254,7 @@ namespace _11_Image_Processing
         {
            StaticMethods.DeleteTempFiles();
         }
+
 
         ///// <summary>
         ///// Print all pages of an XPS document.

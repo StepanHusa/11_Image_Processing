@@ -28,7 +28,7 @@
 
 
 
-        <DockPanel Grid.Row="0" MouseDown="DockPanel_MouseDown" Background="{DynamicResource menuBrushBackground}" >
+        <DockPanel Grid.Row="0" MouseDown="DockPanel_MouseDown" Background="{DynamicResource menuBrushBackground}">
             <Menu  DockPanel.Dock = "Left" IsMainMenu="True" Background="Transparent">
                 <MenuItem x:Name="Menu_Project" Header="_Project" Height="30" >
                     <MenuItem          Header="{x:Static ln:Strings.New}" >
@@ -72,6 +72,12 @@
                 </MenuItem>
 
                 <MenuItem x:Name="Menu_Eavluate" Header="{x:Static ln:Strings.Evaluate}" Click="Menu_Eavluate_Click" IsEnabled="False"/>
+
+                <MenuItem x:Name="Menu_View" Header="{x:Static ln:Strings.View}" >
+                    <MenuItem x:Name="Menu_View_Main" Header="Main" Click="Menu_View_Main_Click" />
+                    <MenuItem x:Name="Menu_View_Edit" Header="Edit" IsEnabled="False" Click="Menu_View_Edit_Click"/>
+                    <MenuItem x:Name="Menu_View_Result" Header="Results" IsEnabled="False" Click="Menu_View_Result_Click" />
+                </MenuItem>
 
                 <MenuItem x:Name="Menu_Help" Header="{x:Static ln:Strings.Help}">
                     <MenuItem x:Name="Menu_Help_HTML" Header="{x:Static ln:Strings.HTML}" Click="Menu_Help_HTML_Click"/>
@@ -205,6 +211,7 @@
                 </ListView>
 
             </Grid>
+            <Grid x:Name="editView" Visibility="Hidden"></Grid>
 
         </Grid>
     </Grid>

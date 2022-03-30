@@ -453,6 +453,9 @@ Do you want to save it?</value>
   <data name="Untitled" xml:space="preserve">
     <value>Untitled</value>
   </data>
+  <data name="View" xml:space="preserve">
+    <value>_View</value>
+  </data>
   <data name="ViewPage" xml:space="preserve">
     <value>View Page</value>
   </data>
