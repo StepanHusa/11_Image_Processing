@@ -329,22 +329,22 @@ namespace _11_Image_Processing
                 PointF VexTopLeft = new(marg + w, marg + w);//A1 in mm 594*841 blank page shows 595*842 random internet doc was in 595.32*842.04
                 PointF[] vertexes = { new PointF(VexTopLeft.X + ll, VexTopLeft.Y), VexTopLeft, new PointF(VexTopLeft.X, VexTopLeft.Y + ll) };
                 PdfPath path = new(vertexes, types);
-                page.Graphics.DrawPath(Settings.positionersPen, path);
+                page.Graphics.DrawPath(new PdfPen(Settings.positionersColor,2*w), path);
 
                 PointF VexTopRight = new(page.Size.Width - marg - w, marg + w);
                 vertexes = new PointF[] { new PointF(VexTopRight.X - ll, VexTopRight.Y), VexTopRight, new PointF(VexTopRight.X, VexTopRight.Y + ll) };
                 path = new(vertexes, types);
-                page.Graphics.DrawPath(Settings.positionersPen, path);
+                page.Graphics.DrawPath(new PdfPen(Settings.positionersColor,2*w), path);
 
                 PointF VexBotRight = new(page.Size.Width - marg - w, page.Size.Height - marg - w);
                 vertexes = new PointF[] { new PointF(VexBotRight.X - ll, VexBotRight.Y), VexBotRight, new PointF(VexBotRight.X, VexBotRight.Y - ll) };
                 path = new(vertexes, types);
-                page.Graphics.DrawPath(Settings.positionersPen, path);
+                page.Graphics.DrawPath(new PdfPen(Settings.positionersColor, 2 * w), path);
 
                 PointF VexBotLeft = new(marg + w, page.Size.Height - marg - w);
                 vertexes = new PointF[] { new PointF(VexBotLeft.X + ll, VexBotLeft.Y), VexBotLeft, new PointF(VexBotLeft.X, VexBotLeft.Y - ll) };
                 path = new(vertexes, types);
-                page.Graphics.DrawPath(Settings.positionersPen, path);
+                page.Graphics.DrawPath(new PdfPen(Settings.positionersColor, 2 * w), path);
 
                 //save for evaluation
                 save.Add(new RectangleF((marg + w) / page.Size.Width, (marg + w) / page.Size.Height, 1 - 2*(marg + w) / page.Size.Width, 1- 2*(marg + w) / page.Size.Height));//set to the middle of lines
@@ -928,9 +928,7 @@ namespace _11_Image_Processing
                    cc += I.GetPixel(i, j).GetBrightness() * w;
                 }
 
-            float result = cc / c * MathF.Sqrt(I.Height * I.Width) / 5; //aroud 5 is a good treshold... meaning output is true if more than 1
-
-
+            float result = cc  * MathF.Sqrt(I.Height * I.Width) / (c* 8); //aroud 5 is a good treshold... meaning output is true if more than 1
             return result;
         }
         public static float CalculateWeightBellShape(this float distRel, float k, float l)
@@ -1085,8 +1083,10 @@ namespace _11_Image_Processing
             int legLength = (int)(l * bitmap.Width);
             float m = Settings.positionersMargin;
             int margin = (int)(m * bitmap.Width);
+            float ww = Settings.positionersWidth;
+            int width = (int)(ww * bitmap.Width);
              //bitmap.FindPositionersInBitmap(legLength, margin);
-            var P = bitmap.FindPositionersInBitmapShape(legLength, margin, 2); //positioners
+            var P = bitmap.FindPositionersInBitmapShape(legLength, margin, width); //positioners
 
             //TODO comment
             //bitmap.SetPixel((int)P.p1.X, (int)P.p1.Y, Color.Red);
@@ -1749,12 +1749,10 @@ namespace _11_Image_Processing
                     Bitmap crop = pages[pageindex].Crop(Rectangle.Round(newRect));
 
                     //debug feature
-                    pages[pageindex].DrowRectangle(newRect);
                     //TODO comment
-                    //string f = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\s";
-                    //int i = Directory.GetFiles(f).Length;
-                    //f = f + "\\" + i + ".Bmp";
-                    //crop.Save(f);
+                    pages[pageindex].DrowRectangle(newRect);
+                    //if(questions.IndexOf(question)==3)
+                    //        crop.SaveToDebugFolder();
 
                     bool IsCross = crop.IsEdgyInTheCenterRecognize();
 
