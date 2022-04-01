@@ -1066,6 +1066,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unloaded.
+        /// </summary>
+        public static string unloaded {
+            get {
+                return ResourceManager.GetString("unloaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Untitled.
         /// </summary>
         public static string Untitled {

@@ -456,6 +456,9 @@ Do you want to save it?</value>
   <data name="Unload" xml:space="preserve">
     <value>_Unload</value>
   </data>
+  <data name="unloaded" xml:space="preserve">
+    <value>Unloaded</value>
+  </data>
   <data name="Untitled" xml:space="preserve">
     <value>Untitled</value>
   </data>

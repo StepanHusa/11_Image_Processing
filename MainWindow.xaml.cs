@@ -336,7 +336,6 @@ namespace _11_Image_Processing
                 Pdf.NewPdfDoc(tempPdf);
                 Pdf.NewPdfDoc(tempCopy);
 
-
                 this.Title = "*untitled";
             }
             else if (File.Exists(fileName))
@@ -347,6 +346,10 @@ namespace _11_Image_Processing
                 this.Title = Path.GetFileName(fileName);
             }
 
+            var doc = new PdfLoadedDocument(tempPdf);
+            doc.AddPositioners();
+            doc.Save();
+            doc.Dispose();
 
             Settings.tempFile = tempPdf;
             Settings.tempFilesToDelete.Add(tempPdf);
@@ -614,8 +617,6 @@ namespace _11_Image_Processing
             if (save.ShowDialog() == false) return;
             PdfLoadedDocument doc = new(Settings.tempFile);
             doc.RemakeBoxexOneColor();
-            doc.AddPositioners();
-
             doc.Save(save.FileName);
         }
         private void Menu_Print_Click(object sender, RoutedEventArgs e)
@@ -995,10 +996,9 @@ namespace _11_Image_Processing
             questioncounttext.Text = string.Empty;
             boxcounttext.Text = string.Empty;
             fieldcounttext.Text = string.Empty;
-            versionCombobox.Items.Clear();
             dateoflastsavetext.Text = string.Empty;
 
-            Title = Settings.appName + " -- Unloaded";
+            Title = Settings.appName + " - " + Strings.unloaded;
 
             pdfDocumentView.Unload();
             loadedPdfLabel.Content = "";
@@ -1397,7 +1397,7 @@ namespace _11_Image_Processing
 
 //TODO remake tuple to new variable, add bound width, mabe colors (or at least add bound width to tuple)
 //todoDone repair commands in pdfviewer
-//TODO positioning in evaluation
+//TODOdone positioning in evaluation
 //make edge detection direction dependent
 //add non linar transformation
 //todo topbar bug when maximazed
