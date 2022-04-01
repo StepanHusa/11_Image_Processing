@@ -13,7 +13,7 @@
        Height="600" Width="1000" Background="Azure"
     Closing="Window_Closing" Closed="Window_Closed">
 
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition />
@@ -29,7 +29,7 @@
 
 
         <DockPanel Grid.Row="0" MouseDown="DockPanel_MouseDown" Background="{DynamicResource menuBrushBackground}">
-            <Menu  DockPanel.Dock = "Left" IsMainMenu="True" Background="Transparent">
+            <Menu  DockPanel.Dock = "Left" IsMainMenu="True" Background="Transparent" >
                 <MenuItem x:Name="Menu_Project" Header="_Project" Height="30" >
                     <MenuItem          Header="{x:Static ln:Strings.New}" >
                         <MenuItem      Header="{x:Static ln:Strings.BlankPDFFile}"        Click="Menu_Load_New_Click"/>
@@ -73,7 +73,7 @@
 
                 <MenuItem x:Name="Menu_Eavluate" Header="{x:Static ln:Strings.Evaluate}" Click="Menu_Eavluate_Click" IsEnabled="False"/>
 
-                <MenuItem x:Name="Menu_View" Header="{x:Static ln:Strings.View}" >
+                <MenuItem x:Name="Menu_View" Header="{x:Static ln:Strings.View}" Background="#FF2B9099">
                     <MenuItem x:Name="Menu_View_Main" Header="Main" Click="Menu_View_Main_Click" />
                     <MenuItem x:Name="Menu_View_Edit" Header="Edit" IsEnabled="False" Click="Menu_View_Edit_Click"/>
                     <MenuItem x:Name="Menu_View_Result" Header="Results" IsEnabled="False" Click="Menu_View_Result_Click" />
@@ -86,7 +86,7 @@
 
                 <MenuItem x:Name="Menu_Settions" Header="{x:Static ln:Strings.Settings}" Click="Menu_Settings_Click"/>
             </Menu >
-            <Border HorizontalAlignment="Right" DockPanel.Dock="Right" >
+            <Border HorizontalAlignment="Right" DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
                     <Button  Background="Transparent" BorderBrush="Transparent" Click="CloseClick" Height="30" Width="40">
                         <Image Source="/Resources/icons8-close-50.png" Height="15"/>
@@ -145,8 +145,7 @@
                     <TextBlock Text="{x:Static ln:Strings.Numberofquestions}"       Grid.Row="4" Grid.Column="0"/>
                     <TextBlock Text="{x:Static ln:Strings.Numberofboxes}"           Grid.Row="5" Grid.Column="0"/>
                     <TextBlock Text="{x:Static ln:Strings.Numberoftextfields}"     Grid.Row="6" Grid.Column="0"/>
-                    <TextBlock Text="{x:Static ln:Strings.Projectversion}"           Grid.Row="7" Grid.Column="0"/>
-                    <TextBlock Text="{x:Static ln:Strings.Dateoflastsave}"         Grid.Row="8" Grid.Column="0"/>
+                    <TextBlock Text="{x:Static ln:Strings.Dateoflastsave}"         Grid.Row="7" Grid.Column="0"/>
 
 
 
@@ -159,16 +158,7 @@
                     <TextBox x:Name="questioncounttext"   Grid.Row="4" Grid.Column="1" IsReadOnly="True"/>
                     <TextBox x:Name="boxcounttext"        Grid.Row="5" Grid.Column="1"  IsReadOnly="True"/>
                     <TextBox x:Name="fieldcounttext"      Grid.Row="6" Grid.Column="1" IsReadOnly="True"/>
-                    <ComboBox  x:Name="versionCombobox"    Grid.Row="7" Grid.Column="1">
-                        <ComboBox.ItemContainerStyle>
-                            <Style TargetType="ComboBoxItem">
-                                <Setter
-                    Property="IsEnabled"
-                    Value="False" />
-                            </Style>
-                        </ComboBox.ItemContainerStyle>
-                    </ComboBox>
-                    <TextBox x:Name="dateoflastsavetext"  Grid.Row="8" Grid.Column="1" IsReadOnly="True"/>
+                    <TextBox x:Name="dateoflastsavetext"  Grid.Row="7" Grid.Column="1" IsReadOnly="True"/>
 
 
                 </Grid>

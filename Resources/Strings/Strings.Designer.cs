@@ -263,6 +263,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _(ConvertedFromWord).
+        /// </summary>
+        public static string ConvertedFromWord {
+            get {
+                return ResourceManager.GetString("ConvertedFromWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Correct.
         /// </summary>
         public static string Correct {
@@ -565,6 +574,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string NoProjectLoaded {
             get {
                 return ResourceManager.GetString("NoProjectLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not able to load this file.
+        /// </summary>
+        public static string notabletoread {
+            get {
+                return ResourceManager.GetString("notabletoread", resourceCulture);
             }
         }
         

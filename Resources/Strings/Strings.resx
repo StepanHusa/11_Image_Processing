@@ -187,6 +187,9 @@ or export the document.</value>
   <data name="Continue" xml:space="preserve">
     <value>Continue</value>
   </data>
+  <data name="ConvertedFromWord" xml:space="preserve">
+    <value>_(ConvertedFromWord)</value>
+  </data>
   <data name="Correct" xml:space="preserve">
     <value>Correct</value>
   </data>
@@ -288,6 +291,9 @@ or export the document.</value>
   </data>
   <data name="NoProjectLoaded" xml:space="preserve">
     <value>No Project Loaded</value>
+  </data>
+  <data name="notabletoread" xml:space="preserve">
+    <value>Not able to load this file</value>
   </data>
   <data name="NoTools" xml:space="preserve">
     <value>_NoTools</value>

@@ -66,7 +66,7 @@ namespace _11_Image_Processing
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
                 //LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
-                //LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\VálekSSS" + Settings.projectExtension);
+                LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\VálekSSS" + Settings.projectExtension);
 
                 PdfLoadedDocument ddoc = new(Settings.tempFile);
                 ddoc.AddPositioners();
@@ -110,18 +110,18 @@ namespace _11_Image_Processing
                     }
                     Settings.scanPagesInWorks = works;
                 }
-                Bitmap bm = new(Settings.scanPagesInWorks[0][0]);
-                bm.MakeTransformationMatrixFromPositioners(0);
-                bm.SaveToDebugFolder();
+                //Bitmap bm = new(Settings.scanPagesInWorks[0][0]);
+                //bm.MakeTransformationMatrixFromPositioners(0);
+                //bm.SaveToDebugFolder();
 
 
-                Settings.resultsInQuestionsInWorks = Settings.scanPagesInWorks.EvaluateWorks(Settings.boxesInQuestions);
-                Menu_View_Result.IsEnabled = true;
-                ShowResultView();
+                //Settings.resultsInQuestionsInWorks = Settings.scanPagesInWorks.EvaluateWorks(Settings.boxesInQuestions);
+                //Menu_View_Result.IsEnabled = true;
+                //ShowResultView();
                 //var f = new ViewResultW();
                 //f.Show();
 
-                //TODo Comment
+                //TODod Comment
 
                 //b.ProcessFilter(Settings.LaplFilterForPositioners).Save(debugFolder + "test\\posits\\b.bmp");
 
@@ -267,7 +267,7 @@ namespace _11_Image_Processing
                     {
                         Word2Pdf objWorPdf = new Word2Pdf();
                         string FromLocation = filePathFormMainArgs;
-                        string ToLocation = Path.GetDirectoryName(FromLocation) + "\\" + Path.GetFileNameWithoutExtension(FromLocation) + "_(ConvertedFromWord)" + ".pdf";//todo add to strings
+                        string ToLocation = Path.GetDirectoryName(FromLocation) + "\\" + Path.GetFileNameWithoutExtension(FromLocation) + Strings.ConvertedFromWord + ".pdf";
 
 
                         objWorPdf.InputLocation = FromLocation;
@@ -382,7 +382,6 @@ namespace _11_Image_Processing
         //Save
         private void Menu_Save_ProjectAs_Click(object sender, RoutedEventArgs e)
         {
-            Settings.versions.Add(DateTime.Now.ToStringOfRegularFormat());
 
             SaveFileDialog save = new() { Title = "Save Template", Filter = $"File Template(*{Settings.projectExtension})|*{Settings.projectExtension}", FileName = Settings.projectName };
             if (save.ShowDialog() == false) return;
@@ -396,7 +395,6 @@ namespace _11_Image_Processing
         }
         private void Menu_Save_Project_Click(object sender, RoutedEventArgs e)
         {
-            Settings.versions.Add(DateTime.Now.ToStringOfRegularFormat());
 
             SaveDataToFile(Settings.projectFileName);
 
@@ -447,6 +445,7 @@ namespace _11_Image_Processing
                 File.WriteAllBytes(fileName, ms.ToArray());
             }
 
+            Settings.versions.Add(DateTime.Now.ToStringOfRegularFormat());
 
 
         }
@@ -501,7 +500,7 @@ namespace _11_Image_Processing
 
                         hash = br.ReadBytes(20);
                     }
-                    catch { MessageBox.Show("Not able to load this file"); return; }//todo add to strings
+                    catch { MessageBox.Show(Strings.notabletoread); return; }
                 }
             }
             //get hash of created files
@@ -559,6 +558,9 @@ namespace _11_Image_Processing
             Settings.pagesFields = listOfFields.ByteArrayToRectangleFTupleList();
             Settings.nameField = nameField.ByteArrayToRectangleFTuple();
             Settings.positioners = listPositionres.ByteArrayToPositionersList();
+            Settings.versions = new();
+            Settings.versions.Add(DateTime.Now.ToStringOfRegularFormat());
+
 
             ReloadWindowContent();
             Menu_Project_Save.IsEnabled = true;
@@ -955,12 +957,6 @@ namespace _11_Image_Processing
                 ii++;
             fieldcounttext.Text = ii.ToString();
 
-            versionCombobox.Items.Clear();
-            foreach (var item in Settings.versions)
-                versionCombobox.Items.Add(item);
-            versionCombobox.SelectedIndex = versionCombobox.Items.Count - 1;
-            //todo make odler versions and Ctrl+Z usable
-
             if (Settings.versions.Count != 0)
                 dateoflastsavetext.Text = Settings.versions.Last();
             else dateoflastsavetext.Text = Strings.notsavedyet;
@@ -1076,6 +1072,7 @@ namespace _11_Image_Processing
                 tabsHorizontal.Items.Add(z);
                 //_TODO make memory suitable
             }
+            try { tabsHorizontal.SelectedIndex = 0; } catch { }
         }
         private Grid GenerateLeftGrid(int i)
         {
@@ -1169,19 +1166,21 @@ namespace _11_Image_Processing
 
             var s = GetListOfAll();
             allResults.ItemsSource = s;
+            bool isWithNames = false;
+            foreach (var item in s)
+                if (item.Name != null)
+                    isWithNames = true;
 
             int height = 40; //same as allResults listview height of row
 
-            foreach (var item in s)
-            {
-                if (item.Name != null)
+            if (isWithNames)
+                foreach (var item in s)
                 {
                     System.Windows.Controls.Image x = item.Name;
                     x.Height = height;
                     namesPanel.Children.Add(x);
                 }
-                else namesPanel.Children.Add(new TextBlock() { Text = item.Index.ToString() });
-            }
+            else namesPanel.Width = 0;
         }
         private List<ResultOfAllOne> GetListOfAll()
         {
