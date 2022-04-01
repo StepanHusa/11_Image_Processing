@@ -80,7 +80,9 @@ namespace _11_Image_Processing
 
         internal static List<Tuple<int, RectangleF>> pagesFields = new(); //of lists containing fields (tuple of rectangle and page index)
 
-        internal static List<List<Tuple<int, RectangleF,bool>>> boxesInQuestions = new();// the main listing tuple: <page index, rectangle on page, is the answer right>  (rectangle relative to page size)
+        //internal static List<List<Tuple<int, RectangleF,bool>>> boxesInQuestions = new();// the main listing tuple: <page index, rectangle on page, is the answer right>  (rectangle relative to page size)
+        internal static List<List<Box>> boxesInQuestions = new();// (rectangle relative to page size)
+
 
         internal static List<RectangleF> positioners = null;
         internal static List<List<string>> scanPagesInWorks = new(); //outside list are the separete works and inside are pages

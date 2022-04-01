@@ -189,11 +189,20 @@ namespace _11_Image_Processing
 
         }
 
+        public static PdfLoadedDocument DrawBox(this PdfLoadedDocument doc, Box box)
+        {
+            return doc.DrawRectangleBounds(box.Rectangle, box.Page, box.BoundWidth, box.IsCorrect);
+        }
+        public static PdfLoadedDocument DrawIndexNextToBox(this PdfLoadedDocument doc, Box box, string index)
+        {
+            return doc.DrawIndexNextToRectangle(box.Rectangle, box.Page, index);
+        }
 
-        public static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rect, int pageint, bool SecondColor = false)
+
+        public static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rect, int pageint, float rWidth, bool SecondColor = false)
         {
             var page = doc.Pages[pageint];
-            var w = Settings.baundWidth / 2;
+            var w = rWidth*page.Size.Width;
             rect.UnrelatitivizeToPage(page);
             PointF[] vertexes = { new PointF(rect.Left - 2 * w, rect.Bottom + w), new PointF(rect.Right + w, rect.Bottom + w), new PointF(rect.Right + w, rect.Top - w), new PointF(rect.Left - w, rect.Top - w), new PointF(rect.Left - w, rect.Bottom + 2 * w) };
             byte[] types = { 0, 1, 1, 1, 1 };
@@ -257,8 +266,8 @@ namespace _11_Image_Processing
                 int j = 0;
                 foreach (var box in question)
                 {
-                    doc.DrawRectangleBounds(box.Item2, box.Item1,box.Item3);
-                    doc.DrawIndexNextToRectangle(box.Item2, box.Item1, (i + 1).ToString() + j.IntToAlphabet());
+                    doc.DrawBox(box);
+                    doc.DrawIndexNextToBox(box, (i + 1).ToString() + j.IntToAlphabet());
                     j++;
                 }
                 i++;
@@ -270,7 +279,7 @@ namespace _11_Image_Processing
             int j = 0;
             foreach (var field in Settings.pagesFields)
             {
-                doc.DrawRectangleBounds(field.Item2, field.Item1);
+                doc.DrawRectangleBounds(field.Item2, field.Item1, Settings.baundWidth);
                 doc.DrawIndexNextToRectangle(field.Item2, field.Item1, Strings.text + (j + 1).ToString() + ":");
                 j++;
             }
@@ -280,7 +289,7 @@ namespace _11_Image_Processing
         public static PdfLoadedDocument RemakeNameField(this PdfLoadedDocument doc)
         {
             if (Settings.nameField == null) return doc;
-            doc.DrawRectangleBounds(Settings.nameField.Item2, Settings.nameField.Item1);
+            doc.DrawRectangleBounds(Settings.nameField.Item2, Settings.nameField.Item1, Settings.baundWidth);
             doc.DrawNameNextToRectangle(Settings.nameField.Item2, Settings.nameField.Item1);
             return doc;
         }
@@ -293,8 +302,8 @@ namespace _11_Image_Processing
                 int j = 0;
                 foreach (var box in question)
                 {
-                    doc.DrawRectangleBounds(box.Item2, box.Item1);
-                    doc.DrawIndexNextToRectangle(box.Item2, box.Item1, (i + 1).ToString() + j.IntToAlphabet());
+                    doc.DrawBox(box);
+                    doc.DrawIndexNextToBox(box, (i + 1).ToString() + j.IntToAlphabet());
                     j++;
                 }
                 i++;
@@ -969,7 +978,7 @@ namespace _11_Image_Processing
             var h = g + "\\" + k + ".Bmp";
             bit.Save(h);
         }
-        public static List<List<List<bool>>> EvaluateWorks(this List<List<string>> works, List<List<Tuple<int, RectangleF, bool>>> questions)
+        public static List<List<List<bool>>> EvaluateWorks(this List<List<string>> works, List<List<Box>> questions)
         {
             List<List<List<bool>>> resultsAll = new();
             for (int i = 0; i < works.Count; i++)
@@ -1721,7 +1730,7 @@ namespace _11_Image_Processing
         }
 
 
-        public static List<List<bool>> EvaluateOneWork(this List<string> work, List<List<Tuple<int, RectangleF, bool>>> questions)
+        public static List<List<bool>> EvaluateOneWork(this List<string> work, List<List<Box>> questions)
         {
             List<List<bool>> resultsOneWork = new();
             Bitmap[] pages = new Bitmap[work.Count];
@@ -1742,9 +1751,9 @@ namespace _11_Image_Processing
                 List<bool> resultsQuestion = new();
                 foreach (var box in question)
                 {
-                    int pageindex = box.Item1;
+                    int pageindex = box.Page;
 
-                    var rect = box.Item2;
+                    var rect = box.Rectangle;
                     RectangleF newRect = new(rect.Location.ApplyMatrix(matrixes[pageindex]), rect.Size.ApplyMatrix(matrixes[pageindex]));
                     Bitmap crop = pages[pageindex].Crop(Rectangle.Round(newRect));
 
@@ -1875,6 +1884,10 @@ namespace _11_Image_Processing
         {
             l.Add(new Tuple<int, RectangleF, bool>(i, p, b));
         }
+        public static void Add(this List<Box> list, int page, RectangleF rectangle,float width, bool isCorrect)
+        {
+            list.Add(new Box(page, rectangle,width, isCorrect));
+        }
     }
     static class Bitmaps
     {
@@ -1886,7 +1899,7 @@ namespace _11_Image_Processing
                 {
                     foreach (var box in question)
                     {
-                        works[i][box.Item1] = works[i][box.Item1].DrowRectangle(box.Item2);
+                        works[i][box.Page] = works[i][box.Page].DrowRectangle(box.Rectangle);
                     }
                 }
             }

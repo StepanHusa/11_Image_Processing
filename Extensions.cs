@@ -108,6 +108,37 @@ namespace _11_Image_Processing
             return data;
 
         }
+        public static byte[] BoxListListToByteArray(this List<List<Box>> list)
+        {
+            byte[] data;
+
+            using (var ms = new MemoryStream())
+            {
+                using (var bw = new BinaryWriter(ms))
+                {
+                    bw.Write(list.Count);
+                    foreach (var l in list)
+                    {
+                        bw.Write(l.Count);
+                        foreach (var p in l)
+                        {
+                            bw.Write(p.Page);//int32 (int)
+                            bw.Write(p.Rectangle.X);//Single (float)
+                            bw.Write(p.Rectangle.Y);//Single (float)
+                            bw.Write(p.Rectangle.Width);//Single (float)
+                            bw.Write(p.Rectangle.Height);//Single (float)
+                            bw.Write(p.BoundWidth);//Single (float)
+                            bw.Write(p.IsCorrect);//Boolen (bool)
+                        }
+                    }
+                }
+                data = ms.ToArray();
+            }
+
+            return data;
+
+        }
+
         public static List<List<Tuple<int, RectangleF, bool>>> ByteArrayToIntRectangleFBoolTupleListList(this byte[] ba)
         {
             List<List<Tuple<int, RectangleF, bool>>> lists;
@@ -131,6 +162,30 @@ namespace _11_Image_Processing
             return lists;
 
         }
+        public static List<List<Box>> ByteArrayToIntBoxListList(this byte[] ba)
+        {
+            List<List<Box>> lists;
+            using (var ms = new MemoryStream(ba))
+            {
+                using (var r = new BinaryReader(ms))
+                {
+                    int lengthOfList = r.ReadInt32();
+                    lists = new();
+                    for (int i = 0; i < lengthOfList; i++)
+                    {
+                        int Count = r.ReadInt32();
+                        lists.Add(new());
+                        for (int j = 0; j < Count; j++)
+                        {
+                            lists[i].Add(new(r.ReadInt32(), new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()),r.ReadSingle(), r.ReadBoolean()));
+                        }
+                    }
+                }
+            }
+            return lists;
+
+        }
+
         public static byte[] RectangleListToByteArray(this List<Tuple<int, RectangleF>> list)
         {
 

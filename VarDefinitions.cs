@@ -74,17 +74,29 @@ namespace _11_Image_Processing
 
     }
 
-    internal struct Box //unused
+    public struct Box 
     {
         public int Page { get; set; }
 
         public System.Drawing.RectangleF Rectangle { get; set; }
 
-        public bool Correct { get; set; }
+        public float BoundWidth { get; set; }
+
+        public bool IsCorrect { get; set; }
+
+        public Box(int page, RectangleF rectangle, float boundWidth,bool isCorrect)
+        {
+            Page = page;
+            Rectangle = rectangle;
+            BoundWidth = boundWidth;
+            IsCorrect = isCorrect;
+        }
     }
     internal class Field //unused
     {
         public int Page { get; set; }
+
+        public float BoundWidth { get; set; }
 
         public System.Drawing.RectangleF Rectangle { get; set; }
     }

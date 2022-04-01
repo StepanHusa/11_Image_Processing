@@ -66,51 +66,52 @@ namespace _11_Image_Processing
             //debug
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
+                CalculateAndShowPreviewBoxes();
                 //LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
-                LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\VálekSSS" + Settings.projectExtension);
+                //LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\VálekSSS" + Settings.projectExtension);
 
-                PdfLoadedDocument ddoc = new(Settings.tempFile);
-                ddoc.AddPositioners();
-                ddoc.Save(Settings.tempFile);
-                //load from pdf
-                {
-                    List<string> tempScans = new();
-                    string path;
+                //PdfLoadedDocument ddoc = new(Settings.tempFile);
+                //ddoc.AddPositioners();
+                //ddoc.Save(Settings.tempFile);
+                ////load from pdf
+                //{
+                //    List<string> tempScans = new();
+                //    string path;
 
-                    var doc = new PdfLoadedDocument(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\Stepan_sken.pdf");
-                    for (int j = 0; j < doc.Pages.Count; j++)
-                    {
-                        Bitmap bitmap = doc.ExportAsImage(j, Settings.dpiEvaluatePdf, Settings.dpiEvaluatePdf)/*.CropAddMarginFromSettings()*/;
+                //    var doc = new PdfLoadedDocument(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\Stepan_sken.pdf");
+                //    for (int j = 0; j < doc.Pages.Count; j++)
+                //    {
+                //        Bitmap bitmap = doc.ExportAsImage(j, Settings.dpiEvaluatePdf, Settings.dpiEvaluatePdf)/*.CropAddMarginFromSettings()*/;
 
-                        do
-                        {
-                            path = Path.GetTempFileName();
-                            if (File.Exists(path))
-                            {
-                                File.Delete(path);
-                            }
-                            path = Path.ChangeExtension(path, ".bmp");
+                //        do
+                //        {
+                //            path = Path.GetTempFileName();
+                //            if (File.Exists(path))
+                //            {
+                //                File.Delete(path);
+                //            }
+                //            path = Path.ChangeExtension(path, ".bmp");
 
-                        } while (File.Exists(path));
-                        bitmap.Save(path);
-                        bitmap.Dispose();
-                        tempScans.Add(path);
-                    }
-                    var ImageFiles = tempScans.ToArray();
+                //        } while (File.Exists(path));
+                //        bitmap.Save(path);
+                //        bitmap.Dispose();
+                //        tempScans.Add(path);
+                //    }
+                //    var ImageFiles = tempScans.ToArray();
 
-                    List<List<string>> works = new();
-                    int ii = 0;
-                    for (int i = 0; i < 1; i++)
-                    {
-                        works.Add(new());
-                        for (int j = 0; j < 2; j++)
-                        {
-                            works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
-                            ii++;
-                        }
-                    }
-                    Settings.scanPagesInWorks = works;
-                }
+                //    List<List<string>> works = new();
+                //    int ii = 0;
+                //    for (int i = 0; i < 1; i++)
+                //    {
+                //        works.Add(new());
+                //        for (int j = 0; j < 2; j++)
+                //        {
+                //            works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
+                //            ii++;
+                //        }
+                //    }
+                //    Settings.scanPagesInWorks = works;
+                //}
                 //Bitmap bm = new(Settings.scanPagesInWorks[0][0]);
                 //bm.MakeTransformationMatrixFromPositioners(0);
                 //bm.SaveToDebugFolder();
@@ -409,7 +410,7 @@ namespace _11_Image_Processing
             byte[] FormatCode = Settings.fileCode; //8 Byte identification code
             byte[] documentpdf = File.ReadAllBytes(Settings.tempFile);
             //byte[] listOfPointFsArray = Settings.pagesPoints.PointListArrayToByteArray();
-            byte[] listBoxesInQuestions = Settings.boxesInQuestions.IntRectangleFBoolTupleListListToByteArray();
+            byte[] listBoxesInQuestions = Settings.boxesInQuestions.BoxListListToByteArray();
             byte[] listOfFields = Settings.pagesFields.RectangleListToByteArray();
             byte[] nameField = Settings.nameField.RectangleTupleToByteArray();
             byte[] listPositionres = Settings.positioners.PositionersListToByteArray();
@@ -557,7 +558,7 @@ namespace _11_Image_Processing
 
             Settings.projectFileName = filename;
             //Settings.pagesPoints = listOfPointFsArray.ByteArrayToPointFListArray();
-            Settings.boxesInQuestions = listBoxesInQuestions.ByteArrayToIntRectangleFBoolTupleListList();
+            Settings.boxesInQuestions = listBoxesInQuestions.ByteArrayToIntBoxListList();
             Settings.pagesFields = listOfFields.ByteArrayToRectangleFTupleList();
             Settings.nameField = nameField.ByteArrayToRectangleFTuple();
             Settings.positioners = listPositionres.ByteArrayToPositionersList();
@@ -839,8 +840,8 @@ namespace _11_Image_Processing
             int highestPageIndex = 0;
             foreach (var question in Settings.boxesInQuestions)
                 foreach (var box in question)
-                    if (box.Item1 > highestPageIndex)
-                        highestPageIndex = box.Item1;
+                    if (box.Page > highestPageIndex)
+                        highestPageIndex = box.Page;
             int lowestPagesInWork = int.MaxValue;
             foreach (var work in Settings.scanPagesInWorks)
                 if (work.Count < lowestPagesInWork)
@@ -1168,7 +1169,7 @@ namespace _11_Image_Processing
                 string checkedd = string.Empty;
 
                 foreach (var box in question)
-                    if (box.Item3) correct += $"{question.IndexOf(box).IntToAlphabet()}, ";
+                    if (box.IsCorrect) correct += $"{question.IndexOf(box).IntToAlphabet()}, ";
 
                 for (int i = 0; i < Settings.resultsInQuestionsInWorks[workindex][q].Count; i++)
                     if (Settings.resultsInQuestionsInWorks[workindex][q][i]) checkedd += $"{i.IntToAlphabet()}, ";
@@ -1290,14 +1291,14 @@ namespace _11_Image_Processing
             var l = Settings.boxesInQuestions;
             for (int i = l.Count - 1; i > -1; i--)
             {
-                if (l[i][0].Item1 == pdfViewControl.CurrentPage - 1)
+                if (l[i][0].Page == pdfViewControl.CurrentPage - 1)
                 {
                     l.RemoveAt(i);
                 }
-                else if (l[i][0].Item1 > pdfViewControl.CurrentPage - 1)
+                else if (l[i][0].Page > pdfViewControl.CurrentPage - 1)
                     for (int j = 0; j < l[i].Count; j++)
                     {
-                        l[i][j] = new(l[i][j].Item1 - 1, l[i][j].Item2, l[i][j].Item3);
+                        l[i][j] = new(l[i][j].Page - 1, l[i][j].Rectangle, l[i][j].BoundWidth, l[i][j].IsCorrect);
                     } //deosn't acount for the case where question can be on more than one page
             }
 
@@ -1580,7 +1581,7 @@ namespace _11_Image_Processing
             RectangleF bounds = new RectangleF(point, size);
             bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
-            doc.DrawRectangleBounds(bounds, pindex);
+            doc.DrawBox(new(pindex,bounds, Settings.baundWidth,false));
 
 
             ReloadDocument();
@@ -1612,7 +1613,7 @@ namespace _11_Image_Processing
                     rect.Size = new((float)((args.Position.X - argsFirstVertex.Position.X) * 0.75 / zoom), (float)((args.Position.Y - argsFirstVertex.Position.Y) * 0.75 / zoom));
                     rect.RelatitivizeToPage(doc.Pages[pindex]);
 
-                    doc.DrawRectangleBounds(rect, pindex);
+                    doc.DrawRectangleBounds(rect, pindex,Settings.baundWidth);
                     doc.DrawStringNextToRectangle(Strings.text + (Settings.pagesFields.Count + 1) + ":", rect, pindex);
 
                     Settings.pagesFields.Add(new(pindex, rect));
@@ -1663,13 +1664,12 @@ namespace _11_Image_Processing
                 RectangleF bounds = new RectangleF(pointb, size);
                 bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
-                doc.DrawRectangleBounds(bounds, pindex);
-
+                doc.DrawRectangleBounds(bounds, pindex, Settings.baundWidth);
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + i.IntToAlphabet());
 
                 bounds.RelatitivizeToPage(doc.Pages[pindex]);
                 //add square to 'The List'
-                Settings.boxesInQuestions[iQ].Add(pindex, bounds, false);
+                Settings.boxesInQuestions[iQ].Add(pindex, bounds, Settings.baundWidth, false);
             }
 
             ReloadDocument();
@@ -1693,17 +1693,16 @@ namespace _11_Image_Processing
                 var pointb = new PointF(point.X, point.Y + i * (Settings.sizeOfBox.Height + Settings.QS.spaceBtwAn));
                 SizeF size = Settings.sizeOfBox;
 
-
                 //square
                 RectangleF bounds = new RectangleF(pointb, size);
                 bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
-                doc.DrawRectangleBounds(bounds, pindex);
+                doc.DrawRectangleBounds(bounds, pindex, Settings.baundWidth);
 
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + i.IntToAlphabet());
 
                 //add square to 'The List'
-                Settings.boxesInQuestions[iQ].Add(pindex, bounds, false);
+                Settings.boxesInQuestions[iQ].Add(pindex, bounds, Settings.baundWidth, false);
             }
 
             ReloadDocument();
@@ -1722,13 +1721,13 @@ namespace _11_Image_Processing
 
             for (int i = 0; i < b.Count; i++)
                 for (int j = 0; j < b[i].Count; j++)
-                    if (b[i][j].Item1 == pindex)
+                    if (b[i][j].Page == pindex)
                     {
-                        var r = b[i][j].Item2;
+                        var r = b[i][j].Rectangle;
                         if (r.UnrelatitivizeToPage(doc.Pages[pindex]).Contains(point))
                         {
-                            b[i][j] = new Tuple<int, RectangleF, bool>(b[i][j].Item1, b[i][j].Item2, !b[i][j].Item3);
-                            doc.DrawRectangleBounds(b[i][j].Item2, b[i][j].Item1, b[i][j].Item3);
+                            b[i][j] = new(b[i][j].Page, b[i][j].Rectangle, b[i][j].BoundWidth, !b[i][j].IsCorrect);
+                            doc.DrawRectangleBounds(b[i][j].Rectangle, b[i][j].Page, b[i][j].BoundWidth, b[i][j].IsCorrect);
                             hit = true;
                         }
                     }
@@ -1764,7 +1763,7 @@ namespace _11_Image_Processing
 
                     rect.RelatitivizeToPage(doc.Pages[pindex]);
 
-                    doc.DrawRectangleBounds(rect, pindex);
+                    doc.DrawRectangleBounds(rect, pindex, Settings.baundWidth);
                     doc.DrawNameNextToRectangle(rect, pindex);
 
 
@@ -1834,12 +1833,23 @@ namespace _11_Image_Processing
         }
         private void CalculateAndShowPreviewBoxes()
         {
-            for (int i = 0; i < Settings.QS.n & i<3; i++)
+            int nNew = Settings.QS.n; 
+            if (nNew > 4) nNew = 4;
+
+            while (preview.Children.Count > nNew)
+                preview.Children.RemoveAt(nNew);
+            while (preview.Children.Count < nNew)
             {
                 var r = new System.Windows.Shapes.Rectangle();
 
                 preview.Children.Add(r);
-                Canvas.SetTop(r,10+i*(h+w))//todo finish
+            }
+            for (int i = 0; i<preview.Children.Count; i++)
+            {
+                var r = preview.Children[i] as System.Windows.Shapes.Rectangle;
+                Canvas.SetTop(r, 10 + i * (Settings.sizeOfBox.Height + Settings.QS.spaceBtwAn + Settings.sizeOfBox.Height + Settings.QS.spaceBtwAn));//todo finish get stroke from xaml
+                r.Height = Settings.sizeOfBox.Height;
+                r.Width = Settings.sizeOfBox.Width;
             }
 
         }

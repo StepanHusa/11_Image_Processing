@@ -87,14 +87,14 @@ namespace _11_Image_Processing
             var l = Settings.boxesInQuestions;
             for (int i = l.Count - 1; i > -1; i--)
             {
-                if (l[i][0].Item1 == pdfViewControl.CurrentPage - 1)
+                if (l[i][0].Page == pdfViewControl.CurrentPage - 1)
                 {
                     l.RemoveAt(i);
                 }
-                else if (l[i][0].Item1 > pdfViewControl.CurrentPage - 1)
+                else if (l[i][0].Page > pdfViewControl.CurrentPage - 1)
                     for (int j = 0; j < l[i].Count; j++)
                     {
-                        l[i][j] = new(l[i][j].Item1 - 1, l[i][j].Item2, l[i][j].Item3);
+                        l[i][j] = new(l[i][j].Page - 1, l[i][j].Rectangle,l[i][j].BoundWidth, l[i][j].IsCorrect);
                     } //deosn't acount for the case where question can be on more than one page
             }
 
@@ -378,7 +378,7 @@ namespace _11_Image_Processing
             RectangleF bounds = new RectangleF(point, size);
             bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
-            doc.DrawRectangleBounds(bounds, pindex);
+            doc.DrawRectangleBounds(bounds, pindex, Settings.baundWidth);
 
 
             ReloadDocument();
@@ -410,7 +410,7 @@ namespace _11_Image_Processing
                     rect.Size = new((float)((args.Position.X - argsFirstVertex.Position.X) * 0.75 / zoom), (float)((args.Position.Y - argsFirstVertex.Position.Y) * 0.75 / zoom));
                     rect.RelatitivizeToPage(doc.Pages[pindex]);
 
-                    doc.DrawRectangleBounds(rect, pindex);
+                    doc.DrawRectangleBounds(rect, pindex, Settings.baundWidth);
                     doc.DrawStringNextToRectangle(Strings.text+ (Settings.pagesFields.Count+1)+":",rect, pindex);
 
                     Settings.pagesFields.Add(new(pindex,rect));
@@ -461,13 +461,13 @@ namespace _11_Image_Processing
                 RectangleF bounds = new RectangleF(pointb, size);
                 bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
-                doc.DrawRectangleBounds(bounds, pindex);
+                doc.DrawRectangleBounds(bounds, pindex, Settings.baundWidth);
 
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + i.IntToAlphabet());
 
                 bounds.RelatitivizeToPage(doc.Pages[pindex]);
                 //add square to 'The List'
-                Settings.boxesInQuestions[iQ].Add(pindex, bounds,false); 
+                Settings.boxesInQuestions[iQ].Add(pindex, bounds, Settings.baundWidth, false); 
             }
 
             ReloadDocument();
@@ -496,12 +496,12 @@ namespace _11_Image_Processing
                 RectangleF bounds = new RectangleF(pointb, size);
                 bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
-                doc.DrawRectangleBounds(bounds, pindex);
+                doc.DrawRectangleBounds(bounds, pindex, Settings.baundWidth);
 
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + i.IntToAlphabet());
 
                 //add square to 'The List'
-                Settings.boxesInQuestions[iQ].Add(pindex, bounds,false); 
+                Settings.boxesInQuestions[iQ].Add(pindex, bounds, Settings.baundWidth, false); 
             }
 
             ReloadDocument();
@@ -520,13 +520,13 @@ namespace _11_Image_Processing
 
             for (int i = 0; i < b.Count; i++)
                 for (int j = 0; j < b[i].Count; j++)
-                    if (b[i][j].Item1 == pindex)
+                    if (b[i][j].Page == pindex)
                     {
-                        var r= b[i][j].Item2;
+                        var r= b[i][j].Rectangle;
                         if (r.UnrelatitivizeToPage(doc.Pages[pindex]).Contains(point))
                         {
-                            b[i][j] = new Tuple<int, RectangleF, bool>(b[i][j].Item1, b[i][j].Item2, !b[i][j].Item3);
-                            doc.DrawRectangleBounds(b[i][j].Item2, b[i][j].Item1, b[i][j].Item3);
+                            //b[i][j] = new Tuple<int, RectangleF, bool>(b[i][j].Page, b[i][j].Rectangle, !b[i][j].IsCorrect);//in old version working
+                            //doc.DrawRectangleBounds(b[i][j].Rectangle, b[i][j].Item1, b[i][j].Item3);
                             hit = true;
                         }
                     }
@@ -562,7 +562,7 @@ namespace _11_Image_Processing
 
                     rect.RelatitivizeToPage(doc.Pages[pindex]);
 
-                    doc.DrawRectangleBounds(rect, pindex);
+                    doc.DrawRectangleBounds(rect, pindex, Settings.baundWidth);
                     doc.DrawNameNextToRectangle(rect, pindex);
 
 
