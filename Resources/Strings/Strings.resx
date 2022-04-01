@@ -147,13 +147,6 @@
   <data name="Apply" xml:space="preserve">
     <value>Apply</value>
   </data>
-  <data name="autosaveAffirmation" xml:space="preserve">
-    <value>The document is linked to the project, 
-if you close this window, 
-changes will preserve
-and you can save the whole project 
-or export the document.</value>
-  </data>
   <data name="BlankPDFFile" xml:space="preserve">
     <value>_BlankPDFFile</value>
   </data>
