@@ -38,7 +38,7 @@ namespace _11_Image_Processing
         internal static float dpiExport = 600;
         internal static float dpiEvaluatePdf = 600;
 
-        internal static float positionersWidth = 2;
+        internal static float positionersWidth = (float)0.002;
         internal static float positionersMargin = (float)0.03; //relative to width!!    keep it greater then expected addup by scaning (0.03)
         internal static float positionersLegLength = (float)0.03; //relative to width (0.03)
         internal static float positionersEdgenessThresholdOld = (float)0.35;
@@ -54,7 +54,7 @@ namespace _11_Image_Processing
         internal static bool lockDocument = false;//todo add to saving and to every property edit
 
         //get variables
-        internal static PdfPen positionersPen { get { return new PdfPen(positionersColor, positionersWidth); } }
+        internal static PdfPen positionersPen { get { return new PdfPen(positionersColor, positionersWidth); } }//unused
         internal static PdfPen baundPen     { get { return new PdfPen(baundColor, baundWidth); } }
         internal static PdfPen baundPenTwo  { get { return new PdfPen(baundColorTwo, baundWidth); } }
         internal static SizeF sizeOfBox     { get { return new SizeF(sizeOfBoxF, sizeOfBoxF); } set { sizeOfBoxF = value.Height; } }
