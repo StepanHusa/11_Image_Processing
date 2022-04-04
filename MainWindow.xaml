@@ -244,6 +244,7 @@
                             <Slider x:Name="countSlider" Maximum="10"   Canvas.Top="75"      Canvas.Right="15" Value="4" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="1" />
 
                             <Canvas x:Name="preview" Canvas.Left="10" Canvas.Top="150" Background="White" Height="200" Width="75">
+                                <Rectangle Width="20" Height="40" Stroke="Red" StrokeThickness="2"/>
                             </Canvas>
                             
                             <Button x:Name="undoBButton" Content="{x:Static ln:Strings.UndoBox}" Style="{DynamicResource undoButtStyle}" Canvas.Top="175"     Canvas.Right="20" Click="undoBButton_Click" />

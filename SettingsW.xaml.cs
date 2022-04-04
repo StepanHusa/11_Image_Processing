@@ -39,8 +39,8 @@ namespace _11_Image_Processing
 
         private void Setup()
         {
-            color1.Background = new SolidColorBrush(Settings.baundColor.ColorFromDrawing());
-            color2.Background = new SolidColorBrush(Settings.baundColorTwo.ColorFromDrawing());
+            color1.Background = new SolidColorBrush(Settings.baundColor.ColorToDrawing());
+            color2.Background = new SolidColorBrush(Settings.baundColorTwo.ColorToDrawing());
             languageTB.Text = language;
         }
 
@@ -96,7 +96,7 @@ namespace _11_Image_Processing
             if (cd.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
             baundColor = cd.Color;
-            color1.Background= new SolidColorBrush(baundColor.ColorFromDrawing());
+            color1.Background= new SolidColorBrush(baundColor.ColorToDrawing());
         }
 
         private void color2_Click(object sender, RoutedEventArgs e)
@@ -105,7 +105,7 @@ namespace _11_Image_Processing
             if (cd.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
             baundColorTwo = cd.Color;
-            color2.Background = new SolidColorBrush(baundColorTwo.ColorFromDrawing());
+            color2.Background = new SolidColorBrush(baundColorTwo.ColorToDrawing());
 
         }
 

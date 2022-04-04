@@ -207,8 +207,7 @@ namespace _11_Image_Processing
             PointF[] vertexes = { new PointF(rect.Left - 2 * w, rect.Bottom + w), new PointF(rect.Right + w, rect.Bottom + w), new PointF(rect.Right + w, rect.Top - w), new PointF(rect.Left - w, rect.Top - w), new PointF(rect.Left - w, rect.Bottom + 2 * w) };
             byte[] types = { 0, 1, 1, 1, 1 };
             PdfPath path = new(vertexes, types);
-            //path.Pen = Settings.baundPen;
-            path.Pen=new PdfPen(Settings.baundColor, Settings.baundWidth);
+            path.Pen = Settings.baundPen;
             if (SecondColor)
                 path.Pen = Settings.baundPenTwo;
 

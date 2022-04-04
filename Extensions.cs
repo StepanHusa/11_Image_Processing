@@ -162,7 +162,7 @@ namespace _11_Image_Processing
             return lists;
 
         }
-        public static List<List<Box>> ByteArrayToBoxListList(this byte[] ba)
+        public static List<List<Box>> ByteArrayToIntBoxListList(this byte[] ba)
         {
             List<List<Box>> lists;
             using (var ms = new MemoryStream(ba))
@@ -298,6 +298,7 @@ namespace _11_Image_Processing
                     list = new();
                     for (int i = 0; i != lengthOfList; i++)
                     {
+                        int Count = r.ReadInt32();
                         list.Add(new(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()));
                     }
                 }
@@ -888,7 +889,7 @@ namespace _11_Image_Processing
     }
     static class WindowsMediaExtensions
     {
-        public static System.Windows.Media.Color ColorFromDrawing(this Color color)
+        public static System.Windows.Media.Color ColorToDrawing(this Color color)
         {
             return System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
         }
