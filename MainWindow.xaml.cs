@@ -66,7 +66,6 @@ namespace _11_Image_Processing
             //debug
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
-                CalculateAndShowPreviewBoxes();
                 //LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
                 LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\val2" + Settings.projectExtension);
 
@@ -889,11 +888,12 @@ namespace _11_Image_Processing
             pdfViewControl.Load(Settings.tempFile);
             pdfViewControl.MaximumZoomPercentage = 6400;
             pdfViewControl.ScrollChanged += (sender, args) => offset = args.VerticalOffset;
-
+            pdfViewControl.ZoomChanged += PdfViewControl_ZoomChanged;
 
             PreviewKeyDown -= Window_KeyDown;
             PreviewKeyDown += Window_KeyDown;
         }
+
         //help and settings
         private void Menu_Help_HTML_Click(object sender, RoutedEventArgs e)
         {
@@ -948,11 +948,10 @@ namespace _11_Image_Processing
             this.Activated += Window_Activated;
 
 
-            pdfDocumentView.UpdateLayout();
-            pdfDocumentView.Load(doc);
+            //pdfDocumentView.UpdateLayout();
+            //pdfDocumentView.Load(doc);
             loadedPdfLabel.Content = Path.GetFileName(Settings.fileName);
-            //pdfDocumentView.MinimumZoomPercentage = pdfDocumentView.ZoomPercentage;
-            pdfDocumentView.ZoomTo(-1);
+            //pdfDocumentView.ZoomTo(-1);
 
             Title = Settings.appName + " -- " + Settings.projectName;
 
@@ -1014,7 +1013,7 @@ namespace _11_Image_Processing
 
             Title = Settings.appName + " - " + Strings.unloaded;
 
-            pdfDocumentView.Unload();
+            //pdfDocumentView.Unload();
             loadedPdfLabel.Content = "";
 
 
@@ -1032,13 +1031,13 @@ namespace _11_Image_Processing
         }
 
 
-        private void pdfDocumentView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            double r = e.NewSize.Width / e.PreviousSize.Width;
+        //private void pdfDocumentView_SizeChanged(object sender, SizeChangedEventArgs e)
+        //{
+        //    double r = e.NewSize.Width / e.PreviousSize.Width;
 
-            int newZoom = (int)(pdfDocumentView.ZoomPercentage * r);
-            pdfDocumentView.ZoomTo(newZoom);
-        }
+        //    //int newZoom = (int)(pdfDocumentView.ZoomPercentage * r);
+        //    //pdfDocumentView.ZoomTo(newZoom);
+        //}
 
         //resultView
         private void ShowResultView()
@@ -1271,7 +1270,7 @@ namespace _11_Image_Processing
             File.Copy(Settings.tempFile, Settings.tempFileCopy, true);
 
             pdfViewControl.ScrollTo(offset);
-            pdfViewControl.Zoom = zoom * 100;
+            pdfViewControl.Zoom = zoom*100 ;
         }
         private void deletePage_Click(object sender, RoutedEventArgs e)
         {
@@ -1300,7 +1299,7 @@ namespace _11_Image_Processing
 
 
             pdfViewControl.ScrollTo(offset);
-            pdfViewControl.Zoom = zoom * 100;
+            pdfViewControl.Zoom = zoom*100;
 
         }
         //clik methods not used
@@ -1574,10 +1573,11 @@ namespace _11_Image_Processing
             RectangleF bounds = new RectangleF(point, size);
             bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
-            doc.DrawBox(new(pindex,bounds, Settings.baundWidth,false));
+            doc.DrawBox(new(pindex,bounds, Settings.baundWidth/doc.Pages[pindex].Size.Width,false));
 
 
             ReloadDocument();
+            pdfViewControl.Zoom = zoom*100;
 
         }
         private void Pdfwcontrol_PageClicked_B(object sender, PageClickedEventArgs args)
@@ -1612,6 +1612,7 @@ namespace _11_Image_Processing
                     Settings.pagesFields.Add(new(pindex, rect));
 
                     ReloadDocument();
+                    pdfViewControl.Zoom = zoom*100;
                 }
                 //this.MouseMove -= PdfEditW_MouseMove;
                 pdfViewControl.PageMouseMove -= PdfViewControl_PageMouseMove;
@@ -1666,12 +1667,14 @@ namespace _11_Image_Processing
             }
 
             ReloadDocument();
+            pdfViewControl.Zoom = zoom*100;
+
         }
         private void Pdfwcontrol_PageClicked_E(object sender, PageClickedEventArgs args)
         {
             var doc = pdfViewControl.LoadedDocument;
             int pindex = args.PageIndex;
-            double zoom = pdfViewControl.ZoomPercentage / 100.0;
+            double zoom = pdfViewControl.ZoomPercentage/100.0;
 
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
 
@@ -1690,7 +1693,7 @@ namespace _11_Image_Processing
                 RectangleF bounds = new RectangleF(pointb, size);
                 bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
-                Box box = new(pindex, bounds, Settings.baundWidth, false);
+                Box box = new(pindex, bounds, Settings.baundWidth / doc.Pages[pindex].Size.Width, false);
                 doc.DrawBox(box);
 
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + i.IntToAlphabet());
@@ -1700,6 +1703,8 @@ namespace _11_Image_Processing
             }
 
             ReloadDocument();
+            pdfViewControl.Zoom = zoom*100;
+
 
         }
         private void Pdfwcontrol_PageClicked_Tog(object sender, PageClickedEventArgs args)
@@ -1763,6 +1768,8 @@ namespace _11_Image_Processing
 
                     Settings.nameField = new(pindex, rect);
                     ReloadDocument();
+                    pdfViewControl.Zoom = zoom*100;
+
                 }
                 //this.MouseMove -= PdfEditW_MouseMove;
                 pdfViewControl.PageMouseMove -= PdfViewControl_PageMouseMove;
@@ -1825,8 +1832,15 @@ namespace _11_Image_Processing
             pdfViewControl.ScrollTo(offset);
             pdfViewControl.Zoom = zoom * 100;
         }
+        private void PdfViewControl_ZoomChanged(object sender, ZoomEventArgs args)
+        {
+            CalculateAndShowPreviewBoxes();
+        }
         private void CalculateAndShowPreviewBoxes()
         {
+            if (!pdfViewControl.IsLoaded) { return; }
+            double ratio = 1.0 *pdfViewControl.ZoomPercentage / 75.0;
+
             int nNew = Settings.QS.n; 
             if (nNew > 4) nNew = 4;
 
@@ -1841,12 +1855,12 @@ namespace _11_Image_Processing
             for (int i = 0; i<preview.Children.Count; i++)
             {
                 var r = preview.Children[i] as System.Windows.Shapes.Rectangle;
-                Canvas.SetTop(r, 10 + i * (Settings.sizeOfBox.Height + Settings.QS.spaceBtwAn + Settings.sizeOfBox.Height + Settings.QS.spaceBtwAn));
-                Canvas.SetRight(r, 10);
-                r.Height = Settings.sizeOfBox.Height;
-                r.Width = Settings.sizeOfBox.Width;
+                Canvas.SetTop(r, 5 +ratio* i * (Settings.sizeOfBox.Height + Settings.QS.spaceBtwAn));
+                Canvas.SetLeft(r, 5);
+                r.Height = (Settings.sizeOfBox.Height+ 2*Settings.baundWidth )* ratio;
+                r.Width = (Settings.sizeOfBox.Width+ 2*Settings.baundWidth) *ratio;
                 r.Stroke= new System.Windows.Media.SolidColorBrush(Settings.baundColor.ColorFromDrawing());
-                r.StrokeThickness = Settings.baundWidth;
+                r.StrokeThickness = Settings.baundWidth*ratio;
             }
 
         }
@@ -1929,11 +1943,12 @@ namespace _11_Image_Processing
                 float p = (float)Math.Round(spaceSlider.Value, 3);
                 Settings.QS.spaceBtwAn = p;
             }
-
             if (countSlider != null)
             {
                 Settings.QS.n = (int)countSlider.Value;
             }
+            CalculateAndShowPreviewBoxes();
+
         }
 
         //unused

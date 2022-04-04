@@ -10,7 +10,7 @@
         mc:Ignorable="d"
     Title="{x:Static ln:Strings.NameOfAplication}"
         Icon="/Resources/imag.ico"
-       Height="600" Width="1000" Background="Azure"
+       Background="Azure"
 
     Closing="Window_Closing" Closed="Window_Closed">
 
@@ -116,7 +116,7 @@
                               RenderingBias="Quality" ShadowDepth="2"/>
             </Grid.Effect>-->
 
-                <PdfViewer:PdfDocumentView x:Name="pdfDocumentView" HorizontalAlignment="Center"  Grid.Column="1" Grid.Row="1" SizeChanged="pdfDocumentView_SizeChanged" />
+                <!--<PdfViewer:PdfDocumentView x:Name="pdfDocumentView" HorizontalAlignment="Center"  Grid.Column="1" Grid.Row="1" SizeChanged="pdfDocumentView_SizeChanged" />-->
 
                 <Grid Grid.Row="1" Margin="10,5,0,0" >
                     <!--ShowGridLines="True"-->
@@ -202,7 +202,7 @@
                 </ListView>
 
             </Grid>
-            <Grid x:Name="editView" >
+            <Grid x:Name="editView" Visibility="Hidden">
                 <!--Visibility="Hidden"-->
                 <!--<Window.DataContext>
                     <local:Settings/>
@@ -214,7 +214,7 @@
                     </Grid.ColumnDefinitions>
                     <PdfViewer:PdfViewerControl x:Name="pdfViewControl"  Grid.Column="0"/>
                     <Rectangle x:Name="rectangleR" Stroke="Black" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False"/>
-                    <StackPanel Background="AliceBlue" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Column="1">
+                    <StackPanel Background="AliceBlue"                                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Column="1">
                         <StackPanel x:Name="toolMenu">
 
                             <MenuItem x:Name="Menu_NewPage" Header="{x:Static ln:Strings.NewPage}" Click="Menu_NewPage_Click" Style="{DynamicResource meIStyle}"/>
@@ -224,24 +224,24 @@
                             <MenuItem x:Name="boxex"        Header="{x:Static ln:Strings.AnswerBoxes}" Click="CheckMenuItem" IsCheckable="True" Checked="e_Checked" Unchecked="e_Unchecked " Command="local:Commands.AnswerBoxes" Style="{DynamicResource meIStyle}"/>
                             <MenuItem x:Name="toogleAn"     Header="{x:Static ln:Strings.ToogleCorrect}" IsCheckable="True" Checked="toogleAn_Checked" Unchecked="toogleAn_Unchecked" Style="{DynamicResource meIStyle}" InputGestureText="{x:Static ln:Strings.AltHold}"/>
                         </StackPanel>
-                        <Canvas Background="AliceBlue" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Width="240" Margin="0,10,0,0" >
-                            <Label Content="{x:Static ln:Strings.widthofbound}"             Canvas.Top="0"     Canvas.Right="140"/>
-                            <TextBox x:Name="widthLabel"                  Canvas.Top="0"      Canvas.Right="120"  Text="{Binding ElementName=widthSlider,Path=Value }" MaxWidth="20"/>
-                            <Slider x:Name="widthSlider" Maximum="8"    Canvas.Top="0"      Canvas.Right="15" Value="2" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="0.1"/>
+                        <Canvas  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Width="240" Margin="0,0,0,0" Height="1000">
+                            <Label Content="{x:Static ln:Strings.widthofbound}"             Canvas.Top="7"     Canvas.Right="140"/>
+                            <TextBox x:Name="widthLabel"                  Canvas.Top="10"      Canvas.Right="120"  Text="{Binding ElementName=widthSlider,Path=Value }" MaxWidth="20"/>
+                            <Slider x:Name="widthSlider" Maximum="8"    Canvas.Top="10"      Canvas.Right="15" Value="2" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="0.1"/>
 
 
-                            <Label Content="{x:Static ln:Strings.sizeofbox}"               Canvas.Top="25"  Canvas.Right="140"/>
-                            <TextBox x:Name="sizeLabel"                  Canvas.Top="25"    Canvas.Right="120"  Text="{Binding ElementName=sizeSlider,Path=Value }" MaxWidth="20"/>
-                            <Slider x:Name="sizeSlider" Maximum="40"    Canvas.Top="25"     Canvas.Right="15" Width="100" Value="20" ValueChanged="Slider_ValueChanged"                         IsSnapToTickEnabled="True"    TickFrequency="0.01"/>
+                            <Label Content="{x:Static ln:Strings.sizeofbox}"               Canvas.Top="32"  Canvas.Right="140"/>
+                            <TextBox x:Name="sizeLabel"                  Canvas.Top="35"    Canvas.Right="120"  Text="{Binding ElementName=sizeSlider,Path=Value }" MaxWidth="20"/>
+                            <Slider x:Name="sizeSlider" Maximum="40"    Canvas.Top="35"     Canvas.Right="15" Width="100" Value="20" ValueChanged="Slider_ValueChanged"                         IsSnapToTickEnabled="True"    TickFrequency="0.01"/>
 
 
-                            <Label Content="{x:Static ln:Strings.spacebetween}"              Canvas.Top="50"     Canvas.Right="140"/>
-                            <TextBox x:Name="spaceLabel"                  Canvas.Top="50"      Canvas.Right="120" Text="{Binding ElementName=spaceSlider,Path=Value }" MaxWidth="20"/>
-                            <Slider x:Name="spaceSlider" Maximum="50"   Canvas.Top="50"      Canvas.Right="15" Value="10" Width="100" ValueChanged="Slider_ValueChanged"    IsSnapToTickEnabled="True"    TickFrequency="0.1"/>
+                            <Label Content="{x:Static ln:Strings.spacebetween}"              Canvas.Top="57"     Canvas.Right="140"/>
+                            <TextBox x:Name="spaceLabel"                  Canvas.Top="60"      Canvas.Right="120" Text="{Binding ElementName=spaceSlider,Path=Value }" MaxWidth="20"/>
+                            <Slider x:Name="spaceSlider" Maximum="50"   Canvas.Top="60"      Canvas.Right="15" Value="10" Width="100" ValueChanged="Slider_ValueChanged"    IsSnapToTickEnabled="True"    TickFrequency="0.1"/>
 
-                            <Label Content="{x:Static ln:Strings.Count}"                      Canvas.Top="75"     Canvas.Right="140"/>
-                            <TextBox x:Name="countLabel"                  Canvas.Top="75"      Canvas.Right="120"  Text="{Binding ElementName=countSlider,Path=Value }"/>
-                            <Slider x:Name="countSlider" Maximum="10"   Canvas.Top="75"      Canvas.Right="15" Value="4" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="1" />
+                            <Label Content="{x:Static ln:Strings.Count}"                      Canvas.Top="82"     Canvas.Right="140"/>
+                            <TextBox x:Name="countLabel"                  Canvas.Top="85"      Canvas.Right="120"  Text="{Binding ElementName=countSlider,Path=Value }"/>
+                            <Slider x:Name="countSlider" Maximum="10"   Canvas.Top="85"      Canvas.Right="15" Value="4" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="1" />
 
                             <Canvas x:Name="preview" Canvas.Left="10" Canvas.Top="150" Background="White" Height="200" Width="75">
                             </Canvas>
@@ -251,7 +251,7 @@
                             <Button x:Name="undoFButton" Content="{x:Static ln:Strings.UndoField}" Style="{DynamicResource undoButtStyle}" Canvas.Top="225"     Canvas.Right="20" Click="undoFButton_Click"/>
                             <Button x:Name="undoNFButton" Content="{x:Static ln:Strings.UndoNameField}" Style="{DynamicResource undoButtStyle}" Canvas.Top="250"    Canvas.Right="20" Click="undoNFButton_Click"/>
 
-                            <TextBlock  Canvas.Top="300"     Canvas.Right="20" TextAlignment="Right" Text="{x:Static ln:Strings.UndoNotCompatible}" />
+                            <TextBlock  Canvas.Top="300"     Canvas.Right="20" TextAlignment="Right" Text="{x:Static ln:Strings.UndoNotCompatible}"  />
                             <!--<TextBlock  Canvas.Top="350"     Canvas.Right="20" TextAlignment="Right" Text="{x:Static ln:Strings.autosaveAffirmation}" />-->
 
 
