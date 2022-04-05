@@ -87,9 +87,10 @@
 
                 <MenuItem x:Name="Menu_Settions" Header="{x:Static ln:Strings.Settings}" Click="Menu_Settings_Click"/>
             </Menu >
+            <Label Margin="50,0,0,0" x:Name="windowHeader" Foreground="White"/>
             <Border HorizontalAlignment="Right" DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
-                    <Button  Background="Transparent" BorderBrush="Transparent" Click="CloseClick" Height="30" Width="40">
+                    <Button  Background="Transparent"  BorderBrush="Transparent" Click="CloseClick" Height="30" Width="40">
                         <Image Source="/Resources/icons8-close-50.png" Height="15"/>
                     </Button>
                     <!--Content="{x:Static ln:Strings.Close}"-->

@@ -898,6 +898,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saved.
+        /// </summary>
+        public static string Saved {
+            get {
+                return ResourceManager.GetString("Saved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project is not saved.
         ///Do you want to save it?.
         /// </summary>

@@ -396,6 +396,9 @@
   <data name="SaveAs" xml:space="preserve">
     <value>_SaveAs</value>
   </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Saved</value>
+  </data>
   <data name="savequestion" xml:space="preserve">
     <value>Project is not saved.
 Do you want to save it?</value>

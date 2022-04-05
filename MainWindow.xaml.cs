@@ -357,8 +357,10 @@ namespace _11_Image_Processing
             Settings.tempFileCopy = tempCopy;
             Settings.tempFilesToDelete.Add(tempCopy);
             Settings.fileName = fileName;
+            Settings.projectName = Settings.templateProjectName;
 
             ReloadWindowContent();
+            windowHeader.Content = Settings.projectName + "*";
         }
 
         //open
@@ -390,6 +392,8 @@ namespace _11_Image_Processing
             if (save.ShowDialog() == false) return;
 
             SaveDataToFile(save.FileName);
+            SavedInfo();
+
 
             Settings.projectFileName = save.FileName;
             ReloadWindowContent();
@@ -400,6 +404,7 @@ namespace _11_Image_Processing
         {
 
             SaveDataToFile(Settings.projectFileName);
+            SavedInfo();
 
             ReloadWindowContent();
         }
@@ -450,6 +455,11 @@ namespace _11_Image_Processing
             Settings.versions.Add(DateTime.Now.ToStringOfRegularFormat());
 
 
+        }
+        private void SavedInfo()
+        {
+            saved = true;
+            windowHeader.Content = Settings.projectName + " • " + Strings.Saved;
         }
         private void LoadDataFromFile(string filename)
         {
@@ -566,6 +576,7 @@ namespace _11_Image_Processing
 
             ReloadWindowContent();
             Menu_Project_Save.IsEnabled = true;
+            windowHeader.Content = Settings.projectName;
         }
         //Print
         private void Menu_Export_ToJPEG_Click(object sender, RoutedEventArgs e)
@@ -887,11 +898,18 @@ namespace _11_Image_Processing
 
             pdfViewControl.Load(Settings.tempFile);
             pdfViewControl.MaximumZoomPercentage = 6400;
-            pdfViewControl.ScrollChanged += (sender, args) => offset = args.VerticalOffset;
+            pdfViewControl.ScrollChanged -= PdfViewControl_ScrollChanged;
+            pdfViewControl.ScrollChanged += PdfViewControl_ScrollChanged;
+            pdfViewControl.ZoomChanged -= PdfViewControl_ZoomChanged;
             pdfViewControl.ZoomChanged += PdfViewControl_ZoomChanged;
 
             PreviewKeyDown -= Window_KeyDown;
             PreviewKeyDown += Window_KeyDown;
+        }
+
+        private void PdfViewControl_ScrollChanged(object sender, ScrollChangedEventArgs args)
+        {
+            offset = args.VerticalOffset;
         }
 
         //help and settings
@@ -1224,7 +1242,8 @@ namespace _11_Image_Processing
 
         private void CloseClick(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            //Application.Current.Shutdown();
+            this.Close();
         }
         private void MinimazeClick(object sender, RoutedEventArgs e)
         {
@@ -1252,6 +1271,7 @@ namespace _11_Image_Processing
 
         //editview
         private double offset;
+        private bool saved=false;
         private bool drawingRectangle;
         private PageMouseMoveEventArgs argsFirstVertex;
         private System.Windows.Point locFirstVertex;
@@ -1261,20 +1281,15 @@ namespace _11_Image_Processing
 
         private void Menu_NewPage_Click(object sender, RoutedEventArgs e)
         {
-            double zoom = pdfViewControl.ZoomPercentage / 100.0;
             var doc = pdfViewControl.LoadedDocument;
 
             doc.Pages.Add();
 
             ReloadDocument();
             File.Copy(Settings.tempFile, Settings.tempFileCopy, true);
-
-            pdfViewControl.ScrollTo(offset);
-            pdfViewControl.Zoom = zoom*100 ;
         }
         private void deletePage_Click(object sender, RoutedEventArgs e)
         {
-            double zoom = pdfViewControl.ZoomPercentage / 100.0;
             var doc = pdfViewControl.LoadedDocument;
             if (doc.Pages.Count == 1) { MessageBox.Show(Strings.cannotDeleteLastPage); return; }
 
@@ -1297,9 +1312,6 @@ namespace _11_Image_Processing
             ReloadDocument();
             File.Copy(Settings.tempFile, Settings.tempFileCopy, true);
 
-
-            pdfViewControl.ScrollTo(offset);
-            pdfViewControl.Zoom = zoom*100;
 
         }
         //clik methods not used
@@ -1816,6 +1828,10 @@ namespace _11_Image_Processing
 
         private void ReloadDocument()
         {
+            saved = false;
+            windowHeader.Content = Settings.projectName+"*";
+
+
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
             var doc = pdfViewControl.LoadedDocument;
             doc.Save(Settings.tempFile);
@@ -1825,9 +1841,6 @@ namespace _11_Image_Processing
             doc.Close();
             doc.Dispose();
             pdfViewControl.Load(stream);
-
-
-
 
             pdfViewControl.ScrollTo(offset);
             pdfViewControl.Zoom = zoom * 100;
@@ -2109,8 +2122,8 @@ namespace _11_Image_Processing
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var f = MessageBox.Show(Strings.savequestion, Strings.closing, MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-            if (f == MessageBoxResult.Cancel) e.Cancel = true;//TODO debug
-            else if (f != MessageBoxResult.Yes) return;
+            if (f == MessageBoxResult.Cancel) e.Cancel = true;
+            if (f != MessageBoxResult.Yes) return;
             else if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
             else if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null);
             else MessageBox.Show(Strings.NoProjectLoaded, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -2256,7 +2269,7 @@ namespace _11_Image_Processing
 }
 
 
-//TODO update the save project property 
+//TODO update the save project property (settings save)
 //  (add saving preferences)
 
 //TODO add help and settings (help not finished) (settings not even designed)

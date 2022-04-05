@@ -21,7 +21,7 @@ namespace _11_Image_Processing
         //settings
         internal static string Language;
         internal static string languagefile;
-        internal static string templateProjectName = "*"+ Strings.Untitled;
+        internal static string templateProjectName = Strings.Untitled;
 
         internal static float baundWidth = 2;
         internal static Color baundColor = Color.Red;
@@ -67,7 +67,7 @@ namespace _11_Image_Processing
         internal static string tempFile;
         internal static string tempFileCopy;
         internal static List<string> versions = new();
-        internal static string projectName = templateProjectName;
+        internal static string projectName = null;
         internal static bool IsLocked = false;
 
 
