@@ -331,7 +331,7 @@ namespace _11_Image_Processing
             List<RectangleF> save = new();
             foreach (PdfPageBase page in doc.Pages)
             {
-                var w = Settings.positionersWidth / 2;
+                var w = Settings.positionersWidth*page.Size.Width / 2;
                 float ll = Settings.positionersLegLength * page.Size.Width;//leglength
                 float marg = Settings.positionersMargin * page.Size.Width;
                 byte[] types = { 0, 1, 1 };

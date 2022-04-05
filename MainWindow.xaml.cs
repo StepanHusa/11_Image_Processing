@@ -382,7 +382,6 @@ namespace _11_Image_Processing
         private void CommandBinding_Edit_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Menu_View_Edit_Click(null,null);
-            pdfViewControl.ShowToolbar = false;
         }
         //Save
         private void Menu_Save_ProjectAs_Click(object sender, RoutedEventArgs e)
@@ -895,6 +894,8 @@ namespace _11_Image_Processing
             projectInfo.Visibility = Visibility.Hidden;
             results.Visibility = Visibility.Hidden;
             editView.Visibility = Visibility.Visible;
+            pdfViewControl.ShowToolbar = false;
+            HideTools();
 
             pdfViewControl.Load(Settings.tempFile);
             pdfViewControl.MaximumZoomPercentage = 6400;
@@ -936,10 +937,6 @@ namespace _11_Image_Processing
             Settings.projectName = projecttext.Text;
         }
 
-        private void Window_Activated(object sender, EventArgs e)
-        {
-            ReloadWindowContent();
-        }
         private void reloadButton_Click(object sender, RoutedEventArgs e)
         {
             ReloadWindowContent();
@@ -951,50 +948,55 @@ namespace _11_Image_Processing
 
         private void ReloadWindowContent()
         {
-            if (Settings.tempFile == null) throw new Exception("ReloadWindowContent whan no loaded document");
-            var doc = new PdfLoadedDocument(Settings.tempFile);
-
-            Menu_Edit.IsEnabled = true;
-            Menu_View_Edit.IsEnabled = true;
-            Menu_Project_SaveAs.IsEnabled = true;
-            Menu_Print.IsEnabled = true;
-            Menu_Read.IsEnabled = true;
-            Menu_Eavluate.IsEnabled = true;
-            Menu_Export.IsEnabled = true;
-
-            reloadButton.IsEnabled = true;
-            this.Activated += Window_Activated;
-
-
-            //pdfDocumentView.UpdateLayout();
-            //pdfDocumentView.Load(doc);
-            loadedPdfLabel.Content = Path.GetFileName(Settings.fileName);
-            //pdfDocumentView.ZoomTo(-1);
-
-            Title = Settings.appName + " -- " + Settings.projectName;
-
-            projecttext.Text = Settings.projectName;
-            projectfilenametext.Text = Path.GetFileName(Settings.projectFileName);
-            locationtext.Text = Path.GetDirectoryName(Settings.projectFileName);
-            pagecounttext.Text = doc.Pages.Count.ToString();
-            questioncounttext.Text = Settings.boxesInQuestions.Count.ToString();
-            int ii = 0;
-            foreach (var question in Settings.boxesInQuestions)
+            if (Settings.tempFile == null)
             {
-                ii += question.Count;
+                Unload();
+
             }
-            boxcounttext.Text = ii.ToString();
-            ii = 0;
-            foreach (var tuples in Settings.pagesFields)
-                ii++;
-            fieldcounttext.Text = ii.ToString();
+            else
+            {
+                var doc = new PdfLoadedDocument(Settings.tempFile);
 
-            if (Settings.versions.Count != 0)
-                dateoflastsavetext.Text = Settings.versions.Last();
-            else dateoflastsavetext.Text = Strings.notsavedyet;
+                Menu_Edit.IsEnabled = true;
+                Menu_View_Edit.IsEnabled = true;
+                Menu_Project_SaveAs.IsEnabled = true;
+                Menu_Print.IsEnabled = true;
+                Menu_Read.IsEnabled = true;
+                Menu_Eavluate.IsEnabled = true;
+                Menu_Export.IsEnabled = true;
 
-            //dateoflastsavetext.Text = Settings.versions.Last().ToStringOfRegularFormat();
+                reloadButton.IsEnabled = true;
 
+
+                //pdfDocumentView.UpdateLayout();
+                //pdfDocumentView.Load(doc);
+                loadedPdfLabel.Content = Path.GetFileName(Settings.fileName);
+                //pdfDocumentView.ZoomTo(-1);
+
+                Title = Settings.appName + " -- " + Settings.projectName;
+
+                projecttext.Text = Settings.projectName;
+                projectfilenametext.Text = Path.GetFileName(Settings.projectFileName);
+                locationtext.Text = Path.GetDirectoryName(Settings.projectFileName);
+                pagecounttext.Text = doc.Pages.Count.ToString();
+                questioncounttext.Text = Settings.boxesInQuestions.Count.ToString();
+                int ii = 0;
+                foreach (var question in Settings.boxesInQuestions)
+                {
+                    ii += question.Count;
+                }
+                boxcounttext.Text = ii.ToString();
+                ii = 0;
+                foreach (var tuples in Settings.pagesFields)
+                    ii++;
+                fieldcounttext.Text = ii.ToString();
+
+                if (Settings.versions.Count != 0)
+                    dateoflastsavetext.Text = Settings.versions.Last();
+                else dateoflastsavetext.Text = Strings.notsavedyet;
+
+                //dateoflastsavetext.Text = Settings.versions.Last().ToStringOfRegularFormat();
+            }
         }
         private void Unload()
         {
@@ -1005,7 +1007,6 @@ namespace _11_Image_Processing
             Settings.scanPagesInWorks = new();
 
             reloadButton.IsEnabled = false;
-            this.Activated -= Window_Activated;
 
             if (File.Exists(Settings.tempFile))
                 File.Delete(Settings.tempFile);
@@ -1271,7 +1272,7 @@ namespace _11_Image_Processing
 
         //editview
         private double offset;
-        private bool saved=false;
+        private static bool saved=false;
         private bool drawingRectangle;
         private PageMouseMoveEventArgs argsFirstVertex;
         private System.Windows.Point locFirstVertex;
@@ -2121,6 +2122,7 @@ namespace _11_Image_Processing
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (saved) return;
             var f = MessageBox.Show(Strings.savequestion, Strings.closing, MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
             if (f == MessageBoxResult.Cancel) e.Cancel = true;
             if (f != MessageBoxResult.Yes) return;
