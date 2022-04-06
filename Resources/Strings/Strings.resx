@@ -198,6 +198,9 @@
   <data name="DeletePage" xml:space="preserve">
     <value>Delete Page</value>
   </data>
+  <data name="Document" xml:space="preserve">
+    <value>Document</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>_Edit</value>
   </data>

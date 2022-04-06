@@ -42,12 +42,12 @@
 
                     <MenuItem x:Name="Menu_Project_Unload" Header="{x:Static ln:Strings.Unload}" Click="Menu_Project_Unload_Click"/>
 
-                    <MenuItem x:Name="Menu_Project_SaveAs" Header="{x:Static ln:Strings.SaveAs}" IsEnabled="False"  Click="Menu_Save_ProjectAs_Click" InputGestureText="Ctrl+Shift+S"/>
+                    <MenuItem x:Name="Menu_Project_SaveAs" Header="{x:Static ln:Strings.SaveAs}" IsEnabled="False"  Click="Menu_Save_ProjectAs_Click" Command="" InputGestureText="Ctrl+Shift+S"/>
                     <MenuItem  x:Name="Menu_Project_Save" Header="{x:Static ln:Strings.Save}" IsEnabled="False" Click="Menu_Save_Project_Click" InputGestureText="Ctrl+S"/>
                 </MenuItem>
 
                 <MenuItem x:Name="Menu_Edit" Header="{x:Static ln:Strings.Edit}" IsEnabled="False" >
-                    <MenuItem x:Name="Menu_Edit_Questions" Header="{x:Static ln:Strings.Questions}" Click="Menu_Edit_Questions_Click"/>
+                    <MenuItem x:Name="Menu_Edit_Questions" Header="{x:Static ln:Strings.Document}" Click="Menu_Edit_Questions_Click"/>
                     <MenuItem x:Name="Menu_Edit_Boxes" Header="{x:Static ln:Strings.AddBoxes}" Command="local:Commands.Edit"/>
                 </MenuItem>
 
