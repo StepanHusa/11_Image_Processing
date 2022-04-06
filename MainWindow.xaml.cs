@@ -284,6 +284,9 @@ namespace _11_Image_Processing
 
             }
         }
+
+        private DisplaiedWindow displaiedWindow = DisplaiedWindow.Main;
+        //main
         //load
         private void Menu_Load_Open_Click(object sender, RoutedEventArgs e)
         {
@@ -873,6 +876,7 @@ namespace _11_Image_Processing
         //view
         private void Menu_View_Main_Click(object sender, RoutedEventArgs e)
         {
+            displaiedWindow = DisplaiedWindow.Main;
             projectInfo.Visibility = Visibility.Visible;
             results.Visibility = Visibility.Hidden;
             editView.Visibility = Visibility.Hidden;
@@ -882,6 +886,7 @@ namespace _11_Image_Processing
         }
         private void Menu_View_Result_Click(object sender, RoutedEventArgs e)
         {
+            displaiedWindow = DisplaiedWindow.Results;
             projectInfo.Visibility = Visibility.Hidden;
             results.Visibility = Visibility.Visible;
             editView.Visibility = Visibility.Hidden;
@@ -891,6 +896,7 @@ namespace _11_Image_Processing
         }
         private void Menu_View_Edit_Click(object sender, RoutedEventArgs e)
         {
+            displaiedWindow = DisplaiedWindow.Edit;
             projectInfo.Visibility = Visibility.Hidden;
             results.Visibility = Visibility.Hidden;
             editView.Visibility = Visibility.Visible;
@@ -1061,8 +1067,7 @@ namespace _11_Image_Processing
         //resultView
         private void ShowResultView()
         {
-            projectInfo.Visibility = Visibility.Hidden;
-            results.Visibility = Visibility.Visible;
+            Menu_View_Result_Click(null, null);
 
             if (namesScaned == null & Settings.nameField != null)
             {
@@ -1255,10 +1260,6 @@ namespace _11_Image_Processing
             if (this.WindowState != WindowState.Maximized)
                 this.WindowState = WindowState.Maximized;
             else this.WindowState = WindowState.Normal;
-        }
-        private void CommandBinding_CanExecuteTRUE(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
         }
         private void DockPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -2118,6 +2119,47 @@ namespace _11_Image_Processing
         {
             UndoQuestion();
         }
+        private void CommandBinding_saveAs_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Menu_Save_ProjectAs_Click(sender, null);
+        }
+        private void CommandBinding_save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Menu_Save_Project_Click(sender, null);
+        }
+        private void CommandBinding_MainView_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Menu_View_Main_Click(null, null);
+        }
+        private void CommandBinding_ResultView_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Menu_View_Result_Click(null, null);
+        }
+
+        private void CommandBinding_CanExecuteTRUE(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+        private void CommandBinding_CanExecuteIfEdit(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (displaiedWindow == DisplaiedWindow.Edit) e.CanExecute = true;
+        }
+        private void CommandBinding_CanExecuteIfSaveAsEnebled(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (Menu_Project_SaveAs.IsEnabled) e.CanExecute = true;
+        }
+        private void CommandBinding_CanExecuteIfSaveEnebled(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (Menu_Project_Save.IsEnabled) e.CanExecute = true;
+        }
+        private void CommandBinding_CanExecuteIfEditEnebled(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (Menu_View_Edit.IsEnabled) e.CanExecute = true;  
+        }
+        private void CommandBinding_CanExecuteIfResultsEnebled(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (Menu_View_Result.IsEnabled) e.CanExecute = true;
+        }
 
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -2135,6 +2177,9 @@ namespace _11_Image_Processing
         {
            StaticMethods.DeleteTempFiles();
         }
+
+
+
 
 
         ///// <summary>

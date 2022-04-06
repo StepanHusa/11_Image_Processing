@@ -42,13 +42,13 @@
 
                     <MenuItem x:Name="Menu_Project_Unload" Header="{x:Static ln:Strings.Unload}" Click="Menu_Project_Unload_Click"/>
 
-                    <MenuItem x:Name="Menu_Project_SaveAs" Header="{x:Static ln:Strings.SaveAs}" IsEnabled="False"  Click="Menu_Save_ProjectAs_Click" Command="" InputGestureText="Ctrl+Shift+S"/>
-                    <MenuItem  x:Name="Menu_Project_Save" Header="{x:Static ln:Strings.Save}" IsEnabled="False" Click="Menu_Save_Project_Click" InputGestureText="Ctrl+S"/>
+                    <MenuItem x:Name="Menu_Project_SaveAs" Header="{x:Static ln:Strings.SaveAs}" IsEnabled="False"  Command="local:Commands.SaveProjectAs" InputGestureText="Ctrl+Shift+S"/>
+                    <MenuItem  x:Name="Menu_Project_Save" Header="{x:Static ln:Strings.Save}" IsEnabled="False" Command="local:Commands.SaveProject" InputGestureText="Ctrl+S"/>
                 </MenuItem>
 
                 <MenuItem x:Name="Menu_Edit" Header="{x:Static ln:Strings.Edit}" IsEnabled="False" >
                     <MenuItem x:Name="Menu_Edit_Questions" Header="{x:Static ln:Strings.Document}" Click="Menu_Edit_Questions_Click"/>
-                    <MenuItem x:Name="Menu_Edit_Boxes" Header="{x:Static ln:Strings.AddBoxes}" Command="local:Commands.Edit"/>
+                    <MenuItem x:Name="Menu_Edit_Boxes" Header="{x:Static ln:Strings.AddBoxes}" Command="local:Commands.EditView"/>
                 </MenuItem>
 
                 <MenuItem x:Name="Menu_Export" Header="{x:Static ln:Strings.Export}" IsEnabled="False">
@@ -75,9 +75,9 @@
                 <MenuItem x:Name="Menu_Eavluate" Header="{x:Static ln:Strings.Evaluate}" Click="Menu_Eavluate_Click" IsEnabled="False"/>
 
                 <MenuItem x:Name="Menu_View" Header="{x:Static ln:Strings.View}" Background="#FF2B9099">
-                    <MenuItem x:Name="Menu_View_Main" Header="Main" Click="Menu_View_Main_Click" />
-                    <MenuItem x:Name="Menu_View_Edit" Header="Edit" IsEnabled="False" Click="Menu_View_Edit_Click"/>
-                    <MenuItem x:Name="Menu_View_Result" Header="Results" IsEnabled="False" Click="Menu_View_Result_Click" />
+                    <MenuItem x:Name="Menu_View_Main" Header="Main" Click="Menu_View_Main_Click" InputGestureText="Ctrl+M"/>
+                    <MenuItem x:Name="Menu_View_Edit" Header="Edit" IsEnabled="False" Click="Menu_View_Edit_Click" InputGestureText="Ctrl+E"/>
+                    <MenuItem x:Name="Menu_View_Result" Header="Results" IsEnabled="False" Click="Menu_View_Result_Click" InputGestureText="Ctrl+R"/>
                 </MenuItem>
 
                 <MenuItem x:Name="Menu_Help" Header="{x:Static ln:Strings.Help}">
@@ -635,12 +635,18 @@
 
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="local:Commands.Edit" Executed="CommandBinding_Edit_Executed" CanExecute="CommandBinding_CanExecuteTRUE"/>
         <CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommandBinding_Executed"/>
-        <CommandBinding Command="local:Commands.NameField" Executed="CommandBindingNameField_Executed" CanExecute="CommandBinding_CanExecuteTRUE" />
-        <CommandBinding Command="local:Commands.AnswerField" Executed="CommandBindingFields_Executed" CanExecute="CommandBinding_CanExecuteTRUE" />
-        <CommandBinding Command="local:Commands.AnswerBoxes" Executed="CommandBindingBoxes_Executed" CanExecute="CommandBinding_CanExecuteTRUE"/>
-        <CommandBinding  Command="local:Commands.UndoQuestion" Executed="CommandBindingUndoQ_Executed" CanExecute="CommandBinding_CanExecuteTRUE"/>
+        <CommandBinding Command="local:Commands.NameField" Executed="CommandBindingNameField_Executed" CanExecute="CommandBinding_CanExecuteIfEdit" />
+        <CommandBinding Command="local:Commands.AnswerField" Executed="CommandBindingFields_Executed" CanExecute="CommandBinding_CanExecuteIfEdit" />
+        <CommandBinding Command="local:Commands.AnswerBoxes" Executed="CommandBindingBoxes_Executed" CanExecute="CommandBinding_CanExecuteIfEdit"/>
+        <CommandBinding Command="local:Commands.UndoQuestion" Executed="CommandBindingUndoQ_Executed" CanExecute="CommandBinding_CanExecuteIfEdit"/>
+        <CommandBinding Command="local:Commands.SaveProjectAs" Executed="CommandBinding_saveAs_Executed" CanExecute="CommandBinding_CanExecuteIfSaveAsEnebled"/>
+        <CommandBinding Command="local:Commands.SaveProject" Executed="CommandBinding_save_Executed" CanExecute="CommandBinding_CanExecuteIfSaveEnebled"/>
+
+        <CommandBinding Command="local:Commands.MainView" Executed="CommandBinding_MainView_Executed" CanExecute="CommandBinding_CanExecuteTRUE"/>
+        <CommandBinding Command="local:Commands.EditView" Executed="CommandBinding_Edit_Executed" CanExecute="CommandBinding_CanExecuteIfEditEnebled"/>
+        <CommandBinding Command="local:Commands.ResultView" Executed="CommandBinding_ResultView_Executed" CanExecute="CommandBinding_CanExecuteIfResultsEnebled"/>
+
 
     </Window.CommandBindings>
 

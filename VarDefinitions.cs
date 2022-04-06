@@ -10,6 +10,13 @@ using ImageProcessor.Imaging;
 
 namespace _11_Image_Processing
 {
+    public enum DisplaiedWindow
+    {
+        Main,
+        Edit,
+        Results,
+    }
+
     public class ResultOfQuestion
     {
         public int Number { get; set; }
