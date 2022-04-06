@@ -741,6 +741,8 @@ namespace _11_Image_Processing
                 Settings.scanPagesInWorks.Add(new());
                 Settings.scanPagesInWorks[l + i].Add(open.FileNames[i]);
             }
+            ReloadWindowContent();
+
         }
         private async void Menu_Read_PDF_Click(object sender, RoutedEventArgs e)
         {
@@ -776,6 +778,8 @@ namespace _11_Image_Processing
                 }
             }
             await LoadNumberOfFiles(tempScans.ToArray());
+            ReloadWindowContent();
+
         }
         //advanced read
         private async void Menu_Read_ListOfScans_Dialog_Click(object sender, RoutedEventArgs e)
@@ -785,6 +789,7 @@ namespace _11_Image_Processing
             if (open.ShowDialog() == false) return;
 
             await LoadNumberOfFiles(open.FileNames);
+            ReloadWindowContent();
 
         }
         private async void Menu_Read_Scan_Click(object sender, RoutedEventArgs e)
@@ -793,6 +798,7 @@ namespace _11_Image_Processing
             if (a.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
             await LoadNumberOfFiles(a.tempScans.ToArray());
+            ReloadWindowContent();
         }
         private async Task LoadNumberOfFiles(string[] ImageFiles)
         {
@@ -900,8 +906,10 @@ namespace _11_Image_Processing
             projectInfo.Visibility = Visibility.Hidden;
             results.Visibility = Visibility.Hidden;
             editView.Visibility = Visibility.Visible;
+
             pdfViewControl.ShowToolbar = false;
             HideTools();
+            CalculateAndShowPreviewBoxes();
 
             pdfViewControl.Load(Settings.tempFile);
             pdfViewControl.MaximumZoomPercentage = 6400;
@@ -1881,7 +1889,7 @@ namespace _11_Image_Processing
             for (int i = 0; i<preview.Children.Count; i++)
             {
                 var r = preview.Children[i] as System.Windows.Shapes.Rectangle;
-                Canvas.SetTop(r, 5 +ratio* i * (Settings.sizeOfBox.Height + Settings.QS.spaceBtwAn));
+                Canvas.SetTop(r, 5 +ratio* i * (Settings.sizeOfBox.Height + Settings.QS.spaceBtwAn+Settings.baundWidth));
                 Canvas.SetLeft(r, 5);
                 r.Height = (Settings.sizeOfBox.Height+ 2*Settings.baundWidth )* ratio;
                 r.Width = (Settings.sizeOfBox.Width+ 2*Settings.baundWidth) *ratio;
@@ -1902,6 +1910,7 @@ namespace _11_Image_Processing
             {
                 Settings.boxesInQuestions[i - 1].RemoveAt(j - 1);
             }
+            if (j == 0)  Settings.boxesInQuestions.RemoveAt(i - 1);
             RemakeBoxexAndFieldsN();
         }
         private void UndoQuestion()
@@ -2342,4 +2351,4 @@ namespace _11_Image_Processing
 //tododone debug starting from file
 //todo find the right moment to add mositioners
 //TODO all in one window
-//TODO design using 2 files
+//TODO design using 2 files (i dont know how it is now)
