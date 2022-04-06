@@ -258,6 +258,9 @@
   <data name="JPEG" xml:space="preserve">
     <value>_JPEG</value>
   </data>
+  <data name="LoadedScans" xml:space="preserve">
+    <value>LoadedScans</value>
+  </data>
   <data name="Minimize" xml:space="preserve">
     <value>Minimize</value>
   </data>

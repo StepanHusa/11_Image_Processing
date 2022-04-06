@@ -23,7 +23,7 @@ namespace _11_Image_Processing
 
         public static readonly RoutedCommand MainView = new RoutedCommand("MainView", typeof(Commands), new InputGestureCollection() { new KeyGesture(Key.M, ModifierKeys.Control) });
         public static readonly RoutedCommand EditView = new RoutedCommand("EditView", typeof(Commands),new InputGestureCollection() { new KeyGesture(Key.E, ModifierKeys.Control)});
-        public static readonly RoutedCommand ResultView = new RoutedCommand("ResultView", typeof(Commands), new InputGestureCollection() { new KeyGesture(Key.R, ModifierKeys.Control) });//todo finish 
+        public static readonly RoutedCommand ResultView = new RoutedCommand("ResultView", typeof(Commands), new InputGestureCollection() { new KeyGesture(Key.R, ModifierKeys.Control) });
 
 
 

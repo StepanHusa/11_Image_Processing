@@ -484,6 +484,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LoadedScans.
+        /// </summary>
+        public static string LoadedScans {
+            get {
+                return ResourceManager.GetString("LoadedScans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Minimize.
         /// </summary>
         public static string Minimize {

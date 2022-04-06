@@ -1001,6 +1001,17 @@ namespace _11_Image_Processing
                     dateoflastsavetext.Text = Settings.versions.Last();
                 else dateoflastsavetext.Text = Strings.notsavedyet;
 
+                foreach (var item in Settings.scanPagesInWorks)
+                {
+                    foreach (var it in item)
+                    {
+                        loadedScans.Text += it;
+                        loadedScans.Text += " • ";
+                    }
+                    loadedScans.Text += "• • ";
+                }
+
+
                 //dateoflastsavetext.Text = Settings.versions.Last().ToStringOfRegularFormat();
             }
         }
