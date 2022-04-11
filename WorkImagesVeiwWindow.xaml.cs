@@ -29,7 +29,7 @@ namespace _11_Image_Processing
         {
             var tabs = new TabControl() { TabStripPlacement = Dock.Left };
             int bb = 0;
-            foreach (var imageFile in Settings.scanPagesInWorks[i])
+            foreach (var imageFile in ST.scanPagesInWorks[i])
             {
                 bb++;
                 TabItem t = new() { Header = bb };

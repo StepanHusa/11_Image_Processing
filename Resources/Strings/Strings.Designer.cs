@@ -187,6 +187,16 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can not edit document whan locked.
+        ///Unlock in overview..
+        /// </summary>
+        public static string Canteditwhenlocked {
+            get {
+                return ResourceManager.GetString("Canteditwhenlocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Checked.
         /// </summary>
         public static string Checked {

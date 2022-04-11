@@ -22,14 +22,35 @@ namespace _11_Image_Processing
     /// </summary>
     public partial class SettingsW : Window
     {
+
+        //general
+        private string languagefile= ST.Language;
+        private string language = Strings.THIS_LANGUAGE;
+        private List<string> evalibleLnguages=new();
+        private string tempFolder = ST.tempDirectoryName;
+        private string tempProjectName = ST.templateProjectName;
+        private string projectExtension = ST.projectExtension;
+        private byte[] fileCode = ST.fileCode;
+
+        private string nameString = ST.nameString;
+        private Syncfusion.Pdf.Graphics.PdfFontFamily font = ST.stringFont;
+
+
+
+        //edit
+        private int nOfBoxes = ST.QS.n;
+        private float sizeOfBoxF = ST.sizeOfBoxF;
+        private float spaceBetweenBoxes = ST.spaceBetweenBoxes;
+        private float baundWidth = ST.baundWidth;
+
         private System.Drawing.Color baundColor;
         private System.Drawing.Color baundColorTwo;
-        private string language = Strings.THIS_LANGUAGE;
-        private string languagefile= Settings.Language;
 
 
+        //more
+        private float dpiExport = ST.dpiExport;
+        private float dpiEvaluatePdf = ST.dpiEvaluatePdf;
 
-        private string nameString = Settings.nameString;
 
         public SettingsW()
         {
@@ -39,9 +60,38 @@ namespace _11_Image_Processing
 
         private void Setup()
         {
-            color1.Background = new SolidColorBrush(Settings.baundColor.ColorFromDrawing());
-            color2.Background = new SolidColorBrush(Settings.baundColorTwo.ColorFromDrawing());
-            languageTB.Text = language;
+            //general
+
+            tempfolder.Text = tempFolder;
+            tempprojectname.Text = tempProjectName;
+            projectextension.Text = projectExtension;
+            filecode.Text = fileCode.ByteArrayToString();
+
+            namestring.Text = nameString;
+            fonts.Items.Clear();
+            fonts.Items.Add("Helvetica");//0
+            fonts.Items.Add("Courier");
+            fonts.Items.Add("TimesRoman");
+            fonts.Items.Add("Symbol");
+            fonts.Items.Add("ZapfDingbats");//4
+
+            //foreach (int i in Enum.GetValues(typeof(Syncfusion.Pdf.Graphics.PdfFontFamily)))
+            //{
+            //    fonts.Items.Add(i);
+            //}  
+
+
+            //edit
+            color1.Background = new SolidColorBrush(ST.baundColor.ColorFromDrawing());
+            color2.Background = new SolidColorBrush(ST.baundColorTwo.ColorFromDrawing());
+            size.Text = sizeOfBoxF.ToString();
+            width.Text = baundWidth.ToString();
+            numberOfBoxes.Text = nOfBoxes.ToString();
+            between.Text = spaceBetweenBoxes.ToString();
+
+            //more
+            exportdpi.Text = dpiExport.ToString();
+            evaluatedpi.Text = dpiEvaluatePdf.ToString();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -89,6 +139,10 @@ namespace _11_Image_Processing
             this.Close();
         }
 
+        private void ApplyToGlobalSettings()
+        {
+
+        }
 
         private void color1_Click(object sender, RoutedEventArgs e)
         {
@@ -109,10 +163,6 @@ namespace _11_Image_Processing
 
         }
 
-        private void SelectLanguageButton_Click(object sender, RoutedEventArgs e)
-        {
-            //OpenFileDialog open = new() { Title = "Open Template", Filter = $"File Template(*{Settings.projectExtension})|*{Settings.projectExtension}" };
-        }
 
         private void AddLanguageButton(object sender, RoutedEventArgs e)
         {

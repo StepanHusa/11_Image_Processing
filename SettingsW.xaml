@@ -11,7 +11,7 @@
             Background="Beige"
         Closing="Window_Closing" ><!--KeyDown="IfEnterMoveFocus_KeyDown"-->
     <Window.DataContext>
-        <local:Settings/>
+        <local:ST/>
     </Window.DataContext>
     <Grid >
         <Grid.RowDefinitions>
@@ -25,26 +25,25 @@
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="Language" Width="150"/>
-                                <TextBox x:Name="languageTB" IsEnabled="False" HorizontalAlignment="Stretch" Width="150"/>
-                                <Button Content="select" Width="40" Margin="10,0" Click="SelectLanguageButton_Click"/>
-                                <Button Content="addNew" Width="50" Click="AddLanguageButton"/>
+                                <ComboBox x:Name="languageCB" IsEnabled="False" HorizontalAlignment="Stretch" Width="200"/>
+                                <Button Content="addNew" Width="50" Margin="10,0" Click="AddLanguageButton"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="TempFolder" Width="150"/>
-                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                                <TextBox x:Name="tempfolder" HorizontalAlignment="Stretch" Width="200"/>
                                 <Button Content="find" Width="50" Margin="10,0"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="templateProjectName" Width="150"/>
-                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                                <TextBox Name="tempprojectname" HorizontalAlignment="Stretch" Width="200"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="projectExtension" Width="150"/>
-                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                                <TextBox x:Name="projectextension" HorizontalAlignment="Stretch" Width="200"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="fileCode" Width="150"/>
-                                <TextBox HorizontalAlignment="Stretch" Width="200" x:Name="ag"    KeyDown="ag_KeyDown" MaxLength="8" LostFocus="ag_LostFocus"/>
+                                <TextBox x:Name="filecode" HorizontalAlignment="Stretch" Width="200" KeyDown="ag_KeyDown" MaxLength="8" LostFocus="ag_LostFocus"/>
                             </StackPanel>
 
 
@@ -54,11 +53,11 @@
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="NameString" Width="150"/>
-                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                                <TextBox x:Name="namestring" HorizontalAlignment="Stretch" Width="200"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="Font" Width="150"/>
-                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                                <ComboBox x:Name="fonts" HorizontalAlignment="Stretch" Width="200"/>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -207,11 +206,11 @@
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="ExportToPicturesdpi" Width="150"/>
-                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                                <TextBox x:Name="exportdpi" HorizontalAlignment="Stretch" Width="200"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="Evaluationdpi" Width="150"/>
-                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                                <TextBox x:Name="evaluatedpi" HorizontalAlignment="Stretch" Width="200"/>
                             </StackPanel>
 
                         </StackPanel>

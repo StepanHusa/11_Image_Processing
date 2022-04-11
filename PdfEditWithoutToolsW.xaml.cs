@@ -22,12 +22,12 @@ namespace _11_Image_Processing
         public PdfEditWithoutToolsW()
         {
             InitializeComponent();
-            pdfViewControl.Load(Settings.tempFileCopy);
+            pdfViewControl.Load(ST.tempFileCopy);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            pdfViewControl.LoadedDocument.Save(Settings.tempFileCopy);
+            pdfViewControl.LoadedDocument.Save(ST.tempFileCopy);
         }
     }
 }

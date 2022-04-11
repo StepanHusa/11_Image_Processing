@@ -159,6 +159,10 @@
   <data name="cannotDeleteLastPage" xml:space="preserve">
     <value>Cannot delete last page</value>
   </data>
+  <data name="Canteditwhenlocked" xml:space="preserve">
+    <value>Can not edit document whan locked.
+Unlock in overview.</value>
+  </data>
   <data name="Checked" xml:space="preserve">
     <value>Checked</value>
   </data>

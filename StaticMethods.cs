@@ -29,7 +29,7 @@ namespace _11_Image_Processing
     {
         public static void DeleteTempFiles()
         {
-            foreach (var file in Settings.tempFilesToDelete)
+            foreach (var file in ST.tempFilesToDelete)
             {
                 if (File.Exists(file))
                     File.Delete(file);
@@ -207,10 +207,10 @@ namespace _11_Image_Processing
             PointF[] vertexes = { new PointF(rect.Left - 2 * w, rect.Bottom + w), new PointF(rect.Right + w, rect.Bottom + w), new PointF(rect.Right + w, rect.Top - w), new PointF(rect.Left - w, rect.Top - w), new PointF(rect.Left - w, rect.Bottom + 2 * w) };
             byte[] types = { 0, 1, 1, 1, 1 };
             PdfPath path = new(vertexes, types);
-            path.Pen = Settings.baundPen;
+            path.Pen = ST.baundPen;
             //path.Pen=new PdfPen(Settings.baundColor, Settings.baundWidth);
             if (SecondColor)
-                path.Pen = Settings.baundPenTwo;
+                path.Pen = ST.baundPenTwo;
 
             page.Graphics.DrawPath(path.Pen, path);
 
@@ -220,8 +220,8 @@ namespace _11_Image_Processing
         {
             var page = doc.Pages[pageint];
             rectangle.UnrelatitivizeToPage(page);
-            var p = new PointF(rectangle.Right + Settings.baundWidth, rectangle.Top);
-            page.Graphics.DrawString(index, new PdfStandardFont(Settings.stringFont, Settings.QS.indexFontSize, Settings.stringStyle), new PdfPen(Color.Black), p);
+            var p = new PointF(rectangle.Right + ST.baundWidth, rectangle.Top);
+            page.Graphics.DrawString(index, new PdfStandardFont(ST.stringFont, ST.QS.indexFontSize, ST.stringStyle), new PdfPen(Color.Black), p);
 
             return doc;
         }
@@ -230,10 +230,10 @@ namespace _11_Image_Processing
             var page = doc.Pages[pageint];
             rectangle.UnrelatitivizeToPage(page);
             rectangle.EvaluateInPositiveSize();
-            var p = new PointF(rectangle.Left - 2 * Settings.baundWidth, rectangle.Top);
+            var p = new PointF(rectangle.Left - 2 * ST.baundWidth, rectangle.Top);
 
             PdfStringFormat format = new() { Alignment = PdfTextAlignment.Right };
-            page.Graphics.DrawString(Settings.nameString, new PdfStandardFont(Settings.stringFont, Settings.QS.indexFontSize, Settings.stringStyle), new PdfPen(Color.Black), p, format);
+            page.Graphics.DrawString(ST.nameString, new PdfStandardFont(ST.stringFont, ST.QS.indexFontSize, ST.stringStyle), new PdfPen(Color.Black), p, format);
 
             return doc;
         }
@@ -242,10 +242,10 @@ namespace _11_Image_Processing
             var page = doc.Pages[pageint];
             rectangle.UnrelatitivizeToPage(page);
             rectangle.EvaluateInPositiveSize();
-            var p = new PointF(rectangle.Left - 2 * Settings.baundWidth, rectangle.Top);
+            var p = new PointF(rectangle.Left - 2 * ST.baundWidth, rectangle.Top);
 
             PdfStringFormat format = new() { Alignment = PdfTextAlignment.Right };
-            page.Graphics.DrawString(Text, new PdfStandardFont(Settings.stringFont, Settings.QS.indexFontSize, Settings.stringStyle), new PdfPen(Color.Black), p, format);
+            page.Graphics.DrawString(Text, new PdfStandardFont(ST.stringFont, ST.QS.indexFontSize, ST.stringStyle), new PdfPen(Color.Black), p, format);
 
             return doc;
         }
@@ -262,7 +262,7 @@ namespace _11_Image_Processing
         public static PdfLoadedDocument RemakeBoxex(this PdfLoadedDocument doc)
         {
             int i = 0;
-            foreach (var question in Settings.boxesInQuestions)
+            foreach (var question in ST.boxesInQuestions)
             {
                 int j = 0;
                 foreach (var box in question)
@@ -278,9 +278,9 @@ namespace _11_Image_Processing
         public static PdfLoadedDocument RemakeFields(this PdfLoadedDocument doc)
         {
             int j = 0;
-            foreach (var field in Settings.pagesFields)
+            foreach (var field in ST.pagesFields)
             {
-                doc.DrawRectangleBounds(field.Item2, field.Item1, Settings.baundWidth);
+                doc.DrawRectangleBounds(field.Item2, field.Item1, ST.baundWidth);
                 doc.DrawIndexNextToRectangle(field.Item2, field.Item1, Strings.text + (j + 1).ToString() + ":");
                 j++;
             }
@@ -289,16 +289,16 @@ namespace _11_Image_Processing
         }
         public static PdfLoadedDocument RemakeNameField(this PdfLoadedDocument doc)
         {
-            if (Settings.nameField == null) return doc;
-            doc.DrawRectangleBounds(Settings.nameField.Item2, Settings.nameField.Item1, Settings.baundWidth);
-            doc.DrawNameNextToRectangle(Settings.nameField.Item2, Settings.nameField.Item1);
+            if (ST.nameField == null) return doc;
+            doc.DrawRectangleBounds(ST.nameField.Item2, ST.nameField.Item1, ST.baundWidth);
+            doc.DrawNameNextToRectangle(ST.nameField.Item2, ST.nameField.Item1);
             return doc;
         }
 
         public static PdfLoadedDocument RemakeBoxexOneColor(this PdfLoadedDocument doc)
         {
             int i = 0;
-            foreach (var question in Settings.boxesInQuestions)
+            foreach (var question in ST.boxesInQuestions)
             {
                 int j = 0;
                 foreach (var box in question)
@@ -319,7 +319,7 @@ namespace _11_Image_Processing
 
             foreach (PdfPageBase page in doc.Pages)
             {
-                float marg = Settings.positionersMargin * page.Size.Width;
+                float marg = ST.positionersMargin * page.Size.Width;
                 RectangleF marginRect = new RectangleF(marg, marg, page.Size.Width - 2 * marg, page.Size.Height - 2 * marg);
                 posis.Add(marginRect.RelatitivizeToPage(page));
             }
@@ -331,36 +331,36 @@ namespace _11_Image_Processing
             List<RectangleF> save = new();
             foreach (PdfPageBase page in doc.Pages)
             {
-                var w = Settings.positionersWidth*page.Size.Width / 2;
-                float ll = Settings.positionersLegLength * page.Size.Width;//leglength
-                float marg = Settings.positionersMargin * page.Size.Width;
+                var w = ST.positionersWidth*page.Size.Width / 2;
+                float ll = ST.positionersLegLength * page.Size.Width;//leglength
+                float marg = ST.positionersMargin * page.Size.Width;
                 byte[] types = { 0, 1, 1 };
 
                 PointF VexTopLeft = new(marg + w, marg + w);//A1 in mm 594*841 blank page shows 595*842 random internet doc was in 595.32*842.04
                 PointF[] vertexes = { new PointF(VexTopLeft.X + ll, VexTopLeft.Y), VexTopLeft, new PointF(VexTopLeft.X, VexTopLeft.Y + ll) };
                 PdfPath path = new(vertexes, types);
-                page.Graphics.DrawPath(new PdfPen(Settings.positionersColor,2*w), path);
+                page.Graphics.DrawPath(new PdfPen(ST.positionersColor,2*w), path);
 
                 PointF VexTopRight = new(page.Size.Width - marg - w, marg + w);
                 vertexes = new PointF[] { new PointF(VexTopRight.X - ll, VexTopRight.Y), VexTopRight, new PointF(VexTopRight.X, VexTopRight.Y + ll) };
                 path = new(vertexes, types);
-                page.Graphics.DrawPath(new PdfPen(Settings.positionersColor,2*w), path);
+                page.Graphics.DrawPath(new PdfPen(ST.positionersColor,2*w), path);
 
                 PointF VexBotRight = new(page.Size.Width - marg - w, page.Size.Height - marg - w);
                 vertexes = new PointF[] { new PointF(VexBotRight.X - ll, VexBotRight.Y), VexBotRight, new PointF(VexBotRight.X, VexBotRight.Y - ll) };
                 path = new(vertexes, types);
-                page.Graphics.DrawPath(new PdfPen(Settings.positionersColor, 2 * w), path);
+                page.Graphics.DrawPath(new PdfPen(ST.positionersColor, 2 * w), path);
 
                 PointF VexBotLeft = new(marg + w, page.Size.Height - marg - w);
                 vertexes = new PointF[] { new PointF(VexBotLeft.X + ll, VexBotLeft.Y), VexBotLeft, new PointF(VexBotLeft.X, VexBotLeft.Y - ll) };
                 path = new(vertexes, types);
-                page.Graphics.DrawPath(new PdfPen(Settings.positionersColor, 2 * w), path);
+                page.Graphics.DrawPath(new PdfPen(ST.positionersColor, 2 * w), path);
 
                 //save for evaluation
                 save.Add(new RectangleF((marg + w) / page.Size.Width, (marg + w) / page.Size.Height, 1 - 2*(marg + w) / page.Size.Width, 1- 2*(marg + w) / page.Size.Height));//set to the middle of lines
                 //todo make relative to width only
             }
-            Settings.positioners = save;
+            ST.positioners = save;
             return doc;
         }
 
@@ -926,7 +926,7 @@ namespace _11_Image_Processing
             else if (size > 100) { size = 50; resize = true; }
             if (resize) J = J.Resize(size);
 
-            var I = J.ProcessFilter(Settings.LaplacianOWNEdgeFilter);
+            var I = J.ProcessFilter(ST.LaplacianOWNEdgeFilter);
 
             float c = 0;
             float cc = 0;
@@ -1021,17 +1021,17 @@ namespace _11_Image_Processing
         }
         public static QuadrilateralF FindPositsFromSettings(this Bitmap bitmap)
         {
-            int legLength = (int)(Settings.positionersLegLength * bitmap.Width);
-            int margin = (int)(Settings.positionersMargin * bitmap.Width);
+            int legLength = (int)(ST.positionersLegLength * bitmap.Width);
+            int margin = (int)(ST.positionersMargin * bitmap.Width);
 
 
             return bitmap.FindPositionersInBitmap(legLength, margin);
         }//not used
         public static void AnalyzePositionersInBitmap(this Bitmap bitmap,int pageindex)//not used
         {
-            float l = Settings.positionersLegLength;
+            float l = ST.positionersLegLength;
             int legLength = (int)(l * bitmap.Width);
-            float m = Settings.positionersMargin;
+            float m = ST.positionersMargin;
             int margin = (int)(m * bitmap.Width);
             var P = bitmap.FindPositionersInBitmap(legLength, margin); //positioners
 
@@ -1057,8 +1057,8 @@ namespace _11_Image_Processing
             float sinAvr = (P.p1.X - P.p4.X) / (P.p1.Y - P.p4.Y);
             float cosAvr = 1 - sinAvr * sinAvr / 2;
 
-            float sx = Settings.positioners[pageindex].Width;
-            float sy = Settings.positioners[pageindex].Height;
+            float sx = ST.positioners[pageindex].Width;
+            float sy = ST.positioners[pageindex].Height;
             float px = P.p3.X - P.p1.X;
             float py = P.p3.Y - P.p1.Y;
 
@@ -1066,9 +1066,9 @@ namespace _11_Image_Processing
             float a1 =invD*( sx * px + sy * py);
             float a2 =invD*( sx * py - sy * px);
 
-            Matrix matrix = new(Settings.positioners[pageindex],new PointF[3] {P.p1,P.p2,P.p4 });
+            Matrix matrix = new(ST.positioners[pageindex],new PointF[3] {P.p1,P.p2,P.p4 });
 
-            var p3set = new PointF[1] { new(Settings.positioners[pageindex].Right, Settings.positioners[pageindex].Bottom) };
+            var p3set = new PointF[1] { new(ST.positioners[pageindex].Right, ST.positioners[pageindex].Bottom) };
             matrix.TransformPoints(p3set);
 
             //Matrix matrix = new(cosAvr * widthNew, sinAvr * heightNew, -sinAvr * widthNew, cosAvr * heightNew, P.p1.X, P.p1.Y);
@@ -1089,11 +1089,11 @@ namespace _11_Image_Processing
         }
         public static Matrix MakeTransformationMatrixFromPositioners(this Bitmap bitmap,int pageindex)
         {
-            float l = Settings.positionersLegLength;
+            float l = ST.positionersLegLength;
             int legLength = (int)(l * bitmap.Width);
-            float m = Settings.positionersMargin;
+            float m = ST.positionersMargin;
             int margin = (int)(m * bitmap.Width);
-            float ww = Settings.positionersWidth;
+            float ww = ST.positionersWidth;
             int width = (int)(ww * bitmap.Width);
              //bitmap.FindPositionersInBitmap(legLength, margin);
             var P = bitmap.FindPositionersInBitmapShape(legLength, margin, width); //positioners
@@ -1107,13 +1107,13 @@ namespace _11_Image_Processing
 
 
 
-            if (Settings.positioners == null)
+            if (ST.positioners == null)
             {
-                PdfLoadedDocument ddoc = new(Settings.tempFile);
+                PdfLoadedDocument ddoc = new(ST.tempFile);
                 ddoc.AddPositioners();
-                ddoc.Save(Settings.tempFile);
+                ddoc.Save(ST.tempFile);
             }
-            Matrix matrix = new(Settings.positioners[pageindex], new PointF[3] { P.p1, P.p2, P.p4 });
+            Matrix matrix = new(ST.positioners[pageindex], new PointF[3] { P.p1, P.p2, P.p4 });
 
             return matrix;
         }
@@ -1121,7 +1121,7 @@ namespace _11_Image_Processing
         {
             Rectangle cropRect = new(0, 0, legLength + 2 * margin, legLength + 2 * margin);
             var crop = bitmap.CropRelativeToImage(cropRect);
-            var converted = crop.ProcessFilter(Settings.LaplFilterForPositionersBetter);
+            var converted = crop.ProcessFilter(ST.LaplFilterForPositionersBetter);
             float threshold = (float)0.5;
 
 
@@ -1181,11 +1181,11 @@ namespace _11_Image_Processing
         {
             int side = legLength + margin;
             int sidemarg = side + margin;
-            float threshold = Settings.positionersEdgenessThreshold;
+            float threshold = ST.positionersEdgenessThreshold;
             double[,] filter;
             if (bitmap.Width>2000)
-                filter = Settings.LaplFilterForPositionersBetterLarger;
-            else filter = Settings.LaplFilterForPositionersBetter;
+                filter = ST.LaplFilterForPositionersBetterLarger;
+            else filter = ST.LaplFilterForPositionersBetter;
 
 
             //things that can go wrong:
@@ -1250,7 +1250,7 @@ namespace _11_Image_Processing
             cropRect = new(bitmap.Width - sidemarg, margin, side, side);
             crop = bitmap.Crop(cropRect);
             //crop.RotateFlip(RotateFlipType.Rotate90FlipNone);
-            converted = crop.ProcessFilter(Settings.LaplFilterForPositionersBetter);
+            converted = crop.ProcessFilter(ST.LaplFilterForPositionersBetter);
 
             linesPointsVer = new();
             for (int i = 0; i < side; i++)
@@ -1282,7 +1282,7 @@ namespace _11_Image_Processing
             //bottom right
             cropRect = new(bitmap.Width - sidemarg, bitmap.Height - sidemarg, side, side);
             crop = bitmap.Crop(cropRect);
-            converted = crop.ProcessFilter(Settings.LaplFilterForPositionersBetter);
+            converted = crop.ProcessFilter(ST.LaplFilterForPositionersBetter);
 
             linesPointsVer = new();
             for (int i = 0; i < side; i++)
@@ -1323,7 +1323,7 @@ namespace _11_Image_Processing
             //bottom left
             cropRect = new(margin, bitmap.Height - sidemarg, side, side);
             crop = bitmap.Crop(cropRect);
-            converted = crop.ProcessFilter(Settings.LaplFilterForPositionersBetter);
+            converted = crop.ProcessFilter(ST.LaplFilterForPositionersBetter);
 
             linesPointsVer = new();
             for (int i = 0; i < side; i++)
@@ -1387,7 +1387,7 @@ namespace _11_Image_Processing
         {
             int side = legLength + 2*margin;
             int sidemarg = side /*+ margin*/;
-            float threshold = Settings.positionersEdgenessThreshold;
+            float threshold = ST.positionersEdgenessThreshold;
 
             //things that can go wrong:
             //edge of the paper can be in the crop region
@@ -1736,7 +1736,7 @@ namespace _11_Image_Processing
             List<List<bool>> resultsOneWork = new();
             Bitmap[] pages = new Bitmap[work.Count];
             var matrixes = new Matrix[work.Count];
-            float marginST = Settings.positionersMargin;
+            float marginST = ST.positionersMargin;
 
             for (int i = 0; i < work.Count; i++)
             {
@@ -1896,7 +1896,7 @@ namespace _11_Image_Processing
         {
             for (int i = 0; i < works.Count; i++)
             {
-                foreach (var question in Settings.boxesInQuestions)
+                foreach (var question in ST.boxesInQuestions)
                 {
                     foreach (var box in question)
                     {

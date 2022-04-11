@@ -30,6 +30,15 @@ namespace _11_Image_Processing
                              .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
                              .ToArray();
         }
+        public static string ByteArrayToString(this byte[] ba)
+        {
+            string s = string.Empty;
+            for (int i = 0; i < ba.Length; i++)
+            {
+                s += ba[i].ToString();
+            }
+            return s;
+        }
         public static byte[] PointListArrayToByteArray(this List<PointF>[] array)
         {
 
@@ -335,15 +344,15 @@ namespace _11_Image_Processing
                     //bw.Write(Settings.tempFileCopy);
                     //List<string> versions = new();
 
-                    bw.Write(Settings.versions.Count);
-                    foreach (string strin in Settings.versions)
+                    bw.Write(ST.versions.Count);
+                    foreach (string strin in ST.versions)
                     {
                         bw.Write(strin);
                     }
                     //string projectName
-                    bw.Write(Settings.projectName);
+                    bw.Write(ST.projectName);
                     //bool IsLocked = false;
-                    bw.Write(Settings.IsLocked);
+                    bw.Write(ST.IsLocked);
                 }
                 data = ms.ToArray();
             }
@@ -371,11 +380,11 @@ namespace _11_Image_Processing
                     {
                         list.Add(r.ReadString());
                     }
-                    Settings.versions = list;
+                    ST.versions = list;
                     //string projectName
-                    Settings.projectName = r.ReadString();
+                    ST.projectName = r.ReadString();
                     //bool IsLocked = false;
-                    Settings.IsLocked = r.ReadBoolean();
+                    ST.IsLocked = r.ReadBoolean();
                 }
             }
 
@@ -895,7 +904,7 @@ namespace _11_Image_Processing
         }
         public static Bitmap CropAddMarginFromSettings(this Bitmap orig)
         {
-            var th = Settings.scanExpectedMargins;
+            var th = ST.scanExpectedMargins;
 
             var wNew = orig.Width / (1 + th.Left + th.Right);
             var hNew = orig.Height / (1 + th.Top + th.Bottom);

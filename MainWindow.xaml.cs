@@ -67,7 +67,7 @@ namespace _11_Image_Processing
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
                 //LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
-                LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\val2" + Settings.projectExtension);
+                LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\val2" + ST.projectExtension);
 
                 //ByteExtensions.RestOfSettingsToByteArray().UpdateRestOfSettingsFromByteArary();
 
@@ -278,7 +278,7 @@ namespace _11_Image_Processing
                         objWorPdf.Word2PdfCOnversion();
                         LoadDocument(ToLocation);
                     }
-                    else if (FileExtension == Settings.projectExtension)
+                    else if (FileExtension == ST.projectExtension)
                     {
                         LoadDataFromFile(filePathFormMainArgs);
                     }
@@ -330,7 +330,7 @@ namespace _11_Image_Processing
 
         private void LoadDocument(string fileName)
         {
-            var dir = Settings.tempDirectoryName;
+            var dir = ST.tempDirectoryName;
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             string fn = Path.GetRandomFileName().Remove(8);
@@ -357,21 +357,21 @@ namespace _11_Image_Processing
             doc.Save();
             doc.Dispose();
 
-            Settings.tempFile = tempPdf;
-            Settings.tempFilesToDelete.Add(tempPdf);
-            Settings.tempFileCopy = tempCopy;
-            Settings.tempFilesToDelete.Add(tempCopy);
-            Settings.fileName = fileName;
-            Settings.projectName = Settings.templateProjectName;
+            ST.tempFile = tempPdf;
+            ST.tempFilesToDelete.Add(tempPdf);
+            ST.tempFileCopy = tempCopy;
+            ST.tempFilesToDelete.Add(tempCopy);
+            ST.fileName = fileName;
+            ST.projectName = ST.templateProjectName;
 
             ReloadWindowContent();
-            windowHeader.Content = Settings.projectName + "*";
+            windowHeader.Content = ST.projectName + "*";
         }
 
         //open
         private void Menu_Open_Project_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog open = new() { Title = Strings.OpenProject, Filter = Strings.StudentTesterProjects + $"(*{Settings.projectExtension})|*{Settings.projectExtension}" };
+            OpenFileDialog open = new() { Title = Strings.OpenProject, Filter = Strings.StudentTesterProjects + $"(*{ST.projectExtension})|*{ST.projectExtension}" };
             if (open.ShowDialog() == false) return;
 
             LoadDataFromFile(open.FileName);
@@ -392,16 +392,16 @@ namespace _11_Image_Processing
         private void Menu_Save_ProjectAs_Click(object sender, RoutedEventArgs e)
         {
 
-            SaveFileDialog save = new() { Title = "Save Template", Filter = $"File Template(*{Settings.projectExtension})|*{Settings.projectExtension}", FileName = Settings.projectName };
+            SaveFileDialog save = new() { Title = "Save Template", Filter = $"File Template(*{ST.projectExtension})|*{ST.projectExtension}", FileName = ST.projectName };
             if (save.ShowDialog() == false) return;
 
-            if (Settings.projectName == Settings.templateProjectName) Settings.projectName=Path.GetFileNameWithoutExtension(save.FileName);
+            if (ST.projectName == ST.templateProjectName) ST.projectName=Path.GetFileNameWithoutExtension(save.FileName);
 
             SaveDataToFile(save.FileName);
             SavedInfo();
 
 
-            Settings.projectFileName = save.FileName;
+            ST.projectFileName = save.FileName;
             ReloadWindowContent();
 
             Menu_Project_Save.IsEnabled = true;
@@ -409,7 +409,7 @@ namespace _11_Image_Processing
         private void Menu_Save_Project_Click(object sender, RoutedEventArgs e)
         {
 
-            SaveDataToFile(Settings.projectFileName);
+            SaveDataToFile(ST.projectFileName);
             SavedInfo();
 
             ReloadWindowContent();
@@ -417,13 +417,13 @@ namespace _11_Image_Processing
 
         private void SaveDataToFile(string fileName)
         {
-            byte[] FormatCode = Settings.fileCode; //8 Byte identification code
-            byte[] documentpdf = File.ReadAllBytes(Settings.tempFile);
+            byte[] FormatCode = ST.fileCode; //8 Byte identification code
+            byte[] documentpdf = File.ReadAllBytes(ST.tempFile);
             //byte[] listOfPointFsArray = Settings.pagesPoints.PointListArrayToByteArray();
-            byte[] listBoxesInQuestions = Settings.boxesInQuestions.BoxListListToByteArray();
-            byte[] listOfFields = Settings.pagesFields.RectangleListToByteArray();
-            byte[] nameField = Settings.nameField.RectangleTupleToByteArray();
-            byte[] listPositionres = Settings.positioners.PositionersListToByteArray();
+            byte[] listBoxesInQuestions = ST.boxesInQuestions.BoxListListToByteArray();
+            byte[] listOfFields = ST.pagesFields.RectangleListToByteArray();
+            byte[] nameField = ST.nameField.RectangleTupleToByteArray();
+            byte[] listPositionres = ST.positioners.PositionersListToByteArray();
             byte[] restOfFileInfo = ByteExtensions.RestOfSettingsToByteArray();
 
             int docLength = documentpdf.Length; //int32
@@ -461,14 +461,14 @@ namespace _11_Image_Processing
                 File.WriteAllBytes(fileName, ms.ToArray());
             }
 
-            Settings.versions.Add(DateTime.Now.ToStringOfRegularFormat());
+            ST.versions.Add(DateTime.Now.ToStringOfRegularFormat());
 
 
         }
         private void SavedInfo()
         {
             saved = true;
-            windowHeader.Content = Settings.projectName + " • " + Strings.Saved;
+            windowHeader.Content = ST.projectName + " • " + Strings.Saved;
         }
         private void LoadDataFromFile(string filename)
         {
@@ -501,7 +501,7 @@ namespace _11_Image_Processing
                 using (BinaryReader br = new(fs))
                 {
                     FormatCode = br.ReadBytes(8);
-                    if (!FormatCode.SequenceEqual(Settings.fileCode)) { MessageBox.Show("Open Template file wasn`t generated by this program"); return; }
+                    if (!FormatCode.SequenceEqual(ST.fileCode)) { MessageBox.Show("Open Template file wasn`t generated by this program"); return; }
 
                     //listPLength = br.ReadInt32();
                     //listOfPointFsArray = br.ReadBytes(listPLength);
@@ -562,7 +562,7 @@ namespace _11_Image_Processing
             }
 
             //initialize 
-            var dir = Settings.tempDirectoryName;
+            var dir = ST.tempDirectoryName;
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             string fn = Path.GetRandomFileName().Remove(8);
@@ -573,17 +573,17 @@ namespace _11_Image_Processing
             File.WriteAllBytes(tempPdf, documentpdf);
             File.WriteAllBytes(tempCopy, documentpdf);
 
-            Settings.tempFile = tempPdf;
-            Settings.tempFilesToDelete.Add(tempPdf);
-            Settings.tempFileCopy = tempCopy;
-            Settings.tempFilesToDelete.Add(tempCopy);
+            ST.tempFile = tempPdf;
+            ST.tempFilesToDelete.Add(tempPdf);
+            ST.tempFileCopy = tempCopy;
+            ST.tempFilesToDelete.Add(tempCopy);
 
-            Settings.projectFileName = filename;
+            ST.projectFileName = filename;
             //Settings.pagesPoints = listOfPointFsArray.ByteArrayToPointFListArray();
-            Settings.boxesInQuestions = listBoxesInQuestions.ByteArrayToBoxListList();
-            Settings.pagesFields = listOfFields.ByteArrayToRectangleFTupleList();
-            Settings.nameField = nameField.ByteArrayToRectangleFTuple();
-            Settings.positioners = listPositionres.ByteArrayToPositionersList();
+            ST.boxesInQuestions = listBoxesInQuestions.ByteArrayToBoxListList();
+            ST.pagesFields = listOfFields.ByteArrayToRectangleFTupleList();
+            ST.nameField = nameField.ByteArrayToRectangleFTuple();
+            ST.positioners = listPositionres.ByteArrayToPositionersList();
             restOfFileInfo.UpdateRestOfSettingsFromByteArary();
             //}
             //catch { MessageBox.Show(Strings.notabletoread); return; }
@@ -591,19 +591,19 @@ namespace _11_Image_Processing
 
             ReloadWindowContent();
             Menu_Project_Save.IsEnabled = true;
-            windowHeader.Content = Settings.projectName;
+            windowHeader.Content = ST.projectName;
         }
         //Print
         private void Menu_Export_ToJPEG_Click(object sender, RoutedEventArgs e)
         {
             var save = new SaveFileDialog() { Title = "Save JPEG", Filter = "JPEG(*.jpeg)|*.jpeg" };
             if (save.ShowDialog() != true) return;
-            PdfLoadedDocument doc = new(Settings.tempFile);
+            PdfLoadedDocument doc = new(ST.tempFile);
             doc.RemakeBoxexOneColor();
 
             for (int i = 0; i < doc.Pages.Count; i++)
             {
-                Bitmap image = doc.ExportAsImage(i, Settings.dpiExport, Settings.dpiExport)/*.CropAddMarginFromSettings()*/;
+                Bitmap image = doc.ExportAsImage(i, ST.dpiExport, ST.dpiExport)/*.CropAddMarginFromSettings()*/;
                 image.SaveToDebugFolder();
 
                 string fn = Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
@@ -616,13 +616,13 @@ namespace _11_Image_Processing
         {
             var save = new SaveFileDialog() { Title = "Save PNG", Filter = "PNG(*.png)|*.png" };
             if (save.ShowDialog() != true) return;
-            PdfLoadedDocument doc = new(Settings.tempFile);
+            PdfLoadedDocument doc = new(ST.tempFile);
             doc.RemakeBoxexOneColor();
             //doc.AddPositioners();
 
             for (int i = 0; i < doc.Pages.Count; i++)
             {
-                Bitmap image = doc.ExportAsImage(i, Settings.dpiExport, Settings.dpiExport);
+                Bitmap image = doc.ExportAsImage(i, ST.dpiExport, ST.dpiExport);
 
                 //debug
                 //TODOd comment
@@ -638,9 +638,9 @@ namespace _11_Image_Processing
         }
         private void Menu_Export_PDF_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog save = new() { Title = "Save PDF", Filter = $"File Template(*.PDF)|*.PDF", FileName = Settings.projectName };
+            SaveFileDialog save = new() { Title = "Save PDF", Filter = $"File Template(*.PDF)|*.PDF", FileName = ST.projectName };
             if (save.ShowDialog() == false) return;
-            PdfLoadedDocument doc = new(Settings.tempFile);
+            PdfLoadedDocument doc = new(ST.tempFile);
             doc.RemakeBoxexOneColor();
             doc.Save(save.FileName);
         }
@@ -687,7 +687,7 @@ namespace _11_Image_Processing
 
 
 
-            PdfLoadedDocument doc = new(Settings.tempFile);
+            PdfLoadedDocument doc = new(ST.tempFile);
             doc.RemakeBoxexOneColor();
             var stream = new MemoryStream();
             doc.Save(stream);
@@ -712,7 +712,7 @@ namespace _11_Image_Processing
             DocumentPaginator docPaginator = fixedDocSeq.DocumentPaginator;
 
             // Print to a new file.
-            printDialog.PrintDocument(docPaginator, Strings.Printing + Settings.fileName);
+            printDialog.PrintDocument(docPaginator, Strings.Printing + ST.fileName);
 
 
             File.Delete(xps);
@@ -748,11 +748,11 @@ namespace _11_Image_Processing
             var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|All files (*.*)|*.*", Multiselect = true };
             if (open.ShowDialog() == false) return;
 
-            int l = Settings.scanPagesInWorks.Count();//moves indexing if there are already bitmaps in the list
+            int l = ST.scanPagesInWorks.Count();//moves indexing if there are already bitmaps in the list
             for (int i = 0; i < open.FileNames.Length; i++)
             {
-                Settings.scanPagesInWorks.Add(new());
-                Settings.scanPagesInWorks[l + i].Add(open.FileNames[i]);
+                ST.scanPagesInWorks.Add(new());
+                ST.scanPagesInWorks[l + i].Add(open.FileNames[i]);
             }
             ReloadWindowContent();
 
@@ -774,7 +774,7 @@ namespace _11_Image_Processing
                 var child = doc.DocumentInformation.XmpMetadata.XmlData.FirstChild;
                 for (int j = 0; j < doc.Pages.Count; j++)
                 {
-                    Bitmap bitmap = doc.ExportAsImage(j, Settings.dpiEvaluatePdf, Settings.dpiEvaluatePdf);
+                    Bitmap bitmap = doc.ExportAsImage(j, ST.dpiEvaluatePdf, ST.dpiEvaluatePdf);
                     do
                     {
                         path = Path.GetTempFileName();
@@ -827,7 +827,7 @@ namespace _11_Image_Processing
             var invert = a.Invert.Value;
             a.Close();
 
-            Settings.scanPagesInWorks = await Task.Run(() =>
+            ST.scanPagesInWorks = await Task.Run(() =>
             {
 
                 List<List<string>> works = new();
@@ -868,12 +868,12 @@ namespace _11_Image_Processing
 
 
             int highestPageIndex = 0;
-            foreach (var question in Settings.boxesInQuestions)
+            foreach (var question in ST.boxesInQuestions)
                 foreach (var box in question)
                     if (box.Page > highestPageIndex)
                         highestPageIndex = box.Page;
             int lowestPagesInWork = int.MaxValue;
-            foreach (var work in Settings.scanPagesInWorks)
+            foreach (var work in ST.scanPagesInWorks)
                 if (work.Count < lowestPagesInWork)
                     lowestPagesInWork = work.Count;
             if (highestPageIndex > lowestPagesInWork) MessageBox.Show(Strings.warningScansDontHaveEnaughtPages, Strings.Warning);
@@ -883,7 +883,7 @@ namespace _11_Image_Processing
 
             var pbw = new ProgressBarW();
             pbw.Show();
-            await Task.Run(() => Settings.resultsInQuestionsInWorks = Settings.scanPagesInWorks.EvaluateWorks(Settings.boxesInQuestions));
+            await Task.Run(() => ST.resultsInQuestionsInWorks = ST.scanPagesInWorks.EvaluateWorks(ST.boxesInQuestions));
 
             //Settings.namesScaned = Settings.scansInPagesInWorks.GetCropedNames(Settings.nameField);
             //new ViewResultW().Show();
@@ -924,7 +924,7 @@ namespace _11_Image_Processing
             HideTools();
             CalculateAndShowPreviewBoxes();
 
-            pdfViewControl.Load(Settings.tempFile);
+            pdfViewControl.Load(ST.tempFile);
             pdfViewControl.MaximumZoomPercentage = 6400;
             pdfViewControl.ScrollChanged -= PdfViewControl_ScrollChanged;
             pdfViewControl.ScrollChanged += PdfViewControl_ScrollChanged;
@@ -955,13 +955,9 @@ namespace _11_Image_Processing
 
 
         //content
-        private void projecttext_LostFocus(object sender, RoutedEventArgs e)
-        {
-            Settings.projectName = projecttext.Text;
-        }
         private void lockButton_Click(object sender, RoutedEventArgs e)
         {
-            Settings.IsLocked ^= true;
+            ST.IsLocked ^= true;
             ReloadWindowContent();
         }
 
@@ -976,13 +972,13 @@ namespace _11_Image_Processing
 
         private void ReloadWindowContent()
         {
-            if (Settings.tempFile == null)
+            if (ST.tempFile == null)
             {
                 Unload();
             }
             else
             {
-                var doc = new PdfLoadedDocument(Settings.tempFile);
+                var doc = new PdfLoadedDocument(ST.tempFile);
 
                 Menu_Edit.IsEnabled = true;
                 Menu_View_Edit.IsEnabled = true;
@@ -997,32 +993,32 @@ namespace _11_Image_Processing
 
                 //pdfDocumentView.UpdateLayout();
                 //pdfDocumentView.Load(doc);
-                loadedPdfLabel.Content = Path.GetFileName(Settings.fileName);
+                loadedPdfLabel.Content = Path.GetFileName(ST.fileName);
                 //pdfDocumentView.ZoomTo(-1);
 
-                Title = Settings.appName + " -- " + Settings.projectName;
+                Title = ST.appName + " -- " + ST.projectName;
 
-                projecttext.Text = Settings.projectName;
-                projectfilenametext.Text = Path.GetFileName(Settings.projectFileName);
-                locationtext.Text = Path.GetDirectoryName(Settings.projectFileName);
+                projecttext.Text = ST.projectName;
+                projectfilenametext.Text = Path.GetFileName(ST.projectFileName);
+                locationtext.Text = Path.GetDirectoryName(ST.projectFileName);
                 pagecounttext.Text = doc.Pages.Count.ToString();
-                questioncounttext.Text = Settings.boxesInQuestions.Count.ToString();
+                questioncounttext.Text = ST.boxesInQuestions.Count.ToString();
                 int ii = 0;
-                foreach (var question in Settings.boxesInQuestions)
+                foreach (var question in ST.boxesInQuestions)
                 {
                     ii += question.Count;
                 }
                 boxcounttext.Text = ii.ToString();
                 ii = 0;
-                foreach (var tuples in Settings.pagesFields)
+                foreach (var tuples in ST.pagesFields)
                     ii++;
                 fieldcounttext.Text = ii.ToString();
 
-                if (Settings.versions.Count != 0)
-                    dateoflastsavetext.Text = Settings.versions.Last();
+                if (ST.versions.Count != 0)
+                    dateoflastsavetext.Text = ST.versions.Last();
                 else dateoflastsavetext.Text = Strings.notsavedyet;
 
-                foreach (var item in Settings.scanPagesInWorks)
+                foreach (var item in ST.scanPagesInWorks)
                 {
                     foreach (var it in item)
                     {
@@ -1031,7 +1027,8 @@ namespace _11_Image_Processing
                     }
                     loadedScans.Text += "• • ";
                 }
-                if (Settings.IsLocked)
+                lockButton.Visibility = Visibility.Visible;
+                if (ST.IsLocked)
                 {
                     lockButton.Content = Strings.Yes;
                     lockImage.Visibility = Visibility.Visible;
@@ -1044,25 +1041,25 @@ namespace _11_Image_Processing
         }
         private void Unload()
         {
-            Settings.nameField = null;
-            Settings.pagesFields = new();
-            Settings.boxesInQuestions = new();
-            Settings.resultsInQuestionsInWorks = null;
-            Settings.scanPagesInWorks = new();
+            ST.nameField = null;
+            ST.pagesFields = new();
+            ST.boxesInQuestions = new();
+            ST.resultsInQuestionsInWorks = null;
+            ST.scanPagesInWorks = new();
 
             reloadButton.IsEnabled = false;
 
-            if (File.Exists(Settings.tempFile))
-                File.Delete(Settings.tempFile);
-            if (File.Exists(Settings.tempFileCopy))
-                File.Delete(Settings.tempFileCopy);
+            if (File.Exists(ST.tempFile))
+                File.Delete(ST.tempFile);
+            if (File.Exists(ST.tempFileCopy))
+                File.Delete(ST.tempFileCopy);
 
-            Settings.tempFile = null;
-            Settings.tempFileCopy = null;
-            Settings.projectName = string.Empty;
-            Settings.projectFileName = null;
-            Settings.fileName = null;
-            Settings.versions = new();
+            ST.tempFile = null;
+            ST.tempFileCopy = null;
+            ST.projectName = string.Empty;
+            ST.projectFileName = null;
+            ST.fileName = null;
+            ST.versions = new();
 
 
             projecttext.Text = string.Empty;
@@ -1074,9 +1071,8 @@ namespace _11_Image_Processing
             fieldcounttext.Text = string.Empty;
             dateoflastsavetext.Text = string.Empty;
             loadedScans.Text = string.Empty;
-            lockButton.Content = string.Empty;
-
-            Title = Settings.appName + " - " + Strings.unloaded;
+            lockButton.Visibility = Visibility.Hidden;
+            Title = ST.appName + " - " + Strings.unloaded;
 
             //pdfDocumentView.Unload();
             loadedPdfLabel.Content = "";
@@ -1109,14 +1105,14 @@ namespace _11_Image_Processing
         {
             Menu_View_Result_Click(null, null);
 
-            if (namesScaned == null & Settings.nameField != null)
+            if (namesScaned == null & ST.nameField != null)
             {
                 namesScaned = new();
-                foreach (var item in Settings.scanPagesInWorks)
+                foreach (var item in ST.scanPagesInWorks)
                 {
-                    var rect = Settings.nameField.Item2;
-                    var b = new System.Drawing.Bitmap(item[Settings.nameField.Item1]);
-                    var mat = b.MakeTransformationMatrixFromPositioners(Settings.nameField.Item1);
+                    var rect = ST.nameField.Item2;
+                    var b = new System.Drawing.Bitmap(item[ST.nameField.Item1]);
+                    var mat = b.MakeTransformationMatrixFromPositioners(ST.nameField.Item1);
                     var newRect = new System.Drawing.RectangleF(rect.Location.ApplyMatrix(mat), rect.Size.ApplyMatrix(mat));
                     namesScaned.Add(b.Crop(System.Drawing.Rectangle.Round(newRect)));
                 }
@@ -1130,7 +1126,7 @@ namespace _11_Image_Processing
         internal static List<System.Drawing.Bitmap> namesScaned;
         public void SetupTabsOfView()
         {
-            for (int i = 0; i < Settings.scanPagesInWorks.Count; i++)
+            for (int i = 0; i < ST.scanPagesInWorks.Count; i++)
             {
                 TabItem z = new();
                 if (namesScaned != null)
@@ -1221,18 +1217,18 @@ namespace _11_Image_Processing
         {
             var list = new List<ResultOfQuestion>();
             int ii = 0;
-            foreach (var question in Settings.boxesInQuestions)
+            foreach (var question in ST.boxesInQuestions)
             {
                 ii++;
-                int q = Settings.boxesInQuestions.IndexOf(question);
+                int q = ST.boxesInQuestions.IndexOf(question);
                 string correct = string.Empty;
                 string checkedd = string.Empty;
 
                 foreach (var box in question)
                     if (box.IsCorrect) correct += $"{question.IndexOf(box).IntToAlphabet()}, ";
 
-                for (int i = 0; i < Settings.resultsInQuestionsInWorks[workindex][q].Count; i++)
-                    if (Settings.resultsInQuestionsInWorks[workindex][q][i]) checkedd += $"{i.IntToAlphabet()}, ";
+                for (int i = 0; i < ST.resultsInQuestionsInWorks[workindex][q].Count; i++)
+                    if (ST.resultsInQuestionsInWorks[workindex][q][i]) checkedd += $"{i.IntToAlphabet()}, ";
 
                 list.Add(new(checkedd, correct, ii));
             }
@@ -1262,7 +1258,7 @@ namespace _11_Image_Processing
         private List<ResultOfAllOne> GetListOfAll()
         {
             var list = new List<ResultOfAllOne>();
-            for (int i = 0; i < Settings.resultsInQuestionsInWorks.Count; i++)
+            for (int i = 0; i < ST.resultsInQuestionsInWorks.Count; i++)
             {
                 var li = GetListToDisplay(i);
 
@@ -1338,7 +1334,7 @@ namespace _11_Image_Processing
             doc.Pages.Add();
 
             ReloadDocument();
-            File.Copy(Settings.tempFile, Settings.tempFileCopy, true);
+            File.Copy(ST.tempFile, ST.tempFileCopy, true);
         }
         private void deletePage_Click(object sender, RoutedEventArgs e)
         {
@@ -1347,7 +1343,7 @@ namespace _11_Image_Processing
 
             doc.Pages.RemoveAt(pdfViewControl.CurrentPage - 1);
 
-            var l = Settings.boxesInQuestions;
+            var l = ST.boxesInQuestions;
             for (int i = l.Count - 1; i > -1; i--)
             {
                 if (l[i][0].Page == pdfViewControl.CurrentPage - 1)
@@ -1362,7 +1358,7 @@ namespace _11_Image_Processing
             }
 
             ReloadDocument();
-            File.Copy(Settings.tempFile, Settings.tempFileCopy, true);
+            File.Copy(ST.tempFile, ST.tempFileCopy, true);
 
 
         }
@@ -1624,6 +1620,7 @@ namespace _11_Image_Processing
 
         private void Pdfwcontrol_PageClicked_A(object sender, PageClickedEventArgs args)
         {
+            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
 
             var doc = pdfViewControl.LoadedDocument;
             int pindex = args.PageIndex;
@@ -1632,12 +1629,12 @@ namespace _11_Image_Processing
 
 
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
-            SizeF size = Settings.sizeOfBox;
+            SizeF size = ST.sizeOfBox;
 
             RectangleF bounds = new RectangleF(point, size);
             bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
-            doc.DrawBox(new(pindex,bounds, Settings.baundWidth/doc.Pages[pindex].Size.Width,false));
+            doc.DrawBox(new(pindex,bounds, ST.baundWidth/doc.Pages[pindex].Size.Width,false));
 
 
             ReloadDocument();
@@ -1646,6 +1643,8 @@ namespace _11_Image_Processing
         }
         private void Pdfwcontrol_PageClicked_B(object sender, PageClickedEventArgs args)
         {
+            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+
             drawingRectangle ^= true;
             if (drawingRectangle)
             {
@@ -1670,10 +1669,10 @@ namespace _11_Image_Processing
                     rect.Size = new((float)((args.Position.X - argsFirstVertex.Position.X) * 0.75 / zoom), (float)((args.Position.Y - argsFirstVertex.Position.Y) * 0.75 / zoom));
                     rect.RelatitivizeToPage(doc.Pages[pindex]);
 
-                    doc.DrawRectangleBounds(rect, pindex,Settings.baundWidth);
-                    doc.DrawStringNextToRectangle(Strings.text + (Settings.pagesFields.Count + 1) + ":", rect, pindex);
+                    doc.DrawRectangleBounds(rect, pindex,ST.baundWidth);
+                    doc.DrawStringNextToRectangle(Strings.text + (ST.pagesFields.Count + 1) + ":", rect, pindex);
 
-                    Settings.pagesFields.Add(new(pindex, rect));
+                    ST.pagesFields.Add(new(pindex, rect));
 
                     ReloadDocument();
                     pdfViewControl.Zoom = zoom*100;
@@ -1686,6 +1685,8 @@ namespace _11_Image_Processing
         }
         private void Pdfwcontrol_PageClicked_D(object sender, PageClickedEventArgs args)
         {
+            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+
             var doc = pdfViewControl.LoadedDocument;
             int pindex = args.PageIndex;
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
@@ -1693,41 +1694,41 @@ namespace _11_Image_Processing
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
 
             //get the index of new question
-            int iQ = Settings.boxesInQuestions.Count;
+            int iQ = ST.boxesInQuestions.Count;
             //add list of answers in this question
-            Settings.boxesInQuestions.Add(new());
+            ST.boxesInQuestions.Add(new());
 
 
             var tb = new PdfTextBoxField(doc.Pages[args.PageIndex], Strings.question);
             tb.Text = $"Question";
-            tb.Bounds = new RectangleF(point.X, point.Y, Settings.QS.widthOfQTBs, Settings.QS.heightOfTB);
+            tb.Bounds = new RectangleF(point.X, point.Y, ST.QS.widthOfQTBs, ST.QS.heightOfTB);
             doc.Form.Fields.Add(tb);
 
 
 
-            for (int i = 0; i < Settings.QS.n; i++)
+            for (int i = 0; i < ST.QS.n; i++)
             {
                 //add answer i textbox field
                 PdfTextBoxField textBoxField = new PdfTextBoxField(doc.Pages[args.PageIndex], Strings.Enteryourtext);
                 textBoxField.Text = Strings.Answer + (i + 1);
-                textBoxField.Bounds = new RectangleF(point.X + Settings.QS.tab, point.Y + Settings.QS.heightOfTB + Settings.QS.spaceUnderQ + i * (Settings.QS.heightOfTB + Settings.QS.spaceBtwAn), Settings.QS.widthOfQTBs - Settings.QS.tab, Settings.QS.heightOfTB);
+                textBoxField.Bounds = new RectangleF(point.X + ST.QS.tab, point.Y + ST.QS.heightOfTB + ST.QS.spaceUnderQ + i * (ST.QS.heightOfTB + ST.spaceBetweenBoxes), ST.QS.widthOfQTBs - ST.QS.tab, ST.QS.heightOfTB);
                 doc.Form.Fields.Add(textBoxField);
 
 
-                var pointb = new PointF(point.X + Settings.QS.widthOfQTBs + Settings.QS.spaceBeforeBox, point.Y + Settings.QS.heightOfTB + Settings.QS.spaceUnderQ + i * (Settings.QS.heightOfTB + Settings.QS.spaceBtwAn));
-                SizeF size = Settings.sizeOfBox;
+                var pointb = new PointF(point.X + ST.QS.widthOfQTBs + ST.QS.spaceBeforeBox, point.Y + ST.QS.heightOfTB + ST.QS.spaceUnderQ + i * (ST.QS.heightOfTB + ST.spaceBetweenBoxes));
+                SizeF size = ST.sizeOfBox;
 
 
                 //square
                 RectangleF bounds = new RectangleF(pointb, size);
                 bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
-                doc.DrawRectangleBounds(bounds, pindex, Settings.baundWidth);
+                doc.DrawRectangleBounds(bounds, pindex, ST.baundWidth);
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + i.IntToAlphabet());
 
                 bounds.RelatitivizeToPage(doc.Pages[pindex]);
                 //add square to 'The List'
-                Settings.boxesInQuestions[iQ].Add(pindex, bounds, Settings.baundWidth, false);
+                ST.boxesInQuestions[iQ].Add(pindex, bounds, ST.baundWidth, false);
             }
 
             ReloadDocument();
@@ -1736,6 +1737,8 @@ namespace _11_Image_Processing
         }
         private void Pdfwcontrol_PageClicked_E(object sender, PageClickedEventArgs args)
         {
+            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+
             var doc = pdfViewControl.LoadedDocument;
             int pindex = args.PageIndex;
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
@@ -1743,27 +1746,27 @@ namespace _11_Image_Processing
             PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
 
             //get the index of new question
-            int iQ = Settings.boxesInQuestions.Count;
+            int iQ = ST.boxesInQuestions.Count;
             //add list of answers in this question
-            Settings.boxesInQuestions.Add(new());
+            ST.boxesInQuestions.Add(new());
 
 
-            for (int i = 0; i < Settings.QS.n; i++)
+            for (int i = 0; i < ST.QS.n; i++)
             {
-                var pointb = new PointF(point.X, point.Y + i * (Settings.sizeOfBox.Height + Settings.QS.spaceBtwAn));
-                SizeF size = Settings.sizeOfBox;
+                var pointb = new PointF(point.X, point.Y + i * (ST.sizeOfBox.Height + ST.spaceBetweenBoxes));
+                SizeF size = ST.sizeOfBox;
 
                 //square
                 RectangleF bounds = new RectangleF(pointb, size);
                 bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
-                Box box = new(pindex, bounds, Settings.baundWidth / doc.Pages[pindex].Size.Width, false);
+                Box box = new(pindex, bounds, ST.baundWidth / doc.Pages[pindex].Size.Width, false);
                 doc.DrawBox(box);
 
                 doc.DrawIndexNextToRectangle(bounds, pindex, /*pindex.ToString() +*/ (iQ + 1).ToString() + i.IntToAlphabet());
 
                 //add square to 'The List'
-                Settings.boxesInQuestions[iQ].Add(box);
+                ST.boxesInQuestions[iQ].Add(box);
             }
 
             ReloadDocument();
@@ -1773,10 +1776,12 @@ namespace _11_Image_Processing
         }
         private void Pdfwcontrol_PageClicked_Tog(object sender, PageClickedEventArgs args)
         {
+            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+
             var doc = pdfViewControl.LoadedDocument;
             int pindex = args.PageIndex;
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
-            var b = Settings.boxesInQuestions;
+            var b = ST.boxesInQuestions;
 
             bool hit = false;
 
@@ -1798,7 +1803,10 @@ namespace _11_Image_Processing
         }
         private void Pdfwcontrol_PageClicked_name(object sender, PageClickedEventArgs args)
         {
-            if (Settings.nameField != null)
+            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+
+
+            if (ST.nameField != null)
                 if (MessageBox.Show(Strings.WarningMoreThanOneNamefield, Strings.Warning, MessageBoxButton.YesNoCancel) != MessageBoxResult.Yes)
                     return;
 
@@ -1826,11 +1834,11 @@ namespace _11_Image_Processing
 
                     rect.RelatitivizeToPage(doc.Pages[pindex]);
 
-                    doc.DrawRectangleBounds(rect, pindex, Settings.baundWidth);
+                    doc.DrawRectangleBounds(rect, pindex, ST.baundWidth);
                     doc.DrawNameNextToRectangle(rect, pindex);
 
 
-                    Settings.nameField = new(pindex, rect);
+                    ST.nameField = new(pindex, rect);
                     ReloadDocument();
                     pdfViewControl.Zoom = zoom*100;
 
@@ -1869,7 +1877,7 @@ namespace _11_Image_Processing
 
 
             rect.Location = new((int)(Mouse.GetPosition(this).X + 2 * rectangleR.StrokeThickness), (int)(Mouse.GetPosition(this).Y + 2 * rectangleR.StrokeThickness));
-            rect.Size = Settings.sizeOfBox.ToSize();
+            rect.Size = ST.sizeOfBox.ToSize();
 
             Thickness thickness = new(rect.X, rect.Y, 0, 0);
             rectangleR.Margin = thickness;
@@ -1881,12 +1889,12 @@ namespace _11_Image_Processing
         private void ReloadDocument()
         {
             saved = false;
-            windowHeader.Content = Settings.projectName+"*";
+            windowHeader.Content = ST.projectName+"*";
 
 
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
             var doc = pdfViewControl.LoadedDocument;
-            doc.Save(Settings.tempFile);
+            doc.Save(ST.tempFile);
 
             MemoryStream stream = new MemoryStream();
             doc.Save(stream);
@@ -1902,7 +1910,7 @@ namespace _11_Image_Processing
             if (!pdfViewControl.IsLoaded) { return; }
             double ratio = 1.0 *pdfViewControl.ZoomPercentage / 75.0;
 
-            int nNew = Settings.QS.n; 
+            int nNew = ST.QS.n; 
             if (nNew > 4) nNew = 4;
 
             while (preview.Children.Count > nNew)
@@ -1916,12 +1924,12 @@ namespace _11_Image_Processing
             for (int i = 0; i<preview.Children.Count; i++)
             {
                 var r = preview.Children[i] as System.Windows.Shapes.Rectangle;
-                Canvas.SetTop(r, 5 +ratio* i * (Settings.sizeOfBox.Height + Settings.QS.spaceBtwAn+Settings.baundWidth));
+                Canvas.SetTop(r, 5 +ratio* i * (ST.sizeOfBox.Height + ST.spaceBetweenBoxes + ST.baundWidth));
                 Canvas.SetLeft(r, 5);
-                r.Height = (Settings.sizeOfBox.Height+ 2*Settings.baundWidth )* ratio;
-                r.Width = (Settings.sizeOfBox.Width+ 2*Settings.baundWidth) *ratio;
-                r.Stroke= new System.Windows.Media.SolidColorBrush(Settings.baundColor.ColorFromDrawing());
-                r.StrokeThickness = Settings.baundWidth*ratio;
+                r.Height = (ST.sizeOfBox.Height+ 2*ST.baundWidth )* ratio;
+                r.Width = (ST.sizeOfBox.Width+ 2*ST.baundWidth) *ratio;
+                r.Stroke= new System.Windows.Media.SolidColorBrush(ST.baundColor.ColorFromDrawing());
+                r.StrokeThickness = ST.baundWidth*ratio;
             }
 
         }
@@ -1929,52 +1937,60 @@ namespace _11_Image_Processing
         //undo
         private void UndoBox()
         {
-            int i = Settings.boxesInQuestions.Count;
+            int i = ST.boxesInQuestions.Count;
             if (i == 0) return;
-            int j = Settings.boxesInQuestions[i - 1].Count;
-            if (j == 0) { Settings.boxesInQuestions.RemoveAt(i - 1); UndoBox(); }
+            int j = ST.boxesInQuestions[i - 1].Count;
+            if (j == 0) { ST.boxesInQuestions.RemoveAt(i - 1); UndoBox(); }
             else
             {
-                Settings.boxesInQuestions[i - 1].RemoveAt(j - 1);
+                ST.boxesInQuestions[i - 1].RemoveAt(j - 1);
             }
-            if (j == 0)  Settings.boxesInQuestions.RemoveAt(i - 1);
+            if (j == 0)  ST.boxesInQuestions.RemoveAt(i - 1);
             RemakeBoxexAndFieldsN();
         }
         private void UndoQuestion()
         {
-            int i = Settings.boxesInQuestions.Count;
+            int i = ST.boxesInQuestions.Count;
             if (i == 0) return;
-            Settings.boxesInQuestions.RemoveAt(i - 1);
+            ST.boxesInQuestions.RemoveAt(i - 1);
             RemakeBoxexAndFieldsN();
 
         }
         private void undoBButton_Click(object sender, RoutedEventArgs e)
         {
+            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+
             UndoBox();
         }
         private void undoQButton_Click(object sender, RoutedEventArgs e)
         {
+            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+
             UndoQuestion();
         }
         private void undoFButton_Click(object sender, RoutedEventArgs e)
         {
-            int i = Settings.pagesFields.Count;
+            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+
+            int i = ST.pagesFields.Count;
             if (i == 0) return;
-            Settings.pagesFields.RemoveAt(i - 1);
+            ST.pagesFields.RemoveAt(i - 1);
             RemakeBoxexAndFieldsN();
 
         }
 
         private void undoNFButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Settings.nameField == null) return;
-            Settings.nameField = null;
+            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked,Strings.Warning,MessageBoxButton.OK,MessageBoxImage.Warning); return; }
+
+            if (ST.nameField == null) return;
+            ST.nameField = null;
             RemakeBoxexAndFieldsN();
         }
 
         private void RemakeBoxexAndFieldsN()
         {
-            var doc = new PdfLoadedDocument(Settings.tempFileCopy);
+            var doc = new PdfLoadedDocument(ST.tempFileCopy);
             doc.RemakeBoxex();
             doc.RemakeFields();
             doc.RemakeNameField();
@@ -1990,24 +2006,24 @@ namespace _11_Image_Processing
             if (sizeSlider != null)
             {
                 float s = (float)Math.Round(sizeSlider.Value, 3);
-                Settings.sizeOfBox = new SizeF(s, s);
-                Settings.QS.indexFontSize = s / 2;
+                ST.sizeOfBox = new SizeF(s, s);
+                ST.QS.indexFontSize = s / 2;
 
             }
             if (widthSlider != null)
             {
                 float f = (float)Math.Round(widthSlider.Value, 3);
-                Settings.baundWidth = f;
+                ST.baundWidth = f;
             }
 
             if (spaceSlider != null)
             {
                 float p = (float)Math.Round(spaceSlider.Value, 3);
-                Settings.QS.spaceBtwAn = p;
+                ST.spaceBetweenBoxes = p;
             }
             if (countSlider != null)
             {
-                Settings.QS.n = (int)countSlider.Value;
+                ST.QS.n = (int)countSlider.Value;
             }
             CalculateAndShowPreviewBoxes();
 
@@ -2217,7 +2233,6 @@ namespace _11_Image_Processing
             else if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null);
             else MessageBox.Show(Strings.NoProjectLoaded, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-
         private void Window_Closed(object sender, EventArgs e)
         {
            StaticMethods.DeleteTempFiles();

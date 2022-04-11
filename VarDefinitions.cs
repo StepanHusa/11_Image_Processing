@@ -54,9 +54,9 @@ namespace _11_Image_Processing
         {
             get
             {
-                for (int i = 0; i < Settings.GradingSettings.GradeBottomBoarder.Length; i++)
+                for (int i = 0; i < ST.GradingSettings.GradeBottomBoarder.Length; i++)
                 {
-                    if (Percents >= Settings.GradingSettings.GradeBottomBoarder[i]) return i;
+                    if (Percents >= ST.GradingSettings.GradeBottomBoarder[i]) return i;
                 }
                 return 5;
             }

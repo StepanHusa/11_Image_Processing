@@ -27,7 +27,7 @@ namespace _11_Image_Processing
             loadedInt = loaded;
             filesInfo.Content = loaded;
             sldAnswer.Maximum = loaded;
-            sldAnswer.Value = Settings.pagesOfDocument;
+            sldAnswer.Value = ST.pagesOfDocument;
             CalculateRest();
             sldAnswer.ValueChanged += SldAnswer_ValueChanged;
 

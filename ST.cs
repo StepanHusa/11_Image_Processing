@@ -12,7 +12,7 @@ using _11_Image_Processing.Resources.Strings;
 
 namespace _11_Image_Processing
 {
-    public class Settings 
+    public class ST 
     {
 
         //unchanging
@@ -101,7 +101,6 @@ namespace _11_Image_Processing
             internal static float widthOfQTBs = 250;
             internal static float tab = 20;
             internal static float spaceUnderQ = 10;
-            internal static float spaceBtwAn = 10;
             internal static float spaceBeforeBox = 50;
 
             internal static float indexFontSize = 10;
