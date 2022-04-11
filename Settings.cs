@@ -51,7 +51,6 @@ namespace _11_Image_Processing
         internal static string tempDirectoryName = Path.GetTempPath() + "Stepan_Husa_Is_A_Genius\\";
         internal static string projectExtension = ".st0r"; //templateExtension
         internal static byte[] fileCode = "008800ff001100aa".StringToByteArray(); //8 bytes file format conformation
-        internal static bool lockDocument = false;//todo add to saving and to every property edit
 
         //get variables
         internal static PdfPen positionersPen { get { return new PdfPen(positionersColor, positionersWidth); } }//unused
@@ -61,13 +60,14 @@ namespace _11_Image_Processing
         internal static int pagesOfDocument { get { return new PdfLoadedDocument(tempFile).Pages.Count; } }
 
         internal static List<string> tempFilesToDelete = new();
+
         //file specified info
         internal static string projectFileName;
         internal static string fileName;
         internal static string tempFile;
         internal static string tempFileCopy;
         internal static List<string> versions = new();
-        internal static string projectName = null;
+        internal static string projectName = string.Empty;
         internal static bool IsLocked = false;
 
 

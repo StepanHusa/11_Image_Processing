@@ -87,7 +87,10 @@
 
                 <MenuItem x:Name="Menu_Settions" Header="{x:Static ln:Strings.Settings}" Click="Menu_Settings_Click"/>
             </Menu >
-            <Label Margin="50,0,0,0" x:Name="windowHeader" Foreground="White"/>
+            <Image x:Name="lockImage" Margin="50,0,0,0" Height="16" Visibility="Hidden" Source="/Resources/icons8-lock-128.ico" />
+
+
+            <Label  x:Name="windowHeader" Foreground="White"/>
             <Border HorizontalAlignment="Right" DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
                     <Button  Background="Transparent"  BorderBrush="Transparent" Click="CloseClick" Height="30" Width="40">
@@ -149,6 +152,7 @@
                     <TextBlock Text="{x:Static ln:Strings.Numberoftextfields}"     Grid.Row="6" Grid.Column="0"/>
                     <TextBlock Text="{x:Static ln:Strings.Dateoflastsave}"         Grid.Row="7" Grid.Column="0"/>
                     <TextBlock Text="{x:Static ln:Strings.LoadedScans}"         Grid.Row="8" Grid.Column="0"/>
+                    <TextBlock Text="{x:Static ln:Strings.Locked}"         Grid.Row="9" Grid.Column="0"/>
 
 
 
@@ -162,8 +166,9 @@
                     <TextBox x:Name="boxcounttext"        Grid.Row="5" Grid.Column="1"  IsReadOnly="True"/>
                     <TextBox x:Name="fieldcounttext"      Grid.Row="6" Grid.Column="1" IsReadOnly="True"/>
                     <TextBox x:Name="dateoflastsavetext"  Grid.Row="7" Grid.Column="1" IsReadOnly="True"/>
-                    <TextBox x:Name="loadedScans"         Grid.Row="8" Grid.Column="1" IsReadOnly="True"/>                  
-                    
+                    <TextBox x:Name="loadedScans"         Grid.Row="8" Grid.Column="1" IsReadOnly="True"/>
+                    <Button  x:Name="lockButton"          Grid.Row="9" Grid.Column="1" Click="lockButton_Click" Width="50" HorizontalAlignment="Left" />
+
 
                 </Grid>
                 <Label x:Name="loadedPdfLabel" Content="" Grid.Row="1" HorizontalAlignment="Center" Margin="0,351,0,0" Grid.Column="2" VerticalAlignment="Top"/>
@@ -643,7 +648,7 @@
         <CommandBinding Command="local:Commands.AnswerBoxes" Executed="CommandBindingBoxes_Executed" CanExecute="CommandBinding_CanExecuteIfEdit"/>
         <CommandBinding Command="local:Commands.UndoQuestion" Executed="CommandBindingUndoQ_Executed" CanExecute="CommandBinding_CanExecuteIfEdit"/>
         <CommandBinding Command="local:Commands.SaveProjectAs" Executed="CommandBinding_saveAs_Executed" CanExecute="CommandBinding_CanExecuteIfSaveAsEnebled"/>
-        <CommandBinding Command="local:Commands.SaveProject" Executed="CommandBinding_save_Executed" CanExecute="CommandBinding_CanExecuteIfSaveEnebled"/>
+        <CommandBinding Command="local:Commands.SaveProject" Executed="CommandBinding_save_Executed" CanExecute="CommandBinding_CanExecuteIfSaveAsEnebled"/>
 
         <CommandBinding Command="local:Commands.MainView" Executed="CommandBinding_MainView_Executed" CanExecute="CommandBinding_CanExecuteTRUE"/>
         <CommandBinding Command="local:Commands.EditView" Executed="CommandBinding_Edit_Executed" CanExecute="CommandBinding_CanExecuteIfEditEnebled"/>

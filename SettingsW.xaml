@@ -204,20 +204,21 @@
                 <StackPanel>
 
                     <GroupBox Header="Resolutions">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                        <Label Content="ExportToPicturesdpi" Width="150"/>
-                        <TextBox HorizontalAlignment="Stretch" Width="200"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                        <Label Content="Evaluationdpi" Width="150"/>
-                        <TextBox HorizontalAlignment="Stretch" Width="200"/>
-                    </StackPanel>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="ExportToPicturesdpi" Width="150"/>
+                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="Evaluationdpi" Width="150"/>
+                                <TextBox HorizontalAlignment="Stretch" Width="200"/>
+                            </StackPanel>
 
+                        </StackPanel>
+                    </GroupBox>
                 </StackPanel>
-            </GroupBox>
-            </StackPanel>
             </TabItem>
+
 
             <!--<TabItem Header="{x:Static ln:Strings.Advanced}">
 

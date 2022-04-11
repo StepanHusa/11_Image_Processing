@@ -108,6 +108,29 @@ namespace _11_Image_Processing
             return data;
 
         }
+        public static List<List<Tuple<int, RectangleF, bool>>> ByteArrayToIntRectangleFBoolTupleListList(this byte[] ba)
+        {
+            List<List<Tuple<int, RectangleF, bool>>> lists;
+            using (var ms = new MemoryStream(ba))
+            {
+                using (var r = new BinaryReader(ms))
+                {
+                    int lengthOfList = r.ReadInt32();
+                    lists = new();
+                    for (int i = 0; i < lengthOfList; i++)
+                    {
+                        int Count = r.ReadInt32();
+                        lists.Add(new());
+                        for (int j = 0; j < Count; j++)
+                        {
+                            lists[i].Add(new Tuple<int, RectangleF, bool>(r.ReadInt32(), new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()), r.ReadBoolean()));
+                        }
+                    }
+                }
+            }
+            return lists;
+
+        }
         public static byte[] BoxListListToByteArray(this List<List<Box>> list)
         {
             byte[] data;
@@ -138,30 +161,6 @@ namespace _11_Image_Processing
             return data;
 
         }
-
-        public static List<List<Tuple<int, RectangleF, bool>>> ByteArrayToIntRectangleFBoolTupleListList(this byte[] ba)
-        {
-            List<List<Tuple<int, RectangleF, bool>>> lists;
-            using (var ms = new MemoryStream(ba))
-            {
-                using (var r = new BinaryReader(ms))
-                {
-                    int lengthOfList = r.ReadInt32();
-                    lists = new();
-                    for (int i = 0; i < lengthOfList; i++)
-                    {
-                        int Count = r.ReadInt32();
-                        lists.Add(new());
-                        for (int j = 0; j < Count; j++)
-                        {
-                            lists[i].Add(new Tuple<int, RectangleF, bool>(r.ReadInt32(), new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()), r.ReadBoolean()));
-                        }
-                    }
-                }
-            }
-            return lists;
-
-        }
         public static List<List<Box>> ByteArrayToBoxListList(this byte[] ba)
         {
             List<List<Box>> lists;
@@ -185,7 +184,6 @@ namespace _11_Image_Processing
             return lists;
 
         }
-
         public static byte[] RectangleListToByteArray(this List<Tuple<int, RectangleF>> list)
         {
 
@@ -254,6 +252,26 @@ namespace _11_Image_Processing
 
             return data;
         }
+        public static List<RectangleF> ByteArrayToPositionersList(this byte[] bArray)
+        {
+            List<RectangleF> list;
+            using (var ms = new MemoryStream(bArray))
+            {
+                using (var r = new BinaryReader(ms))
+                {
+                    bool isNull = r.ReadBoolean();
+                    if (isNull) return null;
+
+                    int lengthOfList = r.ReadInt32();
+                    list = new();
+                    for (int i = 0; i != lengthOfList; i++)
+                    {
+                        list.Add(new(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()));
+                    }
+                }
+            }
+            return list;
+        }
         public static byte[] PositionersListToByteArray(this List<RectangleF> list)
         {
 
@@ -284,27 +302,6 @@ namespace _11_Image_Processing
 
             return data;
         }
-        public static List<RectangleF> ByteArrayToPositionersList(this byte[] bArray)
-        {
-            List<RectangleF> list;
-            using (var ms = new MemoryStream(bArray))
-            {
-                using (var r = new BinaryReader(ms))
-                {
-                    bool isNull = r.ReadBoolean();
-                    if (isNull) return null;
-
-                    int lengthOfList = r.ReadInt32();
-                    list = new();
-                    for (int i = 0; i != lengthOfList; i++)
-                    {
-                        list.Add(new(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()));
-                    }
-                }
-            }
-            return list;
-        }
-
         public static Tuple<int, RectangleF> ByteArrayToRectangleFTuple(this byte[] bArray)
         {
             using (var ms = new MemoryStream(bArray))
@@ -318,6 +315,70 @@ namespace _11_Image_Processing
                         return new(r.ReadInt32(), new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()));
                 }
             }
+        }
+
+        public static byte[] RestOfSettingsToByteArray()
+        {
+            byte[] data;
+
+            using (var ms = new MemoryStream())
+            {
+                using (var bw = new BinaryWriter(ms))
+                {
+                    ////string projectFileName;
+                    //bw.Write(Settings.projectFileName);
+                    //string fileName;
+                    //bw.Write(Settings.fileName);
+                    ////string tempFile;
+                    //bw.Write(Settings.tempFile);
+                    ////string tempFileCopy;
+                    //bw.Write(Settings.tempFileCopy);
+                    //List<string> versions = new();
+
+                    bw.Write(Settings.versions.Count);
+                    foreach (string strin in Settings.versions)
+                    {
+                        bw.Write(strin);
+                    }
+                    //string projectName
+                    bw.Write(Settings.projectName);
+                    //bool IsLocked = false;
+                    bw.Write(Settings.IsLocked);
+                }
+                data = ms.ToArray();
+            }
+
+            return data;
+        }
+        public static void UpdateRestOfSettingsFromByteArary(this byte[] bArray)
+        {
+            using (var ms = new MemoryStream(bArray))
+            {
+                using (var r = new BinaryReader(ms))
+                {
+                    ////string projectFileName;
+                    //Settings.projectFileName=r.ReadString();
+                    //string fileName;
+                    //Settings.fileName = r.ReadString();
+                    ////string tempFile;
+                    //Settings.projectFileName=r.ReadString();
+                    ////string tempFileCopy;
+                    //Settings.projectFileName=r.ReadString();
+                    //List<string> versions = new();
+                    int lengthOfList = r.ReadInt32();
+                   List<string> list = new();
+                    for (int i = 0; i != lengthOfList; i++)
+                    {
+                        list.Add(r.ReadString());
+                    }
+                    Settings.versions = list;
+                    //string projectName
+                    Settings.projectName = r.ReadString();
+                    //bool IsLocked = false;
+                    Settings.IsLocked = r.ReadBoolean();
+                }
+            }
+
         }
 
         public static byte[] GetHashSHA1(this byte[] data)

@@ -261,6 +261,9 @@
   <data name="LoadedScans" xml:space="preserve">
     <value>LoadedScans</value>
   </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Locked</value>
+  </data>
   <data name="Minimize" xml:space="preserve">
     <value>Minimize</value>
   </data>
