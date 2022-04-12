@@ -323,6 +323,24 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Drag.
+        /// </summary>
+        public static string Drag {
+            get {
+                return ResourceManager.GetString("Drag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drag left.
+        /// </summary>
+        public static string DragLeft {
+            get {
+                return ResourceManager.GetString("DragLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Edit.
         /// </summary>
         public static string Edit {
@@ -733,6 +751,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string OpenProject {
             get {
                 return ResourceManager.GetString("OpenProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Original Doc.
+        /// </summary>
+        public static string OriginalDoc {
+            get {
+                return ResourceManager.GetString("OriginalDoc", resourceCulture);
             }
         }
         

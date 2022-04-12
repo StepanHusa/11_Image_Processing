@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 //using System.Windows.Forms;
+//using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -74,6 +75,7 @@ namespace _11_Image_Processing
             fonts.Items.Add("TimesRoman");
             fonts.Items.Add("Symbol");
             fonts.Items.Add("ZapfDingbats");//4
+            fonts.SelectedIndex = ((int)font);
 
             //foreach (int i in Enum.GetValues(typeof(Syncfusion.Pdf.Graphics.PdfFontFamily)))
             //{
@@ -135,12 +137,38 @@ namespace _11_Image_Processing
 
         private void btnDialogApply_Click(object sender, RoutedEventArgs e)
         {
+            ApplyToGlobalSettings();
             this.DialogResult = true;
             this.Close();
         }
 
         private void ApplyToGlobalSettings()
         {
+            //general
+            ST.Language = languagefile;
+            ST.tempDirectoryName = tempFolder;
+            ST.templateProjectName = tempProjectName;
+            ST.projectExtension = projectExtension;
+            ST.fileCode = fileCode;
+
+            ST.nameString = nameString;
+            ST.stringFont = font;
+
+
+
+            //edit
+            ST.QS.n = nOfBoxes;
+            ST.sizeOfBoxF = sizeOfBoxF;
+            ST.spaceBetweenBoxes = spaceBetweenBoxes;
+            ST.baundWidth = baundWidth;
+
+            ST.baundColor = baundColor;
+            ST.baundColorTwo = baundColorTwo;
+
+
+            //more
+            ST.dpiExport = dpiExport;
+            ST.dpiEvaluatePdf = dpiEvaluatePdf;
 
         }
 
@@ -150,7 +178,7 @@ namespace _11_Image_Processing
             if (cd.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
             baundColor = cd.Color;
-            color1.Background= new SolidColorBrush(baundColor.ColorFromDrawing());
+            color1.Background = new SolidColorBrush(baundColor.ColorFromDrawing());
         }
 
         private void color2_Click(object sender, RoutedEventArgs e)
@@ -167,6 +195,14 @@ namespace _11_Image_Processing
         private void AddLanguageButton(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var open = new System.Windows.Forms.FolderBrowserDialog();
+            if (open.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+            tempFolder = open.SelectedPath;
+            tempfolder.Text = tempFolder;
         }
     }
 }

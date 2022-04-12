@@ -31,7 +31,7 @@
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="TempFolder" Width="150"/>
                                 <TextBox x:Name="tempfolder" HorizontalAlignment="Stretch" Width="200"/>
-                                <Button Content="find" Width="50" Margin="10,0"/>
+                                <Button Content="find" Width="50" Margin="10,0" Click="Button_Click"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="templateProjectName" Width="150"/>

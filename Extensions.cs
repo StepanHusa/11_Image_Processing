@@ -35,7 +35,11 @@ namespace _11_Image_Processing
             string s = string.Empty;
             for (int i = 0; i < ba.Length; i++)
             {
-                s += ba[i].ToString();
+                string splus= Convert.ToString(ba[i], 16);
+                if (splus.Length < 2)
+                    s += "0" + splus;
+                else s += splus;
+
             }
             return s;
         }

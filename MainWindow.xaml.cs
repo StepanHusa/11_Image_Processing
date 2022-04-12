@@ -330,7 +330,7 @@ namespace _11_Image_Processing
 
         private void LoadDocument(string fileName)
         {
-            var dir = ST.tempDirectoryName;
+            var dir = ST.tempDirectoryName+"\\";
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             string fn = Path.GetRandomFileName().Remove(8);
@@ -562,7 +562,7 @@ namespace _11_Image_Processing
             }
 
             //initialize 
-            var dir = ST.tempDirectoryName;
+            var dir = ST.tempDirectoryName + "\\";
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             string fn = Path.GetRandomFileName().Remove(8);
@@ -1001,6 +1001,7 @@ namespace _11_Image_Processing
                 projecttext.Text = ST.projectName;
                 projectfilenametext.Text = Path.GetFileName(ST.projectFileName);
                 locationtext.Text = Path.GetDirectoryName(ST.projectFileName);
+                originalDoc.Text = ST.fileName;
                 pagecounttext.Text = doc.Pages.Count.ToString();
                 questioncounttext.Text = ST.boxesInQuestions.Count.ToString();
                 int ii = 0;
@@ -1065,6 +1066,7 @@ namespace _11_Image_Processing
             projecttext.Text = string.Empty;
             projectfilenametext.Text = string.Empty;
             locationtext.Text = string.Empty;
+            originalDoc.Text = string.Empty;
             pagecounttext.Text = string.Empty;
             questioncounttext.Text = string.Empty;
             boxcounttext.Text = string.Empty;
@@ -1303,6 +1305,7 @@ namespace _11_Image_Processing
             {
                 this.WindowState = WindowState.Normal;
             }
+            if (e.LeftButton != MouseButtonState.Pressed) return;
 
             this.DragMove();
         }
@@ -1907,8 +1910,8 @@ namespace _11_Image_Processing
         }
         private void CalculateAndShowPreviewBoxes()
         {
-            if (!pdfViewControl.IsLoaded) { return; }
-            double ratio = 1.0 *pdfViewControl.ZoomPercentage / 75.0;
+            if (pdfViewControl==null||preview==null||!pdfViewControl.IsLoaded) { return; }
+            double ratio = 1.0 *pdfViewControl.ZoomPercentage / 80.5; //just wierd ratio
 
             int nNew = ST.QS.n; 
             if (nNew > 4) nNew = 4;
@@ -2237,6 +2240,28 @@ namespace _11_Image_Processing
         {
            StaticMethods.DeleteTempFiles();
         }
+
+
+        private System.Windows.Point previewGridOfset;
+        private void Button_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            previewGridOfset = e.GetPosition(previewGrid);
+                DragDrop.DoDragDrop(previewGrid, previewGrid, DragDropEffects.Move);
+        }
+
+
+        private void bottomwindowpart_DragOver(object sender, DragEventArgs e)
+        {
+            Panel.SetZIndex(pdfViewControl, 0);
+            var dropposition = e.GetPosition(editRightCanvas)- previewGridOfset;
+            Canvas.SetLeft(previewGrid, dropposition.X);
+            Canvas.SetTop(previewGrid, dropposition.Y);
+        }
+
+        //private void editPrintBoxes_Click(object sender, RoutedEventArgs e)
+        //{
+        //    pdfViewControl.CaptureMouse();
+        //}
 
 
 

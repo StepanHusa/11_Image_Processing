@@ -205,6 +205,12 @@ Unlock in overview.</value>
   <data name="Document" xml:space="preserve">
     <value>Document</value>
   </data>
+  <data name="Drag" xml:space="preserve">
+    <value>Drag</value>
+  </data>
+  <data name="DragLeft" xml:space="preserve">
+    <value>Drag left</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>_Edit</value>
   </data>
@@ -342,6 +348,9 @@ Unlock in overview.</value>
   </data>
   <data name="OpenProject" xml:space="preserve">
     <value>Open Project</value>
+  </data>
+  <data name="OriginalDoc" xml:space="preserve">
+    <value>Original Doc</value>
   </data>
   <data name="Paths" xml:space="preserve">
     <value>Paths</value>

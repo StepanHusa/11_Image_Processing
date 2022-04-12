@@ -48,7 +48,7 @@ namespace _11_Image_Processing
 
         internal static double treshold = 0.7;
 
-        internal static string tempDirectoryName = Path.GetTempPath() + "Stepan_Husa_Is_A_Genius\\";
+        internal static string tempDirectoryName = Path.GetTempPath() + "Stepan_Husa_Is_A_Genius";
         internal static string projectExtension = ".st0r"; //templateExtension
         internal static byte[] fileCode = "008800ff001100aa".StringToByteArray(); //8 bytes file format conformation
 
