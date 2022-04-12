@@ -1,0 +1,511 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddBoxes" xml:space="preserve">
+    <value>_Přidat čtverečky</value>
+  </data>
+  <data name="Advanced" xml:space="preserve">
+    <value>Pokročilé</value>
+  </data>
+  <data name="Allfiles" xml:space="preserve">
+    <value>Všechny soubory</value>
+  </data>
+  <data name="AltHold" xml:space="preserve">
+    <value>Alt (držet)</value>
+  </data>
+  <data name="Answer" xml:space="preserve">
+    <value>Odpověď</value>
+  </data>
+  <data name="AnswerBoxColor" xml:space="preserve">
+    <value>Barva čtverečku</value>
+  </data>
+  <data name="AnswerBoxColor2" xml:space="preserve">
+    <value>Barva čtverečku 2</value>
+  </data>
+  <data name="AnswerBoxes" xml:space="preserve">
+    <value>Čtverečky pro odpovědi</value>
+  </data>
+  <data name="AnswerField" xml:space="preserve">
+    <value>Pole pro odpovědi</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Potvrdit</value>
+  </data>
+  <data name="BlankPDFFile" xml:space="preserve">
+    <value>_prázdný PDF soubor</value>
+  </data>
+  <data name="Boxes" xml:space="preserve">
+    <value>Čtverečky</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="cannotDeleteLastPage" xml:space="preserve">
+    <value>Nelze Odstranin Poslední stranu</value>
+  </data>
+  <data name="Canteditwhenlocked" xml:space="preserve">
+    <value>Can not edit document whan locked.
+Unlock in overview.</value>
+  </data>
+  <data name="Checked" xml:space="preserve">
+    <value>Zaškrtnuto</value>
+  </data>
+  <data name="CHM" xml:space="preserve">
+    <value>CHM</value>
+  </data>
+  <data name="ChooseAction" xml:space="preserve">
+    <value>Vybrat Akci</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Zavřít</value>
+  </data>
+  <data name="closing" xml:space="preserve">
+    <value>Zavírání...</value>
+  </data>
+  <data name="Colors" xml:space="preserve">
+    <value>Barvy</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Pokračovat</value>
+  </data>
+  <data name="ConvertedFromWord" xml:space="preserve">
+    <value>_(PřevedenoZWordu)</value>
+  </data>
+  <data name="Correct" xml:space="preserve">
+    <value>Zprávné</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>Počet</value>
+  </data>
+  <data name="crossmethod" xml:space="preserve">
+    <value>Rozpoznání křížků</value>
+  </data>
+  <data name="Dateoflastsave" xml:space="preserve">
+    <value>Datum posledního uložení</value>
+  </data>
+  <data name="DeletePage" xml:space="preserve">
+    <value>Smazat stranu</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Dokument</value>
+  </data>
+  <data name="Drag" xml:space="preserve">
+    <value>Táhnout</value>
+  </data>
+  <data name="DragLeft" xml:space="preserve">
+    <value>Táhnout Levým</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>_Upravit</value>
+  </data>
+  <data name="Enteryourtext" xml:space="preserve">
+    <value>Vložte text</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Chyba</value>
+  </data>
+  <data name="errorEvaluating" xml:space="preserve">
+    <value>Naení možné vyhodnotit práci číslo</value>
+  </data>
+  <data name="Evaluate" xml:space="preserve">
+    <value>_Vyhodnotit</value>
+  </data>
+  <data name="EvaluateingWorks" xml:space="preserve">
+    <value>Vyhodnotit Práce</value>
+  </data>
+  <data name="Evaluation" xml:space="preserve">
+    <value>Vyhovnocování</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>_Exportovat</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>_Soubory</value>
+  </data>
+  <data name="fillOfWholeSquare" xml:space="preserve">
+    <value>Vyplnění celého pole</value>
+  </data>
+  <data name="FromExistingPDF" xml:space="preserve">
+    <value>_Z Existujícího PDF</value>
+  </data>
+  <data name="FromWordDocument" xml:space="preserve">
+    <value>_Z Word dokumentu</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Obecné</value>
+  </data>
+  <data name="Grade" xml:space="preserve">
+    <value>Známka</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>_Pomoc</value>
+  </data>
+  <data name="HTML" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Obraz</value>
+  </data>
+  <data name="Index" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="JPEG" xml:space="preserve">
+    <value>_JPEG</value>
+  </data>
+  <data name="LoadedScans" xml:space="preserve">
+    <value>Načtené Skeny</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Zamčeno</value>
+  </data>
+  <data name="Minimize" xml:space="preserve">
+    <value>Minimalizovat</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>_Vice</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Jméno</value>
+  </data>
+  <data name="Name Field" xml:space="preserve">
+    <value>Pole pro jmého</value>
+  </data>
+  <data name="NameField" xml:space="preserve">
+    <value>Pole pro jmého</value>
+  </data>
+  <data name="NameOfAplication" xml:space="preserve">
+    <value>Student Tester</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>_Nové</value>
+  </data>
+  <data name="NewPage" xml:space="preserve">
+    <value>Nová strana</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Ne</value>
+  </data>
+  <data name="NoProjectLoaded" xml:space="preserve">
+    <value>Žádný načtený projekt</value>
+  </data>
+  <data name="notabletoread" xml:space="preserve">
+    <value>Není možné načíst tento soubor</value>
+  </data>
+  <data name="NoTools" xml:space="preserve">
+    <value>_Bez Nástrojů</value>
+  </data>
+  <data name="notsavedyet" xml:space="preserve">
+    <value>zatím neuloženo</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Číslo</value>
+  </data>
+  <data name="Numberofboxes" xml:space="preserve">
+    <value>Počet čtverečků</value>
+  </data>
+  <data name="Numberofpages" xml:space="preserve">
+    <value>počet stran</value>
+  </data>
+  <data name="Numberofquestions" xml:space="preserve">
+    <value>Počet otázek</value>
+  </data>
+  <data name="Numberoftextfields" xml:space="preserve">
+    <value>Počet textových polí</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="One" xml:space="preserve">
+    <value>_Jedna</value>
+  </data>
+  <data name="OnePaged" xml:space="preserve">
+    <value>_Jednostranné</value>
+  </data>
+  <data name="OnePNGtocheck" xml:space="preserve">
+    <value>_Jedno PGN pro ověření</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>_Otevřít</value>
+  </data>
+  <data name="Openlistofscans" xml:space="preserve">
+    <value>Otevřít list Skenů</value>
+  </data>
+  <data name="OpenProject" xml:space="preserve">
+    <value>Otevřít projekt</value>
+  </data>
+  <data name="OriginalDoc" xml:space="preserve">
+    <value>Původní dokument</value>
+  </data>
+  <data name="Paths" xml:space="preserve">
+    <value>Složky</value>
+  </data>
+  <data name="PDF" xml:space="preserve">
+    <value>_PDF</value>
+  </data>
+  <data name="PDFfile" xml:space="preserve">
+    <value>PDF</value>
+  </data>
+  <data name="Percents" xml:space="preserve">
+    <value>Procenta</value>
+  </data>
+  <data name="Picturesallreadable" xml:space="preserve">
+    <value>Obrázky</value>
+  </data>
+  <data name="PNG" xml:space="preserve">
+    <value>_PNG</value>
+  </data>
+  <data name="Points" xml:space="preserve">
+    <value>Body</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>_Print</value>
+  </data>
+  <data name="Printing" xml:space="preserve">
+    <value>Tisknout</value>
+  </data>
+  <data name="ProjectFileName" xml:space="preserve">
+    <value>Jméno projektu</value>
+  </data>
+  <data name="ProjectLocation" xml:space="preserve">
+    <value>Umístění projektu</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>Projekt</value>
+  </data>
+  <data name="Projectversion" xml:space="preserve">
+    <value>Verze projektu</value>
+  </data>
+  <data name="question" xml:space="preserve">
+    <value>otázky</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Otázky</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    
+  <value>Číst</value></data>
+  <data name="Reload" xml:space="preserve">
+    <value>Načíst znovu</value>
+  </data>
+  <data name="RightAnswer" xml:space="preserve">
+    <value>Správná odpověď</value>
+  </data>
+  <data name="Rotate" xml:space="preserve">
+    <value>Otočit</value>
+  </data>
+  <data name="RotateAll" xml:space="preserve">
+    <value>Otočit Vše</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>_Uložit</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>_Uložit Jako</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Uloženo</value>
+  </data>
+  <data name="savequestion" xml:space="preserve">
+    <value>Projekt není uložen.
+Chcete jej uložit?</value>
+  </data>
+  <data name="Scanner" xml:space="preserve">
+    <value>_Skener</value>
+  </data>
+  <data name="SelectScener" xml:space="preserve">
+    <value>You need to select first an scanner device from the list</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>_Nastavení</value>
+  </data>
+  <data name="sizeofbox" xml:space="preserve">
+    <value>velikost čtverečku</value>
+  </data>
+  <data name="spacebetween" xml:space="preserve">
+    <value>vzdálenost čtverečků</value>
+  </data>
+  <data name="StudentTesterProjects" xml:space="preserve">
+    <value>Student Tester Projekty</value>
+  </data>
+  <data name="succesfullyscanned" xml:space="preserve">
+    <value>uspěšně naskenováno</value>
+  </data>
+  <data name="text" xml:space="preserve">
+    <value>text</value>
+  </data>
+  <data name="THIS LANGUAGE" xml:space="preserve">
+    <value>Čeština</value>
+  </data>
+  <data name="ToogleCorrect" xml:space="preserve">
+    <value>Změnit správnost</value>
+  </data>
+  <data name="UndoBox" xml:space="preserve">
+    <value>Odstranit čtvereček</value>
+  </data>
+  <data name="UndoField" xml:space="preserve">
+    <value>Odstranit pole</value>
+  </data>
+  <data name="UndoNameField" xml:space="preserve">
+    <value>Odstranit pole pro jméno</value>
+  </data>
+  <data name="UndoNotCompatible" xml:space="preserve">
+    <value>Odstraňování není kompatibilní
+s mazáním stran</value>
+  </data>
+  <data name="UndoQuestion" xml:space="preserve">
+    <value>Odstranit Otázku</value>
+  </data>
+  <data name="Unload" xml:space="preserve">
+    <value>_Zavřít Projekt</value>
+  </data>
+  <data name="unloaded" xml:space="preserve">
+    <value>zavřeno</value>
+  </data>
+  <data name="Untitled" xml:space="preserve">
+    <value>Nepojmenováno</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>_Zobrazit</value>
+  </data>
+  <data name="ViewPage" xml:space="preserve">
+    <value>Zobrazit stranu</value>
+  </data>
+  <data name="ViewScan" xml:space="preserve">
+    <value>Zobrazit sken</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Varování</value>
+  </data>
+  <data name="WarningMoreThanOneNamefield" xml:space="preserve">
+    <value>Jedno pole pro jméno už je přidáno.
+Chcete jej přesunout sem? </value>
+  </data>
+  <data name="WarningnoNameFieldadded" xml:space="preserve">
+    <value>Varování: Žádné pole pro jméno.</value>
+  </data>
+  <data name="warningScansDontHaveEnaughtPages" xml:space="preserve">
+    <value>Jedna nebo více prací nemá dostatek stran</value>
+  </data>
+  <data name="widthofbound" xml:space="preserve">
+    <value>tloušťka okraje</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+</root>

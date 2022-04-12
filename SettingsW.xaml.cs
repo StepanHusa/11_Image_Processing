@@ -23,7 +23,7 @@ namespace _11_Image_Processing
     /// </summary>
     public partial class SettingsW : Window
     {
-
+        private bool restart = false;
         //general
         private string languagefile= ST.Language;
         private string language = Strings.THIS_LANGUAGE;
