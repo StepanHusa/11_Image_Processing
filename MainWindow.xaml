@@ -75,7 +75,7 @@
                 <MenuItem x:Name="Menu_Eavluate" Header="{x:Static ln:Strings.Evaluate}" Click="Menu_Eavluate_Click" IsEnabled="False"/>
 
                 <MenuItem x:Name="Menu_View" Header="{x:Static ln:Strings.View}" Background="#FF2B9099">
-                    <MenuItem x:Name="Menu_View_Main" Header="Main" Click="Menu_View_Main_Click" InputGestureText="Ctrl+M"/>
+                    <MenuItem x:Name="Menu_View_Main" Header="Overview" Click="Menu_View_Main_Click" InputGestureText="Ctrl+W"/>
                     <MenuItem x:Name="Menu_View_Edit" Header="Edit" IsEnabled="False" Click="Menu_View_Edit_Click" InputGestureText="Ctrl+E"/>
                     <MenuItem x:Name="Menu_View_Result" Header="Results" IsEnabled="False" Click="Menu_View_Result_Click" InputGestureText="Ctrl+R"/>
                 </MenuItem>

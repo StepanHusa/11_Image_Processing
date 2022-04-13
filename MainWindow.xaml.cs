@@ -361,7 +361,7 @@ namespace _11_Image_Processing
             ST.tempFilesToDelete.Add(tempPdf);
             ST.tempFileCopy = tempCopy;
             ST.tempFilesToDelete.Add(tempCopy);
-            ST.fileName = fileName;
+            ST.originalFile = fileName;
             ST.projectName = ST.templateProjectName;
 
             ReloadWindowContent();
@@ -596,9 +596,9 @@ namespace _11_Image_Processing
         //Print
         private void Menu_Export_ToJPEG_Click(object sender, RoutedEventArgs e)
         {
-            var save = new SaveFileDialog() { Title = "Save JPEG", Filter = "JPEG(*.jpeg)|*.jpeg" };
+            var save = new SaveFileDialog() { Title = "Save JPEG", Filter = "JPEG(*.jpeg)|*.jpeg",FileName=ST.projectName };
             if (save.ShowDialog() != true) return;
-            PdfLoadedDocument doc = new(ST.tempFile);
+            PdfLoadedDocument doc = new(ST.tempFileCopy);
             doc.RemakeBoxexOneColor();
 
             for (int i = 0; i < doc.Pages.Count; i++)
@@ -614,9 +614,9 @@ namespace _11_Image_Processing
         }
         private void Menu_Export_ToPNG_Click(object sender, RoutedEventArgs e)
         {
-            var save = new SaveFileDialog() { Title = "Save PNG", Filter = "PNG(*.png)|*.png" };
+            var save = new SaveFileDialog() { Title = "Save PNG", Filter = "PNG(*.png)|*.png", FileName = ST.projectName };
             if (save.ShowDialog() != true) return;
-            PdfLoadedDocument doc = new(ST.tempFile);
+            PdfLoadedDocument doc = new(ST.tempFileCopy);
             doc.RemakeBoxexOneColor();
             //doc.AddPositioners();
 
@@ -633,6 +633,7 @@ namespace _11_Image_Processing
                 string fn = Path.GetDirectoryName(save.FileName) + "\\" + Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
 
                 image.Save(fn, System.Drawing.Imaging.ImageFormat.Png);
+                image.Dispose();
             }
 
         }
@@ -640,7 +641,7 @@ namespace _11_Image_Processing
         {
             SaveFileDialog save = new() { Title = "Save PDF", Filter = $"File Template(*.PDF)|*.PDF", FileName = ST.projectName };
             if (save.ShowDialog() == false) return;
-            PdfLoadedDocument doc = new(ST.tempFile);
+            PdfLoadedDocument doc = new(ST.tempFileCopy);
             doc.RemakeBoxexOneColor();
             doc.Save(save.FileName);
         }
@@ -687,7 +688,7 @@ namespace _11_Image_Processing
 
 
 
-            PdfLoadedDocument doc = new(ST.tempFile);
+            PdfLoadedDocument doc = new(ST.tempFileCopy);
             doc.RemakeBoxexOneColor();
             var stream = new MemoryStream();
             doc.Save(stream);
@@ -712,7 +713,7 @@ namespace _11_Image_Processing
             DocumentPaginator docPaginator = fixedDocSeq.DocumentPaginator;
 
             // Print to a new file.
-            printDialog.PrintDocument(docPaginator, Strings.Printing + ST.fileName);
+            printDialog.PrintDocument(docPaginator, Strings.Printing + ST.originalFile);
 
 
             File.Delete(xps);
@@ -993,7 +994,7 @@ namespace _11_Image_Processing
 
                 //pdfDocumentView.UpdateLayout();
                 //pdfDocumentView.Load(doc);
-                loadedPdfLabel.Content = Path.GetFileName(ST.fileName);
+                loadedPdfLabel.Content = Path.GetFileName(ST.originalFile);
                 //pdfDocumentView.ZoomTo(-1);
 
                 Title = ST.appName + " -- " + ST.projectName;
@@ -1001,7 +1002,7 @@ namespace _11_Image_Processing
                 projecttext.Text = ST.projectName;
                 projectfilenametext.Text = Path.GetFileName(ST.projectFileName);
                 locationtext.Text = Path.GetDirectoryName(ST.projectFileName);
-                originalDoc.Text = ST.fileName;
+                originalDoc.Text = ST.originalFile;
                 pagecounttext.Text = doc.Pages.Count.ToString();
                 questioncounttext.Text = ST.boxesInQuestions.Count.ToString();
                 int ii = 0;
@@ -1059,7 +1060,7 @@ namespace _11_Image_Processing
             ST.tempFileCopy = null;
             ST.projectName = string.Empty;
             ST.projectFileName = null;
-            ST.fileName = null;
+            ST.originalFile = null;
             ST.versions = new();
 
 
@@ -1337,7 +1338,10 @@ namespace _11_Image_Processing
             doc.Pages.Add();
 
             ReloadDocument();
-            File.Copy(ST.tempFile, ST.tempFileCopy, true);
+
+            doc = new PdfLoadedDocument(ST.tempFileCopy);
+            doc.Pages.Add();
+            doc.Save();
         }
         private void deletePage_Click(object sender, RoutedEventArgs e)
         {
@@ -1361,7 +1365,10 @@ namespace _11_Image_Processing
             }
 
             ReloadDocument();
-            File.Copy(ST.tempFile, ST.tempFileCopy, true);
+            doc = new PdfLoadedDocument(ST.tempFileCopy);
+            doc.Pages.RemoveAt(pdfViewControl.CurrentPage - 1);
+            doc.Save();
+
 
 
         }
@@ -1906,7 +1913,7 @@ namespace _11_Image_Processing
             pdfViewControl.Load(stream);
 
             pdfViewControl.ScrollTo(offset);
-            pdfViewControl.Zoom = zoom * 100;
+            pdfViewControl.ZoomTo((int)(zoom * 100));
         }
         private void CalculateAndShowPreviewBoxes()
         {

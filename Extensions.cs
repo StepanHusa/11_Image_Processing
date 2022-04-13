@@ -329,7 +329,6 @@ namespace _11_Image_Processing
                 }
             }
         }
-
         public static byte[] RestOfSettingsToByteArray()
         {
             byte[] data;
@@ -356,6 +355,13 @@ namespace _11_Image_Processing
                     //string projectName
                     bw.Write(ST.projectName);
                     //bool IsLocked = false;
+                    if (ST.originalFile == null)
+                        bw.Write(true); //is null
+                    else
+                    {
+                        bw.Write(false);
+                        bw.Write(ST.originalFile);
+                            }
                     bw.Write(ST.IsLocked);
                 }
                 data = ms.ToArray();
@@ -388,10 +394,13 @@ namespace _11_Image_Processing
                     //string projectName
                     ST.projectName = r.ReadString();
                     //bool IsLocked = false;
+                    if (r.ReadBoolean() == false)
+                        ST.originalFile = null;
+                    else ST.originalFile = r.ReadString();
+
                     ST.IsLocked = r.ReadBoolean();
                 }
             }
-
         }
 
         public static byte[] GetHashSHA1(this byte[] data)

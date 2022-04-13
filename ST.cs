@@ -63,7 +63,7 @@ namespace _11_Image_Processing
 
         //file specified info
         internal static string projectFileName;
-        internal static string fileName;
+        internal static string originalFile;
         internal static string tempFile;
         internal static string tempFileCopy;
         internal static List<string> versions = new();
