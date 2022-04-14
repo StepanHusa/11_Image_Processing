@@ -112,7 +112,7 @@
         <Grid Grid.Row="1" Name="bottomSpaceOfWindow" AllowDrop="True" DragOver="bottomwindowpart_DragOver">
             <Grid x:Name="projectInfo" >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="400*"/>
+                    <ColumnDefinition Width="300*"/>
                     <ColumnDefinition Width="429*"/>
                 </Grid.ColumnDefinitions>
                 <!--<Grid.Effect>
@@ -140,7 +140,7 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="68*"/>
-                        <ColumnDefinition Width="125*"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="{x:Static ln:Strings.ProjectName}"                     Grid.Row="0" Grid.Column="0"/>
@@ -173,11 +173,15 @@
 
 
                 </Grid>
-                <Label x:Name="loadedPdfLabel" Content="" Grid.Row="1" HorizontalAlignment="Center" Margin="0,351,0,0" Grid.Column="2" VerticalAlignment="Top"/>
+                <!--<Label x:Name="loadedPdfLabel" Content="" Grid.Row="1" HorizontalAlignment="Center" Margin="0,351,0,0" Grid.Column="2" VerticalAlignment="Top"/>-->
 
                 <Button Content="{x:Static ln:Strings.Reload}" x:Name="reloadButton" Style="{DynamicResource buttonsStyle}" HorizontalAlignment="Center" Width="100" Height="30" Margin="0,0,0,30" Grid.Row="1" VerticalAlignment="Bottom" IsEnabled="False"  Click="reloadButton_Click"  />
 
-
+                <ScrollViewer  Grid.Column="1">
+                    <StackPanel x:Name="recentProjects">
+                        
+                    </StackPanel>
+                </ScrollViewer>
 
             </Grid >
             <Grid x:Name="results" Visibility="Hidden">
@@ -320,6 +324,10 @@
             <Setter Property="Background" Value="#FF99CCFF"/>
             <Setter Property="BorderBrush" Value="#FF2B8899"/>
 
+        </Style>
+        <Style x:Key="recentprojectstyle" TargetType="Button">
+            <Setter Property="Background" Value="#FF99CCFF"/>
+            <Setter Property="Height" Value="50"/>
         </Style>
 
         <SolidColorBrush x:Key="menuBrushBackground">

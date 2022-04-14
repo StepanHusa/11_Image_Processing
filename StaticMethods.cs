@@ -25,7 +25,7 @@ using System.Diagnostics;
 
 namespace _11_Image_Processing
 {
-    public static class StaticMethods
+    public static class FileAndFolderExtensions
     {
         public static void DeleteTempFiles()
         {
@@ -34,6 +34,12 @@ namespace _11_Image_Processing
                 if (File.Exists(file))
                     File.Delete(file);
             }
+        }
+
+        public static void CheckOrCreateLocalRoamingFolder()
+        {
+            if (!Directory.Exists(ST.roamingFolder)) Directory.CreateDirectory(ST.roamingFolder);
+
         }
     }
     public static class Pdf
@@ -984,26 +990,15 @@ namespace _11_Image_Processing
             List<List<List<bool>>> resultsAll = new();
             for (int i = 0; i < works.Count; i++)
                 resultsAll.Add(new());
-            //foreach (var work in works)
-            //{
-            //    try
-            //    {
-            //        resultsAll.Add(work.EvaluateOneWork(questions));
-            //    }
-            //    catch
-            //    {
-            //        System.Windows.MessageBox.Show(Strings.errorEvaluating + works.IndexOf(work), Strings.Error);
-            //    }
-            //}
-            Parallel.For(0, works.Count, (i) =>
+            foreach (var work in works)
             {
                 try
                 {
-                    resultsAll[i]=works[i].EvaluateOneWork(questions);
+                    resultsAll.Add(work.EvaluateOneWork(questions));
                 }
                 catch
                 {
-                    System.Windows.MessageBox.Show(Strings.errorEvaluating + (i+1), Strings.Error);
+                    System.Windows.MessageBox.Show(Strings.errorEvaluating + works.IndexOf(work), Strings.Error);
                     for (int l = 0; l < questions.Count; l++)
                     {
                         List<bool> resultsQuestion = new();
@@ -1012,10 +1007,32 @@ namespace _11_Image_Processing
                         {
                             resultsQuestion.Add(false);
                         }
-                        resultsAll[i].Add(resultsQuestion);
+                        resultsAll[l].Add(resultsQuestion);
                     }
+
                 }
-            });
+            }
+            //Parallel.For(0, works.Count, (i) =>
+            //{
+            //    try
+            //    {
+            //        resultsAll[i]=works[i].EvaluateOneWork(questions);
+            //    }
+            //    catch
+            //    {
+            //        System.Windows.MessageBox.Show(Strings.errorEvaluating + (i+1), Strings.Error);
+            //        for (int l = 0; l < questions.Count; l++)
+            //        {
+            //            List<bool> resultsQuestion = new();
+
+            //            for (int j = 0; j < questions[l].Count; j++)
+            //            {
+            //                resultsQuestion.Add(false);
+            //            }
+            //            resultsAll[i].Add(resultsQuestion);
+            //        }
+            //    }
+            //});
 
             return resultsAll;
         }
@@ -1760,7 +1777,7 @@ namespace _11_Image_Processing
 
                     //debug feature
                     //TODO comment
-                    pages[pageindex].DrowRectangle(newRect);
+                    //pages[pageindex].DrowRectangle(newRect);
                     //if(questions.IndexOf(question)==3)
                     //        crop.SaveToDebugFolder();
 
@@ -1776,7 +1793,10 @@ namespace _11_Image_Processing
 
             //pages[0].SaveToDebugFolder();
             //pages[1].SaveToDebugFolder();
-
+            for (int i = 0; i < pages.Length; i++)
+            {
+                pages[i].Dispose();
+            }
 
             return resultsOneWork;
         }

@@ -1,40 +1,28 @@
-﻿using Microsoft.Win32;
+﻿using _11_Image_Processing.Resources.Strings;
+using Microsoft.Win32;
+using Syncfusion.Pdf.Interactive;
+using Syncfusion.Pdf.Parsing;
+//using System.Drawing.Printing;
+//using System.Printing;
+//using Aspose.Pdf;
+using Syncfusion.Windows.PdfViewer;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 //using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 //using System.Windows.Shapes;
 //using PdfSharp;
 //using PdfSharp.Pdf;
 //using PdfSharp.Drawing;
-using System.Diagnostics;
 using System.Drawing;
-using Syncfusion.Pdf.Parsing;
-using WordToPDF;
-using Syncfusion.Pdf;
-using ImageProcessor;
-using ImageProcessor.Imaging.Filters.EdgeDetection;
-using IronOcr;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Xps.Packaging;
-//using System.Drawing.Printing;
-//using System.Printing;
-//using Aspose.Pdf;
-using PdfPrintingNet;
-using Syncfusion.Windows.PdfViewer;
-using _11_Image_Processing.Resources.Strings;
-using System.Threading;
-using System.Drawing.Drawing2D;
-using Syncfusion.Pdf.Interactive;
+using WordToPDF;
 
 namespace _11_Image_Processing
 {
@@ -59,6 +47,10 @@ namespace _11_Image_Processing
             }
 
             InitializeComponent();
+            FileAndFolderExtensions.CheckOrCreateLocalRoamingFolder();
+                LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\val2" + ST.projectExtension);
+            AddCurrentProjectToRecentAfterOpen();
+            SetUpProjectInfos();
 
             CheckArgsForFiles();
 
@@ -67,7 +59,8 @@ namespace _11_Image_Processing
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
                 //LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
-                LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\val2" + ST.projectExtension);
+
+
 
                 //ByteExtensions.RestOfSettingsToByteArray().UpdateRestOfSettingsFromByteArary();
 
@@ -254,6 +247,48 @@ namespace _11_Image_Processing
             }
         }
 
+        private void SetUpProjectInfos()
+        {
+            var l = LI.projectInfosInLocalFile;
+            for (int i = 0; i < l.Count; i++)
+            {
+                var pI = l[i];
+
+                Button butt = new();
+
+                Label name = new() { Content = pI.Name, FontSize = 50 };
+
+                butt.Content = name;
+
+
+                recentProjects.Children.Add(butt);
+            }
+        }
+        private void AddCurrentProjectToRecentAfterOpen()
+        {
+            var l = LI.projectInfosInLocalFile;
+            bool IsThere = false;
+            ProjectInfo pi=new();
+            string date = DateTime.Now.ToShortDateString() + DateTime.Now.ToShortTimeString();
+            for (int i = 0; i < l.Count; i++)
+            {
+                if (l[i].Name == ST.projectName)
+                {
+                    IsThere = true;
+                    pi=l[i];
+                    pi.DateLastOpened = date;
+                    l[i] = pi;
+                }
+            }
+            if (!IsThere)
+            {
+                pi = new(ST.projectName, ST.projectFileName, date, date);
+                l.Add(pi);
+            }
+
+            LI.projectInfosInLocalFile = l;
+        }
+
         private void CheckArgsForFiles()
         {
             String[] arguments = Environment.GetCommandLineArgs();
@@ -330,7 +365,7 @@ namespace _11_Image_Processing
 
         private void LoadDocument(string fileName)
         {
-            var dir = ST.tempDirectoryName+"\\";
+            var dir = ST.tempDirectoryName + "\\";
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             string fn = Path.GetRandomFileName().Remove(8);
@@ -386,7 +421,7 @@ namespace _11_Image_Processing
         }
         private void CommandBinding_Edit_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Menu_View_Edit_Click(null,null);
+            Menu_View_Edit_Click(null, null);
         }
         //Save
         private void Menu_Save_ProjectAs_Click(object sender, RoutedEventArgs e)
@@ -395,7 +430,7 @@ namespace _11_Image_Processing
             SaveFileDialog save = new() { Title = "Save Template", Filter = $"File Template(*{ST.projectExtension})|*{ST.projectExtension}", FileName = ST.projectName };
             if (save.ShowDialog() == false) return;
 
-            if (ST.projectName == ST.templateProjectName) ST.projectName=Path.GetFileNameWithoutExtension(save.FileName);
+            if (ST.projectName == ST.templateProjectName) ST.projectName = Path.GetFileNameWithoutExtension(save.FileName);
 
             SaveDataToFile(save.FileName);
             SavedInfo();
@@ -596,7 +631,7 @@ namespace _11_Image_Processing
         //Print
         private void Menu_Export_ToJPEG_Click(object sender, RoutedEventArgs e)
         {
-            var save = new SaveFileDialog() { Title = "Save JPEG", Filter = "JPEG(*.jpeg)|*.jpeg",FileName=ST.projectName };
+            var save = new SaveFileDialog() { Title = "Save JPEG", Filter = "JPEG(*.jpeg)|*.jpeg", FileName = ST.projectName };
             if (save.ShowDialog() != true) return;
             PdfLoadedDocument doc = new(ST.tempFileCopy);
             doc.RemakeBoxexOneColor();
@@ -994,7 +1029,7 @@ namespace _11_Image_Processing
 
                 //pdfDocumentView.UpdateLayout();
                 //pdfDocumentView.Load(doc);
-                loadedPdfLabel.Content = Path.GetFileName(ST.originalFile);
+                //loadedPdfLabel.Content = Path.GetFileName(ST.originalFile);
                 //pdfDocumentView.ZoomTo(-1);
 
                 Title = ST.appName + " -- " + ST.projectName;
@@ -1078,7 +1113,7 @@ namespace _11_Image_Processing
             Title = ST.appName + " - " + Strings.unloaded;
 
             //pdfDocumentView.Unload();
-            loadedPdfLabel.Content = "";
+            //loadedPdfLabel.Content = "";
 
 
             Menu_Edit.IsEnabled = false;
@@ -1312,9 +1347,9 @@ namespace _11_Image_Processing
         }
 
         //editview
-        private double offset=0;
-        private double zoom=1;
-        private static bool saved=false;
+        private double offset = 0;
+        private double zoom = 1;
+        private static bool saved = false;
         private bool drawingRectangle;
         private PageMouseMoveEventArgs argsFirstVertex;
         private System.Windows.Point locFirstVertex;
@@ -1325,7 +1360,7 @@ namespace _11_Image_Processing
         }
         private void PdfViewControl_ZoomChanged(object sender, ZoomEventArgs args)
         {
-            zoom = args.ZoomPercentage/100.0;
+            zoom = args.ZoomPercentage / 100.0;
             CalculateAndShowPreviewBoxes();
         }
 
@@ -1644,11 +1679,11 @@ namespace _11_Image_Processing
             RectangleF bounds = new RectangleF(point, size);
             bounds.RelatitivizeToPage(doc.Pages[pindex]);
 
-            doc.DrawBox(new(pindex,bounds, ST.baundWidth/doc.Pages[pindex].Size.Width,false));
+            doc.DrawBox(new(pindex, bounds, ST.baundWidth / doc.Pages[pindex].Size.Width, false));
 
 
             ReloadDocument();
-            pdfViewControl.Zoom = zoom*100;
+            pdfViewControl.Zoom = zoom * 100;
 
         }
         private void Pdfwcontrol_PageClicked_B(object sender, PageClickedEventArgs args)
@@ -1679,13 +1714,13 @@ namespace _11_Image_Processing
                     rect.Size = new((float)((args.Position.X - argsFirstVertex.Position.X) * 0.75 / zoom), (float)((args.Position.Y - argsFirstVertex.Position.Y) * 0.75 / zoom));
                     rect.RelatitivizeToPage(doc.Pages[pindex]);
 
-                    doc.DrawRectangleBounds(rect, pindex,ST.baundWidth);
+                    doc.DrawRectangleBounds(rect, pindex, ST.baundWidth);
                     doc.DrawStringNextToRectangle(Strings.text + (ST.pagesFields.Count + 1) + ":", rect, pindex);
 
                     ST.pagesFields.Add(new(pindex, rect));
 
                     ReloadDocument();
-                    pdfViewControl.Zoom = zoom*100;
+                    pdfViewControl.Zoom = zoom * 100;
                 }
                 //this.MouseMove -= PdfEditW_MouseMove;
                 pdfViewControl.PageMouseMove -= PdfViewControl_PageMouseMove;
@@ -1742,7 +1777,7 @@ namespace _11_Image_Processing
             }
 
             ReloadDocument();
-            pdfViewControl.Zoom = zoom*100;
+            pdfViewControl.Zoom = zoom * 100;
 
         }
         private void Pdfwcontrol_PageClicked_E(object sender, PageClickedEventArgs args)
@@ -1780,7 +1815,7 @@ namespace _11_Image_Processing
             }
 
             ReloadDocument();
-            pdfViewControl.Zoom = zoom*100;
+            pdfViewControl.Zoom = zoom * 100;
 
 
         }
@@ -1850,7 +1885,7 @@ namespace _11_Image_Processing
 
                     ST.nameField = new(pindex, rect);
                     ReloadDocument();
-                    pdfViewControl.Zoom = zoom*100;
+                    pdfViewControl.Zoom = zoom * 100;
 
                 }
                 //this.MouseMove -= PdfEditW_MouseMove;
@@ -1899,7 +1934,7 @@ namespace _11_Image_Processing
         private void ReloadDocument()
         {
             saved = false;
-            windowHeader.Content = ST.projectName+"*";
+            windowHeader.Content = ST.projectName + "*";
 
 
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
@@ -1917,10 +1952,10 @@ namespace _11_Image_Processing
         }
         private void CalculateAndShowPreviewBoxes()
         {
-            if (pdfViewControl==null||preview==null||!pdfViewControl.IsLoaded) { return; }
-            double ratio = 1.0 *pdfViewControl.ZoomPercentage / 80.5; //just wierd ratio
+            if (pdfViewControl == null || preview == null || !pdfViewControl.IsLoaded) { return; }
+            double ratio = 1.0 * pdfViewControl.ZoomPercentage / 80.5; //just wierd ratio
 
-            int nNew = ST.QS.n; 
+            int nNew = ST.QS.n;
             if (nNew > 4) nNew = 4;
 
             while (preview.Children.Count > nNew)
@@ -1931,15 +1966,15 @@ namespace _11_Image_Processing
 
                 preview.Children.Add(r);
             }
-            for (int i = 0; i<preview.Children.Count; i++)
+            for (int i = 0; i < preview.Children.Count; i++)
             {
                 var r = preview.Children[i] as System.Windows.Shapes.Rectangle;
-                Canvas.SetTop(r, 5 +ratio* i * (ST.sizeOfBox.Height + ST.spaceBetweenBoxes + ST.baundWidth));
+                Canvas.SetTop(r, 5 + ratio * i * (ST.sizeOfBox.Height + ST.spaceBetweenBoxes + ST.baundWidth));
                 Canvas.SetLeft(r, 5);
-                r.Height = (ST.sizeOfBox.Height+ 2*ST.baundWidth )* ratio;
-                r.Width = (ST.sizeOfBox.Width+ 2*ST.baundWidth) *ratio;
-                r.Stroke= new System.Windows.Media.SolidColorBrush(ST.baundColor.ColorFromDrawing());
-                r.StrokeThickness = ST.baundWidth*ratio;
+                r.Height = (ST.sizeOfBox.Height + 2 * ST.baundWidth) * ratio;
+                r.Width = (ST.sizeOfBox.Width + 2 * ST.baundWidth) * ratio;
+                r.Stroke = new System.Windows.Media.SolidColorBrush(ST.baundColor.ColorFromDrawing());
+                r.StrokeThickness = ST.baundWidth * ratio;
             }
 
         }
@@ -1955,7 +1990,7 @@ namespace _11_Image_Processing
             {
                 ST.boxesInQuestions[i - 1].RemoveAt(j - 1);
             }
-            if (j == 0)  ST.boxesInQuestions.RemoveAt(i - 1);
+            if (j == 0) ST.boxesInQuestions.RemoveAt(i - 1);
             RemakeBoxexAndFieldsN();
         }
         private void UndoQuestion()
@@ -1991,7 +2026,7 @@ namespace _11_Image_Processing
 
         private void undoNFButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked,Strings.Warning,MessageBoxButton.OK,MessageBoxImage.Warning); return; }
+            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
 
             if (ST.nameField == null) return;
             ST.nameField = null;
@@ -2225,7 +2260,7 @@ namespace _11_Image_Processing
         }
         private void CommandBinding_CanExecuteIfEditEnebled(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (Menu_View_Edit.IsEnabled) e.CanExecute = true;  
+            if (Menu_View_Edit.IsEnabled) e.CanExecute = true;
         }
         private void CommandBinding_CanExecuteIfResultsEnebled(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -2245,7 +2280,7 @@ namespace _11_Image_Processing
         }
         private void Window_Closed(object sender, EventArgs e)
         {
-           StaticMethods.DeleteTempFiles();
+            FileAndFolderExtensions.DeleteTempFiles();
         }
 
 
@@ -2253,14 +2288,14 @@ namespace _11_Image_Processing
         private void Button_MouseDown(object sender, MouseButtonEventArgs e)
         {
             previewGridOfset = e.GetPosition(previewGrid);
-                DragDrop.DoDragDrop(previewGrid, previewGrid, DragDropEffects.Move);
+            DragDrop.DoDragDrop(previewGrid, previewGrid, DragDropEffects.Move);
         }
 
 
         private void bottomwindowpart_DragOver(object sender, DragEventArgs e)
         {
             Panel.SetZIndex(pdfViewControl, 0);
-            var dropposition = e.GetPosition(editRightCanvas)- previewGridOfset;
+            var dropposition = e.GetPosition(editRightCanvas) - previewGridOfset;
             Canvas.SetLeft(previewGrid, dropposition.X);
             Canvas.SetTop(previewGrid, dropposition.Y);
         }
@@ -2426,3 +2461,5 @@ namespace _11_Image_Processing
 //TODO all in one window
 //TODO design using 2 files (i dont know how it is now)
 //todo Plant Locking
+//todo option max cpu/memory vs safe
+
