@@ -253,15 +253,36 @@ namespace _11_Image_Processing
             for (int i = 0; i < l.Count; i++)
             {
                 var pI = l[i];
+                var backcolor = System.Windows.Media.Color.FromArgb(255, 120, 160, 230);
 
-                Button butt = new();
+                Canvas canv = new() {Height=70, HorizontalAlignment=HorizontalAlignment.Stretch, };
+                //Button button = new() {  Background= System.Windows.Media.Brushes.Transparent, HorizontalAlignment=HorizontalAlignment.Stretch,VerticalAlignment=VerticalAlignment.Stretch};
 
-                Label name = new() { Content = pI.Name, FontSize = 50 };
+                Label name = new() { Content = pI.Name, FontSize = 30 ,Width=500};
+                Label locaton = new() { Content = pI.Location, FontSize =15 };
+                Label lastEdit = new() { Content = pI.DateLastEdit, FontSize = 15 };
 
-                butt.Content = name;
+                canv.Children.Add(name);
+                canv.Children.Add(locaton);
+                canv.Children.Add(lastEdit);
+                Canvas.SetTop(locaton, 40);
+                Canvas.SetLeft(lastEdit, 500);
+                canv.Background = new System.Windows.Media.SolidColorBrush(backcolor);
 
+                canv.MouseEnter += (sender, e) => { canv.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 150, 200, 255)); };
+                canv.MouseLeave += (sender, e) => { canv.Background = new System.Windows.Media.SolidColorBrush(backcolor); };
+                canv.MouseLeftButtonDown += (sender, e) => {
+                    if (!File.Exists(pI.Location)) { MessageBox.Show("FileDoesentExistAnymore");l.RemoveAt(i); LI.projectInfosInLocalFile = l; }
+                    else
+                    {
+                        LoadDataFromFile(pI.Location);
+                    }
+                        };
 
-                recentProjects.Children.Add(butt);
+                //canv.Children.Add(button);
+                //button.Content = canv;
+                recentProjects.Children.Add(canv);
+                
             }
         }
         private void AddCurrentProjectToRecentAfterOpen()
@@ -325,7 +346,7 @@ namespace _11_Image_Processing
         private DisplaiedWindow displaiedWindow = DisplaiedWindow.Main;
         //main
         //load
-        private void Menu_Load_Open_Click(object sender, RoutedEventArgs e)
+        private void Menu_Load_PDF_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog() { Filter = "PDF(*.pdf)|*.pdf", Title = "Open PDF" };
             if (open.ShowDialog() != true) return;

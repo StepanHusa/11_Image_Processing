@@ -34,7 +34,7 @@
                 <MenuItem x:Name="Menu_Project" Header="_Project" Height="30" >
                     <MenuItem          Header="{x:Static ln:Strings.New}" >
                         <MenuItem      Header="{x:Static ln:Strings.BlankPDFFile}"        Click="Menu_Load_New_Click"/>
-                        <MenuItem      Header="{x:Static ln:Strings.FromExistingPDF}"     Click="Menu_Load_Open_Click"/>
+                        <MenuItem      Header="{x:Static ln:Strings.FromExistingPDF}"     Click="Menu_Load_PDF_Click"/>
                         <MenuItem      Header="{x:Static ln:Strings.FromWordDocument}"    Click="Menu_Load_Word_Click"/>
                     </MenuItem>
 
@@ -179,7 +179,9 @@
 
                 <ScrollViewer  Grid.Column="1">
                     <StackPanel x:Name="recentProjects">
-                        
+                        <Button Height="50" HorizontalContentAlignment="Left">
+                            <Label Content="ads"/>
+                        </Button>
                     </StackPanel>
                 </ScrollViewer>
 
