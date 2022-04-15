@@ -31,20 +31,9 @@
 
         <DockPanel Grid.Row="0" MouseDown="DockPanel_MouseDown" Background="{DynamicResource menuBrushBackground}">
             <Menu  DockPanel.Dock = "Left" IsMainMenu="True" Background="Transparent" >
-                <MenuItem x:Name="Menu_Project" Header="_Project" Height="30" >
-                    <MenuItem          Header="{x:Static ln:Strings.New}" >
-                        <MenuItem      Header="{x:Static ln:Strings.BlankPDFFile}"        Click="Menu_Load_New_Click"/>
-                        <MenuItem      Header="{x:Static ln:Strings.FromExistingPDF}"     Click="Menu_Load_PDF_Click"/>
-                        <MenuItem      Header="{x:Static ln:Strings.FromWordDocument}"    Click="Menu_Load_Word_Click"/>
-                    </MenuItem>
-
-                    <MenuItem x:Name="Menu_Project_Open"     Header="{x:Static ln:Strings.Open}" Click="Menu_Open_Project_Click"/>
-
-                    <MenuItem x:Name="Menu_Project_Unload" Header="{x:Static ln:Strings.Unload}" Click="Menu_Project_Unload_Click"/>
-
-                    <MenuItem x:Name="Menu_Project_SaveAs" Header="{x:Static ln:Strings.SaveAs}" IsEnabled="False"  Command="local:Commands.SaveProjectAs" InputGestureText="Ctrl+Shift+S"/>
-                    <MenuItem  x:Name="Menu_Project_Save" Header="{x:Static ln:Strings.Save}" IsEnabled="False" Command="local:Commands.SaveProject" InputGestureText="Ctrl+S"/>
-                </MenuItem>
+                <Button x:Name="Menu_Project" Height="30" Click="Menu_Project_Click" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Stretch" >
+                    <Label Content="Project" Foreground="White"></Label>
+                </Button>
 
                 <MenuItem x:Name="Menu_Edit" Header="{x:Static ln:Strings.Edit}" IsEnabled="False" >
                     <MenuItem x:Name="Menu_Edit_Questions" Header="{x:Static ln:Strings.Document}" Click="Menu_Edit_Questions_Click"/>
@@ -110,19 +99,71 @@
         </DockPanel>
 
         <Grid Grid.Row="1" Name="bottomSpaceOfWindow" AllowDrop="True" DragOver="bottomwindowpart_DragOver">
-            <Grid x:Name="projectInfo" >
+            <Grid x:Name="porjectwindow">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300*"/>
-                    <ColumnDefinition Width="429*"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <!--<Grid.Effect>
-                <DropShadowEffect BlurRadius="15" Direction="-90"
-                              RenderingBias="Quality" ShadowDepth="2"/>
-            </Grid.Effect>-->
 
-                <!--<PdfViewer:PdfDocumentView x:Name="pdfDocumentView" HorizontalAlignment="Center"  Grid.Column="1" Grid.Row="1" SizeChanged="pdfDocumentView_SizeChanged" />-->
+                <Grid Grid.Column="1" x:Name="recentProjectsHideThisTool" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Grid.Column="0">
+                        <Label Content="{x:Static ln:Strings.New}" FontSize="35" Margin="20,20,20,0"/>
+                        <Line Width="100" HorizontalAlignment="Left" Margin="30,0,0,0" Height="2" StrokeThickness="5" Stroke="Black"/>
+                    </StackPanel>
 
-                <Grid Grid.Row="1" Margin="10,5,0,0" >
+                    <StackPanel x:Name="newOptions" Grid.Row="1">
+                        <Button Height="220" Margin="30,20,30,20" Background="AliceBlue" BorderBrush="#FF0669AC" Click="Menu_Load_PDF_Click">
+                            <StackPanel>
+                                
+                            <Image Source="/Resources/icone-pdf-symbole-png-rouge.png" Height="100" />
+                                <Label Content="{x:Static ln:Strings.FromExistingPDF}" HorizontalAlignment="Center" FontSize="18"/>
+                            </StackPanel>
+
+                        </Button>
+                        <Button Height="220" Margin="30,20,30,20" Background="AliceBlue" BorderBrush="#FF0669AC" Click="Menu_Load_Word_Click">
+                            <StackPanel>
+
+                                <Image Source="/Resources/PngItem_339973.png" Height="100"/>
+
+                                <Label Content="{x:Static ln:Strings.FromWordDocument}" HorizontalAlignment="Center" FontSize="18"/>
+                            </StackPanel>
+
+                        </Button>
+                    </StackPanel>
+                    
+                    <Line X1="1" Y1="0" X2="1" Y2="800" Stroke="Black"    StrokeThickness="2"  HorizontalAlignment="Left" Grid.RowSpan="10"/>
+                    <Line X1="0" Y1="0" X2="0" Y2="800" Stroke="Black"    StrokeThickness="2"  HorizontalAlignment="Right" Grid.RowSpan="10"/>
+                    <Line X1="0" Y1="0" X2="2800" Y2="0" Stroke="Black"    StrokeThickness="2"  VerticalAlignment="Bottom" Grid.Row="0" Grid.ColumnSpan="10"/>
+
+                    <Button Margin="0,0,0,2" Grid.Column="1" x:Name="Menu_Project_Open" Background="Transparent" Click="Menu_Open_Project_Click" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" BorderThickness="0">                        
+                        <Label Content="{x:Static ln:Strings.Open}" FontSize="35" Margin="20,20,20,0"/>
+                    </Button>
+
+                    <ScrollViewer    Grid.Row="1" Grid.Column="1">
+                        <StackPanel>
+                            
+                            <Canvas Height="40" >
+                                <Label Content="{x:Static ln:Strings.Project}" />
+                                <Label Content="{x:Static ln:Strings.LastEdit}" Canvas.Left="500"/>
+                                <Label Content="{x:Static ln:Strings.LastOpened}" Canvas.Left="680"/>
+                            </Canvas>
+                        <StackPanel x:Name="recentProjects">
+                        </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+
+
+                </Grid>
+                <Grid x:Name="porjectwindow_infotab" Margin="10,5,0,0"  Visibility="Hidden" Grid.Column="1">
                     <!--ShowGridLines="True"-->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25"/>
@@ -137,9 +178,10 @@
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="25"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="68*"/>
+                        <ColumnDefinition Width="200"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
@@ -172,21 +214,48 @@
                     <Button  x:Name="lockButton"            Grid.Row="10" Grid.Column="1" Click="lockButton_Click" Width="50" HorizontalAlignment="Left" />
 
 
+                    <Button Content="{x:Static ln:Strings.Reload}" x:Name="reloadButton" Style="{DynamicResource buttonsStyle}" HorizontalAlignment="Center" Width="100" Height="30" Margin="0,0,0,30" Grid.Row="20" VerticalAlignment="Bottom" IsEnabled="False"  Click="reloadButton_Click"  />
                 </Grid>
+                <StackPanel Grid.Column="0">
+
+                    <Button x:Name="Menu_Project_Unload" Click="Menu_Project_Unload_Click"   Style="{DynamicResource projectButtons}" HorizontalContentAlignment="Left">
+                        <StackPanel Orientation="Horizontal"  Margin="10,0,0,0">
+                            <Label Content="{x:Static ln:Strings.Unload}" Foreground="White"/>                            
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="Menu_Project_SaveAs"   Command="local:Commands.SaveProjectAs" Style="{DynamicResource projectButtons}" HorizontalContentAlignment="Left">
+                        <StackPanel   Margin="10,0,0,0">
+                            <Label Content="{x:Static ln:Strings.SaveAs}" Foreground="White"/>
+                            <Label Content="Ctrl+Shift+S" FontSize="15" VerticalAlignment="Center" Foreground="White"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="Menu_Project_Save"   Command="local:Commands.SaveProject" Style="{DynamicResource projectButtons}" HorizontalContentAlignment="Left">
+                        <StackPanel Margin="10,0,0,0">
+                            <Label Content="{x:Static ln:Strings.Save}" Foreground="White"/>
+                            <Label Content="Ctrl+S" FontSize="15" VerticalAlignment="Center" Foreground="White"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                    
+                    
+
+
+
+
+                <!--<Grid.Effect>
+                <DropShadowEffect BlurRadius="15" Direction="-90"
+                              RenderingBias="Quality" ShadowDepth="2"/>
+            </Grid.Effect>-->
+
+                <!--<PdfViewer:PdfDocumentView x:Name="pdfDocumentView" HorizontalAlignment="Center"  Grid.Column="1" Grid.Row="1" SizeChanged="pdfDocumentView_SizeChanged" />-->
+
                 <!--<Label x:Name="loadedPdfLabel" Content="" Grid.Row="1" HorizontalAlignment="Center" Margin="0,351,0,0" Grid.Column="2" VerticalAlignment="Top"/>-->
 
-                <Button Content="{x:Static ln:Strings.Reload}" x:Name="reloadButton" Style="{DynamicResource buttonsStyle}" HorizontalAlignment="Center" Width="100" Height="30" Margin="0,0,0,30" Grid.Row="1" VerticalAlignment="Bottom" IsEnabled="False"  Click="reloadButton_Click"  />
 
-                <ScrollViewer  Grid.Column="1">
-                    <StackPanel x:Name="recentProjects">
-                        <Button Height="50" HorizontalContentAlignment="Left">
-                            <Label Content="ads"/>
-                        </Button>
-                    </StackPanel>
-                </ScrollViewer>
 
             </Grid >
-            <Grid x:Name="results" Visibility="Hidden">
+            <Grid x:Name="resultswindiw" Visibility="Hidden">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="auto"/>
@@ -218,7 +287,7 @@
                 </ListView>
 
             </Grid>
-            <Grid x:Name="editView" Visibility="Hidden"  >
+            <Grid x:Name="editWindow" Visibility="Hidden"  >
                 <!--Visibility="Hidden"-->
                 <!--<Window.DataContext>
                     <local:Settings/>
@@ -357,6 +426,14 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="BorderBrush" Value="#7D292990"/>
+        </Style>
+        <Style x:Key="projectButtons" TargetType="Button">
+            <Setter Property="Height" Value="100"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Background" Value="#FF2B5799"/>
+            <Setter Property="Foreground" Value="White"/>
+            
+
         </Style>
 
         <Style TargetType="{x:Type local:MainWindow}">

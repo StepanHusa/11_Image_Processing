@@ -10,8 +10,6 @@ namespace _11_Image_Processing
     static class LI
     {
         private static string projectInfosFilename { get { return ST.roamingFolder + "\\ProjectInfos.file"; } }
-
-
         public static List<ProjectInfo> projectInfosInLocalFile
         {
             get
@@ -26,7 +24,7 @@ namespace _11_Image_Processing
                             int length = r.ReadInt32();
                             for(int i = 0; i < length ; i++)
                             {
-                                l.Add(new(r.ReadString(), r.ReadString(), r.ReadString(), r.ReadString()));
+                                l.Add(new(r.ReadString(), r.ReadString(), r.ReadString(), r.ReadString(),r.ReadBoolean()));
                             }
                         }
                     }
@@ -47,12 +45,12 @@ namespace _11_Image_Processing
                             bw.Write(value[i].Location);
                             bw.Write(value[i].DateLastOpened);
                             bw.Write(value[i].DateLastEdit);
+                            bw.Write(value[i].IsLocjed);
                         }
                     }
                 }
             }
         }
-
        public static void AddProjectInfoToLocalFile(this ProjectInfo projectInfo)
         {
             var l = projectInfosInLocalFile;
@@ -60,5 +58,42 @@ namespace _11_Image_Processing
             projectInfosInLocalFile = l;
         }
 
+
+        private static string languageselectionfilename { get { return ST.roamingFolder + "\\languageselection.file"; } }
+        public static System.Globalization.CultureInfo languageselection 
+        { 
+            get
+            {
+                if (File.Exists(languageselectionfilename))
+                {
+                    using (FileStream ms = new(languageselectionfilename, FileMode.Open))
+                    {
+                        using (BinaryReader r = new(ms))
+                        {
+                            return new(r.ReadInt32());
+                        }
+                    }
+                }
+                else return null;
+
+            }
+            set
+            {
+                if (value == null)
+                {
+                    if (File.Exists(languageselectionfilename)) File.Delete(languageselectionfilename);
+                    return;
+                }
+                else
+                    using (FileStream fs = new(languageselectionfilename, FileMode.OpenOrCreate))
+                    {
+                        using (BinaryWriter bw = new(fs))
+                        {
+                            bw.Write(value.LCID);
+                        }
+                    }
+
+            }
+        }
     }
 }

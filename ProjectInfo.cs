@@ -12,13 +12,15 @@ namespace _11_Image_Processing
         public string Location { get; set; }
         public string DateLastOpened { get; set; }
         public string DateLastEdit { get; set; }
+        public bool IsLocjed { get; set; }
 
-       public ProjectInfo( string name, string location, string dateLastOpened,string dateLastEdit)
+        public ProjectInfo( string name, string location, string dateLastOpened,string dateLastEdit,bool isLocked)
         {
             Location = location;
             Name = name;
             DateLastOpened = dateLastOpened;
             DateLastEdit = dateLastEdit;
+            IsLocjed = isLocked;
         }
     }
 }

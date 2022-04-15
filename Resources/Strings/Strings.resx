@@ -242,10 +242,10 @@ Unlock in overview.</value>
     <value>Fill of the whole square</value>
   </data>
   <data name="FromExistingPDF" xml:space="preserve">
-    <value>_FromExistingPDF</value>
+    <value>From Existing PDF</value>
   </data>
   <data name="FromWordDocument" xml:space="preserve">
-    <value>_FromWordDocument</value>
+    <value>From Word Document</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>General</value>
@@ -267,6 +267,12 @@ Unlock in overview.</value>
   </data>
   <data name="JPEG" xml:space="preserve">
     <value>_JPEG</value>
+  </data>
+  <data name="LastEdit" xml:space="preserve">
+    <value>Last Edit</value>
+  </data>
+  <data name="LastOpened" xml:space="preserve">
+    <value>Last Opened</value>
   </data>
   <data name="LoadedScans" xml:space="preserve">
     <value>LoadedScans</value>
@@ -379,8 +385,14 @@ Unlock in overview.</value>
   <data name="Printing" xml:space="preserve">
     <value>Printing</value>
   </data>
+  <data name="Project" xml:space="preserve">
+    <value>Project</value>
+  </data>
   <data name="ProjectFileName" xml:space="preserve">
     <value>Project File Name</value>
+  </data>
+  <data name="ProjectInfo" xml:space="preserve">
+    <value>Project Info</value>
   </data>
   <data name="ProjectLocation" xml:space="preserve">
     <value>Project Location</value>
@@ -416,7 +428,13 @@ Unlock in overview.</value>
     <value>_Save</value>
   </data>
   <data name="SaveAs" xml:space="preserve">
-    <value>_SaveAs</value>
+    <value>_Save As</value>
+  </data>
+  <data name="SaveAsCtrlShiftS" xml:space="preserve">
+    <value>Save As (Ctrl+Shift+S)</value>
+  </data>
+  <data name="SaveCtrlS" xml:space="preserve">
+    <value>Save (Ctrl+S)</value>
   </data>
   <data name="Saved" xml:space="preserve">
     <value>Saved</value>

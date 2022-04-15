@@ -12,7 +12,7 @@ namespace _11_Image_Processing
 {
     public enum DisplaiedWindow
     {
-        Main,
+        Project,
         Edit,
         Results,
     }

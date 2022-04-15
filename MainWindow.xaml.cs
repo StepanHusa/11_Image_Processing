@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,17 +46,14 @@ namespace _11_Image_Processing
 
                 //BitMiracle.Docotic.LicenseManager.AddLicenseData("49YKU-QSUJS-1T3EP-28V4L-FIFQY"); 
             }
-
+            
             InitializeComponent();
             FileAndFolderExtensions.CheckOrCreateLocalRoamingFolder();
-                LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\val2" + ST.projectExtension);
-            AddCurrentProjectToRecentAfterOpen();
             SetUpProjectInfos();
-
             CheckArgsForFiles();
 
-
             //debug
+                //LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\val2" + ST.projectExtension);
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
                 //LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
@@ -250,23 +248,30 @@ namespace _11_Image_Processing
         private void SetUpProjectInfos()
         {
             var l = LI.projectInfosInLocalFile;
+            recentProjects.Children.RemoveRange(0, recentProjects.Children.Count);
             for (int i = 0; i < l.Count; i++)
             {
-                var pI = l[i];
-                var backcolor = System.Windows.Media.Color.FromArgb(255, 120, 160, 230);
+                var pI = l[l.Count-i-1];//so the newer are on top
+                var backcolor = System.Windows.Media.Color.FromArgb(255, 160, 220, 240);
 
                 Canvas canv = new() {Height=70, HorizontalAlignment=HorizontalAlignment.Stretch, };
                 //Button button = new() {  Background= System.Windows.Media.Brushes.Transparent, HorizontalAlignment=HorizontalAlignment.Stretch,VerticalAlignment=VerticalAlignment.Stretch};
 
-                Label name = new() { Content = pI.Name, FontSize = 30 ,Width=500};
-                Label locaton = new() { Content = pI.Location, FontSize =15 };
-                Label lastEdit = new() { Content = pI.DateLastEdit, FontSize = 15 };
+                Label name = new() { Content = pI.Name, FontSize = 30 ,Width=480};
+                Label locaton = new() { Content = pI.Location, FontSize =15, Width = 480 };
+                Label lastEdit = new() { Content = pI.DateLastEdit, FontSize = 15, Width = 170 };
+                Label lastOpen = new() { Content = pI.DateLastOpened, FontSize = 15, Width = 200 };
+                //TODO add icon and lock
 
                 canv.Children.Add(name);
                 canv.Children.Add(locaton);
                 canv.Children.Add(lastEdit);
+                canv.Children.Add(lastOpen);
                 Canvas.SetTop(locaton, 40);
                 Canvas.SetLeft(lastEdit, 500);
+                Canvas.SetTop(lastEdit, 20);
+                Canvas.SetLeft(lastOpen, 680);
+                Canvas.SetTop(lastOpen, 20);
                 canv.Background = new System.Windows.Media.SolidColorBrush(backcolor);
 
                 canv.MouseEnter += (sender, e) => { canv.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 150, 200, 255)); };
@@ -287,10 +292,11 @@ namespace _11_Image_Processing
         }
         private void AddCurrentProjectToRecentAfterOpen()
         {
+            if (ST.projectFileName == null) return;
             var l = LI.projectInfosInLocalFile;
             bool IsThere = false;
             ProjectInfo pi=new();
-            string date = DateTime.Now.ToShortDateString() + DateTime.Now.ToShortTimeString();
+            string date = DateTime.Now.ToShortDateString() +" " +DateTime.Now.ToShortTimeString();
             for (int i = 0; i < l.Count; i++)
             {
                 if (l[i].Name == ST.projectName)
@@ -303,11 +309,40 @@ namespace _11_Image_Processing
             }
             if (!IsThere)
             {
-                pi = new(ST.projectName, ST.projectFileName, date, date);
+                pi = new(ST.projectName, ST.projectFileName, date, date,ST.IsLocked);
                 l.Add(pi);
             }
 
             LI.projectInfosInLocalFile = l;
+
+            SetUpProjectInfos();
+        }
+        private void AddCurrentProjectToRecentAfterSave()
+        {
+            var l = LI.projectInfosInLocalFile;
+            bool IsThere = false;
+            ProjectInfo pi = new();
+            string date = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
+            for (int i = 0; i < l.Count; i++)
+            {
+                if (l[i].Name == ST.projectName)
+                {
+                    IsThere = true;
+                    pi = l[i];
+                    pi.DateLastEdit = date;
+                    pi.DateLastOpened = date;
+                    l[i] = pi;
+                }
+            }
+            if (!IsThere)
+            {
+                pi = new(ST.projectName, ST.projectFileName, date, date,ST.IsLocked);
+                l.Add(pi);
+            }
+
+            LI.projectInfosInLocalFile = l;
+
+            SetUpProjectInfos();
         }
 
         private void CheckArgsForFiles()
@@ -321,7 +356,7 @@ namespace _11_Image_Processing
                 {
                     string FileExtension = Path.GetExtension(filePathFormMainArgs);
                     if (FileExtension == ".pdf")
-                        LoadDocument(filePathFormMainArgs);
+                        LoadPDFDocument(filePathFormMainArgs);
                     else if (FileExtension == ".doc" | FileExtension == ".docx")
                     {
                         Word2Pdf objWorPdf = new Word2Pdf();
@@ -332,7 +367,7 @@ namespace _11_Image_Processing
                         objWorPdf.InputLocation = FromLocation;
                         objWorPdf.OutputLocation = ToLocation;
                         objWorPdf.Word2PdfCOnversion();
-                        LoadDocument(ToLocation);
+                        LoadPDFDocument(ToLocation);
                     }
                     else if (FileExtension == ST.projectExtension)
                     {
@@ -343,7 +378,7 @@ namespace _11_Image_Processing
             }
         }
 
-        private DisplaiedWindow displaiedWindow = DisplaiedWindow.Main;
+        private DisplaiedWindow displaiedWindow = DisplaiedWindow.Project;
         //main
         //load
         private void Menu_Load_PDF_Click(object sender, RoutedEventArgs e)
@@ -353,12 +388,12 @@ namespace _11_Image_Processing
             var fileName = open.FileName;
 
             Unload();
-            LoadDocument(fileName);
+            LoadPDFDocument(fileName);
         }
         private void Menu_Load_New_Click(object sender, RoutedEventArgs e)
         {
             Unload();
-            LoadDocument(null);
+            LoadPDFDocument(null);
         }
         private void Menu_Load_Word_Click(object sender, RoutedEventArgs e)
         {
@@ -381,10 +416,10 @@ namespace _11_Image_Processing
             else { MessageBox.Show("Invalid Input"); return; }
 
             Unload();
-            LoadDocument(ToLocation);
+            LoadPDFDocument(ToLocation);
         }
 
-        private void LoadDocument(string fileName)
+        private void LoadPDFDocument(string fileName)
         {
             var dir = ST.tempDirectoryName + "\\";
             if (!Directory.Exists(dir))
@@ -420,9 +455,26 @@ namespace _11_Image_Processing
             ST.originalFile = fileName;
             ST.projectName = ST.templateProjectName;
 
+            Hideporjectwindow_infotabShowrecentProjects();
+
+
+
             ReloadWindowContent();
             windowHeader.Content = ST.projectName + "*";
         }
+
+        private void Hideporjectwindow_infotabShowrecentProjects()
+        {
+            recentProjectsHideThisTool.Visibility = Visibility.Hidden;
+            porjectwindow_infotab.Visibility = Visibility.Visible;
+            Menu_View_Edit_Click(null, null);
+        }
+        private void Showporjectwindow_infotabHiderecentProjects()
+        {
+            recentProjectsHideThisTool.Visibility = Visibility.Visible;
+            porjectwindow_infotab.Visibility = Visibility.Hidden;
+        }
+
 
         //open
         private void Menu_Open_Project_Click(object sender, RoutedEventArgs e)
@@ -451,13 +503,13 @@ namespace _11_Image_Processing
             SaveFileDialog save = new() { Title = "Save Template", Filter = $"File Template(*{ST.projectExtension})|*{ST.projectExtension}", FileName = ST.projectName };
             if (save.ShowDialog() == false) return;
 
-            if (ST.projectName == ST.templateProjectName) ST.projectName = Path.GetFileNameWithoutExtension(save.FileName);
 
+            if (ST.projectName == ST.templateProjectName) ST.projectName = Path.GetFileNameWithoutExtension(save.FileName);
+            ST.projectFileName = save.FileName;
             SaveDataToFile(save.FileName);
             SavedInfo();
 
 
-            ST.projectFileName = save.FileName;
             ReloadWindowContent();
 
             Menu_Project_Save.IsEnabled = true;
@@ -518,6 +570,7 @@ namespace _11_Image_Processing
             }
 
             ST.versions.Add(DateTime.Now.ToStringOfRegularFormat());
+            AddCurrentProjectToRecentAfterSave();
 
 
         }
@@ -646,6 +699,9 @@ namespace _11_Image_Processing
 
 
             ReloadWindowContent();
+            Hideporjectwindow_infotabShowrecentProjects();
+            AddCurrentProjectToRecentAfterOpen();
+
             Menu_Project_Save.IsEnabled = true;
             windowHeader.Content = ST.projectName;
         }
@@ -952,10 +1008,10 @@ namespace _11_Image_Processing
         //view
         private void Menu_View_Main_Click(object sender, RoutedEventArgs e)
         {
-            displaiedWindow = DisplaiedWindow.Main;
-            projectInfo.Visibility = Visibility.Visible;
-            results.Visibility = Visibility.Hidden;
-            editView.Visibility = Visibility.Hidden;
+            displaiedWindow = DisplaiedWindow.Project;
+            porjectwindow.Visibility = Visibility.Visible;
+            resultswindiw.Visibility = Visibility.Hidden;
+            editWindow.Visibility = Visibility.Hidden;
 
             PreviewKeyDown -= Window_KeyDown;
 
@@ -963,9 +1019,9 @@ namespace _11_Image_Processing
         private void Menu_View_Result_Click(object sender, RoutedEventArgs e)
         {
             displaiedWindow = DisplaiedWindow.Results;
-            projectInfo.Visibility = Visibility.Hidden;
-            results.Visibility = Visibility.Visible;
-            editView.Visibility = Visibility.Hidden;
+            porjectwindow.Visibility = Visibility.Hidden;
+            resultswindiw.Visibility = Visibility.Visible;
+            editWindow.Visibility = Visibility.Hidden;
 
             PreviewKeyDown -= Window_KeyDown;
 
@@ -973,9 +1029,9 @@ namespace _11_Image_Processing
         private void Menu_View_Edit_Click(object sender, RoutedEventArgs e)
         {
             displaiedWindow = DisplaiedWindow.Edit;
-            projectInfo.Visibility = Visibility.Hidden;
-            results.Visibility = Visibility.Hidden;
-            editView.Visibility = Visibility.Visible;
+            porjectwindow.Visibility = Visibility.Hidden;
+            resultswindiw.Visibility = Visibility.Hidden;
+            editWindow.Visibility = Visibility.Visible;
 
             pdfViewControl.ShowToolbar = false;
             HideTools();
@@ -1112,7 +1168,7 @@ namespace _11_Image_Processing
             if (File.Exists(ST.tempFileCopy))
                 File.Delete(ST.tempFileCopy);
 
-            ST.tempFile = null;
+            ST. tempFile = null;
             ST.tempFileCopy = null;
             ST.projectName = string.Empty;
             ST.projectFileName = null;
@@ -1133,6 +1189,8 @@ namespace _11_Image_Processing
             lockButton.Visibility = Visibility.Hidden;
             Title = ST.appName + " - " + Strings.unloaded;
 
+            Showporjectwindow_infotabHiderecentProjects();
+
             //pdfDocumentView.Unload();
             //loadedPdfLabel.Content = "";
 
@@ -1149,6 +1207,7 @@ namespace _11_Image_Processing
             Menu_View_Result.IsEnabled = false;
             Menu_View_Main_Click(null, null);
         }
+
 
 
         //private void pdfDocumentView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -2277,7 +2336,7 @@ namespace _11_Image_Processing
         }
         private void CommandBinding_CanExecuteIfSaveAsEnebled(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (Menu_Project_SaveAs.IsEnabled) e.CanExecute = true;
+            if (ST.tempFile != null) e.CanExecute = true;
         }
         private void CommandBinding_CanExecuteIfEditEnebled(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -2319,6 +2378,13 @@ namespace _11_Image_Processing
             var dropposition = e.GetPosition(editRightCanvas) - previewGridOfset;
             Canvas.SetLeft(previewGrid, dropposition.X);
             Canvas.SetTop(previewGrid, dropposition.Y);
+        }
+
+        private void Menu_Project_Click(object sender, RoutedEventArgs e)
+        {
+            if (displaiedWindow != DisplaiedWindow.Project)
+                Menu_View_Main_Click(sender, e);
+            else Menu_View_Edit_Click(sender, e);
         }
 
         //private void editPrintBoxes_Click(object sender, RoutedEventArgs e)

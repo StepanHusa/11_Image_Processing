@@ -23,11 +23,8 @@ namespace _11_Image_Processing
     /// </summary>
     public partial class SettingsW : Window
     {
-        private bool restart = false;
         //general
-        private string languagefile= ST.Language;
-        private string language = Strings.THIS_LANGUAGE;
-        private List<string> evalibleLnguages=new();
+        private List<System.Globalization.CultureInfo> avalibleLnguages = FileAndFolderExtensions.FindAvalibleLanguages();
         private string tempFolder = ST.tempDirectoryName;
         private string tempProjectName = ST.templateProjectName;
         private string projectExtension = ST.projectExtension;
@@ -62,6 +59,11 @@ namespace _11_Image_Processing
         private void Setup()
         {
             //general
+            for (int i = 0; i < avalibleLnguages.Count; i++)
+            {
+                ComboBoxItem it = new() { Content=avalibleLnguages[i].ToString()};
+                languageCB.Items.Add(it);
+            }
 
             tempfolder.Text = tempFolder;
             tempprojectname.Text = tempProjectName;
@@ -144,8 +146,15 @@ namespace _11_Image_Processing
 
         private void ApplyToGlobalSettings()
         {
+            bool restart = false;
             //general
-            ST.Language = languagefile;
+            int il = languageCB.SelectedIndex;
+            if (il >= 0 && avalibleLnguages[il] != Strings.Culture)
+            {
+                LI.languageselection = avalibleLnguages[il];
+                restart = true;
+            }
+
             ST.tempDirectoryName = tempFolder;
             ST.templateProjectName = tempProjectName;
             ST.projectExtension = projectExtension;
@@ -170,6 +179,8 @@ namespace _11_Image_Processing
             ST.dpiExport = dpiExport;
             ST.dpiEvaluatePdf = dpiEvaluatePdf;
 
+            if(restart)
+                MessageBox.Show("Some changes will take effect after restart.");
         }
 
         private void color1_Click(object sender, RoutedEventArgs e)

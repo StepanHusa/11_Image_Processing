@@ -19,8 +19,6 @@ namespace _11_Image_Processing
         internal static string appName = Strings.NameOfAplication;
 
         //settings
-        internal static string Language;
-        internal static string languagefile;
         internal static string templateProjectName = Strings.Untitled;
 
         internal static float baundWidth = 2;

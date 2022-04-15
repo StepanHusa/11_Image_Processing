@@ -431,7 +431,7 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _FromExistingPDF.
+        ///   Looks up a localized string similar to From Existing PDF.
         /// </summary>
         public static string FromExistingPDF {
             get {
@@ -440,7 +440,7 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _FromWordDocument.
+        ///   Looks up a localized string similar to From Word Document.
         /// </summary>
         public static string FromWordDocument {
             get {
@@ -508,6 +508,24 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string JPEG {
             get {
                 return ResourceManager.GetString("JPEG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Edit.
+        /// </summary>
+        public static string LastEdit {
+            get {
+                return ResourceManager.GetString("LastEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Opened.
+        /// </summary>
+        public static string LastOpened {
+            get {
+                return ResourceManager.GetString("LastOpened", resourceCulture);
             }
         }
         
@@ -845,11 +863,29 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Project.
+        /// </summary>
+        public static string Project {
+            get {
+                return ResourceManager.GetString("Project", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project File Name.
         /// </summary>
         public static string ProjectFileName {
             get {
                 return ResourceManager.GetString("ProjectFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project Info.
+        /// </summary>
+        public static string ProjectInfo {
+            get {
+                return ResourceManager.GetString("ProjectInfo", resourceCulture);
             }
         }
         
@@ -953,11 +989,29 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _SaveAs.
+        ///   Looks up a localized string similar to _Save As.
         /// </summary>
         public static string SaveAs {
             get {
                 return ResourceManager.GetString("SaveAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save As (Ctrl+Shift+S).
+        /// </summary>
+        public static string SaveAsCtrlShiftS {
+            get {
+                return ResourceManager.GetString("SaveAsCtrlShiftS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save (Ctrl+S).
+        /// </summary>
+        public static string SaveCtrlS {
+            get {
+                return ResourceManager.GetString("SaveCtrlS", resourceCulture);
             }
         }
         

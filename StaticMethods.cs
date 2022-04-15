@@ -22,11 +22,16 @@ using System.Runtime.InteropServices;
 using _11_Image_Processing.Resources.Strings;
 using ImageProcessor.Common.Extensions;
 using System.Diagnostics;
+using System.Threading;
+using System.Globalization;
+using System.Resources;
 
 namespace _11_Image_Processing
 {
     public static class FileAndFolderExtensions
     {
+        
+
         public static void DeleteTempFiles()
         {
             foreach (var file in ST.tempFilesToDelete)
@@ -40,6 +45,28 @@ namespace _11_Image_Processing
         {
             if (!Directory.Exists(ST.roamingFolder)) Directory.CreateDirectory(ST.roamingFolder);
 
+        }
+
+        public static List<CultureInfo> FindAvalibleLanguages()
+        {
+            List<CultureInfo> cis = new();
+            ResourceManager rm = new ResourceManager(typeof(Strings));
+
+            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
+            foreach (CultureInfo culture in cultures)
+            {
+                try
+                {
+                    ResourceSet rs = rm.GetResourceSet(culture, true, false);
+                    // or ResourceSet rs = rm.GetResourceSet(new CultureInfo(culture.TwoLetterISOLanguageName), true, false);
+                    //string isSupported = (rs == null) ? " is not supported" : " is supported";
+                    if (rs != null)
+                        cis.Add(culture);
+                }
+                catch { }
+            }
+
+            return cis;
         }
     }
     public static class Pdf
