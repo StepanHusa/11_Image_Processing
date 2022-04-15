@@ -2350,7 +2350,7 @@ namespace _11_Image_Processing
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (saved) return;
+            if (saved || ST.tempFile==null) return;
             var f = MessageBox.Show(Strings.savequestion, Strings.closing, MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
             if (f == MessageBoxResult.Cancel) e.Cancel = true;
             if (f != MessageBoxResult.Yes) return;
