@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using _11_Image_Processing.Resources.Strings;
+using System.Drawing.Drawing2D;
 
 namespace _11_Image_Processing
 {
@@ -78,7 +79,7 @@ namespace _11_Image_Processing
         //data variables
         internal static Tuple<int, RectangleF> nameField = null; //field made for name, date, ect.
 
-        internal static List<Tuple<int, RectangleF>> pagesFields = new(); //of lists containing fields (tuple of rectangle and page index)
+        internal static List<Tuple<int, RectangleF>> Fields = new(); //of lists containing fields (tuple of rectangle and page index)
 
         //internal static List<List<Tuple<int, RectangleF,bool>>> boxesInQuestions = new();// the main listing tuple: <page index, rectangle on page, is the answer right>  (rectangle relative to page size)
         internal static List<List<Box>> boxesInQuestions = new();// (rectangle relative to page size)
@@ -86,8 +87,10 @@ namespace _11_Image_Processing
 
         internal static List<RectangleF> positioners = null;
         internal static List<List<string>> scanPagesInWorks = new(); //outside list are the separete works and inside are pages
+        internal static Matrix[][] matrixPagesInWorks = null; //outside list are the separete works and inside are pages
 
         internal static List<List<List<bool>>> resultsInQuestionsInWorks; //list of results
+        internal static List<ResultOfWork> allResults;
         //internal static List<Bitmap> namesScaned;
 
 

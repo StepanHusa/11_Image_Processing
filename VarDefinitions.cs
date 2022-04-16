@@ -202,6 +202,25 @@ namespace _11_Image_Processing
     }
 
 
+    public class ResultOfWork
+    {
+       public List<List<bool>> BoxBinary { get; set; }
+       public List<BinaryResult> FieldsBinary { get; set; }
+
+        public ResultOfWork(List<List<bool>> boxR, List<BinaryResult> fieldsR)
+        {
+            BoxBinary = boxR;
+            FieldsBinary = fieldsR;
+        }
+    }
+
+    public struct BinaryResult
+    {
+        public bool HasValue { get; set; }
+        public bool Value { get; set; }
+    }
+
+
 
 
 

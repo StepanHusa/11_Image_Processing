@@ -305,6 +305,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Decide which fields are answered correctly.
+        /// </summary>
+        public static string Decidewhichfieldsareansweredcorrectly {
+            get {
+                return ResourceManager.GetString("Decidewhichfieldsareansweredcorrectly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete Page.
         /// </summary>
         public static string DeletePage {

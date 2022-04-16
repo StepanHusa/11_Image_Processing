@@ -387,12 +387,12 @@ namespace _11_Image_Processing
             if (open.ShowDialog() != true) return;
             var fileName = open.FileName;
 
-            Unload();
+            UnloadProject();
             LoadPDFDocument(fileName);
         }
         private void Menu_Load_New_Click(object sender, RoutedEventArgs e)
         {
-            Unload();
+            UnloadProject();
             LoadPDFDocument(null);
         }
         private void Menu_Load_Word_Click(object sender, RoutedEventArgs e)
@@ -415,7 +415,7 @@ namespace _11_Image_Processing
             }
             else { MessageBox.Show("Invalid Input"); return; }
 
-            Unload();
+            UnloadProject();
             LoadPDFDocument(ToLocation);
         }
 
@@ -454,6 +454,7 @@ namespace _11_Image_Processing
             ST.tempFilesToDelete.Add(tempCopy);
             ST.originalFile = fileName;
             ST.projectName = ST.templateProjectName;
+            ST.IsLocked = false;
 
             Hideporjectwindow_infotabShowrecentProjects();
 
@@ -529,7 +530,7 @@ namespace _11_Image_Processing
             byte[] documentpdf = File.ReadAllBytes(ST.tempFile);
             //byte[] listOfPointFsArray = Settings.pagesPoints.PointListArrayToByteArray();
             byte[] listBoxesInQuestions = ST.boxesInQuestions.BoxListListToByteArray();
-            byte[] listOfFields = ST.pagesFields.RectangleListToByteArray();
+            byte[] listOfFields = ST.Fields.RectangleListToByteArray();
             byte[] nameField = ST.nameField.RectangleTupleToByteArray();
             byte[] listPositionres = ST.positioners.PositionersListToByteArray();
             byte[] restOfFileInfo = ByteExtensions.RestOfSettingsToByteArray();
@@ -690,7 +691,7 @@ namespace _11_Image_Processing
             ST.projectFileName = filename;
             //Settings.pagesPoints = listOfPointFsArray.ByteArrayToPointFListArray();
             ST.boxesInQuestions = listBoxesInQuestions.ByteArrayToBoxListList();
-            ST.pagesFields = listOfFields.ByteArrayToRectangleFTupleList();
+            ST.Fields = listOfFields.ByteArrayToRectangleFTupleList();
             ST.nameField = nameField.ByteArrayToRectangleFTuple();
             ST.positioners = listPositionres.ByteArrayToPositionersList();
             restOfFileInfo.UpdateRestOfSettingsFromByteArary();
@@ -722,7 +723,6 @@ namespace _11_Image_Processing
 
                 image.Save(fn, System.Drawing.Imaging.ImageFormat.Jpeg);
             }
-
         }
         private void Menu_Export_ToPNG_Click(object sender, RoutedEventArgs e)
         {
@@ -868,6 +868,7 @@ namespace _11_Image_Processing
                 ST.scanPagesInWorks[l + i].Add(open.FileNames[i]);
             }
             ReloadWindowContent();
+            Menu_View_Main_Click(null, null);
 
         }
         private async void Menu_Read_PDF_Click(object sender, RoutedEventArgs e)
@@ -905,6 +906,7 @@ namespace _11_Image_Processing
             }
             await LoadNumberOfFiles(tempScans.ToArray());
             ReloadWindowContent();
+            Menu_View_Main_Click(null, null);
 
         }
         //advanced read
@@ -916,6 +918,7 @@ namespace _11_Image_Processing
 
             await LoadNumberOfFiles(open.FileNames);
             ReloadWindowContent();
+            Menu_View_Main_Click(null, null);
 
         }
         private async void Menu_Read_Scan_Click(object sender, RoutedEventArgs e)
@@ -925,6 +928,8 @@ namespace _11_Image_Processing
 
             await LoadNumberOfFiles(a.tempScans.ToArray());
             ReloadWindowContent();
+            Menu_View_Main_Click(null, null);
+
         }
         private async Task LoadNumberOfFiles(string[] ImageFiles)
         {
@@ -977,6 +982,7 @@ namespace _11_Image_Processing
         //evaluate
         private async void Menu_Eavluate_Click(object sender, RoutedEventArgs e)
         {
+            if (ST.scanPagesInWorks.Count == 0) { MessageBox.Show("No Scans Loaded");return; }
             new ControlBeforeEvaluatonW().ShowDialog();
 
 
@@ -1000,6 +1006,16 @@ namespace _11_Image_Processing
 
             //Settings.namesScaned = Settings.scansInPagesInWorks.GetCropedNames(Settings.nameField);
             //new ViewResultW().Show();
+            ST.allResults = new();
+            for (int i = 0; i < ST.resultsInQuestionsInWorks.Count; i++)
+            {
+                List<BinaryResult> l = new();
+                for (int k = 0; k < ST.Fields.Count; k++)
+                {
+                    l.Add(new BinaryResult());
+                }
+                ST.allResults.Add(new(ST.resultsInQuestionsInWorks[i],l ));
+            }
             ShowResultView();
             Menu_View_Edit.IsEnabled = true;
             pbw.Close();
@@ -1078,16 +1094,12 @@ namespace _11_Image_Processing
         {
             ReloadWindowContent();
         }
-        private void Menu_Project_Unload_Click(object sender, RoutedEventArgs e)
-        {
-            Unload();
-        }
 
         private void ReloadWindowContent()
         {
             if (ST.tempFile == null)
             {
-                Unload();
+                UnloadProject();
             }
             else
             {
@@ -1124,7 +1136,7 @@ namespace _11_Image_Processing
                 }
                 boxcounttext.Text = ii.ToString();
                 ii = 0;
-                foreach (var tuples in ST.pagesFields)
+                foreach (var tuples in ST.Fields)
                     ii++;
                 fieldcounttext.Text = ii.ToString();
 
@@ -1153,13 +1165,15 @@ namespace _11_Image_Processing
                 //dateoflastsavetext.Text = Settings.versions.Last().ToStringOfRegularFormat();
             }
         }
-        private void Unload()
+        private void UnloadProject()
         {
             ST.nameField = null;
-            ST.pagesFields = new();
+            ST.Fields = new();
             ST.boxesInQuestions = new();
             ST.resultsInQuestionsInWorks = null;
+            ST.positioners = null;
             ST.scanPagesInWorks = new();
+            ST.matrixPagesInWorks = null;
 
             reloadButton.IsEnabled = false;
 
@@ -1168,7 +1182,7 @@ namespace _11_Image_Processing
             if (File.Exists(ST.tempFileCopy))
                 File.Delete(ST.tempFileCopy);
 
-            ST. tempFile = null;
+            ST.tempFile = null;
             ST.tempFileCopy = null;
             ST.projectName = string.Empty;
             ST.projectFileName = null;
@@ -1226,11 +1240,11 @@ namespace _11_Image_Processing
             if (namesScaned == null & ST.nameField != null)
             {
                 namesScaned = new();
-                foreach (var item in ST.scanPagesInWorks)
+                for (int i = 0; i < ST.scanPagesInWorks.Count; i++)
                 {
                     var rect = ST.nameField.Item2;
-                    var b = new System.Drawing.Bitmap(item[ST.nameField.Item1]);
-                    var mat = b.MakeTransformationMatrixFromPositioners(ST.nameField.Item1);
+                    var b = new System.Drawing.Bitmap(ST.scanPagesInWorks[i][ST.nameField.Item1]);
+                    var mat = ST.matrixPagesInWorks[i][ST.nameField.Item1];
                     var newRect = new System.Drawing.RectangleF(rect.Location.ApplyMatrix(mat), rect.Size.ApplyMatrix(mat));
                     namesScaned.Add(b.Crop(System.Drawing.Rectangle.Round(newRect)));
                 }
@@ -1270,20 +1284,34 @@ namespace _11_Image_Processing
             //var imagesTabs = ViewWorks(i); 
             var imagesTabsButton = (Button)Resources["butView"];
             imagesTabsButton.Content = Strings.ViewScan;
+            imagesTabsButton.Height = 40;
             imagesTabsButton.Tag = i;
             imagesTabsButton.Click += ImagesTabsButton_Click;
+
+            var fieldsTabsButton = (Button)Resources["butView"];
+            fieldsTabsButton.Content = Strings.Decidewhichfieldsareansweredcorrectly;
+            fieldsTabsButton.Tag = i;
+            fieldsTabsButton.Height = 40;
+            fieldsTabsButton.Click += FieldsTabsButton_Click; ;
+
+            var buttons = new StackPanel();
+            buttons.Children.Add(fieldsTabsButton);
+            buttons.Children.Add(imagesTabsButton);
+            //TODO fix this bugged buttons
+
 
             var table = ResultsList(i);
             var result = new StackPanel();
             var tupleTextCheckbox = new StackPanel();
+
             tupleTextCheckbox.Orientation = Orientation.Horizontal;
             tupleTextCheckbox.Children.Add(new System.Windows.Controls.Image());//TODO add evaluation of fields
             tupleTextCheckbox.Children.Add(new CheckBox());
-
-
-
-
             result.Children.Add(tupleTextCheckbox);
+
+
+
+
 
 
             //TODO finish this section and add statistics
@@ -1292,15 +1320,23 @@ namespace _11_Image_Processing
             grid.RowDefinitions.Add(new() { Height = GridLength.Auto });
             grid.RowDefinitions.Add(new());
             grid.RowDefinitions.Add(new() { Height = new GridLength(40) });
-            grid.Children.Add(imagesTabsButton);
+            grid.Children.Add(buttons);
             grid.Children.Add(table);
             grid.Children.Add(result);
-            Grid.SetRow(imagesTabsButton, 3);
+            Grid.SetRow(buttons, 3);
+            //Grid.SetRow(fieldsTabsButton, 3);
             Grid.SetRow(table, 0);
             Grid.SetRow(result, 1);
 
             return grid;
         }
+
+        private void FieldsTabsButton_Click(object sender, RoutedEventArgs e)
+        {
+            int i = (int)(sender as Button).Tag;
+            new WindowForFieldsEvaluation(i).Show();
+        }
+
         private void ImagesTabsButton_Click(object sender, RoutedEventArgs e)
         {
             int i = (int)(sender as Button).Tag;
@@ -1774,7 +1810,7 @@ namespace _11_Image_Processing
             if (drawingRectangle)
             {
                 argsFirstVertex = args;
-                locFirstVertex = Mouse.GetPosition(this);
+                locFirstVertex = Mouse.GetPosition(editWindow);
                 //this.MouseMove += PdfEditW_MouseMove;
                 pdfViewControl.PageMouseMove += PdfViewControl_PageMouseMove;
                 PdfViewControl_PageMouseMove(sender, args);//just to prevent bug displaying rectangle elsewhere
@@ -1795,9 +1831,9 @@ namespace _11_Image_Processing
                     rect.RelatitivizeToPage(doc.Pages[pindex]);
 
                     doc.DrawRectangleBounds(rect, pindex, ST.baundWidth);
-                    doc.DrawStringNextToRectangle(Strings.text + (ST.pagesFields.Count + 1) + ":", rect, pindex);
+                    doc.DrawStringNextToRectangle(Strings.text + (ST.Fields.Count + 1) + ":", rect, pindex);
 
-                    ST.pagesFields.Add(new(pindex, rect));
+                    ST.Fields.Add(new(pindex, rect));
 
                     ReloadDocument();
                     pdfViewControl.Zoom = zoom * 100;
@@ -1939,7 +1975,7 @@ namespace _11_Image_Processing
             if (drawingRectangle)
             {
                 argsFirstVertex = args;
-                locFirstVertex = Mouse.GetPosition(this);
+                locFirstVertex = Mouse.GetPosition(editWindow);
                 //this.MouseMove += PdfEditW_MouseMove;
                 pdfViewControl.PageMouseMove += PdfViewControl_PageMouseMove;
                 rectangleR.Visibility = Visibility.Visible;
@@ -1982,7 +2018,7 @@ namespace _11_Image_Processing
 
 
             rect.Location = new((int)locFirstVertex.X, (int)locFirstVertex.Y);
-            rect.Size = new((int)(Mouse.GetPosition(this).X - locFirstVertex.X /*- 2 * rectangleR.StrokeThickness*/), (int)(Mouse.GetPosition(this).Y - locFirstVertex.Y /*- 2 * rectangleR.StrokeThickness*/));
+            rect.Size = new((int)(Mouse.GetPosition(editWindow).X - locFirstVertex.X /*- 2 * rectangleR.StrokeThickness*/), (int)(Mouse.GetPosition(editWindow).Y - locFirstVertex.Y /*- 2 * rectangleR.StrokeThickness*/));
 
             rect = rect.EvaluateInPositiveSize();
 
@@ -2001,10 +2037,10 @@ namespace _11_Image_Processing
             Rectangle rect = new();
 
 
-            rect.Location = new((int)(Mouse.GetPosition(this).X + 2 * rectangleR.StrokeThickness), (int)(Mouse.GetPosition(this).Y + 2 * rectangleR.StrokeThickness));
+            rect.Location = new((int)(Mouse.GetPosition(editWindow).X + 2 * rectangleR.StrokeThickness), (int)(Mouse.GetPosition(editWindow).Y + 2 * rectangleR.StrokeThickness));
             rect.Size = ST.sizeOfBox.ToSize();
 
-            Thickness thickness = new(rect.X, rect.Y, 0, 0);
+            Thickness thickness = new(rect.X , rect.Y, 0, 0);
             rectangleR.Margin = thickness;
 
             rectangleR.Width = rect.Width;
@@ -2097,9 +2133,9 @@ namespace _11_Image_Processing
         {
             if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
 
-            int i = ST.pagesFields.Count;
+            int i = ST.Fields.Count;
             if (i == 0) return;
-            ST.pagesFields.RemoveAt(i - 1);
+            ST.Fields.RemoveAt(i - 1);
             RemakeBoxexAndFieldsN();
 
         }
@@ -2161,7 +2197,7 @@ namespace _11_Image_Processing
 
 
             rect.Location = new((int)locFirstVertex.X, (int)locFirstVertex.Y);
-            rect.Size = new((int)(Mouse.GetPosition(this).X - locFirstVertex.X - 2 * rectangleR.StrokeThickness), (int)(Mouse.GetPosition(this).Y - locFirstVertex.Y - 2 * rectangleR.StrokeThickness));
+            rect.Size = new((int)(Mouse.GetPosition(editWindow).X - locFirstVertex.X - 2 * rectangleR.StrokeThickness), (int)(Mouse.GetPosition(editWindow).Y - locFirstVertex.Y - 2 * rectangleR.StrokeThickness));
 
             rect = rect.EvaluateInPositiveSize();
 
@@ -2387,6 +2423,12 @@ namespace _11_Image_Processing
             else Menu_View_Edit_Click(sender, e);
         }
 
+        private void CommandBinding_Unload_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            UnloadProject();
+        }
+
+
         //private void editPrintBoxes_Click(object sender, RoutedEventArgs e)
         //{
         //    pdfViewControl.CaptureMouse();
@@ -2535,18 +2577,22 @@ namespace _11_Image_Processing
 //  (add saving preferences)
 
 //TODO add help and settings (help not finished) (settings not even designed)
-//TODO add lock function
+//TODOdone add lock function
 
-//TODO remake tuple to new variable, add bound width, mabe colors (or at least add bound width to tuple)
+//TODOdone remake tuple to new variable, add bound width, mabe colors (or at least add bound width to tuple)
 //todoDone repair commands in pdfviewer
 //TODOdone positioning in evaluation
 //make edge detection direction dependent
 //add non linar transformation
 //todo topbar bug when maximazed
 //tododone debug starting from file
-//todo find the right moment to add mositioners
-//TODO all in one window
-//TODO design using 2 files (i dont know how it is now)
-//todo Plant Locking
+//tododone find the right moment to add positioners
+//TODOdone all in one window
+//TODOdone design using 2 files (i dont know how it is now)
+//tododone Plant Locking
 //todo option max cpu/memory vs safe
-
+//todo option for saving results
+//todo results of fields
+//todo finish the project
+//find a good vay for displaying images
+//selecting guestion text and grouping it to field

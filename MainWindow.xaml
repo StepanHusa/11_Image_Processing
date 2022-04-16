@@ -12,7 +12,7 @@
         Icon="/Resources/imag.ico"
        Background="Azure"
 
-    Closing="Window_Closing" Closed="Window_Closed">
+    Closing="Window_Closing" Closed="Window_Closed" >
 
     <Grid >
         <Grid.RowDefinitions>
@@ -91,7 +91,8 @@
 
                     </Button>
                     <Button  Width="40" Height="30"  Background="Transparent" BorderBrush="Transparent" Click="MinimazeClick" >
-                        <Image Source="/Resources/icons8-subtract-24.png" Height="10" Margin="0,10,0,7"/>
+                        <Image Source="/Resources/icons8-subtract-24.png"  Height="10" Margin="0,10,0,7"/>
+
                     </Button>
                     <!--Content="{x:Static ln:Strings.Minimize}"-->
                 </StackPanel>
@@ -218,9 +219,10 @@
                 </Grid>
                 <StackPanel Grid.Column="0">
 
-                    <Button x:Name="Menu_Project_Unload" Click="Menu_Project_Unload_Click"   Style="{DynamicResource projectButtons}" HorizontalContentAlignment="Left">
-                        <StackPanel Orientation="Horizontal"  Margin="10,0,0,0">
-                            <Label Content="{x:Static ln:Strings.Unload}" Foreground="White"/>                            
+                    <Button x:Name="Menu_Project_Unload" Command="local:Commands.UnloadProject"  Style="{DynamicResource projectButtons}" HorizontalContentAlignment="Left">
+                        <StackPanel  Margin="10,0,0,0">
+                            <Label Content="{x:Static ln:Strings.Unload}" Foreground="White"/>
+                            <Label Content="Ctrl+F4" FontSize="15" VerticalAlignment="Center" Foreground="White"/>
                         </StackPanel>
                     </Button>
                     <Button x:Name="Menu_Project_SaveAs"   Command="local:Commands.SaveProjectAs" Style="{DynamicResource projectButtons}" HorizontalContentAlignment="Left">
@@ -297,8 +299,8 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
+                    <PdfViewer:PdfViewerControl x:Name="pdfViewControl"  Grid.Column="0" Margin="-40,0,0,0" />
                     <Rectangle x:Name="rectangleR" Stroke="Black" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False"/>
-                        <PdfViewer:PdfViewerControl x:Name="pdfViewControl"  Grid.Column="0" Margin="-40,0,0,0" />
                     <StackPanel Background="AliceBlue"                                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Column="0">
                         <StackPanel x:Name="toolMenu">
 
@@ -745,8 +747,10 @@
         <CommandBinding Command="local:Commands.AnswerField" Executed="CommandBindingFields_Executed" CanExecute="CommandBinding_CanExecuteIfEdit" />
         <CommandBinding Command="local:Commands.AnswerBoxes" Executed="CommandBindingBoxes_Executed" CanExecute="CommandBinding_CanExecuteIfEdit"/>
         <CommandBinding Command="local:Commands.UndoQuestion" Executed="CommandBindingUndoQ_Executed" CanExecute="CommandBinding_CanExecuteIfEdit"/>
+        
         <CommandBinding Command="local:Commands.SaveProjectAs" Executed="CommandBinding_saveAs_Executed" CanExecute="CommandBinding_CanExecuteIfSaveAsEnebled"/>
         <CommandBinding Command="local:Commands.SaveProject" Executed="CommandBinding_save_Executed" CanExecute="CommandBinding_CanExecuteIfSaveAsEnebled"/>
+        <CommandBinding Command="local:Commands.UnloadProject" Executed="CommandBinding_Unload_Executed" CanExecute="CommandBinding_CanExecuteIfSaveAsEnebled"/>
 
         <CommandBinding Command="local:Commands.MainView" Executed="CommandBinding_MainView_Executed" CanExecute="CommandBinding_CanExecuteTRUE"/>
         <CommandBinding Command="local:Commands.EditView" Executed="CommandBinding_Edit_Executed" CanExecute="CommandBinding_CanExecuteIfEditEnebled"/>

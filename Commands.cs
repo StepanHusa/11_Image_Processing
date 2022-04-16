@@ -17,7 +17,7 @@ namespace _11_Image_Processing
 
         public static readonly RoutedCommand UndoQuestion = new("UndoQuestion", typeof(Commands), new InputGestureCollection() { new KeyGesture(Key.Z, ModifierKeys.Control) });
 
-
+        public static readonly RoutedCommand UnloadProject = new RoutedCommand("UnloadProject", typeof(Commands), new InputGestureCollection() { new KeyGesture(Key.F4, ModifierKeys.Control) });
         public static readonly RoutedCommand SaveProject = new RoutedCommand("SaveProject", typeof(Commands), new InputGestureCollection() { new KeyGesture(Key.S, ModifierKeys.Control) });
         public static readonly RoutedCommand SaveProjectAs = new RoutedCommand("SaveProjectAs", typeof(Commands), new InputGestureCollection() { new KeyGesture(Key.S, (ModifierKeys)Enum.ToObject(typeof(ModifierKeys),6)) });
 

@@ -311,7 +311,7 @@ namespace _11_Image_Processing
         public static PdfLoadedDocument RemakeFields(this PdfLoadedDocument doc)
         {
             int j = 0;
-            foreach (var field in ST.pagesFields)
+            foreach (var field in ST.Fields)
             {
                 doc.DrawRectangleBounds(field.Item2, field.Item1, ST.baundWidth);
                 doc.DrawIndexNextToRectangle(field.Item2, field.Item1, Strings.text + (j + 1).ToString() + ":");
@@ -1015,39 +1015,15 @@ namespace _11_Image_Processing
         public static List<List<List<bool>>> EvaluateWorks(this List<List<string>> works, List<List<Box>> questions)
         {
             List<List<List<bool>>> resultsAll = new();
-            for (int i = 0; i < works.Count; i++)
-                resultsAll.Add(new());
-            foreach (var work in works)
-            {
-                try
-                {
-                    resultsAll.Add(work.EvaluateOneWork(questions));
-                }
-                catch
-                {
-                    System.Windows.MessageBox.Show(Strings.errorEvaluating + works.IndexOf(work), Strings.Error);
-                    for (int l = 0; l < questions.Count; l++)
-                    {
-                        List<bool> resultsQuestion = new();
-
-                        for (int j = 0; j < questions[l].Count; j++)
-                        {
-                            resultsQuestion.Add(false);
-                        }
-                        resultsAll[l].Add(resultsQuestion);
-                    }
-
-                }
-            }
-            //Parallel.For(0, works.Count, (i) =>
+            //foreach (var work in works)
             //{
             //    try
             //    {
-            //        resultsAll[i]=works[i].EvaluateOneWork(questions);
+            //        resultsAll.Add(work.EvaluateOneWork(questions));
             //    }
             //    catch
             //    {
-            //        System.Windows.MessageBox.Show(Strings.errorEvaluating + (i+1), Strings.Error);
+            //        System.Windows.MessageBox.Show(Strings.errorEvaluating + works.IndexOf(work), Strings.Error);
             //        for (int l = 0; l < questions.Count; l++)
             //        {
             //            List<bool> resultsQuestion = new();
@@ -1056,10 +1032,35 @@ namespace _11_Image_Processing
             //            {
             //                resultsQuestion.Add(false);
             //            }
-            //            resultsAll[i].Add(resultsQuestion);
+            //            resultsAll[l].Add(resultsQuestion);
             //        }
+
             //    }
-            //});
+            //}
+            ST.matrixPagesInWorks = new Matrix[works.Count][];
+            for (int i = 0; i < works.Count; i++)
+                resultsAll.Add(new());
+            Parallel.For(0, works.Count, (i) =>
+            {
+                try
+                {
+                    resultsAll[i] = works[i].EvaluateOneWork(questions,i);
+                }
+                catch
+                {
+                    System.Windows.MessageBox.Show(Strings.errorEvaluating + (i + 1), Strings.Error);
+                    for (int l = 0; l < questions.Count; l++)
+                    {
+                        List<bool> resultsQuestion = new();
+
+                        for (int j = 0; j < questions[l].Count; j++)
+                        {
+                            resultsQuestion.Add(false);
+                        }
+                        resultsAll[i].Add(resultsQuestion);
+                    }
+                }
+            });
 
             return resultsAll;
         }
@@ -1775,7 +1776,7 @@ namespace _11_Image_Processing
         }
 
 
-        public static List<List<bool>> EvaluateOneWork(this List<string> work, List<List<Box>> questions)
+        public static List<List<bool>> EvaluateOneWork(this List<string> work, List<List<Box>> questions,int index)
         {
             List<List<bool>> resultsOneWork = new();
             Bitmap[] pages = new Bitmap[work.Count];
@@ -1787,6 +1788,7 @@ namespace _11_Image_Processing
                 pages[i] = new Bitmap(work[i]);
                 matrixes[i] = pages[i].MakeTransformationMatrixFromPositioners(i);
             }
+            ST.matrixPagesInWorks[index] = matrixes;
 
             //pages[0] = new Bitmap(work[0]);
             //matrixes[0] = pages[0].MakeTransformationMatrixFromPositioners(0);

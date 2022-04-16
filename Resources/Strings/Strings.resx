@@ -199,6 +199,9 @@ Unlock in overview.</value>
   <data name="Dateoflastsave" xml:space="preserve">
     <value>Date of last save</value>
   </data>
+  <data name="Decidewhichfieldsareansweredcorrectly" xml:space="preserve">
+    <value>Decide which fields are answered correctly</value>
+  </data>
   <data name="DeletePage" xml:space="preserve">
     <value>Delete Page</value>
   </data>

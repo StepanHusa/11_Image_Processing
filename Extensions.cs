@@ -329,6 +329,7 @@ namespace _11_Image_Processing
                 }
             }
         }
+
         public static byte[] RestOfSettingsToByteArray()
         {
             byte[] data;
@@ -394,7 +395,7 @@ namespace _11_Image_Processing
                     //string projectName
                     ST.projectName = r.ReadString();
                     //bool IsLocked = false;
-                    if (r.ReadBoolean() == false)
+                    if (r.ReadBoolean() == true)
                         ST.originalFile = null;
                     else ST.originalFile = r.ReadString();
 
