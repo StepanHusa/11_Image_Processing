@@ -273,12 +273,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_36B45FCA1284428CBB63D6907660D76F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_3AD84C2A31174386BD6B8826BA02E033"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -465,12 +459,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_73D8D52A38B84BF688A9AD7DC7E873F6"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_78AEDA9A2E5E41D4BF5FBFC1F8DE18D6"
         "OwnerKey" = "8:_0F0F8E03C8B94A78BF1F383BE5F57D72"
         "MsmSig" = "8:_UNDEFINED"
@@ -639,6 +627,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9FF1060FFC7A4668A062A364D26570DC"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A2697B077F6EFC1CB3EDAD62515709D5"
         "OwnerKey" = "8:_0F0F8E03C8B94A78BF1F383BE5F57D72"
         "MsmSig" = "8:_UNDEFINED"
@@ -675,6 +669,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_ABDB4FDE9ED848FA9F71EF4D96AC4E9A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_ACF5E32A1DD04198BEE5A17FCF47AB80"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -683,6 +683,18 @@
         {
         "MsmKey" = "8:_AFABDA02D87D51577C126BF11D5D75BC"
         "OwnerKey" = "8:_25EFB650436BFFCFEEE4C887B945EAEE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B030ED448C0645CB990DD191D52E848F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B0A767B34F8B46729AD92D026BD942CC"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -719,6 +731,12 @@
         {
         "MsmKey" = "8:_B8157144DD083E5BEC1DFC47375C11CF"
         "OwnerKey" = "8:_AAB72B46B74422D66F84129BBCEEE05F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B8FCB7718E4B48C08671C92C6D9E9D16"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -897,6 +915,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_DF205744B5C040DC94FBFECCFAB1C2B6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_E41F21A0117D241701083854E61631AF"
         "OwnerKey" = "8:_25EFB650436BFFCFEEE4C887B945EAEE"
         "MsmSig" = "8:_UNDEFINED"
@@ -929,6 +953,12 @@
         {
         "MsmKey" = "8:_E5A51C33F45EABADBD39E09C27993C13"
         "OwnerKey" = "8:_C55886B397BF412E8697105A7612C58D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E7B66ACDA8AA4E0B911C92D013A3EBDE"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1463,7 +1493,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\Setup.msi"
+        "OutputFilename" = "8:Release\\StudentTesterSetup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -2147,26 +2177,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_36B45FCA1284428CBB63D6907660D76F"
-            {
-            "SourcePath" = "8:..\\..\\bin\\Release\\net5.0-windows\\setup\\11_StudentTester.exe"
-            "TargetName" = "8:11_StudentTester.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3AD84C2A31174386BD6B8826BA02E033"
             {
             "AssemblyRegister" = "3:1"
@@ -2763,26 +2773,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_73D8D52A38B84BF688A9AD7DC7E873F6"
-            {
-            "SourcePath" = "8:..\\..\\bin\\Release\\net5.0-windows\\setup\\imag.ico"
-            "TargetName" = "8:imag.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_78AEDA9A2E5E41D4BF5FBFC1F8DE18D6"
@@ -3392,6 +3382,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B0A767B34F8B46729AD92D026BD942CC"
+            {
+            "SourcePath" = "8:..\\..\\bin\\Release\\net5.0-windows\\setup\\11_StudentTester.exe"
+            "TargetName" = "8:11_StudentTester.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B7077631C7D54568B50F8F829B48BFDC"
@@ -4624,9 +4634,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Setup"
+        "ProductName" = "8:Student Tester"
         "ProductCode" = "8:{6930FA90-2B3B-4F9A-B86A-529ED9D8820B}"
-        "PackageCode" = "8:{759877EA-DD12-467D-8B4B-3C00191D7DD3}"
+        "PackageCode" = "8:{B2DF3F27-B3FB-4C60-A7A2-267217E7BBC4}"
         "UpgradeCode" = "8:{BF612210-0753-4375-892C-FC0847BD9300}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -4634,10 +4644,10 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "Manufacturer" = "8:Štěpán Husa"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:stepan.husa@gmail.com"
-        "Title" = "8:Setup"
+        "Title" = "8:Student Tester"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Stepan Husa"
         "Keywords" = "8:"
@@ -4746,32 +4756,32 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_689193A2958947A1A746CE820D1F6722"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_1AB12F11133F4A2B9BE363E4ACCE23CF"
             {
-            "Name" = "8:StudentTester.exe"
+            "Name" = "8:11_StudentTester.exe"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
+            "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_36B45FCA1284428CBB63D6907660D76F"
+            "Target" = "8:_B0A767B34F8B46729AD92D026BD942CC"
             "Folder" = "8:_2E0AB185674B48F7832CA7187626DDAC"
             "WorkingFolder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
-            "Icon" = "8:_73D8D52A38B84BF688A9AD7DC7E873F6"
+            "Icon" = "8:_B0A767B34F8B46729AD92D026BD942CC"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A07C8A03C8B547ADAC405953F803F434"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_88D33E1FE18647CE81BA90642D916296"
             {
-            "Name" = "8:StudentTester.exe"
+            "Name" = "8:11_StudentTester.exe"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
+            "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_36B45FCA1284428CBB63D6907660D76F"
+            "Target" = "8:_B0A767B34F8B46729AD92D026BD942CC"
             "Folder" = "8:_A97FB210CEFF4E288FCB8C5E8F2B42FB"
             "WorkingFolder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
-            "Icon" = "8:_73D8D52A38B84BF688A9AD7DC7E873F6"
+            "Icon" = "8:_B0A767B34F8B46729AD92D026BD942CC"
             "Feature" = "8:"
             }
         }
@@ -5173,6 +5183,174 @@
         }
         "ProjectOutput"
         {
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9FF1060FFC7A4668A062A364D26570DC"
+            {
+            "SourcePath" = "8:..\\..\\obj\\Release\\net5.0-windows\\11_StudentTester.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{5B9E2154-FBC0-49F4-8D50-9490CB9660E8}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_ABDB4FDE9ED848FA9F71EF4D96AC4E9A"
+            {
+            "SourcePath" = "8:..\\..\\obj\\Release\\net5.0-windows\\11_StudentTester.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{5B9E2154-FBC0-49F4-8D50-9490CB9660E8}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_B030ED448C0645CB990DD191D52E848F"
+            {
+            "SourcePath" = "8:..\\..\\obj\\Release\\net5.0-windows\\11_StudentTester.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{5B9E2154-FBC0-49F4-8D50-9490CB9660E8}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_B8FCB7718E4B48C08671C92C6D9E9D16"
+            {
+            "SourcePath" = "8:..\\..\\obj\\Release\\net5.0-windows\\11_StudentTester.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{5B9E2154-FBC0-49F4-8D50-9490CB9660E8}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_DF205744B5C040DC94FBFECCFAB1C2B6"
+            {
+            "SourcePath" = "8:..\\..\\obj\\Release\\net5.0-windows\\11_StudentTester.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{5B9E2154-FBC0-49F4-8D50-9490CB9660E8}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E7B66ACDA8AA4E0B911C92D013A3EBDE"
+            {
+            "SourcePath" = "8:..\\..\\obj\\Release\\net5.0-windows\\11_StudentTester.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{5B9E2154-FBC0-49F4-8D50-9490CB9660E8}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
         }
     }
 }
