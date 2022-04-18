@@ -2200,12 +2200,6 @@ namespace _11_Image_Processing
 
             UndoBox();
         }
-        private void undoQButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
-
-            UndoQuestion();
-        }
         private void undoFButton_Click(object sender, RoutedEventArgs e)
         {
             if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
@@ -2418,6 +2412,8 @@ namespace _11_Image_Processing
         }
         private void CommandBindingUndoQ_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+
             UndoQuestion();
         }
         private void CommandBinding_saveAs_Executed(object sender, ExecutedRoutedEventArgs e)

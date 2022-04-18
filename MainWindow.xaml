@@ -340,7 +340,7 @@
                             </Grid>
                             
                             <Button x:Name="undoBButton" Content="{x:Static ln:Strings.UndoBox}" Style="{DynamicResource undoButtStyle}" Canvas.Top="175"     Canvas.Right="20" Click="undoBButton_Click" />
-                            <Button x:Name="undoQButton" Content="{x:Static ln:Strings.UndoQuestion}" Style="{DynamicResource undoButtStyle}" Canvas.Top="200"     Canvas.Right="20" Click="undoQButton_Click" Command="local:Commands.UndoQuestion"/>
+                            <Button x:Name="undoQButton" Content="{x:Static ln:Strings.UndoQuestion}" Style="{DynamicResource undoButtStyle}" Canvas.Top="200"     Canvas.Right="20" Command="local:Commands.UndoQuestion"/>
                             <Button x:Name="undoFButton" Content="{x:Static ln:Strings.UndoField}" Style="{DynamicResource undoButtStyle}" Canvas.Top="225"     Canvas.Right="20" Click="undoFButton_Click"/>
                             <Button x:Name="undoNFButton" Content="{x:Static ln:Strings.UndoNameField}" Style="{DynamicResource undoButtStyle}" Canvas.Top="250"    Canvas.Right="20" Click="undoNFButton_Click"/>
 
