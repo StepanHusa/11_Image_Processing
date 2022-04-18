@@ -238,7 +238,7 @@ namespace _11_Image_Processing
             }
             return list;
         }
-        public static byte[] RectangleTupleToByteArray(this Tuple<int, RectangleF> tup)
+        public static byte[] RectangleFTupleToByteArray(this Tuple<int, RectangleF> tup)
         {
 
             byte[] data;
@@ -264,6 +264,19 @@ namespace _11_Image_Processing
             }
 
             return data;
+        }
+        public static Tuple<int, RectangleF> ByteArrayToRectangleFTuple(this byte[] bArray)
+        {
+            using (var ms = new MemoryStream(bArray))
+            {
+                using (var r = new BinaryReader(ms))
+                {
+                    if (r.ReadBoolean() == false)
+                        return null;
+                    else
+                        return new(r.ReadInt32(), new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()));
+                }
+            }
         }
         public static List<RectangleF> ByteArrayToPositionersList(this byte[] bArray)
         {
@@ -315,20 +328,170 @@ namespace _11_Image_Processing
 
             return data;
         }
-        public static Tuple<int, RectangleF> ByteArrayToRectangleFTuple(this byte[] bArray)
+        public static byte[] EvaluationInfoToByteArray()
+        {
+
+            byte[] data;
+
+            using (var ms = new MemoryStream())
+            {
+                using (var bw = new BinaryWriter(ms))
+                {
+                    //ST.scanPagesInWorks
+                    var l = ST.scanPagesInWorks;
+                    if (l == null)
+                        bw.Write(false); //is null
+                    else
+                    {
+                        bw.Write(true);
+                        bw.Write(l.Count);
+                        for (int i = 0; i < l.Count; i++)
+                        {
+                            bw.Write(l[i].Count);
+                            for (int j = 0; j < l[i].Count; j++)
+                            {
+                                bw.Write(l[i][j]);
+                            }
+                        }
+                    }
+
+                    //matrixPagesInWorks
+                    var m = ST.matrixPagesInWorks;
+                    if (m == null)
+                        bw.Write(false); //is null
+                    else
+                    {
+                        bw.Write(true);
+                        bw.Write(m.Length);
+                        for (int i = 0; i < m.Length; i++)
+                        {
+                            bw.Write(m[i].Length);
+                            for (int j = 0; j < m[i].Length; j++)
+                            {
+                                //public Matrix(float m11, float m12, float m21, float m22, float dx, float dy);
+                                var mm = m[i][j];
+                                bw.Write(mm.MatrixElements.M11);
+                                bw.Write(mm.MatrixElements.M12);
+                                bw.Write(mm.MatrixElements.M21);
+                                bw.Write(mm.MatrixElements.M22);
+                                bw.Write(mm.MatrixElements.M31);
+                                bw.Write(mm.MatrixElements.M32);
+                            }
+                        }
+                    }
+
+
+                    var al = ST.allResults;
+                    if (m == null)
+                        bw.Write(false); //is null
+                    else
+                    {
+                        bw.Write(true);
+                        bw.Write(al.Count);
+                        for (int i = 0; i < al.Count; i++)
+                        {
+                            bw.Write(al[i].BoxBinary.Count);
+                            for (int j = 0; j < al[i].BoxBinary.Count; j++)
+                            {
+                                bw.Write(al[i].BoxBinary[j].Count);
+                                for (int k = 0; k < al[i].BoxBinary[j].Count; k++)
+                                {
+                                    bw.Write(al[i].BoxBinary[j][k]);
+                                }
+                            }
+
+                            bw.Write(al[i].FieldsBinary.Count);
+                            for (int j = 0; j < al[i].FieldsBinary.Count; j++)
+                            {
+                                bw.Write(al[i].FieldsBinary[j].HasValue);
+                                bw.Write(al[i].FieldsBinary[j].Value);
+                            }
+
+                        }
+                    }
+                }
+                data = ms.ToArray();
+            }
+            return data;
+        }
+        public static void ByteArrayToEvaluationInfo(this byte[] bArray)
         {
             using (var ms = new MemoryStream(bArray))
             {
                 using (var r = new BinaryReader(ms))
                 {
+                    //ST.scanPagesInWorks
                     if (r.ReadBoolean() == false)
-                        return null;
-
+                        ST.scanPagesInWorks =null;
                     else
-                        return new(r.ReadInt32(), new RectangleF(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle()));
+                    {
+                        List<List<string>> l = new();
+                        int len=r.ReadInt32();
+                        for (int i = 0; i < len; i++)
+                        {
+                            l.Add(new());
+                            int lj = r.ReadInt32();
+                            for (int j = 0; j < lj; j++)
+                            {
+                                l[i].Add(r.ReadString());
+                            }
+                        }
+                        ST.scanPagesInWorks = l;
+                    }
+
+                    //matrixPagesInWorks
+                    if (r.ReadBoolean() == false)
+                        ST.matrixPagesInWorks = null;
+                    else
+                    {
+                        int len = r.ReadInt32();
+                        Matrix[][] m = new Matrix[len][];
+                        for (int i = 0; i < len; i++)
+                        {
+                            int lj = r.ReadInt32();
+                            m[i] = new Matrix[lj];
+                            for (int j = 0; j < lj; j++)
+                            {
+                                m[i][j] = new(r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle());
+                            }
+                        }
+                        ST.matrixPagesInWorks = m;
+                    }
+
+                    if (r.ReadBoolean() == false)
+                        ST.allResults = null;
+                    else
+                    {
+                        int len = r.ReadInt32();
+                        ST.allResults = new();
+                        for(int i = 0; i < len; i++)
+                        {
+                            ST.allResults.Add(new());
+                            int lj = r.ReadInt32();
+                            for (int j = 0; j < lj; j++)
+                            {
+                                ST.allResults[i].BoxBinary.Add(new());
+                                int lk = r.ReadInt32();
+                                for (int k = 0; k < lk; k++)
+                                {
+                                    ST.allResults[i].BoxBinary[j].Add(r.ReadBoolean());
+                                }
+                            }
+
+                            lj = r.ReadInt32();
+                            for (int j = 0; j < lj; j++)
+                            {
+                                ST.allResults[i].FieldsBinary.Add(new(r.ReadBoolean(),r.ReadBoolean()));
+                            }
+
+                        }
+                    }
+
+
                 }
             }
         }
+
 
         public static byte[] RestOfSettingsToByteArray()
         {

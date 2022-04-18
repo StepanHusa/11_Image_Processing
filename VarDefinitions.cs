@@ -38,6 +38,25 @@ namespace _11_Image_Processing
     }
 
 
+    public class ResultOfField
+    {
+        public int Number { get; set; }
+
+        public BinaryResult BinaryResult {get;set;}
+
+        public bool CorrectBool { get { return BinaryResult.HasValue & BinaryResult.Value; } }
+
+        public string Correct { get { if (BinaryResult.HasValue) { if (BinaryResult.Value) return Strings.Yes; else return Strings.No; } else return Strings.NotDecided; } }
+
+        public ResultOfField(BinaryResult binaryResult, int number)
+        {
+            this.BinaryResult = binaryResult;
+            this.Number = number;
+        }
+    }
+
+
+
     internal class ResultOfAllOne
     {
         public System.Windows.Controls.Image Name { get; set; }
@@ -212,12 +231,29 @@ namespace _11_Image_Processing
             BoxBinary = boxR;
             FieldsBinary = fieldsR;
         }
+        public ResultOfWork()
+        {
+            BoxBinary = new();
+            FieldsBinary = new();
+        }
     }
 
     public struct BinaryResult
     {
         public bool HasValue { get; set; }
         public bool Value { get; set; }
+
+       public BinaryResult(bool value)
+        {
+            HasValue = true;
+            Value = value;
+        }
+        public BinaryResult(bool hasValue, bool value)
+        {
+            HasValue = hasValue;
+            Value = value;
+        }
+
     }
 
 

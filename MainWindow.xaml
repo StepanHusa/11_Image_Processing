@@ -11,8 +11,8 @@
     Title="{x:Static ln:Strings.NameOfAplication}"
         Icon="/Resources/imag.ico"
        Background="Azure"
-
-    Closing="Window_Closing" Closed="Window_Closed" >
+    
+    Closing="Window_Closing" Closed="Window_Closed"  >
 
     <Grid >
         <Grid.RowDefinitions>
@@ -30,15 +30,17 @@
 
 
         <DockPanel Grid.Row="0" MouseDown="DockPanel_MouseDown" Background="{DynamicResource menuBrushBackground}">
+           <Image Source="/Resources/imag.ico" Height="20" Margin="3"/>
+
             <Menu  DockPanel.Dock = "Left" IsMainMenu="True" Background="Transparent" >
                 <Button x:Name="Menu_Project" Height="30" Click="Menu_Project_Click" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Stretch" >
                     <Label Content="Project" Foreground="White"></Label>
                 </Button>
 
-                <MenuItem x:Name="Menu_Edit" Header="{x:Static ln:Strings.Edit}" IsEnabled="False" >
+                <!--<MenuItem x:Name="Menu_Edit" Header="{x:Static ln:Strings.Edit}" IsEnabled="False" >
                     <MenuItem x:Name="Menu_Edit_Questions" Header="{x:Static ln:Strings.Document}" Click="Menu_Edit_Questions_Click"/>
                     <MenuItem x:Name="Menu_Edit_Boxes" Header="{x:Static ln:Strings.AddBoxes}" Command="local:Commands.EditView"/>
-                </MenuItem>
+                </MenuItem>-->
 
                 <MenuItem x:Name="Menu_Export" Header="{x:Static ln:Strings.Export}" IsEnabled="False">
                     <MenuItem x:Name="Menu_Export_ToJPEG" Header="{x:Static ln:Strings.JPEG}" Click="Menu_Export_ToJPEG_Click"/>
@@ -66,7 +68,7 @@
                 <MenuItem x:Name="Menu_View" Header="{x:Static ln:Strings.View}" Background="#FF2B9099">
                     <MenuItem x:Name="Menu_View_Main" Header="Overview" Click="Menu_View_Main_Click" InputGestureText="Ctrl+W"/>
                     <MenuItem x:Name="Menu_View_Edit" Header="Edit" IsEnabled="False" Click="Menu_View_Edit_Click" InputGestureText="Ctrl+E"/>
-                    <MenuItem x:Name="Menu_View_Result" Header="Results" IsEnabled="False" Click="Menu_View_Result_Click" InputGestureText="Ctrl+R"/>
+                    <MenuItem x:Name="Menu_View_Result" Header="Results"  IsEnabled="False" Click="Menu_View_Result_Click" InputGestureText="Ctrl+R"/>
                 </MenuItem>
 
                 <MenuItem x:Name="Menu_Help" Header="{x:Static ln:Strings.Help}">
@@ -154,8 +156,8 @@
                             
                             <Canvas Height="40" >
                                 <Label Content="{x:Static ln:Strings.Project}" />
-                                <Label Content="{x:Static ln:Strings.LastEdit}" Canvas.Left="500"/>
-                                <Label Content="{x:Static ln:Strings.LastOpened}" Canvas.Left="680"/>
+                                <Label Content="{x:Static ln:Strings.LastEdit}" Canvas.Left="550"/>
+                                <Label Content="{x:Static ln:Strings.LastOpened}" Canvas.Left="730"/>
                             </Canvas>
                         <StackPanel x:Name="recentProjects">
                         </StackPanel>
@@ -295,13 +297,9 @@
                     <local:Settings/>
                 </Window.DataContext>-->
                 <Grid x:Name="gr">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <PdfViewer:PdfViewerControl x:Name="pdfViewControl"  Grid.Column="0" Margin="-40,0,0,0" />
-                    <Rectangle x:Name="rectangleR" Stroke="Black" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False"/>
-                    <StackPanel Background="AliceBlue"                                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Column="0">
+                    <PdfViewer:PdfViewerControl x:Name="pdfViewControl"   Margin="-40,0,240,0" />
+                    <Canvas>
+                    <StackPanel  Background="AliceBlue"   Canvas.Right="0"                            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Column="0">
                         <StackPanel x:Name="toolMenu">
 
                             <MenuItem x:Name="Menu_NewPage" Header="{x:Static ln:Strings.NewPage}" Click="Menu_NewPage_Click" Style="{DynamicResource meIStyle}"/>
@@ -330,7 +328,7 @@
                             <TextBox x:Name="countLabel"                  Canvas.Top="85"      Canvas.Right="120"  Text="{Binding ElementName=countSlider,Path=Value }"/>
                             <Slider x:Name="countSlider" Maximum="10"   Canvas.Top="85"      Canvas.Right="15" Value="4" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="1" />
                             
-                            <Grid x:Name="previewGrid" Canvas.Left="10" Canvas.Top="130">
+                            <Grid x:Name="previewGrid" Canvas.Left="10" Canvas.Top="130" >
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="20"/>
                                     <RowDefinition/>
@@ -352,13 +350,19 @@
 
                         </Canvas>
                     </StackPanel>
+                    </Canvas>
 
+                    <Rectangle x:Name="rectangleR" Stroke="Black" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False"/>
                 </Grid>
             </Grid>
 
         </Grid>
     </Grid>
     <Window.Resources>
+        <Image Source="/Resources/imag.ico" x:Key="iconimage" x:Shared="false"/>
+        <Image Source="/Resources/icons8-lock-128.ico" x:Key="lockIcon" x:Shared="false" />
+
+
         <ListView x:Key="lview" Background="LightCyan" x:Shared="false" >
 
             <ListView.View>
@@ -369,6 +373,18 @@
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Checked}"  Header="{x:Static ln:Strings.Checked}" Width="100"/>
 
                     <GridViewColumn DisplayMemberBinding="{Binding Path=RightAnswer }" Width="100" Header="{x:Static ln:Strings.RightAnswer}"/>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Correct}" Header="{x:Static ln:Strings.Correct}" Width="100"/>
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+        <ListView x:Key="lfieldsview" Background="LightCyan" x:Shared="false" >
+
+            <ListView.View>
+
+                <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Number}"  Header="{x:Static ln:Strings.Number}" Width="40"/>
 
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Correct}" Header="{x:Static ln:Strings.Correct}" Width="100"/>
                 </GridView>

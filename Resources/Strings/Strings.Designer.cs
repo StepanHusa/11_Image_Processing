@@ -656,6 +656,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not Decided.
+        /// </summary>
+        public static string NotDecided {
+            get {
+                return ResourceManager.GetString("NotDecided", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _NoTools.
         /// </summary>
         public static string NoTools {
@@ -1176,6 +1185,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string UndoQuestion {
             get {
                 return ResourceManager.GetString("UndoQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unedited.
+        /// </summary>
+        public static string Unedited {
+            get {
+                return ResourceManager.GetString("Unedited", resourceCulture);
             }
         }
         

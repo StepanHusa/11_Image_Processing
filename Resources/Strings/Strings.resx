@@ -316,6 +316,9 @@ Unlock in overview.</value>
   <data name="notabletoread" xml:space="preserve">
     <value>Not able to load this file</value>
   </data>
+  <data name="NotDecided" xml:space="preserve">
+    <value>Not Decided</value>
+  </data>
   <data name="NoTools" xml:space="preserve">
     <value>_NoTools</value>
   </data>
@@ -491,6 +494,9 @@ Do you want to save it?</value>
   </data>
   <data name="UndoQuestion" xml:space="preserve">
     <value>Undo Question</value>
+  </data>
+  <data name="Unedited" xml:space="preserve">
+    <value>Unedited</value>
   </data>
   <data name="Unload" xml:space="preserve">
     <value>_Unload</value>

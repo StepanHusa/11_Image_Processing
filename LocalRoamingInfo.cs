@@ -45,7 +45,7 @@ namespace _11_Image_Processing
                             bw.Write(value[i].Location);
                             bw.Write(value[i].DateLastOpened);
                             bw.Write(value[i].DateLastEdit);
-                            bw.Write(value[i].IsLocjed);
+                            bw.Write(value[i].IsLocked);
                         }
                     }
                 }

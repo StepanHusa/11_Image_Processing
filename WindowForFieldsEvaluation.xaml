@@ -9,15 +9,61 @@
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition/>
             <ColumnDefinition Width="100"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="150"/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer x:Name="names"              Grid.Column="0"  />
-        <ScrollViewer x:Name="questions"          Grid.Column="1"  />
-        <ScrollViewer x:Name="aQuestion"          Grid.Column="2"  />
-        <Canvas                                   Grid.Column="3"   >
+        <ScrollViewer               Grid.Column="0"                        >
+            <StackPanel x:Name="names" />
+        </ScrollViewer>
+        <ScrollViewer           Grid.Column="1"                      >
+            <StackPanel x:Name="questions" />
+        </ScrollViewer>
+        <StackPanel  Grid.Column="2"      >
+            <Image x:Name="aQuestion" ></Image>
+            <StackPanel Orientation="Horizontal">
+
+                    <StackPanel.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                    </StackPanel.LayoutTransform>
+                <CheckBox x:Name="isRight" Click="AnswerClick" Width="20" Height="20">
+                </CheckBox>
+                <TextBlock>Right</TextBlock>
+                <Label Width="40"/>
+                <CheckBox x:Name="isWrong" Click="AnswerClick"/>
+                <TextBlock>Wrong</TextBlock>
+            </StackPanel>
             
-        </Canvas>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                </StackPanel.LayoutTransform>
+                <Button x:Name="back" Content="Back" Click="back_Click"/>
+                <Label Width="60"/>
+                <Button x:Name="next" Content="Next" Click="next_Click"/>
+            </StackPanel>
+
+        </StackPanel>
+        <StackPanel                                   Grid.Column="3"   >
+            <StackPanel Orientation="Horizontal">
+                <CheckBox IsChecked="True" x:Name="nextCheckbox"/>
+                <TextBlock Text="Next after selecting"/>
+            </StackPanel>
+                <TextBlock Text="Go through"/>
+            <StackPanel Orientation="Horizontal">
+                
+                <CheckBox IsChecked="True" x:Name="questionCheckbox" Click="questionCheckbox_Click"/>
+                <TextBlock Text="questions"/>
+                
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+
+                <CheckBox x:Name="workCheckbox" Click="questionCheckbox_Click"/>
+                <TextBlock Text="works"/>
+
+            </StackPanel>
+
+        </StackPanel>
+        <Button x:Name="close" Grid.Column="3" Height="20" Width="70" Content="Close" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="15" Click="close_Click"/>
     </Grid>
 </Window>

@@ -59,11 +59,18 @@ namespace _11_Image_Processing
         private void Setup()
         {
             //general
-            for (int i = 0; i < avalibleLnguages.Count; i++)
+            languageCB.Items.Add(new ComboBoxItem() { Content = "Default"});
+            for (int i = 1; i < avalibleLnguages.Count; i++)
             {
                 ComboBoxItem it = new() { Content=avalibleLnguages[i].ToString()};
                 languageCB.Items.Add(it);
             }
+            for (int i = 0; i < avalibleLnguages.Count; i++)
+            {
+                if (avalibleLnguages[i] == Strings.Culture)
+                    languageCB.SelectedIndex = i;
+            }
+
 
             tempfolder.Text = tempFolder;
             tempprojectname.Text = tempProjectName;
