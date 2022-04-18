@@ -465,6 +465,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_73D8D52A38B84BF688A9AD7DC7E873F6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_78AEDA9A2E5E41D4BF5FBFC1F8DE18D6"
         "OwnerKey" = "8:_0F0F8E03C8B94A78BF1F383BE5F57D72"
         "MsmSig" = "8:_UNDEFINED"
@@ -748,6 +754,12 @@
         "Entry"
         {
         "MsmKey" = "8:_C1494956D0774644B2D5A96754706C0C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C4AA90340C7F424CA510250BDD0C5FFE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -2753,6 +2765,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_73D8D52A38B84BF688A9AD7DC7E873F6"
+            {
+            "SourcePath" = "8:..\\..\\bin\\Release\\net5.0-windows\\setup\\imag.ico"
+            "TargetName" = "8:imag.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_78AEDA9A2E5E41D4BF5FBFC1F8DE18D6"
             {
             "AssemblyRegister" = "3:1"
@@ -3510,6 +3542,26 @@
             "TargetName" = "8:libSkiaSharp.dll"
             "Tag" = "8:"
             "Folder" = "8:_F69448FDDD3041EF88E1B4366D41F0CF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C4AA90340C7F424CA510250BDD0C5FFE"
+            {
+            "SourcePath" = "8:..\\..\\bin\\Release\\net5.0-windows\\setup\\READ ME.txt"
+            "TargetName" = "8:READ ME.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4574,7 +4626,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Setup"
         "ProductCode" = "8:{6930FA90-2B3B-4F9A-B86A-529ED9D8820B}"
-        "PackageCode" = "8:{13231E02-0DFF-461E-9D56-BF5FF2C427D1}"
+        "PackageCode" = "8:{759877EA-DD12-467D-8B4B-3C00191D7DD3}"
         "UpgradeCode" = "8:{BF612210-0753-4375-892C-FC0847BD9300}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -4705,7 +4757,7 @@
             "Target" = "8:_36B45FCA1284428CBB63D6907660D76F"
             "Folder" = "8:_2E0AB185674B48F7832CA7187626DDAC"
             "WorkingFolder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
-            "Icon" = "8:"
+            "Icon" = "8:_73D8D52A38B84BF688A9AD7DC7E873F6"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A07C8A03C8B547ADAC405953F803F434"
@@ -4719,7 +4771,7 @@
             "Target" = "8:_36B45FCA1284428CBB63D6907660D76F"
             "Folder" = "8:_A97FB210CEFF4E288FCB8C5E8F2B42FB"
             "WorkingFolder" = "8:_03401C6EB88F4D27AD24ED31B2EAEF01"
-            "Icon" = "8:"
+            "Icon" = "8:_73D8D52A38B84BF688A9AD7DC7E873F6"
             "Feature" = "8:"
             }
         }

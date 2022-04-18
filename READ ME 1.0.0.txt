@@ -1,0 +1,14 @@
+this is version 1.0.0 (2022-04-18) of program student tester 
+
+If you read this you propably installed the program
+
+unfortunately this version isnt finished and there aro propably tuns of bugs.
+you can read the Help file in program menu (one of them should contain some information).
+
+you can also contact me on stepan.husa@gmail.com.
+
+I hope this App will be somehow usefull... Enjoy!
+
+The Creator
+Stepan Husa
+
