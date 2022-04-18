@@ -1143,7 +1143,7 @@ namespace _11_Image_Processing
              //bitmap.FindPositionersInBitmap(legLength, margin);
             var P = bitmap.FindPositionersInBitmapShape(legLength, margin, width); //positioners
 
-            //TODO comment
+            //TODOd comment
             //bitmap.SetPixel((int)P.p1.X, (int)P.p1.Y, Color.Red);
             //bitmap.SetPixel((int)P.p2.X, (int)P.p2.Y, Color.Red);
             //bitmap.SetPixel((int)P.p3.X, (int)P.p3.Y, Color.Red);
@@ -1251,9 +1251,9 @@ namespace _11_Image_Processing
             var converted = crop.ProcessFilter(filter);
 
 
-            //todo comment
-            crop.SaveToDebugFolder();
-            converted.SaveToDebugFolder();
+            ////atodo comment
+            //crop.SaveToDebugFolder();
+            //converted.SaveToDebugFolder();
             //goes through square where the angle is expected in lines left to right and finds first point of edge
             List<Point> linesPointsVer = new();
             for (int i = 0; i < side; i++)
@@ -1452,7 +1452,7 @@ namespace _11_Image_Processing
             //var converted = crop.ProcessFilter(filter);
 
 
-            //todo comment
+            //atodo comment
             //crop.SaveToDebugFolder();
             //converted.SaveToDebugFolder();
             //goes through square where the angle is expected in lines left to right and finds first point of edge
@@ -1489,16 +1489,16 @@ namespace _11_Image_Processing
             var lineHor = linesPointsHor.LinearRegressionHorizontalOutliers();
 
 
-            ////TODO comment
-            foreach (var point in linesPointsHor)
-            {
-                crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
-            }
-            foreach (var point in linesPointsVer)
-            {
-                crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
-            }
-            crop.SaveToDebugFolder();
+            ////aTODO comment
+            //foreach (var point in linesPointsHor)
+            //{
+            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
+            //}
+            //foreach (var point in linesPointsVer)
+            //{
+            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
+            //}
+            //crop.SaveToDebugFolder();
 
             PointF p1 = lineHor.CrossectionOfTwoLines(lineVert);
             //add margin
@@ -1535,16 +1535,16 @@ namespace _11_Image_Processing
             lineHor = linesPointsHor.LinearRegressionHorizontalOutliers();
 
 
-            ////TODO comment
-            foreach (var point in linesPointsHor)
-            {
-                crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
-            }
-            foreach (var point in linesPointsVer)
-            {
-                crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
-            }
-            crop.SaveToDebugFolder();
+            //////aTODO comment
+            //foreach (var point in linesPointsHor)
+            //{
+            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
+            //}
+            //foreach (var point in linesPointsVer)
+            //{
+            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
+            //}
+            //crop.SaveToDebugFolder();
 
             PointF p2 = lineHor.CrossectionOfTwoLines(lineVert);
             p2 += new Size(bitmap.Width - sidemarg, margin);
@@ -1581,16 +1581,16 @@ namespace _11_Image_Processing
             PointF p3 = lineHor.CrossectionOfTwoLines(lineVert);
             p3 += new Size(bitmap.Width - sidemarg, bitmap.Height - sidemarg);
 
-            ////TODO comment
-            foreach (var point in linesPointsHor)
-            {
-                crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
-            }
-            foreach (var point in linesPointsVer)
-            {
-                crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
-            }
-            crop.SaveToDebugFolder();
+            ////aTODO comment
+            //foreach (var point in linesPointsHor)
+            //{
+            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
+            //}
+            //foreach (var point in linesPointsVer)
+            //{
+            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
+            //}
+            //crop.SaveToDebugFolder();
 
 
 
@@ -1623,28 +1623,28 @@ namespace _11_Image_Processing
                 }
             lineHor = linesPointsHor.LinearRegressionHorizontalOutliers();
 
-            ////TODO comment
-            foreach (var point in linesPointsHor)
-            {
-                crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
-            }
-            foreach (var point in linesPointsVer)
-            {
-                crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
-            }
-            crop.SaveToDebugFolder();
+            ////aTODO comment
+            //foreach (var point in linesPointsHor)
+            //{
+            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Red);
+            //}
+            //foreach (var point in linesPointsVer)
+            //{
+            //    crop.SetPixel((int)point.X, (int)point.Y, Color.Blue);
+            //}
+            //crop.SaveToDebugFolder();
             //converted.SaveToDebugFolder();
 
 
             PointF p4 = lineHor.CrossectionOfTwoLines(lineVert);
             p4 += new Size(margin, bitmap.Height - sidemarg);
 
-            //TODO comment
-            bitmap.SetPixel((int)p1.X, (int)p1.Y, Color.Red);
-            bitmap.SetPixel((int)p2.X, (int)p2.Y, Color.Red);
-            bitmap.SetPixel((int)p3.X, (int)p3.Y, Color.Red);
-            bitmap.SetPixel((int)p4.X, (int)p4.Y, Color.Red);
-            //bitmap.SaveToDebugFolder();
+            ////aTODO comment
+            //bitmap.SetPixel((int)p1.X, (int)p1.Y, Color.Red);
+            //bitmap.SetPixel((int)p2.X, (int)p2.Y, Color.Red);
+            //bitmap.SetPixel((int)p3.X, (int)p3.Y, Color.Red);
+            //bitmap.SetPixel((int)p4.X, (int)p4.Y, Color.Red);
+            ////bitmap.SaveToDebugFolder();
 
             //crop.Save(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\test\posits\crop.bmp");
             //converted.Save(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\test\posits\converted.bmp");
@@ -1763,7 +1763,7 @@ namespace _11_Image_Processing
 
 
 
-            //todo comment
+            //atodo comment
             //for (int k = 0; k < width; k++)
             //    for (int l = 0; l < legLength; l++)
             //        bitmap.SetPixel(minP.X + k, minP.Y + l, Color.Green);
@@ -1805,7 +1805,7 @@ namespace _11_Image_Processing
                     Bitmap crop = pages[pageindex].Crop(Rectangle.Round(newRect));
 
                     //debug feature
-                    //TODO comment
+                    //aTODO comment
                     //pages[pageindex].DrowRectangle(newRect);
                     //if(questions.IndexOf(question)==3)
                     //        crop.SaveToDebugFolder();

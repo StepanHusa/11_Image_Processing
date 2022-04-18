@@ -43,7 +43,7 @@ namespace _11_Image_Processing
         internal static float positionersEdgenessThresholdOld = (float)0.35;
         internal static float positionersEdgenessThreshold = (float)0.3;
         //internal static System.Windows.Thickness scanExpectedMargins = new(); //relative to page width
-        internal static System.Windows.Thickness scanExpectedMargins = new(0,0,0,0);//todo comment valek
+        //internal static System.Windows.Thickness scanExpectedMargins = new(0,0,0,0);//todo comment valek
 
         internal static double treshold = 0.7;
 

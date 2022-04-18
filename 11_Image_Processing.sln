@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "17_Image processing tester", "..\17_Image processing tester\17_Image processing tester.csproj", "{4309776F-5E3F-42C1-929C-7F7BEAF34C95}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "StudentTesterSetup\Setup\Setup.vdproj", "{8FB55579-66CE-4310-A0A3-F28E8A4D3B1D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "11_StudentTester", "11_StudentTester.csproj", "{5B9E2154-FBC0-49F4-8D50-9490CB9660E8}"
 EndProject
 Global
@@ -19,8 +17,6 @@ Global
 		{4309776F-5E3F-42C1-929C-7F7BEAF34C95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4309776F-5E3F-42C1-929C-7F7BEAF34C95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4309776F-5E3F-42C1-929C-7F7BEAF34C95}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8FB55579-66CE-4310-A0A3-F28E8A4D3B1D}.Debug|Any CPU.ActiveCfg = Debug
-		{8FB55579-66CE-4310-A0A3-F28E8A4D3B1D}.Release|Any CPU.ActiveCfg = Release
 		{5B9E2154-FBC0-49F4-8D50-9490CB9660E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5B9E2154-FBC0-49F4-8D50-9490CB9660E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B9E2154-FBC0-49F4-8D50-9490CB9660E8}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -450,22 +450,19 @@ namespace _11_Image_Processing
             if (fileName == null)
             {
                 Pdf.NewPdfDoc(tempPdf);
-                Pdf.NewPdfDoc(tempCopy);
 
-                this.Title = "*untitled";
             }
             else if (File.Exists(fileName))
             {
                 File.Copy(fileName, tempPdf);
-                File.Copy(tempPdf, tempCopy);
 
-                this.Title = Path.GetFileName(fileName);
             }
 
             var doc = new PdfLoadedDocument(tempPdf);
             doc.AddPositioners();
             doc.Save();
             doc.Dispose();
+            File.Copy(tempPdf, tempCopy);
 
             ST.tempFile = tempPdf;
             ST.tempFilesToDelete.Add(tempPdf);
@@ -2183,7 +2180,7 @@ namespace _11_Image_Processing
             {
                 ST.boxesInQuestions[i - 1].RemoveAt(j - 1);
             }
-            if (j == 0) ST.boxesInQuestions.RemoveAt(i - 1);
+            if (ST.boxesInQuestions[i - 1].Count == 0) ST.boxesInQuestions.RemoveAt(i - 1);
             RemakeBoxexAndFieldsN();
         }
         private void UndoQuestion()

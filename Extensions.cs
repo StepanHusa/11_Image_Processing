@@ -1079,37 +1079,37 @@ namespace _11_Image_Processing
             }
             return crop;
         }
-        public static Bitmap CropAddMarginFromSettings(this Bitmap orig)
-        {
-            var th = ST.scanExpectedMargins;
+        //public static Bitmap CropAddMarginFromSettings(this Bitmap orig)
+        //{
+        //    var th = ST.scanExpectedMargins;
 
-            var wNew = orig.Width / (1 + th.Left + th.Right);
-            var hNew = orig.Height / (1 + th.Top + th.Bottom);
+        //    var wNew = orig.Width / (1 + th.Left + th.Right);
+        //    var hNew = orig.Height / (1 + th.Top + th.Bottom);
 
-            Rectangle rect = new((int)Math.Round(wNew * th.Left), (int)Math.Round(hNew * th.Top), (int)Math.Round(wNew), (int)Math.Round(hNew));
+        //    Rectangle rect = new((int)Math.Round(wNew * th.Left), (int)Math.Round(hNew * th.Top), (int)Math.Round(wNew), (int)Math.Round(hNew));
 
-            Bitmap crop = new Bitmap(rect.Width, rect.Height);
+        //    Bitmap crop = new Bitmap(rect.Width, rect.Height);
 
-            using (Graphics g = Graphics.FromImage(crop))
-            {
-                g.DrawImage(orig, new Rectangle(0, 0, crop.Width, crop.Height),
-                                 rect,
-                                 GraphicsUnit.Pixel);
+        //    using (Graphics g = Graphics.FromImage(crop))
+        //    {
+        //        g.DrawImage(orig, new Rectangle(0, 0, crop.Width, crop.Height),
+        //                         rect,
+        //                         GraphicsUnit.Pixel);
 
-                using (Brush border = new SolidBrush(Color.White /* Change it to whichever color you want. */))
-                {
-                    if (rect.X < 0)
-                        g.FillRectangle(border, 0, 0, -rect.X, crop.Height);
-                    if (rect.Y < 0)
-                        g.FillRectangle(border, 0, 0, crop.Width, -rect.Y);
-                    if (rect.Right > orig.Width)
-                        g.FillRectangle(border, orig.Width - rect.X, 0, crop.Width, crop.Height);
-                    if (rect.Bottom > orig.Height)
-                        g.FillRectangle(border, 0, orig.Height - rect.Y, crop.Width, crop.Height);
-                }
-            }
-            return crop;
-        }
+        //        using (Brush border = new SolidBrush(Color.White /* Change it to whichever color you want. */))
+        //        {
+        //            if (rect.X < 0)
+        //                g.FillRectangle(border, 0, 0, -rect.X, crop.Height);
+        //            if (rect.Y < 0)
+        //                g.FillRectangle(border, 0, 0, crop.Width, -rect.Y);
+        //            if (rect.Right > orig.Width)
+        //                g.FillRectangle(border, orig.Width - rect.X, 0, crop.Width, crop.Height);
+        //            if (rect.Bottom > orig.Height)
+        //                g.FillRectangle(border, 0, orig.Height - rect.Y, crop.Width, crop.Height);
+        //        }
+        //    }
+        //    return crop;
+        //}
 
         public static Byte ColorToGrayscale(this Color color)
         {
