@@ -314,7 +314,7 @@ namespace _11_Image_Processing
             foreach (var field in ST.Fields)
             {
                 doc.DrawRectangleBounds(field.Item2, field.Item1, ST.baundWidth);
-                doc.DrawIndexNextToRectangle(field.Item2, field.Item1, Strings.text + (j + 1).ToString() + ":");
+                doc.DrawStringNextToRectangle(Strings.text + (j + 1).ToString() + ":",field.Item2, field.Item1);
                 j++;
             }
 
@@ -327,7 +327,6 @@ namespace _11_Image_Processing
             doc.DrawNameNextToRectangle(ST.nameField.Item2, ST.nameField.Item1);
             return doc;
         }
-
         public static PdfLoadedDocument RemakeBoxexOneColor(this PdfLoadedDocument doc)
         {
             int i = 0;
@@ -336,12 +335,19 @@ namespace _11_Image_Processing
                 int j = 0;
                 foreach (var box in question)
                 {
-                    doc.DrawBox(box);
+                    doc.DrawRectangleBounds(box.Rectangle, box.Page, box.BoundWidth, false);
                     doc.DrawIndexNextToBox(box, (i + 1).ToString() + j.IntToAlphabet());
                     j++;
                 }
                 i++;
             }
+            return doc;
+        }
+        public static PdfLoadedDocument MakeDocForExportOrPrint()
+        {
+            if (ST.tempFileCopy == null) return null;
+            PdfLoadedDocument doc = new(ST.tempFileCopy);
+            doc.RemakeBoxexOneColor().RemakeFields().RemakeNameField();
             return doc;
         }
 

@@ -56,8 +56,9 @@ namespace _11_Image_Processing
                 //LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\val2" + ST.projectExtension);
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
-                //LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
-
+                ////LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
+                //this.Width = 1440;
+                //this.Height = 810;
 
 
                 //ByteExtensions.RestOfSettingsToByteArray().UpdateRestOfSettingsFromByteArary();
@@ -751,8 +752,7 @@ namespace _11_Image_Processing
         {
             var save = new SaveFileDialog() { Title = "Save JPEG", Filter = "JPEG(*.jpeg)|*.jpeg", FileName = ST.projectName };
             if (save.ShowDialog() != true) return;
-            PdfLoadedDocument doc = new(ST.tempFileCopy);
-            doc.RemakeBoxexOneColor();
+            PdfLoadedDocument doc = Pdf.MakeDocForExportOrPrint();
 
             for (int i = 0; i < doc.Pages.Count; i++)
             {
@@ -768,8 +768,7 @@ namespace _11_Image_Processing
         {
             var save = new SaveFileDialog() { Title = "Save PNG", Filter = "PNG(*.png)|*.png", FileName = ST.projectName };
             if (save.ShowDialog() != true) return;
-            PdfLoadedDocument doc = new(ST.tempFileCopy);
-            doc.RemakeBoxexOneColor();
+            PdfLoadedDocument doc = Pdf.MakeDocForExportOrPrint();
             //doc.AddPositioners();
 
             for (int i = 0; i < doc.Pages.Count; i++)
@@ -793,8 +792,7 @@ namespace _11_Image_Processing
         {
             SaveFileDialog save = new() { Title = "Save PDF", Filter = $"File Template(*.PDF)|*.PDF", FileName = ST.projectName };
             if (save.ShowDialog() == false) return;
-            PdfLoadedDocument doc = new(ST.tempFileCopy);
-            doc.RemakeBoxexOneColor();
+            PdfLoadedDocument doc = Pdf.MakeDocForExportOrPrint();
             doc.Save(save.FileName);
         }
         private void Menu_Print_Click(object sender, RoutedEventArgs e)
@@ -840,8 +838,7 @@ namespace _11_Image_Processing
 
 
 
-            PdfLoadedDocument doc = new(ST.tempFileCopy);
-            doc.RemakeBoxexOneColor();
+            PdfLoadedDocument doc = Pdf.MakeDocForExportOrPrint();
             var stream = new MemoryStream();
             doc.Save(stream);
 
