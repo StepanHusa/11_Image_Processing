@@ -235,7 +235,7 @@ namespace _11_Image_Processing
         public static PdfLoadedDocument DrawRectangleBounds(this PdfLoadedDocument doc, RectangleF rect, int pageint, float rWidth, bool SecondColor = false)
         {
             var page = doc.Pages[pageint];
-            var w =/* rWidth * page.Size.Width*/0;
+            var w =/* rWidth * page.Size.Width*/ST.baundWidth/2;
             rect.UnrelatitivizeToPage(page);
             PointF[] vertexes = { new PointF(rect.Left - 2 * w, rect.Bottom + w), new PointF(rect.Right + w, rect.Bottom + w), new PointF(rect.Right + w, rect.Top - w), new PointF(rect.Left - w, rect.Top - w), new PointF(rect.Left - w, rect.Bottom + 2 * w) };
             byte[] types = { 0, 1, 1, 1, 1 };

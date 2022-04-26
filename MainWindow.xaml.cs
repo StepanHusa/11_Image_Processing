@@ -1987,7 +1987,7 @@ namespace _11_Image_Processing
 
             for (int i = 0; i < ST.QS.n; i++)
             {
-                var pointb = new PointF(point.X, point.Y + i * (ST.sizeOfBox.Height + ST.spaceBetweenBoxes));
+                var pointb = new PointF(point.X, point.Y + i * (ST.sizeOfBox.Height + ST.spaceBetweenBoxes +ST.baundWidth));
                 SizeF size = ST.sizeOfBox;
 
                 //square
@@ -2142,10 +2142,10 @@ namespace _11_Image_Processing
         private void CalculateAndShowPreviewBoxes()
         {
             if (pdfViewControl == null || preview == null || !pdfViewControl.IsLoaded) { return; }
-            double ratio = 1.0 * pdfViewControl.ZoomPercentage / 80.5; //just wierd ratio
+            double ratio = 1.0 * pdfViewControl.ZoomPercentage / 75; //just wierd ratio
 
             int nNew = ST.QS.n;
-            if (nNew > 4) nNew = 4;
+            //if (nNew > 4) nNew = 4;
 
             while (preview.Children.Count > nNew)
                 preview.Children.RemoveAt(nNew);
