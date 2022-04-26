@@ -148,7 +148,7 @@
     <value>Apply</value>
   </data>
   <data name="BlankPDFFile" xml:space="preserve">
-    <value>_BlankPDFFile</value>
+    <value>Blank PDF File</value>
   </data>
   <data name="Boxes" xml:space="preserve">
     <value>Boxes</value>
@@ -157,7 +157,7 @@
     <value>Cancel</value>
   </data>
   <data name="cannotDeleteLastPage" xml:space="preserve">
-    <value>Cannot delete last page</value>
+    <value>Can not delete last page</value>
   </data>
   <data name="Canteditwhenlocked" xml:space="preserve">
     <value>Can not edit document whan locked.

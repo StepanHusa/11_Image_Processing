@@ -151,7 +151,7 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _BlankPDFFile.
+        ///   Looks up a localized string similar to Blank PDF File.
         /// </summary>
         public static string BlankPDFFile {
             get {
@@ -178,7 +178,7 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot delete last page.
+        ///   Looks up a localized string similar to Can not delete last page.
         /// </summary>
         public static string cannotDeleteLastPage {
             get {

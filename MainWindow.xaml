@@ -297,7 +297,7 @@
                     <local:Settings/>
                 </Window.DataContext>-->
                 <Grid x:Name="gr">
-                    <PdfViewer:PdfViewerControl x:Name="pdfViewControl"   Margin="-40,0,240,0" />
+                    <PdfViewer:PdfViewerControl x:Name="pdfViewControl"   Margin="-40,0,260,0" />
                     <Canvas>
                     <StackPanel  Background="AliceBlue"   Canvas.Right="0"                            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Column="0">
                         <StackPanel x:Name="toolMenu">
@@ -309,7 +309,7 @@
                             <MenuItem x:Name="boxex"        Header="{x:Static ln:Strings.AnswerBoxes}" Click="CheckMenuItem" IsCheckable="True" Checked="e_Checked" Unchecked="e_Unchecked " Command="local:Commands.AnswerBoxes" Style="{DynamicResource meIStyle}"/>
                             <MenuItem x:Name="toogleAn"     Header="{x:Static ln:Strings.ToogleCorrect}" IsCheckable="True" Checked="toogleAn_Checked" Unchecked="toogleAn_Unchecked" Style="{DynamicResource meIStyle}" InputGestureText="{x:Static ln:Strings.AltHold}"/>
                         </StackPanel>
-                        <Canvas x:Name="editRightCanvas"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Width="240" Margin="0,0,0,0" Height="1000">
+                        <Canvas x:Name="editRightCanvas"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Width="260" Margin="0,0,0,0" Height="1000">
                             <Label Content="{x:Static ln:Strings.widthofbound}"             Canvas.Top="7"     Canvas.Right="140"/>
                             <TextBox x:Name="widthLabel"                  Canvas.Top="10"      Canvas.Right="120"  Text="{Binding ElementName=widthSlider,Path=Value }" MaxWidth="20"/>
                             <Slider x:Name="widthSlider" Maximum="8"    Canvas.Top="10"      Canvas.Right="15" Value="2" Width="100" ValueChanged="Slider_ValueChanged"     IsSnapToTickEnabled="True"    TickFrequency="0.1"/>

@@ -1,5 +1,4 @@
 ﻿using _11_Image_Processing.Resources.Strings;
-using ImageProcessor.Imaging.Filters.EdgeDetection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
