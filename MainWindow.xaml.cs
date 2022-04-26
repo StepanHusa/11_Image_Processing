@@ -40,10 +40,7 @@ namespace _11_Image_Processing
                 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                 //Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NDc1MjU5QDMxMzkyZTMyMmUzMG5MSnFGODNPRngxVVVMcm9zRzVMRi9lZnRJc3JESzRtTEY4T2xMMi9USzg9");
                 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NTI2OTM3QDMxMzkyZTMzMmUzMGZrd0Izb241N05UeDB4Nk5PZUJweldpaG5CQUxkdDlMdnVuZXVWeG9SVXM9");
-
-                //BitMiracle.Docotic.LicenseManager.AddLicenseData("49YKU-QSUJS-1T3EP-28V4L-FIFQY"); 
             }
-
 
             //setup
             InitializeComponent();
@@ -258,7 +255,7 @@ namespace _11_Image_Processing
                 //Button button = new() {  Background= System.Windows.Media.Brushes.Transparent, HorizontalAlignment=HorizontalAlignment.Stretch,VerticalAlignment=VerticalAlignment.Stretch};
 
                 Label name = new() { Content = pI.Name, FontSize = 30, Width = 480 };
-                Label locaton = new() { Content = pI.Location, FontSize = 15, Width = 480 };
+                Label locaton = new() { Content = pI.Location, FontSize = 13, Width = 480 };
                 Label lastEdit = new() { Content = pI.DateLastEdit, FontSize = 15, Width = 170 };
                 Label lastOpen = new() { Content = pI.DateLastOpened, FontSize = 15, Width = 200 };
                 var iconImage = (System.Windows.Controls.Image)Resources["iconimage"];
@@ -275,9 +272,10 @@ namespace _11_Image_Processing
                 canv.Children.Add(lastEdit);
                 canv.Children.Add(lastOpen);
                 Canvas.SetLeft(lockIcon, 70);
+                Canvas.SetTop(lockIcon, 30);
                 Canvas.SetLeft(name, 100);
                 Canvas.SetTop(locaton, 40);
-                Canvas.SetLeft(locaton, 70);
+                Canvas.SetLeft(locaton, 100);
                 Canvas.SetLeft(lastEdit, 550);
                 Canvas.SetTop(lastEdit, 20);
                 Canvas.SetLeft(lastOpen, 730);
@@ -362,8 +360,8 @@ namespace _11_Image_Processing
         {
             string[] arguments = Environment.GetCommandLineArgs();
 
-            File.WriteAllLines(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\debug.txt", arguments);
-            LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\ukázka.st0r");
+            //File.WriteAllLines(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\debug.txt", arguments);
+            //LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\ukázka.st0r");
 
             if (arguments.GetLength(0) > 1)
             {
@@ -477,7 +475,7 @@ namespace _11_Image_Processing
             ST.projectName = ST.templateProjectName;
             ST.IsLocked = false;
 
-            Hideporjectwindow_infotabShowrecentProjects();
+            ShowEditwindow_infotabHiderecentProjects();
 
 
 
@@ -485,13 +483,13 @@ namespace _11_Image_Processing
             windowHeader.Content = ST.projectName + "*";
         }
 
-        private void Hideporjectwindow_infotabShowrecentProjects()
+        private void ShowEditwindow_infotabHiderecentProjects()
         {
             recentProjectsHideThisTool.Visibility = Visibility.Hidden;
             porjectwindow_infotab.Visibility = Visibility.Visible;
             Menu_View_Edit_Click(null, null);
         }
-        private void Showporjectwindow_infotabHiderecentProjects()
+        private void Hideporjectwindow_infotabShowrecentProjects()
         {
             recentProjectsHideThisTool.Visibility = Visibility.Visible;
             porjectwindow_infotab.Visibility = Visibility.Hidden;
@@ -743,7 +741,7 @@ namespace _11_Image_Processing
             //catch { MessageBox.Show(Strings.notabletoread); return; }
 
             ReloadWindowContent();
-            Hideporjectwindow_infotabShowrecentProjects();
+            ShowEditwindow_infotabHiderecentProjects();
             AddCurrentProjectToRecentAfterOpen();
 
 
@@ -1259,7 +1257,7 @@ namespace _11_Image_Processing
             lockButton.Visibility = Visibility.Hidden;
             Title = ST.appName + " - " + Strings.unloaded;
 
-            Showporjectwindow_infotabHiderecentProjects();
+            Hideporjectwindow_infotabShowrecentProjects();
 
             //pdfDocumentView.Unload();
             //loadedPdfLabel.Content = "";
@@ -2416,7 +2414,7 @@ namespace _11_Image_Processing
         }
         private void CommandBindingFields_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            b.IsChecked ^= true;
+            answerFiewld.IsChecked ^= true;
         }
         private void CommandBindingUndoQ_Executed(object sender, ExecutedRoutedEventArgs e)
         {

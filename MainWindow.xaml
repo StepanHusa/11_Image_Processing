@@ -20,15 +20,6 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <!--<Button x:Name="ButtonOpen"             Content="Open"                      HorizontalAlignment="Left" Margin="91,61,0,0"       VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="53"/>
-        <Button x:Name="ButtonSavePdf"          Content="Save"                      HorizontalAlignment="Left" Margin="183,251,0,0"     VerticalAlignment="Top" FontSize="20" Click="ButtonSave_Click"  Grid.Column="0" Height="31" Width="45"/>
-        <Button x:Name="Edit"                   Content="Edit in Viewer"            HorizontalAlignment="Left" Margin="168,61,0,0"      VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="38"/>
-        <Button x:Name="ButtonRun"              Content="Run"                       HorizontalAlignment="Left" Margin="183,176,0,0"     VerticalAlignment="Top" FontSize="20" Click="ButtonRun_Click"   Grid.Column="0" Height="31" Width="45"/>
-        <Button x:Name="ButtonNew"              Content="new"                       HorizontalAlignment="Left" Margin="30,61,0,0"       VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="40"/>
-        <Button x:Name="Modify"                 Content="Modify"                    HorizontalAlignment="Left" Margin="34,61,0,0"       VerticalAlignment="Top" FontSize="20"                           Grid.Column="0" Height="31" Width="71"/>-->
-
-
-
         <DockPanel Grid.Row="0" MouseDown="DockPanel_MouseDown" Background="{DynamicResource menuBrushBackground}">
            <Image Source="/Resources/imag.ico" Height="20" Margin="3"/>
 
@@ -292,11 +283,7 @@
 
             </Grid>
             <Grid x:Name="editWindow" Visibility="Hidden"  >
-                <!--Visibility="Hidden"-->
-                <!--<Window.DataContext>
-                    <local:Settings/>
-                </Window.DataContext>-->
-                <Grid x:Name="gr">
+                <Grid>
                     <PdfViewer:PdfViewerControl x:Name="pdfViewControl"   Margin="-40,0,260,0" />
                     <Canvas>
                     <StackPanel  Background="AliceBlue"   Canvas.Right="0"                            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Column="0">
@@ -305,7 +292,7 @@
                             <MenuItem x:Name="Menu_NewPage" Header="{x:Static ln:Strings.NewPage}" Click="Menu_NewPage_Click" Style="{DynamicResource meIStyle}"/>
                             <MenuItem x:Name="deletePage"   Header="{x:Static ln:Strings.DeletePage}" Click="deletePage_Click" Style="{DynamicResource meIStyle}"/>
                             <MenuItem x:Name="nameField"    Header="{x:Static ln:Strings.NameField}" Click="CheckMenuItem" IsCheckable="True" Checked="nameField_Checked" Unchecked="nameField_Unchecked" Command="local:Commands.NameField" Style="{DynamicResource meIStyle}"/>
-                            <MenuItem x:Name="b"            Header="{x:Static ln:Strings.AnswerField}" Click="CheckMenuItem" IsCheckable="True" Checked="b_Checked" Unchecked="b_Unchecked" Command="local:Commands.AnswerField" Style="{DynamicResource meIStyle}" />
+                            <MenuItem x:Name="answerFiewld" Header="{x:Static ln:Strings.AnswerField}" Click="CheckMenuItem" IsCheckable="True" Checked="b_Checked" Unchecked="b_Unchecked" Command="local:Commands.AnswerField" Style="{DynamicResource meIStyle}" />
                             <MenuItem x:Name="boxex"        Header="{x:Static ln:Strings.AnswerBoxes}" Click="CheckMenuItem" IsCheckable="True" Checked="e_Checked" Unchecked="e_Unchecked " Command="local:Commands.AnswerBoxes" Style="{DynamicResource meIStyle}"/>
                             <MenuItem x:Name="toogleAn"     Header="{x:Static ln:Strings.ToogleCorrect}" IsCheckable="True" Checked="toogleAn_Checked" Unchecked="toogleAn_Unchecked" Style="{DynamicResource meIStyle}" InputGestureText="{x:Static ln:Strings.AltHold}"/>
                         </StackPanel>
