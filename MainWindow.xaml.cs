@@ -32,11 +32,8 @@ namespace _11_Image_Processing
     /// </summary>
     public partial class MainWindow : Window
     {
-
-
         public MainWindow()
         {
-
             //licencing
             {
                 //licencing PDFSharp and Syncfusion.PDFViewer
@@ -46,19 +43,21 @@ namespace _11_Image_Processing
 
                 //BitMiracle.Docotic.LicenseManager.AddLicenseData("49YKU-QSUJS-1T3EP-28V4L-FIFQY"); 
             }
-            
+
+
+            //setup
             InitializeComponent();
             FileAndFolderExtensions.CheckOrCreateLocalRoamingFolder();
             SetUpProjectInfos();
             CheckArgsForFiles();
 
             //debug
-                //LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\val2" + ST.projectExtension);
             {
-                string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
+                //LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\val2" + ST.projectExtension);
+                //string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
                 ////LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
-                this.Width = 1440;
-                this.Height = 810;
+                //this.Width = 1440;
+                //this.Height = 810;
 
 
                 //ByteExtensions.RestOfSettingsToByteArray().UpdateRestOfSettingsFromByteArary();
@@ -245,7 +244,7 @@ namespace _11_Image_Processing
 
             }
         }
-
+        //setup of recently loaded projects
         private void SetUpProjectInfos()
         {
             var l = LI.projectInfosInLocalFile;
@@ -358,9 +357,12 @@ namespace _11_Image_Processing
             SetUpProjectInfos();
         }
 
+        //if the app was opened by clicking on .ST0R/DOC/DOCX/PDF file this method will find out
         private void CheckArgsForFiles()
         {
-            String[] arguments = Environment.GetCommandLineArgs();
+            string[] arguments = Environment.GetCommandLineArgs();
+
+            //File.WriteAllLines(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\debug.txt", arguments);
 
             if (arguments.GetLength(0) > 1)
             {
@@ -384,16 +386,19 @@ namespace _11_Image_Processing
                     }
                     else if (FileExtension == ST.projectExtension)
                     {
+
                         LoadDataFromFile(filePathFormMainArgs);
+                        //File.WriteAllText(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\debug.txt", "exists");
                     }
                 }
 
             }
         }
 
+        //variable saying which view is selected
         private DisplaiedWindow displaiedWindow = DisplaiedWindow.Project;
-        //main
-        //load
+
+        //Main Menu Actions
         private void Menu_Project_Click(object sender, RoutedEventArgs e)
         {
             if (displaiedWindow != DisplaiedWindow.Project)
@@ -401,6 +406,7 @@ namespace _11_Image_Processing
             else Menu_View_Edit_Click(sender, e);
         }
 
+        //load
         private void Menu_Load_PDF_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog() { Filter = "PDF(*.pdf)|*.pdf", Title = "Open PDF" };
@@ -451,12 +457,10 @@ namespace _11_Image_Processing
             if (fileName == null)
             {
                 Pdf.NewPdfDoc(tempPdf);
-
             }
             else if (File.Exists(fileName))
             {
                 File.Copy(fileName, tempPdf);
-
             }
 
             var doc = new PdfLoadedDocument(tempPdf);
