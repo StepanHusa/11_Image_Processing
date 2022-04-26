@@ -1273,267 +1273,8 @@ namespace _11_Image_Processing
 
 
 
-        //private void pdfDocumentView_SizeChanged(object sender, SizeChangedEventArgs e)
-        //{
-        //    double r = e.NewSize.Width / e.PreviousSize.Width;
-
-        //    //int newZoom = (int)(pdfDocumentView.ZoomPercentage * r);
-        //    //pdfDocumentView.ZoomTo(newZoom);
-        //}
-
-        //resultView
-        private void SetUpResultsView()
-        {
-            if (namesScaned == null & ST.nameField != null)
-            {
-                namesScaned = new();
-                for (int i = 0; i < ST.scanPagesInWorks.Count; i++)
-                {
-                    var rect = ST.nameField.Item2;
-                    var b = new System.Drawing.Bitmap(ST.scanPagesInWorks[i][ST.nameField.Item1]);
-                    var mat = ST.matrixPagesInWorks[i][ST.nameField.Item1];
-                    var newRect = new System.Drawing.RectangleF(rect.Location.ApplyMatrix(mat), rect.Size.ApplyMatrix(mat));
-                    namesScaned.Add(b.Crop(System.Drawing.Rectangle.Round(newRect)));
-                }
-            }
-
-            //Settings.scansInPagesInWorks.DrowCorrect();
-            SetupTabsOfView();
-            SetUpAllResults();
-
-        }
-        internal static List<System.Drawing.Bitmap> namesScaned;
-        public void SetupTabsOfView()
-        {
-            while (tabsHorizontal.Items.Count>0)
-                tabsHorizontal.Items.RemoveAt(0);
-            for (int i = 0; i < ST.scanPagesInWorks.Count; i++)
-            {
-                TabItem z = new();
-                if (namesScaned != null)
-                {
-                    System.Windows.Controls.Image wImage = new();
-                    wImage.Source = namesScaned[i].BitmapToImageSource();
-                    wImage.Height = 32;
-                    StackPanel sp = new();
-                    sp.Children.Add(wImage);
-                    z.Header = sp;
-                }
-                else z.Header = i + 1;
-
-                z.Content = GenerateLeftGrid(i);
-
-                tabsHorizontal.Items.Add(z);
-                //_TODO make memory suitable
-            }
-            try { tabsHorizontal.SelectedIndex = 0; } catch { }
-        }
-        private Grid GenerateLeftGrid(int i)
-        {
-            //var imagesTabs = ViewWorks(i); 
-            var imagesTabsButton = (Button)Resources["butView"];
-            imagesTabsButton.Content = Strings.ViewScan;
-            imagesTabsButton.Height = 40;
-            imagesTabsButton.Tag = i;
-            imagesTabsButton.Click += ImagesTabsButton_Click;
-
-            var fieldsTabsButton = (Button)Resources["butView"];
-            fieldsTabsButton.Content = Strings.Decidewhichfieldsareansweredcorrectly;
-            fieldsTabsButton.Tag = i;
-            fieldsTabsButton.Height = 40;
-            fieldsTabsButton.Click += FieldsTabsButton_Click; ;
-
-            var buttons = new StackPanel();
-            buttons.Children.Add(fieldsTabsButton);
-            buttons.Children.Add(imagesTabsButton);
-            //TODOdone fix this bugged buttons
 
 
-            var table = ResultsList(i);
-            var botto = ResultsFieldsList(i);
-
-            //var headinfogFields = new StackPanel();
-            //headinfogFields.Orientation = Orientation.Horizontal;
-            //headinfogFields.Children.Add(new Label() { Content=""});//TODO add evaluation of fields
-
-            //botto.Children.Add(headinfogFields);
-
-
-
-
-
-
-            //TODO finish this section and add statistics
-
-            Grid grid = new();
-            grid.RowDefinitions.Add(new() { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new());
-            grid.RowDefinitions.Add(new() { Height = new GridLength(80) });
-            grid.Children.Add(buttons);
-            grid.Children.Add(table);
-            grid.Children.Add(botto);
-            Grid.SetRow(buttons, 3);
-            //Grid.SetRow(fieldsTabsButton, 3);
-            Grid.SetRow(table, 0);
-            Grid.SetRow(botto, 1);
-
-            return grid;
-        }
-
-        private void FieldsTabsButton_Click(object sender, RoutedEventArgs e)
-        {
-            int i = (int)(sender as Button).Tag;
-            new WindowForFieldsEvaluation(i).ShowDialog();
-
-            SetUpResultsView();
-        }
-
-        private void ImagesTabsButton_Click(object sender, RoutedEventArgs e)
-        {
-            int i = (int)(sender as Button).Tag;
-            new WorkImagesVeiwWindow(i).Show();
-        }
-        private ListView ResultsList(int workindex)
-        {
-            var lv = (ListView)Resources["lview"];
-            var list = GetListToDisplay(workindex);
-            lv.ItemsSource = list;
-
-            return lv;
-        }
-        private ListView ResultsFieldsList(int workindex)
-        {
-            var lv = (ListView)Resources["lfieldsview"];
-            var list = GetFieldsListToDisplay(workindex);
-            lv.ItemsSource = list;
-
-            return lv;
-        }
-        private void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var sen = sender as TabControl;
-            int ii = sen.SelectedIndex;
-
-            for (int i = 0; i < tabsHorizontal.Items.Count; i++)
-            {
-                var tabs = (tabsHorizontal.Items[i] as TabItem).Content as TabControl;
-                if (tabs.Items.Count > ii)
-                    tabs.SelectedIndex = ii;
-                else tabs.SelectedIndex = tabs.Items.Count - 1;
-            }
-
-
-
-
-        }
-        private List<ResultOfQuestion> GetListToDisplay(int workindex)
-        {
-            var list = new List<ResultOfQuestion>();
-            int ii = 0;
-            foreach (var question in ST.boxesInQuestions)
-            {
-                ii++;
-                int q = ST.boxesInQuestions.IndexOf(question);
-                string correct = string.Empty;
-                string checkedd = string.Empty;
-
-                foreach (var box in question)
-                    if (box.IsCorrect) correct += $"{question.IndexOf(box).IntToAlphabet()}, ";
-
-                for (int i = 0; i < ST.allResults[workindex].BoxBinary[q].Count; i++)
-                    if (ST.allResults[workindex].BoxBinary[q][i]) checkedd += $"{i.IntToAlphabet()}, ";
-
-                list.Add(new(checkedd, correct, ii));
-            }
-            return list;
-        }
-        private List<ResultOfField> GetFieldsListToDisplay(int workindex)
-        {
-            var list = new List<ResultOfField>();
-            int ii = 0;
-            foreach (var br in ST.allResults[workindex].FieldsBinary)
-            {
-                ii++;
-                list.Add(new(br, ii));
-            }
-            return list;
-        }
-
-        private void SetUpAllResults()
-        {
-
-            var s = GetListOfAll();
-            allResults.ItemsSource = s;
-            bool isWithNames = false;
-            foreach (var item in s)
-                if (item.Name != null)
-                    isWithNames = true;
-
-            int height = 40; //same as allResults listview height of row
-
-            namesPanel.Children.RemoveRange(1, namesPanel.Children.Count-1);
-            if (isWithNames)
-                foreach (var item in s)
-                {
-                    System.Windows.Controls.Image x = item.Name;
-                    x.Height = height;
-                    namesPanel.Children.Add(x);
-                }
-            else namesPanel.Width = 0;
-        }
-
-        private List<ResultOfAllOne> GetListOfAll()
-        {
-            var list = new List<ResultOfAllOne>();
-            for (int i = 0; i < ST.allResults.Count; i++)
-            {
-                var li = GetListToDisplay(i);
-
-                int right = 0;
-                foreach (var item in li)
-                    if (item.CorrectBool)
-                        right++;
-                ResultOfAllOne r;
-                if (namesScaned != null)
-                    if (namesScaned.Count > i)
-                        r = new(i + 1, right, li.Count, namesScaned[i]);
-                    else r = new(i + 1, right, li.Count);
-                else r = new(i + 1, right, li.Count);
-
-                list.Add(r);
-            }
-
-
-            return list;
-        }
-
-
-
-        private void CloseClick(object sender, RoutedEventArgs e)
-        {
-            //Application.Current.Shutdown();
-            this.Close();
-        }
-        private void MinimazeClick(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
-        private void MaximazeClick(object sender, RoutedEventArgs e)
-        {
-            if (this.WindowState != WindowState.Maximized)
-                this.WindowState = WindowState.Maximized;
-            else this.WindowState = WindowState.Normal;
-        }
-        private void DockPanel_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (this.WindowState != WindowState.Normal)
-            {
-                this.WindowState = WindowState.Normal;
-            }
-            if (e.LeftButton != MouseButtonState.Pressed) return;
-
-            this.DragMove();
-        }
 
         //editview
         private double offset = 0;
@@ -2389,6 +2130,269 @@ namespace _11_Image_Processing
             }
         }
 
+        //resultView
+        private void SetUpResultsView()
+        {
+            if (namesScaned == null & ST.nameField != null)
+            {
+                namesScaned = new();
+                for (int i = 0; i < ST.scanPagesInWorks.Count; i++)
+                {
+                    var rect = ST.nameField.Item2;
+                    var b = new System.Drawing.Bitmap(ST.scanPagesInWorks[i][ST.nameField.Item1]);
+                    var mat = ST.matrixPagesInWorks[i][ST.nameField.Item1];
+                    var newRect = new System.Drawing.RectangleF(rect.Location.ApplyMatrix(mat), rect.Size.ApplyMatrix(mat));
+                    namesScaned.Add(b.Crop(System.Drawing.Rectangle.Round(newRect)));
+                }
+            }
+
+            //Settings.scansInPagesInWorks.DrowCorrect();
+            SetupTabsOfView();
+            SetUpAllResults();
+
+        }
+        internal static List<System.Drawing.Bitmap> namesScaned;
+        public void SetupTabsOfView()
+        {
+            while (tabsHorizontal.Items.Count>0)
+                tabsHorizontal.Items.RemoveAt(0);
+            for (int i = 0; i < ST.scanPagesInWorks.Count; i++)
+            {
+                TabItem z = new();
+                if (namesScaned != null)
+                {
+                    System.Windows.Controls.Image wImage = new();
+                    wImage.Source = namesScaned[i].BitmapToImageSource();
+                    wImage.Height = 32;
+                    StackPanel sp = new();
+                    sp.Children.Add(wImage);
+                    z.Header = sp;
+                }
+                else z.Header = i + 1;
+
+                z.Content = GenerateLeftGrid(i);
+
+                tabsHorizontal.Items.Add(z);
+                //_TODO make memory suitable
+            }
+            try { tabsHorizontal.SelectedIndex = 0; } catch { }
+        }
+        private Grid GenerateLeftGrid(int i)
+        {
+            //var imagesTabs = ViewWorks(i); 
+            var imagesTabsButton = (Button)Resources["butView"];
+            imagesTabsButton.Content = Strings.ViewScan;
+            imagesTabsButton.Height = 40;
+            imagesTabsButton.Tag = i;
+            imagesTabsButton.Click += ImagesTabsButton_Click;
+
+            var fieldsTabsButton = (Button)Resources["butView"];
+            fieldsTabsButton.Content = Strings.Decidewhichfieldsareansweredcorrectly;
+            fieldsTabsButton.Tag = i;
+            fieldsTabsButton.Height = 40;
+            fieldsTabsButton.Click += FieldsTabsButton_Click; ;
+
+            var buttons = new StackPanel();
+            buttons.Children.Add(fieldsTabsButton);
+            buttons.Children.Add(imagesTabsButton);
+            //TODOdone fix this bugged buttons
+
+
+            var table = ResultsList(i);
+            var botto = ResultsFieldsList(i);
+
+            //var headinfogFields = new StackPanel();
+            //headinfogFields.Orientation = Orientation.Horizontal;
+            //headinfogFields.Children.Add(new Label() { Content=""});//TODO add evaluation of fields
+
+            //botto.Children.Add(headinfogFields);
+
+
+
+
+
+
+            //TODO finish this section and add statistics
+
+            Grid grid = new();
+            grid.RowDefinitions.Add(new() { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new());
+            grid.RowDefinitions.Add(new() { Height = new GridLength(80) });
+            grid.Children.Add(buttons);
+            grid.Children.Add(table);
+            grid.Children.Add(botto);
+            Grid.SetRow(buttons, 3);
+            //Grid.SetRow(fieldsTabsButton, 3);
+            Grid.SetRow(table, 0);
+            Grid.SetRow(botto, 1);
+
+            return grid;
+        }
+
+        private void FieldsTabsButton_Click(object sender, RoutedEventArgs e)
+        {
+            int i = (int)(sender as Button).Tag;
+            new WindowForFieldsEvaluation(i).ShowDialog();
+
+            SetUpResultsView();
+        }
+
+        private void ImagesTabsButton_Click(object sender, RoutedEventArgs e)
+        {
+            int i = (int)(sender as Button).Tag;
+            new WorkImagesVeiwWindow(i).Show();
+        }
+        private ListView ResultsList(int workindex)
+        {
+            var lv = (ListView)Resources["lview"];
+            var list = GetListToDisplay(workindex);
+            lv.ItemsSource = list;
+
+            return lv;
+        }
+        private ListView ResultsFieldsList(int workindex)
+        {
+            var lv = (ListView)Resources["lfieldsview"];
+            var list = GetFieldsListToDisplay(workindex);
+            lv.ItemsSource = list;
+
+            return lv;
+        }
+        private void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var sen = sender as TabControl;
+            int ii = sen.SelectedIndex;
+
+            for (int i = 0; i < tabsHorizontal.Items.Count; i++)
+            {
+                var tabs = (tabsHorizontal.Items[i] as TabItem).Content as TabControl;
+                if (tabs.Items.Count > ii)
+                    tabs.SelectedIndex = ii;
+                else tabs.SelectedIndex = tabs.Items.Count - 1;
+            }
+
+
+
+
+        }
+        private List<ResultOfQuestion> GetListToDisplay(int workindex)
+        {
+            var list = new List<ResultOfQuestion>();
+            int ii = 0;
+            foreach (var question in ST.boxesInQuestions)
+            {
+                ii++;
+                int q = ST.boxesInQuestions.IndexOf(question);
+                string correct = string.Empty;
+                string checkedd = string.Empty;
+
+                foreach (var box in question)
+                    if (box.IsCorrect) correct += $"{question.IndexOf(box).IntToAlphabet()}, ";
+
+                for (int i = 0; i < ST.allResults[workindex].BoxBinary[q].Count; i++)
+                    if (ST.allResults[workindex].BoxBinary[q][i]) checkedd += $"{i.IntToAlphabet()}, ";
+
+                list.Add(new(checkedd, correct, ii));
+            }
+            return list;
+        }
+        private List<ResultOfField> GetFieldsListToDisplay(int workindex)
+        {
+            var list = new List<ResultOfField>();
+            int ii = 0;
+            foreach (var br in ST.allResults[workindex].FieldsBinary)
+            {
+                ii++;
+                list.Add(new(br, ii));
+            }
+            return list;
+        }
+
+        private void SetUpAllResults()
+        {
+
+            var s = GetListOfAll();
+            allResults.ItemsSource = s;
+            bool isWithNames = false;
+            foreach (var item in s)
+                if (item.Name != null)
+                    isWithNames = true;
+
+            int height = 40; //same as allResults listview height of row
+
+            namesPanel.Children.RemoveRange(1, namesPanel.Children.Count-1);
+            if (isWithNames)
+                foreach (var item in s)
+                {
+                    System.Windows.Controls.Image x = item.Name;
+                    x.Height = height;
+                    namesPanel.Children.Add(x);
+                }
+            else namesPanel.Width = 0;
+        }
+
+        private List<ResultOfAllOne> GetListOfAll()
+        {
+            var list = new List<ResultOfAllOne>();
+            for (int i = 0; i < ST.allResults.Count; i++)
+            {
+                var li = GetListToDisplay(i);
+                var lt = GetFieldsListToDisplay(i);
+
+                int right = 0;
+                int all = li.Count;
+                foreach (var item in li)
+                    if (item.CorrectBool)
+                        right++;
+                foreach(var item in lt)
+                {
+                    if (item.BinaryResult.HasValue)
+                    {
+                        all++;
+                        if (item.BinaryResult.Value)
+                            right++;
+                    }
+                }
+                ResultOfAllOne r;
+                if (namesScaned != null && namesScaned.Count > i)
+                    r = new(i + 1, right, all, namesScaned[i]);
+                else r = new(i + 1, right, all);
+
+                list.Add(r);
+            }
+
+
+            return list;
+        }
+
+
+
+        private void CloseClick(object sender, RoutedEventArgs e)
+        {
+            //Application.Current.Shutdown();
+            this.Close();
+        }
+        private void MinimazeClick(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+        private void MaximazeClick(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState != WindowState.Maximized)
+                this.WindowState = WindowState.Maximized;
+            else this.WindowState = WindowState.Normal;
+        }
+        private void DockPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (this.WindowState != WindowState.Normal)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            if (e.LeftButton != MouseButtonState.Pressed) return;
+
+            this.DragMove();
+        }
+
         //commands
         private void CloseCommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
@@ -2661,3 +2665,5 @@ namespace _11_Image_Processing
 //  (add saving preferences)
 //finish counting of points
 // add weights on questions
+//todo select first image in before evaluation
+//optimaze for more works (if its not done yet)

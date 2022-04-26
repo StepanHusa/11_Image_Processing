@@ -40,13 +40,11 @@ namespace _11_Image_Processing
                     File.Delete(file);
             }
         }
-
         public static void CheckOrCreateLocalRoamingFolder()
         {
             if (!Directory.Exists(ST.roamingFolder)) Directory.CreateDirectory(ST.roamingFolder);
 
         }
-
         public static List<CultureInfo> FindAvalibleLanguages()
         {
             List<CultureInfo> cis = new();
@@ -1811,10 +1809,10 @@ namespace _11_Image_Processing
                     Bitmap crop = pages[pageindex].Crop(Rectangle.Round(newRect));
 
                     //debug feature
-                    //aTODO comment
-                    //pages[pageindex].DrowRectangle(newRect);
-                    //if(questions.IndexOf(question)==3)
-                    //        crop.SaveToDebugFolder();
+                    //TODO comment
+                    pages[pageindex].DrowRectangle(newRect);
+                    if (questions.IndexOf(question) == 3)
+                        crop.SaveToDebugFolder();
 
                     bool IsCross = crop.IsEdgyInTheCenterRecognize();
 
@@ -1826,8 +1824,8 @@ namespace _11_Image_Processing
                 resultsOneWork.Add(resultsQuestion);
             }
 
-            //pages[0].SaveToDebugFolder();
-            //pages[1].SaveToDebugFolder();
+            pages[0].SaveToDebugFolder();
+            pages[1].SaveToDebugFolder();
             for (int i = 0; i < pages.Length; i++)
             {
                 pages[i].Dispose();
