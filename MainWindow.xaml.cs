@@ -362,7 +362,8 @@ namespace _11_Image_Processing
         {
             string[] arguments = Environment.GetCommandLineArgs();
 
-            //File.WriteAllLines(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\debug.txt", arguments);
+            File.WriteAllLines(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\debug.txt", arguments);
+            LoadDataFromFile(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\val\ukázka.st0r");
 
             if (arguments.GetLength(0) > 1)
             {
@@ -388,7 +389,6 @@ namespace _11_Image_Processing
                     {
 
                         LoadDataFromFile(filePathFormMainArgs);
-                        //File.WriteAllText(@"C:\Users\stepa\source\repos\11_Image_Processing\debug files\debug.txt", "exists");
                     }
                 }
 
@@ -675,6 +675,7 @@ namespace _11_Image_Processing
                     hash = br.ReadBytes(20);
                 }
             }
+
             //get hash of created files
             byte[] hashNew;
             using (MemoryStream ms = new())
@@ -744,6 +745,8 @@ namespace _11_Image_Processing
             ReloadWindowContent();
             Hideporjectwindow_infotabShowrecentProjects();
             AddCurrentProjectToRecentAfterOpen();
+
+
 
             saved = true;
             windowHeader.Content = ST.projectName + " • " + Strings.Unedited;
@@ -1101,7 +1104,7 @@ namespace _11_Image_Processing
             editWindow.Visibility = Visibility.Visible;
 
             pdfViewControl.ShowToolbar = false;
-            HideTools();
+            //HideTools();
             CalculateAndShowPreviewBoxes();
 
             pdfViewControl.Load(ST.tempFile);
