@@ -759,9 +759,10 @@ namespace _11_Image_Processing
                 Bitmap image = doc.ExportAsImage(i, ST.dpiExport, ST.dpiExport)/*.CropAddMarginFromSettings()*/;
                 image.SaveToDebugFolder();
 
-                string fn = Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
+                string fn = Path.GetDirectoryName(save.FileName) + "\\"+ Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
 
                 image.Save(fn, System.Drawing.Imaging.ImageFormat.Jpeg);
+                image.Dispose();
             }
         }
         private void Menu_Export_ToPNG_Click(object sender, RoutedEventArgs e)
@@ -2388,7 +2389,7 @@ namespace _11_Image_Processing
             }
         }
 
-
+        //commands
         private void CloseCommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
             Close();

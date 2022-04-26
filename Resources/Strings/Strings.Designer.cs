@@ -809,7 +809,7 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _PDF.
+        ///   Looks up a localized string similar to PDF.
         /// </summary>
         public static string PDF {
             get {
