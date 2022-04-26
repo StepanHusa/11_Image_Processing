@@ -67,6 +67,8 @@ namespace _11_Image_Processing
 
         public int MaxPoints { get; set; }
 
+        public string PointsText { get { return Points.ToString() + " / " + MaxPoints; } }
+
         public int Percents { get { return (int)Math.Round((double)((double)Points / MaxPoints * 100)); } }
 
         public int Grade

@@ -424,6 +424,9 @@ Unlock in overview.</value>
   <data name="RightAnswer" xml:space="preserve">
     <value>Right Answer</value>
   </data>
+  <data name="RightOverAnswered" xml:space="preserve">
+    <value>Rigth / Evaluated</value>
+  </data>
   <data name="Rotate" xml:space="preserve">
     <value>Rotate</value>
   </data>

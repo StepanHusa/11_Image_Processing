@@ -980,6 +980,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rigth / Evaluated.
+        /// </summary>
+        public static string RightOverAnswered {
+            get {
+                return ResourceManager.GetString("RightOverAnswered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rotate.
         /// </summary>
         public static string Rotate {

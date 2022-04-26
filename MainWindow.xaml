@@ -281,7 +281,7 @@
                     <ListView.View>
                         <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="">
                             <GridViewColumn DisplayMemberBinding="{Binding Path=Index}"  Header="{x:Static ln:Strings.Index}" Width="30"/>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Points}"  Header="{x:Static ln:Strings.Points}" Width="50"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=PointsText}"  Header="{x:Static ln:Strings.RightOverAnswered}" Width="50"/>            <!--(x) name=columnPointsOfAll-->
                             <GridViewColumn DisplayMemberBinding="{Binding Path=Percents}"  Header="{x:Static ln:Strings.Percents}" Width="50"/>
                             <GridViewColumn DisplayMemberBinding="{Binding Path=Grade}"  Header="{x:Static ln:Strings.Grade}" Width="50"/>
 

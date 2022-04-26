@@ -2313,6 +2313,7 @@ namespace _11_Image_Processing
 
             var s = GetListOfAll();
             allResults.ItemsSource = s;
+            //columnPointsOfAll.Header = Strings.Points + $" ({})";
             bool isWithNames = false;
             foreach (var item in s)
                 if (item.Name != null)
