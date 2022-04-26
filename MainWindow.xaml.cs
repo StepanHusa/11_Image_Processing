@@ -57,8 +57,8 @@ namespace _11_Image_Processing
             {
                 string debugFolder = @"C:\Users\stepa\source\repos\11_Image_Processing\debug files\";
                 ////LoadDataFromFile(debugFolder + "test\\01" + Settings.projectExtension);
-                //this.Width = 1440;
-                //this.Height = 810;
+                this.Width = 1440;
+                this.Height = 810;
 
 
                 //ByteExtensions.RestOfSettingsToByteArray().UpdateRestOfSettingsFromByteArary();
@@ -1191,6 +1191,7 @@ namespace _11_Image_Processing
                     dateoflastsavetext.Text = ST.versions.Last();
                 else dateoflastsavetext.Text = Strings.notsavedyet;
 
+                loadedScans.Text = string.Empty;
                 foreach (var item in ST.scanPagesInWorks)
                 {
                     foreach (var it in item)
