@@ -524,8 +524,7 @@ Do you want to save it?</value>
   </data>
   <data name="WarningMoreThanOneNamefield" xml:space="preserve">
     <value>One Name field is alredy added.
-would you like to move it here?
- (some bugs may emerge)</value>
+would you like to move it here?</value>
   </data>
   <data name="WarningnoNameFieldadded" xml:space="preserve">
     <value>Warning: no Name Field added!</value>

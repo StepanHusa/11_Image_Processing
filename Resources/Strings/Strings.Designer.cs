@@ -1271,8 +1271,7 @@ namespace _11_Image_Processing.Resources.Strings {
         
         /// <summary>
         ///   Looks up a localized string similar to One Name field is alredy added.
-        ///would you like to move it here?
-        /// (some bugs may emerge).
+        ///would you like to move it here?.
         /// </summary>
         public static string WarningMoreThanOneNamefield {
             get {

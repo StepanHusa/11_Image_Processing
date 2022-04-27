@@ -1484,6 +1484,10 @@ namespace _11_Image_Processing
         private void b_Unchecked(object sender, RoutedEventArgs e)
         {
             pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_B;
+
+            drawingRectangle = false;
+            pdfViewControl.PageMouseMove -= PdfViewControl_PageMouseMove;
+            rectangleR.Visibility = Visibility.Hidden;
         }
         private void c_Checked(object sender, RoutedEventArgs e)
         {
@@ -1528,6 +1532,8 @@ namespace _11_Image_Processing
         {
             pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_E;
 
+
+
         }
         private void toogleAn_Checked(object sender, RoutedEventArgs e)
         {
@@ -1556,6 +1562,10 @@ namespace _11_Image_Processing
         private void nameField_Unchecked(object sender, RoutedEventArgs e)
         {
             pdfViewControl.PageClicked -= Pdfwcontrol_PageClicked_name;
+
+            drawingRectangle = false;
+            pdfViewControl.PageMouseMove -= PdfViewControl_PageMouseMove;
+            rectangleR.Visibility = Visibility.Hidden;
 
         }
 
@@ -1631,6 +1641,7 @@ namespace _11_Image_Processing
                 argsFirstVertex = args;
                 locFirstVertex = Mouse.GetPosition(editWindow);
                 //this.MouseMove += PdfEditW_MouseMove;
+                pdfViewControl.PageMouseMove -= PdfViewControl_PageMouseMove;
                 pdfViewControl.PageMouseMove += PdfViewControl_PageMouseMove;
                 PdfViewControl_PageMouseMove(sender, args);//just to prevent bug displaying rectangle elsewhere
                 rectangleR.Visibility = Visibility.Visible;
@@ -1786,15 +1797,18 @@ namespace _11_Image_Processing
             if (ST.IsLocked) { MessageBox.Show(Strings.Canteditwhenlocked, Strings.Warning, MessageBoxButton.OK, MessageBoxImage.Warning); return; }
 
 
-            if (ST.nameField != null)
-                if (MessageBox.Show(Strings.WarningMoreThanOneNamefield, Strings.Warning, MessageBoxButton.YesNoCancel) != MessageBoxResult.Yes)
-                    return;
 
             drawingRectangle ^= true;
             if (drawingRectangle)
             {
-                argsFirstVertex = args;
                 locFirstVertex = Mouse.GetPosition(editWindow);
+                if (ST.nameField != null)
+                    if (MessageBox.Show(Strings.WarningMoreThanOneNamefield, Strings.Warning, MessageBoxButton.YesNoCancel) != MessageBoxResult.Yes)
+                    {
+                        drawingRectangle = false;
+                        return;
+                    }
+                argsFirstVertex = args;
                 //this.MouseMove += PdfEditW_MouseMove;
                 pdfViewControl.PageMouseMove += PdfViewControl_PageMouseMove;
                 rectangleR.Visibility = Visibility.Visible;
@@ -1803,10 +1817,9 @@ namespace _11_Image_Processing
             {
                 //add rectangle to name
                 {
-                    var doc = pdfViewControl.LoadedDocument;
+                    var doc = new PdfLoadedDocument(ST.tempFileCopy);
                     int pindex = args.PageIndex;
                     double zoom = pdfViewControl.ZoomPercentage / 100.0;
-
 
                     RectangleF rect = new();
                     rect.Location = new((float)(argsFirstVertex.Position.X * 0.75 / zoom), (float)(argsFirstVertex.Position.Y * 0.75 / zoom));
@@ -1814,13 +1827,24 @@ namespace _11_Image_Processing
 
                     rect.RelatitivizeToPage(doc.Pages[pindex]);
 
-                    doc.DrawRectangleBounds(rect, pindex, ST.baundWidth);
-                    doc.DrawNameNextToRectangle(rect, pindex);
-
-
+                    //doc.DrawRectangleBounds(rect, pindex, ST.baundWidth);
+                    //doc.DrawNameNextToRectangle(rect, pindex);
                     ST.nameField = new(pindex, rect);
-                    ReloadDocument();
+                    doc.RemakeBoxex().RemakeFields().RemakeNameField();
+                    doc.Save(ST.tempFile);
+
+                    saved = false;
+                    windowHeader.Content = ST.projectName + "*";
+                    MemoryStream stream = new MemoryStream();
+                    doc.Save(stream);
+                    pdfViewControl.Load(stream);
+
+                    pdfViewControl.ScrollTo(offset);
+                    pdfViewControl.ZoomTo((int)(zoom * 100));
+
                     pdfViewControl.Zoom = zoom * 100;
+                    doc.Close();
+                    doc.Dispose();
 
                 }
                 //this.MouseMove -= PdfEditW_MouseMove;
