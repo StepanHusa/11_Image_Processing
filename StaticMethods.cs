@@ -348,6 +348,14 @@ namespace _11_Image_Processing
             doc.RemakeBoxexOneColor().RemakeFields().RemakeNameField();
             return doc;
         }
+        public static PdfLoadedDocument MakeDocForExportOrPrintWithAnswers()
+        {
+            if (ST.tempFileCopy == null) return null;
+            PdfLoadedDocument doc = new(ST.tempFileCopy);
+            doc.RemakeBoxex().RemakeFields().RemakeNameField();
+            return doc;
+        }
+
 
         //not used
         public static List<RectangleF> GetPositionerRectangles(this PdfLoadedDocument doc)

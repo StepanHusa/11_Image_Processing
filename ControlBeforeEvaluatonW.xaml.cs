@@ -30,13 +30,23 @@ namespace _11_Image_Processing
         {
             InitializeComponent();
             BuildMenu();
+
+            try
+            {
+                string file = ST.scanPagesInWorks[0][0];
+                var f = new Bitmap(file);
+                image.Source = f.BitmapToImageSource();
+                f.Dispose();
+                currentImage = file;
+            }
+            catch { }
         }
         private void BuildMenu()
         {
             for (int i = 0; i < ST.scanPagesInWorks.Count; i++)
-         {
-            var mI = new MenuItem();
-                mI.Header =(i+1).ToString();
+            {
+                var mI = new MenuItem();
+                mI.Header = (i + 1).ToString();
                 for (int j = 0; j < ST.scanPagesInWorks[i].Count; j++)
                 {
                     var mII = new MenuItem();
@@ -47,6 +57,7 @@ namespace _11_Image_Processing
                 }
                 menu.Items.Add(mI);
             }
+            
         }
 
         private void MII_Click(object sender, RoutedEventArgs e)

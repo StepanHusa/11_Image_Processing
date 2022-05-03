@@ -49,7 +49,7 @@ namespace _11_Image_Processing
 
         internal static string roamingFolderName="StudentTesterLocalData";
         internal static string roamingFolder { get { return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)+"\\"+roamingFolderName; } }
-        internal static string tempDirectoryName = Path.GetTempPath() + "Stepan_Husa_Is_A_Genius";
+        internal static string tempDirectoryName = Path.GetTempPath() + "Vladislav_Valek_Je_Uzasny";
         internal static string projectExtension = ".st0r"; //templateExtension
         internal static byte[] fileCode = "008800ff001100aa".StringToByteArray(); //8 bytes file format conformation
 

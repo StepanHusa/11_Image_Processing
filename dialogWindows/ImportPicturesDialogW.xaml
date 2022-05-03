@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_11_Image_Processing"
+    xmlns:ln="clr-namespace:_11_Image_Processing.Resources.Strings"
+        
         mc:Ignorable="d"
-        Title="Read" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Height="450" Width="800">
+        Title="{x:Static ln:Strings.ReadingScans}" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Height="450" Width="800">
     <Grid Margin="15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -24,22 +26,22 @@
 
         <!--<Image Source="/WpfTutorialSamples;component/Images/question32.png" Width="32" Height="32" Grid.RowSpan="2" Margin="20,0" />-->
 
-        <Label  Grid.Column="1" Grid.Row="0">You have loaded this many files:</Label>
+        <Label  Grid.Column="1" Grid.Row="0" Content="{x:Static ln:Strings.readingscansline1}"/>
         <Label Name="filesInfo" Grid.Row="0" Grid.Column="2"/>
-        <Label Name="lblQuestion" Grid.Row="1" Grid.Column="1">How many pages should each work have?</Label>
+        <Label Name="lblQuestion" Grid.Row="1" Grid.Column="1" Content="{x:Static ln:Strings.readingscansline2}"/>
         <Slider Name="sldAnswer" Grid.Column="1" Grid.Row="2" MinWidth="250" Minimum="1" Value="2" IsSnapToTickEnabled="True" TickFrequency="1"/>
-        <TextBox Name="textAnswer" Grid.Column="2" Grid.Row="2" Text="{Binding ElementName=sldAnswer,Path=Value,Mode=TwoWay}" />
-        <Label  Grid.Column="1" Grid.Row="3">This many works it will produce:</Label>
+        <TextBox Name="textAnswer" Grid.Column="2" Grid.Row="2" Text="{Binding ElementName=sldAnswer,Path=Value,Mode=TwoWay}"/>
+            <Label  Grid.Column="1" Grid.Row="3" Content="{x:Static ln:Strings.readingscansline3}"/>
         <Label Name="works" Grid.Row="3" Grid.Column="2"/>
-        <Label  Grid.Column="1" Grid.Row="4">leaving this many unused:</Label>
-        <Label Name="left" Grid.Row="4" Grid.Column="2"/>
-        <Label  Grid.Column="1" Grid.Row="5">Invert:</Label>
+        <Label  Grid.Column="1" Grid.Row="4" Content="{x:Static ln:Strings.readingscansline4}"></Label>
+        <Label Name="left" Grid.Row="4" Grid.Column="2" />
+            <Label  Grid.Column="1" Grid.Row="5" Content="{x:Static ln:Strings.readingscansline5}"></Label>
         <CheckBox Name="invert" Grid.Row="5" Grid.Column="2"/>
 
 
         <WrapPanel Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
             <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
-            <Button IsCancel="True" MinWidth="60">_Cancel</Button>
+                <Button IsCancel="True" MinWidth="60" Content="{x:Static ln:Strings.Cancel}"></Button>
         </WrapPanel>
     </Grid>
 </Window>

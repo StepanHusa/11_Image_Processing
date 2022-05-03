@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -249,7 +248,7 @@ namespace _11_Image_Processing
             for (int i = 0; i < l.Count; i++)
             {
                 var pI = l[l.Count - i - 1];//so the newer are on top
-                var backcolor = System.Windows.Media.Color.FromArgb(255, 100, 180, 220);
+                var backcolor = System.Windows.Media.Color.FromArgb(255, 01, 180, 255);
 
                 Canvas canv = new() { Height = 70, HorizontalAlignment = HorizontalAlignment.Stretch, };
                 //Button button = new() {  Background= System.Windows.Media.Brushes.Transparent, HorizontalAlignment=HorizontalAlignment.Stretch,VerticalAlignment=VerticalAlignment.Stretch};
@@ -264,7 +263,7 @@ namespace _11_Image_Processing
                 lockIcon.Height = 20;
                 //TODO add icon and lock
 
-                if(pI.IsLocked)
+                if (pI.IsLocked)
                     canv.Children.Add(lockIcon);
                 canv.Children.Add(iconImage);
                 canv.Children.Add(name);
@@ -284,18 +283,19 @@ namespace _11_Image_Processing
 
                 canv.MouseEnter += (sender, e) => { canv.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 150, 200, 255)); };
                 canv.MouseLeave += (sender, e) => { canv.Background = new System.Windows.Media.SolidColorBrush(backcolor); };
-                canv.MouseLeftButtonDown += (sender, e) => {
-                    if (!File.Exists(pI.Location)) { MessageBox.Show("FileDoesentExistAnymore");l.RemoveAt(i); LI.projectInfosInLocalFile = l; }
+                canv.MouseLeftButtonDown += (sender, e) =>
+                {
+                    if (!File.Exists(pI.Location)) { MessageBox.Show("FileDoesentExistAnymore"); l.RemoveAt(i); LI.projectInfosInLocalFile = l; }
                     else
                     {
                         LoadDataFromFile(pI.Location);
                     }
-                        };
+                };
 
                 //canv.Children.Add(button);
                 //button.Content = canv;
                 recentProjects.Children.Add(canv);
-                
+
             }
         }
         private void AddCurrentProjectToRecentAfterOpen()
@@ -303,14 +303,14 @@ namespace _11_Image_Processing
             if (ST.projectFileName == null) return;
             var l = LI.projectInfosInLocalFile;
             bool IsThere = false;
-            ProjectInfo pi=new();
-            string date = DateTime.Now.ToShortDateString() +" " +DateTime.Now.ToShortTimeString();
+            ProjectInfo pi = new();
+            string date = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
             for (int i = 0; i < l.Count; i++)
             {
                 if (l[i].Name == ST.projectName)
                 {
                     IsThere = true;
-                    pi=l[i];
+                    pi = l[i];
                     pi.DateLastOpened = date;
                     pi.IsLocked = ST.IsLocked;
                     l[i] = pi;
@@ -318,7 +318,7 @@ namespace _11_Image_Processing
             }
             if (!IsThere)
             {
-                pi = new(ST.projectName, ST.projectFileName, date, date,ST.IsLocked);
+                pi = new(ST.projectName, ST.projectFileName, date, date, ST.IsLocked);
                 l.Add(pi);
             }
 
@@ -346,7 +346,7 @@ namespace _11_Image_Processing
             }
             if (!IsThere)
             {
-                pi = new(ST.projectName, ST.projectFileName, date, date,ST.IsLocked);
+                pi = new(ST.projectName, ST.projectFileName, date, date, ST.IsLocked);
                 l.Add(pi);
             }
 
@@ -369,9 +369,9 @@ namespace _11_Image_Processing
                 if (File.Exists(arguments[1]))
                 {
                     string FileExtension = Path.GetExtension(filePathFormMainArgs);
-                    if (FileExtension == ".pdf")
+                    if (FileExtension.ToLower() == ".pdf")
                         LoadPDFDocument(filePathFormMainArgs);
-                    else if (FileExtension == ".doc" | FileExtension == ".docx")
+                    else if (FileExtension.ToLower() == ".doc" | FileExtension == ".docx")
                     {
                         Word2Pdf objWorPdf = new Word2Pdf();
                         string FromLocation = filePathFormMainArgs;
@@ -383,9 +383,8 @@ namespace _11_Image_Processing
                         objWorPdf.Word2PdfCOnversion();
                         LoadPDFDocument(ToLocation);
                     }
-                    else if (FileExtension == ST.projectExtension)
+                    else if (FileExtension.ToLower() == ST.projectExtension)
                     {
-
                         LoadDataFromFile(filePathFormMainArgs);
                     }
                 }
@@ -578,7 +577,7 @@ namespace _11_Image_Processing
                     bw.Write(listFLength);
                     bw.Write(listOfFields);
                     bw.Write(docLength);
-                    bw.Write(documentpdf); 
+                    bw.Write(documentpdf);
                     bw.Write(docLengthCopy);
                     bw.Write(documentpdfCopy);
                     bw.Write(nameFieldLength);
@@ -764,7 +763,7 @@ namespace _11_Image_Processing
                 Bitmap image = doc.ExportAsImage(i, ST.dpiExport, ST.dpiExport)/*.CropAddMarginFromSettings()*/;
                 image.SaveToDebugFolder();
 
-                string fn = Path.GetDirectoryName(save.FileName) + "\\"+ Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
+                string fn = Path.GetDirectoryName(save.FileName) + "\\" + Path.GetFileNameWithoutExtension(save.FileName) + $"({i})" + Path.GetExtension(save.FileName);
 
                 image.Save(fn, System.Drawing.Imaging.ImageFormat.Jpeg);
                 image.Dispose();
@@ -796,7 +795,7 @@ namespace _11_Image_Processing
         }
         private void Menu_Export_PDF_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog save = new() { Title = "Save PDF", Filter = $"File Template(*.PDF)|*.PDF", FileName = ST.projectName };
+            SaveFileDialog save = new() { Title = Strings.SavePDF, Filter = $"File Template(*.PDF)|*.PDF", FileName = ST.projectName };
             if (save.ShowDialog() == false) return;
             PdfLoadedDocument doc = Pdf.MakeDocForExportOrPrint();
             doc.Save(save.FileName);
@@ -896,6 +895,48 @@ namespace _11_Image_Processing
             //}
 
         }
+        private void Menu_WithAnswers_Printer_Click(object sender, RoutedEventArgs e)
+        {
+            PdfLoadedDocument doc = Pdf.MakeDocForExportOrPrintWithAnswers();
+            var stream = new MemoryStream();
+            doc.Save(stream);
+
+
+            PrintDialog printDialog = new() { SelectedPagesEnabled = true, UserPageRangeEnabled = true, CurrentPageEnabled = true };
+            if (printDialog.ShowDialog() != true) return;
+
+            string xps = Path.GetTempFileName();
+            var document = new Aspose.Pdf.Document(stream);
+            stream.Dispose();
+            document.Save(xps, Aspose.Pdf.SaveFormat.Xps);
+            document.Dispose();
+
+            // Open the selected document.
+            XpsDocument xpsDocument = new(xps, FileAccess.Read);
+
+            // Get a fixed document sequence for the selected document.
+            FixedDocumentSequence fixedDocSeq = xpsDocument.GetFixedDocumentSequence();
+
+            // Create a paginator for all pages in the selected document.
+            DocumentPaginator docPaginator = fixedDocSeq.DocumentPaginator;
+
+            // Print to a new file.
+            printDialog.PrintDocument(docPaginator, Strings.Printing + ST.originalFile);
+
+
+            File.Delete(xps);
+
+
+        }
+
+        private void Menu_WithAnswers_PDF_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog save = new() { Title = Strings.SavePDF, Filter = $"File Template(*.PDF)|*.PDF", FileName = ST.projectName };
+            if (save.ShowDialog() == false) return;
+            PdfLoadedDocument doc = Pdf.MakeDocForExportOrPrintWithAnswers();
+            doc.Save(save.FileName);
+        }
+
 
         //Read
         //one page files
@@ -979,9 +1020,9 @@ namespace _11_Image_Processing
             var a = new ImportPicturesDialogW(ImageFiles.Length);
             if (a.ShowDialog() != true)
             {
-                if (MessageBox.Show("Realy return?", "caption", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show(Strings.RealyReturn, "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     return;
-                else a.ShowDialog();
+                else { a = new ImportPicturesDialogW(ImageFiles.Length); a.ShowDialog(); }
             }
 
             var da = a.Answer;
@@ -1025,9 +1066,9 @@ namespace _11_Image_Processing
         //evaluate
         private async void Menu_Eavluate_Click(object sender, RoutedEventArgs e)
         {
-            if (ST.allResults == null || MessageBox.Show("Some works are already evaluated, do you want to evaluate anyway?", "warnng", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (ST.allResults == null || MessageBox.Show(Strings.QuestionEvaluateOrUseOld, Strings.EvaluateOrUseOld, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                if (ST.scanPagesInWorks.Count == 0) { MessageBox.Show("No Scans Loaded"); return; }
+                if (ST.scanPagesInWorks.Count == 0) { MessageBox.Show(Strings.NoScansLoaded); return; }
                 new ControlBeforeEvaluatonW().ShowDialog();
 
 
@@ -1045,16 +1086,20 @@ namespace _11_Image_Processing
 
 
 
-                var pbw = new ProgressBarW();
-                pbw.Show();
+                //var pbw = new ProgressBarW();
+                //pbw.Show();
+                porjectwindow.Visibility = Visibility.Hidden;
+                resultswindiw.Visibility = Visibility.Hidden;
+                editWindow.Visibility = Visibility.Hidden;
+                evaluationTextblock.Visibility = Visibility.Visible;
 
                 await Task.Run(() =>
                 {
                     var resultsboxes = ST.scanPagesInWorks.EvaluateWorks(ST.boxesInQuestions);
 
-                //Settings.namesScaned = Settings.scansInPagesInWorks.GetCropedNames(Settings.nameField);
-                //new ViewResultW().Show();
-                ST.allResults = new();
+                    //Settings.namesScaned = Settings.scansInPagesInWorks.GetCropedNames(Settings.nameField);
+                    //new ViewResultW().Show();
+                    ST.allResults = new();
                     for (int i = 0; i < resultsboxes.Count; i++)
                     {
                         List<BinaryResult> l = new();
@@ -1065,8 +1110,9 @@ namespace _11_Image_Processing
                         ST.allResults.Add(new(resultsboxes[i], l));
                     }
                 });
-                pbw.Close();
+                //pbw.Close();
             }
+            evaluationTextblock.Visibility = Visibility.Hidden;
 
             Menu_View_Result.IsEnabled = true;
             Menu_View_Result_Click(null, null);
@@ -1163,7 +1209,7 @@ namespace _11_Image_Processing
                 Menu_Print.IsEnabled = true;
                 Menu_Read.IsEnabled = true;
                 Menu_Eavluate.IsEnabled = true;
-                Menu_Export.IsEnabled = true;
+                //Menu_Export.IsEnabled = true;
                 if (ST.allResults != null) Menu_View_Result.IsEnabled = true;
 
                 reloadButton.IsEnabled = true;
@@ -1267,7 +1313,7 @@ namespace _11_Image_Processing
             Menu_Project_Save.IsEnabled = false;
             Menu_Project_SaveAs.IsEnabled = false;
             Menu_Print.IsEnabled = false;
-            Menu_Export.IsEnabled = false;
+            //Menu_Export.IsEnabled = false;
             Menu_Read.IsEnabled = false;
             Menu_Eavluate.IsEnabled = false;
 
@@ -1315,28 +1361,36 @@ namespace _11_Image_Processing
         }
         private void deletePage_Click(object sender, RoutedEventArgs e)
         {
+            int page = pdfViewControl.CurrentPage - 1;
             var doc = pdfViewControl.LoadedDocument;
             if (doc.Pages.Count == 1) { MessageBox.Show(Strings.cannotDeleteLastPage); return; }
 
-            doc.Pages.RemoveAt(pdfViewControl.CurrentPage - 1);
+            doc.Pages.RemoveAt(page);
 
             var l = ST.boxesInQuestions;
             for (int i = l.Count - 1; i > -1; i--)
             {
-                if (l[i][0].Page == pdfViewControl.CurrentPage - 1)
+                if (l[i][0].Page == page)
                 {
                     l.RemoveAt(i);
                 }
-                else if (l[i][0].Page > pdfViewControl.CurrentPage - 1)
+                else if (l[i][0].Page > page)
                     for (int j = 0; j < l[i].Count; j++)
                     {
                         l[i][j] = new(l[i][j].Page - 1, l[i][j].Rectangle, l[i][j].BoundWidth, l[i][j].IsCorrect);
                     } //deosn't acount for the case where question can be on more than one page
             }
+            for (int i = ST.Fields.Count - 1; i > -1; i--)
+            {
+                if (ST.Fields[i].Item1 == page)
+                    ST.Fields.RemoveAt(i);
+            }
+            if (ST.nameField.Item1 == page)
+                ST.nameField = null;
 
             ReloadDocument();
             doc = new PdfLoadedDocument(ST.tempFileCopy);
-            doc.Pages.RemoveAt(pdfViewControl.CurrentPage - 1);
+            doc.Pages.RemoveAt(page);
             doc.Save();
 
 
@@ -1744,7 +1798,7 @@ namespace _11_Image_Processing
 
             for (int i = 0; i < ST.QS.n; i++)
             {
-                var pointb = new PointF(point.X, point.Y + i * (ST.sizeOfBox.Height + ST.spaceBetweenBoxes +ST.baundWidth));
+                var pointb = new PointF(point.X, point.Y + i * (ST.sizeOfBox.Height + ST.spaceBetweenBoxes + ST.baundWidth));
                 SizeF size = ST.sizeOfBox;
 
                 //square
@@ -1883,7 +1937,7 @@ namespace _11_Image_Processing
             rect.Location = new((int)(Mouse.GetPosition(editWindow).X + 2 * rectangleR.StrokeThickness), (int)(Mouse.GetPosition(editWindow).Y + 2 * rectangleR.StrokeThickness));
             rect.Size = ST.sizeOfBox.ToSize();
 
-            Thickness thickness = new(rect.X , rect.Y, 0, 0);
+            Thickness thickness = new(rect.X, rect.Y, 0, 0);
             rectangleR.Margin = thickness;
 
             rectangleR.Width = rect.Width;
@@ -2183,7 +2237,7 @@ namespace _11_Image_Processing
         internal static List<System.Drawing.Bitmap> namesScaned;
         public void SetupTabsOfView()
         {
-            while (tabsHorizontal.Items.Count>0)
+            while (tabsHorizontal.Items.Count > 0)
                 tabsHorizontal.Items.RemoveAt(0);
             for (int i = 0; i < ST.scanPagesInWorks.Count; i++)
             {
@@ -2220,6 +2274,8 @@ namespace _11_Image_Processing
             fieldsTabsButton.Tag = i;
             fieldsTabsButton.Height = 40;
             fieldsTabsButton.Click += FieldsTabsButton_Click; ;
+            if (ST.Fields.Count < 1)
+                fieldsTabsButton.IsEnabled = false;
 
             var buttons = new StackPanel();
             buttons.Children.Add(fieldsTabsButton);
@@ -2350,7 +2406,7 @@ namespace _11_Image_Processing
 
             int height = 40; //same as allResults listview height of row
 
-            namesPanel.Children.RemoveRange(1, namesPanel.Children.Count-1);
+            namesPanel.Children.RemoveRange(1, namesPanel.Children.Count - 1);
             if (isWithNames)
                 foreach (var item in s)
                 {
@@ -2374,7 +2430,7 @@ namespace _11_Image_Processing
                 foreach (var item in li)
                     if (item.CorrectBool)
                         right++;
-                foreach(var item in lt)
+                foreach (var item in lt)
                 {
                     if (item.BinaryResult.HasValue)
                     {
@@ -2483,17 +2539,17 @@ namespace _11_Image_Processing
         }
         private void CommandBinding_CanExecuteIfEditEnebled(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (ST.tempFile!=null) e.CanExecute = true;
+            if (ST.tempFile != null) e.CanExecute = true;
         }
         private void CommandBinding_CanExecuteIfResultsEnebled(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (ST.allResults!=null) e.CanExecute = true;
+            if (ST.allResults != null) e.CanExecute = true;
         }
 
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (saved || ST.tempFile==null) return;
+            if (saved || ST.tempFile == null) return;
             var f = MessageBox.Show(Strings.savequestion, Strings.closing, MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
             if (f == MessageBoxResult.Cancel) e.Cancel = true;
             if (f != MessageBoxResult.Yes) return;
@@ -2520,6 +2576,7 @@ namespace _11_Image_Processing
             Canvas.SetLeft(previewGrid, dropposition.X);
             Canvas.SetTop(previewGrid, dropposition.Y);
         }
+
 
 
 
@@ -2697,3 +2754,7 @@ namespace _11_Image_Processing
 // add weights on questions
 //todo select first image in before evaluation
 //optimaze for more works (if its not done yet)
+//todo check hash code by streamů
+//bug - nenalézá jazyk
+//přidat prázdné pdf
+//tisk učitelského

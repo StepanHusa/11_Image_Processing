@@ -33,22 +33,29 @@
                     <MenuItem x:Name="Menu_Edit_Boxes" Header="{x:Static ln:Strings.AddBoxes}" Command="local:Commands.EditView"/>
                 </MenuItem>-->
 
-                <MenuItem x:Name="Menu_Export" Header="{x:Static ln:Strings.Export}" IsEnabled="False">
-                    <MenuItem x:Name="Menu_Export_ToJPEG" Header="{x:Static ln:Strings.JPEG}" Click="Menu_Export_ToJPEG_Click"/>
-                    <MenuItem x:Name="Menu_Export_ToPNG" Header="{x:Static ln:Strings.PNG}" Click="Menu_Export_ToPNG_Click"/>
 
+                <MenuItem x:Name="Menu_Print" Header="{x:Static ln:Strings.Print}" IsEnabled="False" >
+                    <MenuItem Header="{x:Static ln:Strings.Printer}" Click="Menu_Print_Click"/>
                     <MenuItem x:Name="Menu_PDF" Header="{x:Static ln:Strings.PDF}" Click="Menu_Export_PDF_Click"/>
-                </MenuItem>
+                    <MenuItem Header="{x:Static ln:Strings.MoreFormats}">
+                        <MenuItem x:Name="Menu_Export_ToJPEG" Header="{x:Static ln:Strings.JPEG}" Click="Menu_Export_ToJPEG_Click"/>
+                        <MenuItem x:Name="Menu_Export_ToPNG" Header="{x:Static ln:Strings.PNG}" Click="Menu_Export_ToPNG_Click"/>
+                    </MenuItem>
+                    <MenuItem Header="{x:Static ln:Strings.WithAnswers}">
+                        <MenuItem x:Name="Menu_WithAnswers_Printer" Header="{x:Static ln:Strings.Printer}" Click="Menu_WithAnswers_Printer_Click"/>
+                        <MenuItem x:Name="Menu_WithAnswers_PDF" Header="{x:Static ln:Strings.PDF}" Click="Menu_WithAnswers_PDF_Click"/>
+                    </MenuItem>
 
-                <MenuItem x:Name="Menu_Print" Header="{x:Static ln:Strings.Print}" IsEnabled="False" Click="Menu_Print_Click"/>
+
+                </MenuItem>
 
                 <MenuItem x:Name="Menu_Read" Header="{x:Static ln:Strings.Read}" IsEnabled="False">
                     <!--<MenuItem x:Name="Menu_Read_PNG" Header="{x:Static ln:Strings.OnePNGtocheck}" Click="Menu_Read_PNG_Click"/>-->
                     <MenuItem x:Name="Menu_Read_PDF" Header="{x:Static ln:Strings.PDFfile}" Click="Menu_Read_PDF_Click"/>
 
-                    <MenuItem x:Name="Menu_Read_ListOfScans" Header="{x:Static ln:Strings.Files}">
-                        <MenuItem x:Name="Menu_Read_ListOfScans_OnePage" Header="{x:Static ln:Strings.OnePaged}" Click="Menu_Read_ListOfScans_OnePage_Click"/>
-                        <MenuItem x:Name="Menu_Read_ListOfScans_Dialog" Header="{x:Static ln:Strings.More}" Click="Menu_Read_ListOfScans_Dialog_Click"/>
+                    <MenuItem x:Name="Menu_Read_ListOfScans" Header="{x:Static ln:Strings.Pictures}" Click="Menu_Read_ListOfScans_Dialog_Click">
+                        <!--<MenuItem x:Name="Menu_Read_ListOfScans_OnePage" Header="{x:Static ln:Strings.OnePaged}" Click="Menu_Read_ListOfScans_OnePage_Click"/>
+                        <MenuItem x:Name="Menu_Read_ListOfScans_Dialog" Header="{x:Static ln:Strings.More}" Click="Menu_Read_ListOfScans_Dialog_Click"/>-->
                     </MenuItem>
                     <MenuItem x:Name="Menu_Read_Scan" Header="{x:Static ln:Strings.Scanner}" Click="Menu_Read_Scan_Click"/>
 
@@ -57,9 +64,9 @@
                 <MenuItem x:Name="Menu_Eavluate" Header="{x:Static ln:Strings.Evaluate}" Click="Menu_Eavluate_Click" IsEnabled="False"/>
 
                 <MenuItem x:Name="Menu_View" Header="{x:Static ln:Strings.View}" Background="#FF2B9099">
-                    <MenuItem x:Name="Menu_View_Main" Header="Overview" Click="Menu_View_Main_Click" InputGestureText="Ctrl+W"/>
-                    <MenuItem x:Name="Menu_View_Edit" Header="Edit" IsEnabled="False" Click="Menu_View_Edit_Click" InputGestureText="Ctrl+E"/>
-                    <MenuItem x:Name="Menu_View_Result" Header="Results"  IsEnabled="False" Click="Menu_View_Result_Click" InputGestureText="Ctrl+R"/>
+                    <MenuItem x:Name="Menu_View_Main" Header="{x:Static ln:Strings.Overview}" Click="Menu_View_Main_Click" InputGestureText="Ctrl+W"/>
+                    <MenuItem x:Name="Menu_View_Edit" Header="{x:Static ln:Strings.EditingWin}" IsEnabled="False" Click="Menu_View_Edit_Click" InputGestureText="Ctrl+E"/>
+                    <MenuItem x:Name="Menu_View_Result" Header="{x:Static ln:Strings.Results}"  IsEnabled="False" Click="Menu_View_Result_Click" InputGestureText="Ctrl+R"/>
                 </MenuItem>
 
                 <MenuItem x:Name="Menu_Help" Header="{x:Static ln:Strings.Help}">
@@ -115,7 +122,7 @@
                     </StackPanel>
 
                     <StackPanel x:Name="newOptions" Grid.Row="1">
-                        <Button Height="220" Margin="30,20,30,20" Background="AliceBlue" BorderBrush="#FF0669AC" Click="Menu_Load_PDF_Click">
+                        <Button Height="220" Margin="30,20,30,10" Background="AliceBlue" BorderBrush="#FF0669AC" Click="Menu_Load_PDF_Click">
                             <StackPanel>
                                 
                             <Image Source="/Resources/icone-pdf-symbole-png-rouge.png" Height="100" />
@@ -123,7 +130,7 @@
                             </StackPanel>
 
                         </Button>
-                        <Button Height="220" Margin="30,20,30,20" Background="AliceBlue" BorderBrush="#FF0669AC" Click="Menu_Load_Word_Click">
+                        <Button Height="220" Margin="30,20,30,10" Background="AliceBlue" BorderBrush="#FF0669AC" Click="Menu_Load_Word_Click">
                             <StackPanel>
 
                                 <Image Source="/Resources/PngItem_339973.png" Height="100"/>
@@ -132,6 +139,16 @@
                             </StackPanel>
 
                         </Button>
+                        <Button Height="80" Margin="30,20,30,10" Background="AliceBlue" BorderBrush="#FF0669AC" Click="Menu_Load_Word_Click">
+                            <StackPanel>
+
+                                <!--<Image Source="/Resources/PngItem_339973.png" Height="100"/>-->
+
+                                <Label Content="{x:Static ln:Strings.ClearPdf}" HorizontalAlignment="Center" FontSize="18"/>
+                            </StackPanel>
+
+                        </Button>
+
                     </StackPanel>
                     
                     <Line X1="1" Y1="0" X2="1" Y2="800" Stroke="Black"    StrokeThickness="2"  HorizontalAlignment="Left" Grid.RowSpan="10"/>
@@ -260,7 +277,7 @@
                 <TabControl x:Name="tabsHorizontal"  TabStripPlacement="Left" Grid.Column="0"/>
 
                 <StackPanel x:Name="namesPanel" Grid.Column="1">
-                    <MenuItem Header="Name"/>
+                    <MenuItem Header="{x:Static ln:Strings.Name}"/>
                 </StackPanel>
                 <ListView x:Name="allResults" Grid.Column="2">
                     <ListView.ItemContainerStyle>
@@ -321,7 +338,7 @@
                                     <RowDefinition/>
                                     <RowDefinition Height="20"/>
                                 </Grid.RowDefinitions>
-                                <Button Grid.Row="0" Width="75" Height="20" Canvas.Top="-20" MouseDown="Button_MouseDown" Panel.ZIndex="1" Content="{x:Static ln:Strings.DragLeft}" FontSize="8" Background="#FF88DDFF"/>
+                                <Button Grid.Row="0" Width="75" Height="20" Canvas.Top="-20" MouseDown="Button_MouseDown" Panel.ZIndex="1" Content="{x:Static ln:Strings.DragRight}" FontSize="8" Background="#FF88DDFF"/>
                                 <Canvas Grid.Row="1" x:Name="preview"   Height="200" Width="75"/>
                                 <!--<Button Grid.Row="2"  x:Name="editPrintBoxes" Click="editPrintBoxes_Click" Content="{x:Static ln:Strings.Print}" Background="#FF6699CC"/>-->
                             </Grid>
@@ -342,7 +359,7 @@
                     <Rectangle x:Name="rectangleR" Stroke="Black" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False"/>
                 </Grid>
             </Grid>
-
+            <TextBlock x:Name="evaluationTextblock" Text="{x:Static ln:Strings.EvaluateingWorks}" Visibility="Hidden" HorizontalAlignment="Center" FontSize="50" VerticalAlignment="Center"/>
         </Grid>
     </Grid>
     <Window.Resources>

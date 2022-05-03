@@ -7,7 +7,10 @@
         mc:Ignorable="d"
             xmlns:ln="clr-namespace:_11_Image_Processing.Resources.Strings"
 
-        Title="Evaluatin..."     SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Height="450" Width="800">
+        Title="{x:Static ln:Strings.Evaluation}"    
+        ShowInTaskbar="False"
+        
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Height="450" Width="800">
 
     <Grid Margin="20">
         <!--<Grid.ColumnDefinitions>

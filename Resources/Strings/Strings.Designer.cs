@@ -70,6 +70,24 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adding .
+        /// </summary>
+        public static string Adding {
+            get {
+                return ResourceManager.GetString("Adding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add New.
+        /// </summary>
+        public static string AddNew {
+            get {
+                return ResourceManager.GetString("AddNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Advanced.
         /// </summary>
         public static string Advanced {
@@ -160,11 +178,29 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bound Width.
+        /// </summary>
+        public static string BoundWidth {
+            get {
+                return ResourceManager.GetString("BoundWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Boxes.
         /// </summary>
         public static string Boxes {
             get {
                 return ResourceManager.GetString("Boxes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Box Size.
+        /// </summary>
+        public static string BoxSize {
+            get {
+                return ResourceManager.GetString("BoxSize", resourceCulture);
             }
         }
         
@@ -187,7 +223,7 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not edit document whan locked.
+        ///   Looks up a localized string similar to Can not edit document when locked.
         ///Unlock in overview..
         /// </summary>
         public static string Canteditwhenlocked {
@@ -224,6 +260,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear PDF.
+        /// </summary>
+        public static string ClearPdf {
+            get {
+                return ResourceManager.GetString("ClearPdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string Close {
@@ -256,6 +301,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string Continue {
             get {
                 return ResourceManager.GetString("Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Control Before Evaluaton.
+        /// </summary>
+        public static string ControlBeforeEvaluaton {
+            get {
+                return ResourceManager.GetString("ControlBeforeEvaluaton", resourceCulture);
             }
         }
         
@@ -314,6 +368,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default Project Name.
+        /// </summary>
+        public static string DefaultProjectName {
+            get {
+                return ResourceManager.GetString("DefaultProjectName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete Page.
         /// </summary>
         public static string DeletePage {
@@ -341,7 +404,7 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Drag left.
+        ///   Looks up a localized string similar to dddddddddd.
         /// </summary>
         public static string DragLeft {
             get {
@@ -350,11 +413,38 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Edit.
+        ///   Looks up a localized string similar to Drag right.
+        /// </summary>
+        public static string DragRight {
+            get {
+                return ResourceManager.GetString("DragRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string EditingEdit {
+            get {
+                return ResourceManager.GetString("EditingEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EditingWin.
+        /// </summary>
+        public static string EditingWin {
+            get {
+                return ResourceManager.GetString("EditingWin", resourceCulture);
             }
         }
         
@@ -395,11 +485,20 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evaluateing Works.
+        ///   Looks up a localized string similar to Evaluateing... Please wait.
         /// </summary>
         public static string EvaluateingWorks {
             get {
                 return ResourceManager.GetString("EvaluateingWorks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evaluate or open old.
+        /// </summary>
+        public static string EvaluateOrUseOld {
+            get {
+                return ResourceManager.GetString("EvaluateOrUseOld", resourceCulture);
             }
         }
         
@@ -436,6 +535,24 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string fillOfWholeSquare {
             get {
                 return ResourceManager.GetString("fillOfWholeSquare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find.
+        /// </summary>
+        public static string Find {
+            get {
+                return ResourceManager.GetString("Find", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font.
+        /// </summary>
+        public static string Font {
+            get {
+                return ResourceManager.GetString("Font", resourceCulture);
             }
         }
         
@@ -521,6 +638,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Edit.
         /// </summary>
         public static string LastEdit {
@@ -548,6 +674,51 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Local.
+        /// </summary>
+        public static string Local {
+            get {
+                return ResourceManager.GetString("Local", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locators Length.
+        /// </summary>
+        public static string LocatorLength {
+            get {
+                return ResourceManager.GetString("LocatorLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locators Margin.
+        /// </summary>
+        public static string LocatorMargin {
+            get {
+                return ResourceManager.GetString("LocatorMargin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locators.
+        /// </summary>
+        public static string Locators {
+            get {
+                return ResourceManager.GetString("Locators", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locators Color.
+        /// </summary>
+        public static string LocatorsColor {
+            get {
+                return ResourceManager.GetString("LocatorsColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Locked.
         /// </summary>
         public static string Locked {
@@ -571,6 +742,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string More {
             get {
                 return ResourceManager.GetString("More", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to More Formats.
+        /// </summary>
+        public static string MoreFormats {
+            get {
+                return ResourceManager.GetString("MoreFormats", resourceCulture);
             }
         }
         
@@ -611,6 +791,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name String.
+        /// </summary>
+        public static string NameString {
+            get {
+                return ResourceManager.GetString("NameString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _New.
         /// </summary>
         public static string New {
@@ -643,6 +832,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string NoProjectLoaded {
             get {
                 return ResourceManager.GetString("NoProjectLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Scans Loaded.
+        /// </summary>
+        public static string NoScansLoaded {
+            get {
+                return ResourceManager.GetString("NoScansLoaded", resourceCulture);
             }
         }
         
@@ -800,6 +998,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Overview.
+        /// </summary>
+        public static string Overview {
+            get {
+                return ResourceManager.GetString("Overview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Paths.
         /// </summary>
         public static string Paths {
@@ -836,6 +1043,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pictures.
+        /// </summary>
+        public static string Pictures {
+            get {
+                return ResourceManager.GetString("Pictures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pictures (all readable).
         /// </summary>
         public static string Picturesallreadable {
@@ -868,6 +1084,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string Print {
             get {
                 return ResourceManager.GetString("Print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Printer.
+        /// </summary>
+        public static string Printer {
+            get {
+                return ResourceManager.GetString("Printer", resourceCulture);
             }
         }
         
@@ -944,6 +1169,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Some works are already evaluated, do you want to evaluate again anyway?.
+        /// </summary>
+        public static string QuestionEvaluateOrUseOld {
+            get {
+                return ResourceManager.GetString("QuestionEvaluateOrUseOld", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Questions.
         /// </summary>
         public static string Questions {
@@ -953,11 +1187,74 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Read.
+        ///   Looks up a localized string similar to Read Scans.
         /// </summary>
         public static string Read {
             get {
                 return ResourceManager.GetString("Read", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reading Scans.
+        /// </summary>
+        public static string ReadingScans {
+            get {
+                return ResourceManager.GetString("ReadingScans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have loaded this many files:.
+        /// </summary>
+        public static string readingscansline1 {
+            get {
+                return ResourceManager.GetString("readingscansline1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How many pages should each work have?.
+        /// </summary>
+        public static string readingscansline2 {
+            get {
+                return ResourceManager.GetString("readingscansline2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This many works it will produce:.
+        /// </summary>
+        public static string readingscansline3 {
+            get {
+                return ResourceManager.GetString("readingscansline3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to leaving this many unused:.
+        /// </summary>
+        public static string readingscansline4 {
+            get {
+                return ResourceManager.GetString("readingscansline4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invert:.
+        /// </summary>
+        public static string readingscansline5 {
+            get {
+                return ResourceManager.GetString("readingscansline5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Realy return?.
+        /// </summary>
+        public static string RealyReturn {
+            get {
+                return ResourceManager.GetString("RealyReturn", resourceCulture);
             }
         }
         
@@ -967,6 +1264,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string Reload {
             get {
                 return ResourceManager.GetString("Reload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Results.
+        /// </summary>
+        public static string Results {
+            get {
+                return ResourceManager.GetString("Results", resourceCulture);
             }
         }
         
@@ -1052,6 +1358,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save PDF.
+        /// </summary>
+        public static string SavePDF {
+            get {
+                return ResourceManager.GetString("SavePDF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project is not saved.
         ///Do you want to save it?.
         /// </summary>
@@ -1107,6 +1422,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Space Between Boxes.
+        /// </summary>
+        public static string spacebetweenBoxes {
+            get {
+                return ResourceManager.GetString("spacebetweenBoxes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Student Tester Projects.
         /// </summary>
         public static string StudentTesterProjects {
@@ -1125,11 +1449,29 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Temp Folder.
+        /// </summary>
+        public static string TempFolder {
+            get {
+                return ResourceManager.GetString("TempFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to text.
         /// </summary>
         public static string text {
             get {
                 return ResourceManager.GetString("text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text Strings.
+        /// </summary>
+        public static string TextStrings {
+            get {
+                return ResourceManager.GetString("TextStrings", resourceCulture);
             }
         }
         
@@ -1303,6 +1645,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string widthofbound {
             get {
                 return ResourceManager.GetString("widthofbound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to With Answers.
+        /// </summary>
+        public static string WithAnswers {
+            get {
+                return ResourceManager.GetString("WithAnswers", resourceCulture);
             }
         }
         
