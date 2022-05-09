@@ -1,0 +1,32 @@
+﻿<Window x:Class="_11_Image_Processing.dialogWindows.AboutW"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_11_Image_Processing.dialogWindows"
+    xmlns:ln="clr-namespace:_11_Image_Processing.Resources.Strings"
+        mc:Ignorable="d"
+    Title="{x:Static ln:Strings.About}"
+        Height="200" Width="280"
+        ResizeMode="NoResize"
+>
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            
+        <Image Source="/Resources/imag.ico" Height="100" HorizontalAlignment="Left"/>
+
+            <StackPanel>
+                <Label Content="{x:Static ln:Strings.NameOfAplication}" FontSize="20"/>
+                <Label Content="{x:Static ln:Strings.version100}"/>
+                <Label Content="Štěpán Husa"/>
+                <Button Content="Github" Click="Button_Click" />
+            </StackPanel>
+        </StackPanel>
+
+        <WrapPanel   Margin="0,15,0,20" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0" Content="{x:Static ln:Strings.OK}"/>
+        </WrapPanel>
+
+
+    </Grid>
+</Window>

@@ -37,7 +37,13 @@ namespace _11_Image_Processing
             foreach (var file in ST.tempFilesToDelete)
             {
                 if (File.Exists(file))
+                    try
+                    {
+
                     File.Delete(file);
+                    }
+                    catch { }
+
             }
         }
         public static void CheckOrCreateLocalRoamingFolder()
@@ -345,7 +351,7 @@ namespace _11_Image_Processing
         {
             if (ST.tempFileCopy == null) return null;
             PdfLoadedDocument doc = new(ST.tempFileCopy);
-            doc.RemakeBoxexOneColor().RemakeFields().RemakeNameField();
+            doc.RemakeBoxexOneColor().RemakeFields().RemakeNameField().AddPositioners();
             return doc;
         }
         public static PdfLoadedDocument MakeDocForExportOrPrintWithAnswers()

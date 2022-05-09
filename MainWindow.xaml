@@ -75,6 +75,7 @@
                 </MenuItem>
 
                 <MenuItem x:Name="Menu_Settions" Header="{x:Static ln:Strings.Settings}" Click="Menu_Settings_Click"/>
+                <MenuItem x:Name="Menu_About" Header="{x:Static ln:Strings.About}" Click="Menu_About_Click"/>
             </Menu >
             <Image x:Name="lockImage" Margin="50,0,0,0" Height="16" Visibility="Hidden" Source="/Resources/icons8-lock-128.ico" />
 

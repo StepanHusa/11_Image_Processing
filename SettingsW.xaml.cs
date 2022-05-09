@@ -162,16 +162,29 @@ namespace _11_Image_Processing
                 LI.languageselection = avalibleLnguages[il];
                 restart = true;
             }
-
+            bool moveTemp = false;
             if (Directory.Exists(tempfolder.Text))
-                tempFolder = tempfolder.Text;
-            else { try { Directory.CreateDirectory(tempfolder.Text); tempFolder = tempfolder.Text; } catch { MessageBox.Show("tempfolder isn't valid"); } }
+                moveTemp = true;
+            else { try { Directory.CreateDirectory(tempfolder.Text); moveTemp=true; } catch { MessageBox.Show("tempfolder isn't valid"); } }
             if(tempprojectname.Text!="")
                 tempProjectName = tempprojectname.Text;
             else MessageBox.Show("default project name isn't valid");
 
-
-            ST.tempDirectoryName = tempFolder;
+            if (moveTemp)
+            {
+                tempFolder = tempfolder.Text;
+                var files = Directory.GetFiles(ST.tempDirectoryName);
+                foreach (var file in files)
+                {
+                    try
+                    {
+                        string newfile = tempFolder + "\\" + System.IO.Path.GetFileName(file);
+                        File.Move(file, newfile);
+                    }
+                    catch { }
+                }
+                ST.tempDirectoryName = tempFolder;
+            }
             ST.templateProjectName = tempProjectName;
             //ST.projectExtension = projectExtension;
             //ST.fileCode = fileCode;
@@ -256,7 +269,7 @@ namespace _11_Image_Processing
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var open = new System.Windows.Forms.FolderBrowserDialog();
+            var open = new System.Windows.Forms.FolderBrowserDialog() { SelectedPath=ST.tempDirectoryName };
             if (open.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
             tempFolder = open.SelectedPath;
             tempfolder.Text = tempFolder;

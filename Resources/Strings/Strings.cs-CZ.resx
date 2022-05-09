@@ -620,7 +620,7 @@ Chcete jej přesunout sem? </value>
 		<value>Prázdné PDF</value>
 	</data>
 	<data name="MoreFormats" xml:space="preserve">
-		<value>Více Formátů</value>
+		<value>Další Formáty</value>
 	</data>
 	<data name="Printer" xml:space="preserve">
 		<value>Tiskárna</value>
@@ -654,5 +654,14 @@ Chcete jej přesunout sem? </value>
 	</data>
 	<data name="RealyReturn" xml:space="preserve">
 		<value>Opravdu zrušit?</value>
+	</data>
+	<data name="LocatorThickness" xml:space="preserve">
+		<value>Tloušťka zarovnávačů</value>
+	</data>
+	<data name="About" xml:space="preserve">
+		<value>O Aplikaci</value>
+	</data>
+	<data name="version100" xml:space="preserve">
+		<value>verze 1.0.0 (22/5)</value>
 	</data>
 </root>

@@ -61,6 +61,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _AddBoxes.
         /// </summary>
         public static string AddBoxes {
@@ -719,6 +728,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Locators Thickness.
+        /// </summary>
+        public static string LocatorThickness {
+            get {
+                return ResourceManager.GetString("LocatorThickness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Locked.
         /// </summary>
         public static string Locked {
@@ -1223,7 +1241,7 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This many works it will produce:.
+        ///   Looks up a localized string similar to Works it will produce:.
         /// </summary>
         public static string readingscansline3 {
             get {
@@ -1232,7 +1250,7 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to leaving this many unused:.
+        ///   Looks up a localized string similar to Leaving this many unused:.
         /// </summary>
         public static string readingscansline4 {
             get {
@@ -1572,6 +1590,15 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string Untitled {
             get {
                 return ResourceManager.GetString("Untitled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to version 1.0.0 (22/5).
+        /// </summary>
+        public static string version100 {
+            get {
+                return ResourceManager.GetString("version100", resourceCulture);
             }
         }
         

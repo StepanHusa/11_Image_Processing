@@ -226,7 +226,7 @@ namespace _11_Image_Processing
 
                 //    var value = doc.RecognizeTaggedBoxesDebug(d01, listOfPages);
 
-
+                
 
                 //    var p = new Process();
                 //    p.StartInfo.UseShellExecute = true;
@@ -440,6 +440,7 @@ namespace _11_Image_Processing
 
             UnloadProject();
             LoadPDFDocument(ToLocation);
+            File.Delete(ToLocation);
         }
 
         private void LoadPDFDocument(string fileName)
@@ -459,12 +460,12 @@ namespace _11_Image_Processing
             {
                 File.Copy(fileName, tempPdf);
             }
+            File.Copy(tempPdf, tempCopy);
 
             var doc = new PdfLoadedDocument(tempPdf);
             doc.AddPositioners();
             doc.Save();
             doc.Dispose();
-            File.Copy(tempPdf, tempCopy);
 
             ST.tempFile = tempPdf;
             ST.tempFilesToDelete.Add(tempPdf);
@@ -799,6 +800,9 @@ namespace _11_Image_Processing
             if (save.ShowDialog() == false) return;
             PdfLoadedDocument doc = Pdf.MakeDocForExportOrPrint();
             doc.Save(save.FileName);
+
+
+
         }
         private void Menu_Print_Click(object sender, RoutedEventArgs e)
         {
@@ -806,7 +810,6 @@ namespace _11_Image_Processing
 
             //printDoc.Print(Settings.tempFile);
             //printDoc.
-
 
 
 
@@ -842,18 +845,19 @@ namespace _11_Image_Processing
             //}
 
 
-
-            PdfLoadedDocument doc = Pdf.MakeDocForExportOrPrint();
-            var stream = new MemoryStream();
-            doc.Save(stream);
-
-
             PrintDialog printDialog = new() { SelectedPagesEnabled = true, UserPageRangeEnabled = true, CurrentPageEnabled = true };
             if (printDialog.ShowDialog() != true) return;
 
             string xps = Path.GetTempFileName();
-            var document = new Aspose.Pdf.Document(stream);
-            stream.Dispose();
+            string pdf = Path.GetTempFileName();
+            PdfLoadedDocument doc = Pdf.MakeDocForExportOrPrint();
+            doc.Save(pdf);
+            
+            //var stream = new MemoryStream();
+            //doc.Save(stream);
+            //var document = new Aspose.Pdf.Document(stream);
+            var document = new Aspose.Pdf.Document(pdf);
+            //stream.Dispose();
             document.Save(xps, Aspose.Pdf.SaveFormat.Xps);
             document.Dispose();
 
@@ -870,7 +874,7 @@ namespace _11_Image_Processing
             printDialog.PrintDocument(docPaginator, Strings.Printing + ST.originalFile);
 
 
-            File.Delete(xps);
+            ST.tempFilesToDelete.Add(xps);
             //string xpsFileName = Path.GetFileName(xpsFilePath);
 
             //prin
@@ -897,17 +901,22 @@ namespace _11_Image_Processing
         }
         private void Menu_WithAnswers_Printer_Click(object sender, RoutedEventArgs e)
         {
-            PdfLoadedDocument doc = Pdf.MakeDocForExportOrPrintWithAnswers();
-            var stream = new MemoryStream();
-            doc.Save(stream);
 
 
-            PrintDialog printDialog = new() { SelectedPagesEnabled = true, UserPageRangeEnabled = true, CurrentPageEnabled = true };
+            PrintDialog printDialog = new() { SelectedPagesEnabled = true, UserPageRangeEnabled = true, CurrentPageEnabled = true};
             if (printDialog.ShowDialog() != true) return;
 
             string xps = Path.GetTempFileName();
-            var document = new Aspose.Pdf.Document(stream);
-            stream.Dispose();
+            string pdf = Path.GetTempFileName();
+            PdfLoadedDocument doc = Pdf.MakeDocForExportOrPrintWithAnswers();
+            doc.Save(pdf);
+
+
+            //var stream = new MemoryStream();
+            //doc.Save(stream);
+            //var document = new Aspose.Pdf.Document(stream);
+            var document = new Aspose.Pdf.Document(pdf);
+            //stream.Dispose();
             document.Save(xps, Aspose.Pdf.SaveFormat.Xps);
             document.Dispose();
 
@@ -924,10 +933,11 @@ namespace _11_Image_Processing
             printDialog.PrintDocument(docPaginator, Strings.Printing + ST.originalFile);
 
 
-            File.Delete(xps);
+            ST.tempFilesToDelete.Add(xps);
 
 
         }
+
 
         private void Menu_WithAnswers_PDF_Click(object sender, RoutedEventArgs e)
         {
@@ -963,9 +973,6 @@ namespace _11_Image_Processing
             List<string> tempScans = new();
             string path;
 
-
-
-
             foreach (var item in open.FileNames)
             {
                 var doc = new PdfLoadedDocument(item);
@@ -975,11 +982,7 @@ namespace _11_Image_Processing
                     Bitmap bitmap = doc.ExportAsImage(j, ST.dpiEvaluatePdf, ST.dpiEvaluatePdf);
                     do
                     {
-                        path = Path.GetTempFileName();
-                        if (File.Exists(path))
-                        {
-                            File.Delete(path);
-                        }
+                        path = ST.tempDirectoryName+"\\"+Path.GetRandomFileName();
                         path = Path.ChangeExtension(path, ".bmp");
 
                     } while (File.Exists(path));
@@ -1171,7 +1174,7 @@ namespace _11_Image_Processing
         }
         private void Menu_Help_CHM_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.Help.ShowHelp(null, "StudentTesterHelp.chm");
+            System.Windows.Forms.Help.ShowHelp(null, "Student Tester Help.chm");
 
         }
 
@@ -2522,6 +2525,12 @@ namespace _11_Image_Processing
         }
         private void CommandBinding_Unload_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            var f = MessageBox.Show(Strings.savequestion, Strings.closing, MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+            if (f == MessageBoxResult.Cancel) return;
+            if (f == MessageBoxResult.Yes)
+                if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
+                else if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null);
+                else MessageBox.Show(Strings.NoProjectLoaded, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
             UnloadProject();
         }
 
@@ -2557,6 +2566,7 @@ namespace _11_Image_Processing
             else if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null);
             else MessageBox.Show(Strings.NoProjectLoaded, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+
         private void Window_Closed(object sender, EventArgs e)
         {
             FileAndFolderExtensions.DeleteTempFiles();
@@ -2575,6 +2585,11 @@ namespace _11_Image_Processing
             var dropposition = e.GetPosition(editRightCanvas) - previewGridOfset;
             Canvas.SetLeft(previewGrid, dropposition.X);
             Canvas.SetTop(previewGrid, dropposition.Y);
+        }
+
+        private void Menu_About_Click(object sender, RoutedEventArgs e)
+        {
+            new _11_Image_Processing.dialogWindows.AboutW().ShowDialog();
         }
 
 
