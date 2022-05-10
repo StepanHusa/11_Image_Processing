@@ -77,7 +77,7 @@ namespace _11_Image_Processing
             {
                 for (int i = 0; i < ST.GradingSettings.GradeBottomBoarder.Length; i++)
                 {
-                    if (Percents >= ST.GradingSettings.GradeBottomBoarder[i]) return i;
+                    if (Percents >= ST.GradingSettings.GradeBottomBoarder[i]) return i+1;
                 }
                 return 5;
             }

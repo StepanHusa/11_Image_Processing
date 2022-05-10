@@ -1033,36 +1033,39 @@ namespace _11_Image_Processing
         public static List<List<List<bool>>> EvaluateWorks(this List<List<string>> works, List<List<Box>> questions)
         {
             List<List<List<bool>>> resultsAll = new();
-            //foreach (var work in works)
-            //{
-            //    try
-            //    {
-            //        resultsAll.Add(work.EvaluateOneWork(questions));
-            //    }
-            //    catch
-            //    {
-            //        System.Windows.MessageBox.Show(Strings.errorEvaluating + works.IndexOf(work), Strings.Error);
-            //        for (int l = 0; l < questions.Count; l++)
-            //        {
-            //            List<bool> resultsQuestion = new();
-
-            //            for (int j = 0; j < questions[l].Count; j++)
-            //            {
-            //                resultsQuestion.Add(false);
-            //            }
-            //            resultsAll[l].Add(resultsQuestion);
-            //        }
-
-            //    }
-            //}
             ST.matrixPagesInWorks = new Matrix[works.Count][];
             for (int i = 0; i < works.Count; i++)
                 resultsAll.Add(new());
-            Parallel.For(0, works.Count, (i) =>
+
+            if(ST.evaluateSafely)
+                foreach (var work in works)
+                {
+                    try
+                    {
+                        resultsAll.Add(work.EvaluateOneWork(questions, works.IndexOf(work)));
+                    }
+                    catch
+                    {
+                        System.Windows.MessageBox.Show(Strings.errorEvaluating + works.IndexOf(work), Strings.Error);
+                        for (int l = 0; l < questions.Count; l++)
+                        {
+                            List<bool> resultsQuestion = new();
+
+                            for (int j = 0; j < questions[l].Count; j++)
+                            {
+                                resultsQuestion.Add(false);
+                            }
+                            resultsAll[l].Add(resultsQuestion);
+                        }
+
+                    }
+                }
+            else
+                Parallel.For(0, works.Count, (i) =>
             {
                 try
                 {
-                    resultsAll[i] = works[i].EvaluateOneWork(questions,i);
+                    resultsAll[i] = works[i].EvaluateOneWork(questions, i);
                 }
                 catch
                 {

@@ -9,6 +9,7 @@
     Title="{x:Static ln:Strings.About}"
         Height="200" Width="280"
         ResizeMode="NoResize"
+        ShowInTaskbar="False"
 >
     <Grid>
         <StackPanel Orientation="Horizontal">

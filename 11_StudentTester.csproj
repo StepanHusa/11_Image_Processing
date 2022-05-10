@@ -42,7 +42,6 @@
 
   <ItemGroup>
     <PackageReference Include="Aspose.PDF" Version="22.4.0" />
-    <PackageReference Include="Aspose.Words" Version="22.5.0" />
     <PackageReference Include="ImageProcessor" Version="2.9.1" />
     <PackageReference Include="PdfPrintingNet" Version="4.10.7" />
     <PackageReference Include="QRCoder" Version="1.4.2" />

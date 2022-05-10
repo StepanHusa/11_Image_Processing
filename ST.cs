@@ -47,6 +47,8 @@ namespace _11_Image_Processing
 
         internal static double treshold = 0.7;
 
+        internal static bool evaluateSafely = false;
+
         internal static string roamingFolderName="StudentTesterLocalData";
         internal static string roamingFolder { get { return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)+"\\"+roamingFolderName; } }
         internal static string tempDirectoryName = Path.GetTempPath() + "Vladislav_Valek_Je_Uzasny";

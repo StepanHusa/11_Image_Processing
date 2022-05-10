@@ -307,7 +307,7 @@ namespace _11_Image_Processing
             string date = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
             for (int i = 0; i < l.Count; i++)
             {
-                if (l[i].Name == ST.projectName)
+                if (l[i].Location == ST.projectFileName)
                 {
                     IsThere = true;
                     pi = l[i];
@@ -334,7 +334,7 @@ namespace _11_Image_Processing
             string date = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
             for (int i = 0; i < l.Count; i++)
             {
-                if (l[i].Name == ST.projectName)
+                if (l[i].Location == ST.projectFileName)
                 {
                     IsThere = true;
                     pi = l[i];
@@ -1791,7 +1791,8 @@ namespace _11_Image_Processing
             int pindex = args.PageIndex;
             double zoom = pdfViewControl.ZoomPercentage / 100.0;
 
-            PointF point = new((float)(args.Position.X * 0.75 / zoom), (float)(args.Position.Y * 0.75 / zoom));
+            PointF point = new((float)(args.Position.X * 0.75 / zoom), 
+                (float)(args.Position.Y * 0.75 / zoom));
 
             //get the index of new question
             int iQ = ST.boxesInQuestions.Count;
@@ -1820,7 +1821,7 @@ namespace _11_Image_Processing
             ReloadDocument();
             pdfViewControl.Zoom = zoom * 100;
 
-
+            
         }
         private void Pdfwcontrol_PageClicked_Tog(object sender, PageClickedEventArgs args)
         {
@@ -2366,22 +2367,26 @@ namespace _11_Image_Processing
         private List<ResultOfQuestion> GetListToDisplay(int workindex)
         {
             var list = new List<ResultOfQuestion>();
-            int ii = 0;
-            foreach (var question in ST.boxesInQuestions)
+            try
             {
-                ii++;
-                int q = ST.boxesInQuestions.IndexOf(question);
-                string correct = string.Empty;
-                string checkedd = string.Empty;
+                int ii = 0;
+                foreach (var question in ST.boxesInQuestions)
+                {
+                    ii++;
+                    int q = ST.boxesInQuestions.IndexOf(question);
+                    string correct = string.Empty;
+                    string checkedd = string.Empty;
 
-                foreach (var box in question)
-                    if (box.IsCorrect) correct += $"{question.IndexOf(box).IntToAlphabet()}, ";
+                    foreach (var box in question)
+                        if (box.IsCorrect) correct += $"{question.IndexOf(box).IntToAlphabet()}, ";
 
-                for (int i = 0; i < ST.allResults[workindex].BoxBinary[q].Count; i++)
-                    if (ST.allResults[workindex].BoxBinary[q][i]) checkedd += $"{i.IntToAlphabet()}, ";
+                    for (int i = 0; i < ST.allResults[workindex].BoxBinary[q].Count; i++)
+                        if (ST.allResults[workindex].BoxBinary[q][i]) checkedd += $"{i.IntToAlphabet()}, ";
 
-                list.Add(new(checkedd, correct, ii));
+                    list.Add(new(checkedd, correct, ii));
+                }
             }
+            catch { }
             return list;
         }
         private List<ResultOfField> GetFieldsListToDisplay(int workindex)
@@ -2525,12 +2530,15 @@ namespace _11_Image_Processing
         }
         private void CommandBinding_Unload_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var f = MessageBox.Show(Strings.savequestion, Strings.closing, MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-            if (f == MessageBoxResult.Cancel) return;
-            if (f == MessageBoxResult.Yes)
-                if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
-                else if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null);
-                else MessageBox.Show(Strings.NoProjectLoaded, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (!saved)
+            {
+                var f = MessageBox.Show(Strings.savequestion, Strings.closing, MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                if (f == MessageBoxResult.Cancel) return;
+                if (f == MessageBoxResult.Yes)
+                    if (Menu_Project_Save.IsEnabled) Menu_Save_Project_Click(null, null);
+                    else if (Menu_Project_SaveAs.IsEnabled) Menu_Save_ProjectAs_Click(null, null);
+                    else MessageBox.Show(Strings.NoProjectLoaded, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             UnloadProject();
         }
 

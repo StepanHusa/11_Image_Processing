@@ -45,11 +45,18 @@ namespace _11_Image_Processing
         private System.Drawing.Color baundColor =ST.baundColor;
         private System.Drawing.Color baundColorTwo=ST.baundColorTwo;
 
+        //locators
+        private System.Drawing.Color positionersColor = ST.positionersColor;
+        private float positionersWidth = ST.positionersWidth;
+        private float positionersMargin = ST.positionersMargin;
+        private float positionersLegLength = ST.positionersLegLength;
+
 
         //more
         private float dpiExport = ST.dpiExport;
         private float dpiEvaluatePdf = ST.dpiEvaluatePdf;
 
+        private bool evaluateSafely = ST.evaluateSafely;
 
         public SettingsW()
         {
@@ -101,14 +108,19 @@ namespace _11_Image_Processing
             numberOfBoxes.Text = nOfBoxes.ToString();
             between.Text = spaceBetweenBoxes.ToString();
 
+            //locators
+            colorPosits.Background = new SolidColorBrush(ST.positionersColor.ColorFromDrawing());
+            boundWithPositioners.Text = positionersWidth.ToString();
+            positionersmargin.Text = positionersMargin.ToString();
+            positionerslegLength.Text= positionersLegLength.ToString();
+
             //more
             //exportdpi.Text = dpiExport.ToString();
             //evaluatedpi.Text = dpiEvaluatePdf.ToString();
+            //advanced
+            safeevaluationcheckbox.IsChecked = evaluateSafely;
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-        }
 
         private void IfEnterMoveFocus_KeyDown(object sender, KeyEventArgs e)
         {
@@ -231,12 +243,38 @@ namespace _11_Image_Processing
             ST.baundColor = baundColor;
             ST.baundColorTwo = baundColorTwo;
 
+            //locators
+            ST.positionersColor = positionersColor;
+            try
+            {
+                double f = double.Parse(boundWithPositioners.Text);
+                positionersWidth = (float)f;
+            }
+            catch { MessageBox.Show("positioners width of boxes isn't valid"); }
+            try
+            {
+                double f = double.Parse(positionersmargin.Text);
+                positionersMargin = (float)f;
+            }
+            catch { MessageBox.Show("positioners margin between boxes isn't valid"); }
+            try
+            {
+                double f = double.Parse(positionerslegLength.Text);
+                positionersLegLength = (float)f;
+            }
+            catch { MessageBox.Show("positioners Leg Length margin between boxes isn't valid"); }
 
+            ST.positionersWidth = positionersWidth;
+            ST.positionersMargin = positionersMargin;
+            ST.positionersLegLength = positionersLegLength;
             //more
             //ST.dpiExport = dpiExport;
             //ST.dpiEvaluatePdf = dpiEvaluatePdf;
+            //advanced
+            evaluateSafely = safeevaluationcheckbox.IsChecked.Value;
+            ST.evaluateSafely = evaluateSafely;
 
-            if(restart)
+            if (restart)
                 MessageBox.Show("Some changes will take effect after restart.");
         }
 
@@ -273,6 +311,16 @@ namespace _11_Image_Processing
             if (open.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
             tempFolder = open.SelectedPath;
             tempfolder.Text = tempFolder;
+        }
+
+        private void colorLoc_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.ColorDialog cd = new();
+            if (cd.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+
+            positionersColor = cd.Color;
+            colorPosits.Background = new SolidColorBrush(baundColorTwo.ColorFromDrawing());
+
         }
     }
 }

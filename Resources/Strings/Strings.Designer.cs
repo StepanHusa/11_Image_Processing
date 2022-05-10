@@ -1594,6 +1594,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use safe evaluation.
+        /// </summary>
+        public static string UseSafeEvaluation {
+            get {
+                return ResourceManager.GetString("UseSafeEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to version 1.0.0 (22/5).
         /// </summary>
         public static string version100 {

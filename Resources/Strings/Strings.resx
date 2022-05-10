@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
+  <!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,615 +59,617 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="metadata">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" />
-							</xsd:sequence>
-							<xsd:attribute name="name" use="required" type="xsd:string" />
-							<xsd:attribute name="type" type="xsd:string" />
-							<xsd:attribute name="mimetype" type="xsd:string" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="assembly">
-						<xsd:complexType>
-							<xsd:attribute name="alias" type="xsd:string" />
-							<xsd:attribute name="name" type="xsd:string" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>2.0</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<data name="AddBoxes" xml:space="preserve">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddBoxes" xml:space="preserve">
     <value>_AddBoxes</value>
   </data>
-	<data name="Adding" xml:space="preserve">
+  <data name="Adding" xml:space="preserve">
     <value>Adding </value>
   </data>
-	<data name="AddNew" xml:space="preserve">
+  <data name="AddNew" xml:space="preserve">
     <value>Add New</value>
   </data>
-	<data name="Advanced" xml:space="preserve">
+  <data name="Advanced" xml:space="preserve">
     <value>Advanced</value>
   </data>
-	<data name="Allfiles" xml:space="preserve">
+  <data name="Allfiles" xml:space="preserve">
     <value>All files</value>
   </data>
-	<data name="AltHold" xml:space="preserve">
+  <data name="AltHold" xml:space="preserve">
     <value>Alt (Hold)</value>
   </data>
-	<data name="Answer" xml:space="preserve">
+  <data name="Answer" xml:space="preserve">
     <value>Answer</value>
   </data>
-	<data name="AnswerBoxColor" xml:space="preserve">
+  <data name="AnswerBoxColor" xml:space="preserve">
     <value>Answer Box Color</value>
   </data>
-	<data name="AnswerBoxColor2" xml:space="preserve">
+  <data name="AnswerBoxColor2" xml:space="preserve">
     <value>Answer Box Color 2</value>
   </data>
-	<data name="AnswerBoxes" xml:space="preserve">
+  <data name="AnswerBoxes" xml:space="preserve">
     <value>Answer Boxes</value>
   </data>
-	<data name="AnswerField" xml:space="preserve">
+  <data name="AnswerField" xml:space="preserve">
     <value>Answer Field</value>
   </data>
-	<data name="Apply" xml:space="preserve">
+  <data name="Apply" xml:space="preserve">
     <value>Apply</value>
   </data>
-	<data name="BlankPDFFile" xml:space="preserve">
+  <data name="BlankPDFFile" xml:space="preserve">
     <value>Blank PDF File</value>
   </data>
-	<data name="BoundWidth" xml:space="preserve">
+  <data name="BoundWidth" xml:space="preserve">
     <value>Bound Width</value>
   </data>
-	<data name="Boxes" xml:space="preserve">
+  <data name="Boxes" xml:space="preserve">
     <value>Boxes</value>
   </data>
-	<data name="BoxSize" xml:space="preserve">
+  <data name="BoxSize" xml:space="preserve">
     <value>Box Size</value>
   </data>
-	<data name="Cancel" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
-	<data name="cannotDeleteLastPage" xml:space="preserve">
+  <data name="cannotDeleteLastPage" xml:space="preserve">
     <value>Can not delete last page</value>
   </data>
-	<data name="Canteditwhenlocked" xml:space="preserve">
+  <data name="Canteditwhenlocked" xml:space="preserve">
     <value>Can not edit document when locked.
 Unlock in overview.</value>
   </data>
-	<data name="Checked" xml:space="preserve">
+  <data name="Checked" xml:space="preserve">
     <value>Checked</value>
   </data>
-	<data name="CHM" xml:space="preserve">
+  <data name="CHM" xml:space="preserve">
     <value>CHM</value>
   </data>
-	<data name="ChooseAction" xml:space="preserve">
+  <data name="ChooseAction" xml:space="preserve">
     <value>Choose Action</value>
   </data>
-	<data name="ClearPdf" xml:space="preserve">
+  <data name="ClearPdf" xml:space="preserve">
     <value>Clear PDF</value>
   </data>
-	<data name="Close" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
-	<data name="closing" xml:space="preserve">
+  <data name="closing" xml:space="preserve">
     <value>Closing...</value>
   </data>
-	<data name="Colors" xml:space="preserve">
+  <data name="Colors" xml:space="preserve">
     <value>Colors</value>
   </data>
-	<data name="Continue" xml:space="preserve">
+  <data name="Continue" xml:space="preserve">
     <value>Continue</value>
   </data>
-	<data name="ControlBeforeEvaluaton" xml:space="preserve">
+  <data name="ControlBeforeEvaluaton" xml:space="preserve">
     <value>Control Before Evaluaton</value>
   </data>
-	<data name="ConvertedFromWord" xml:space="preserve">
+  <data name="ConvertedFromWord" xml:space="preserve">
     <value>_(ConvertedFromWord)</value>
   </data>
-	<data name="Correct" xml:space="preserve">
+  <data name="Correct" xml:space="preserve">
     <value>Correct</value>
   </data>
-	<data name="Count" xml:space="preserve">
+  <data name="Count" xml:space="preserve">
     <value>Count</value>
   </data>
-	<data name="crossmethod" xml:space="preserve">
+  <data name="crossmethod" xml:space="preserve">
     <value>Cross recognition</value>
   </data>
-	<data name="Dateoflastsave" xml:space="preserve">
+  <data name="Dateoflastsave" xml:space="preserve">
     <value>Date of last save</value>
   </data>
-	<data name="Decidewhichfieldsareansweredcorrectly" xml:space="preserve">
+  <data name="Decidewhichfieldsareansweredcorrectly" xml:space="preserve">
     <value>Decide which fields are answered correctly</value>
   </data>
-	<data name="DefaultProjectName" xml:space="preserve">
+  <data name="DefaultProjectName" xml:space="preserve">
     <value>Default Project Name</value>
   </data>
-	<data name="DeletePage" xml:space="preserve">
+  <data name="DeletePage" xml:space="preserve">
     <value>Delete Page</value>
   </data>
-	<data name="Document" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Document</value>
   </data>
-	<data name="Drag" xml:space="preserve">
+  <data name="Drag" xml:space="preserve">
     <value>Drag</value>
   </data>
-	<data name="DragRight" xml:space="preserve">
+  <data name="DragRight" xml:space="preserve">
     <value>Drag right</value>
   </data>
-	<data name="Edit" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>Edit</value>
     <comment>Upravit (cz)</comment>
   </data>
-	<data name="EditingEdit" xml:space="preserve">
+  <data name="EditingEdit" xml:space="preserve">
     <value>Edit</value>
     <comment>úpravy (cz)</comment>
   </data>
-	<data name="EditingWin" xml:space="preserve">
+  <data name="EditingWin" xml:space="preserve">
     <value>EditingWin</value>
     <comment>úpravy (okno)</comment>
   </data>
-	<data name="Enteryourtext" xml:space="preserve">
+  <data name="Enteryourtext" xml:space="preserve">
     <value>Enter your text</value>
   </data>
-	<data name="Error" xml:space="preserve">
+  <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
-	<data name="errorEvaluating" xml:space="preserve">
+  <data name="errorEvaluating" xml:space="preserve">
     <value>Could not evaluate work number</value>
   </data>
-	<data name="Evaluate" xml:space="preserve">
+  <data name="Evaluate" xml:space="preserve">
     <value>_Evaluate</value>
   </data>
-	<data name="EvaluateingWorks" xml:space="preserve">
+  <data name="EvaluateingWorks" xml:space="preserve">
     <value>Evaluateing... Please wait</value>
   </data>
-	<data name="EvaluateOrUseOld" xml:space="preserve">
+  <data name="EvaluateOrUseOld" xml:space="preserve">
     <value>Evaluate or open old</value>
   </data>
-	<data name="Evaluation" xml:space="preserve">
+  <data name="Evaluation" xml:space="preserve">
     <value>Evaluation</value>
   </data>
-	<data name="Export" xml:space="preserve">
+  <data name="Export" xml:space="preserve">
     <value>_Export</value>
   </data>
-	<data name="Files" xml:space="preserve">
+  <data name="Files" xml:space="preserve">
     <value>_Files</value>
   </data>
-	<data name="fillOfWholeSquare" xml:space="preserve">
+  <data name="fillOfWholeSquare" xml:space="preserve">
     <value>Fill of the whole square</value>
   </data>
-	<data name="Find" xml:space="preserve">
+  <data name="Find" xml:space="preserve">
     <value>Find</value>
   </data>
-	<data name="Font" xml:space="preserve">
+  <data name="Font" xml:space="preserve">
     <value>Font</value>
   </data>
-	<data name="FromExistingPDF" xml:space="preserve">
+  <data name="FromExistingPDF" xml:space="preserve">
     <value>From Existing PDF</value>
   </data>
-	<data name="FromWordDocument" xml:space="preserve">
+  <data name="FromWordDocument" xml:space="preserve">
     <value>From Word Document</value>
   </data>
-	<data name="General" xml:space="preserve">
+  <data name="General" xml:space="preserve">
     <value>General</value>
   </data>
-	<data name="Grade" xml:space="preserve">
+  <data name="Grade" xml:space="preserve">
     <value>Grade</value>
   </data>
-	<data name="Help" xml:space="preserve">
+  <data name="Help" xml:space="preserve">
     <value>_Help</value>
   </data>
-	<data name="HTML" xml:space="preserve">
+  <data name="HTML" xml:space="preserve">
     <value>HTML</value>
   </data>
-	<data name="Image" xml:space="preserve">
+  <data name="Image" xml:space="preserve">
     <value>Image</value>
   </data>
-	<data name="Index" xml:space="preserve">
+  <data name="Index" xml:space="preserve">
     <value>Index</value>
   </data>
-	<data name="JPEG" xml:space="preserve">
+  <data name="JPEG" xml:space="preserve">
     <value>_JPEG</value>
   </data>
-	<data name="Language" xml:space="preserve">
+  <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>
-	<data name="LastEdit" xml:space="preserve">
+  <data name="LastEdit" xml:space="preserve">
     <value>Last Edit</value>
   </data>
-	<data name="LastOpened" xml:space="preserve">
+  <data name="LastOpened" xml:space="preserve">
     <value>Last Opened</value>
   </data>
-	<data name="LoadedScans" xml:space="preserve">
+  <data name="LoadedScans" xml:space="preserve">
     <value>LoadedScans</value>
   </data>
-	<data name="Local" xml:space="preserve">
+  <data name="Local" xml:space="preserve">
     <value>Local</value>
   </data>
-	<data name="LocatorLength" xml:space="preserve">
+  <data name="LocatorLength" xml:space="preserve">
     <value>Locators Length</value>
   </data>
-	<data name="LocatorMargin" xml:space="preserve">
+  <data name="LocatorMargin" xml:space="preserve">
     <value>Locators Margin</value>
   </data>
-	<data name="Locators" xml:space="preserve">
+  <data name="Locators" xml:space="preserve">
     <value>Locators</value>
   </data>
-	<data name="LocatorsColor" xml:space="preserve">
+  <data name="LocatorsColor" xml:space="preserve">
     <value>Locators Color</value>
   </data>
-	<data name="Locked" xml:space="preserve">
+  <data name="Locked" xml:space="preserve">
     <value>Locked</value>
   </data>
-	<data name="Minimize" xml:space="preserve">
+  <data name="Minimize" xml:space="preserve">
     <value>Minimize</value>
   </data>
-	<data name="More" xml:space="preserve">
+  <data name="More" xml:space="preserve">
     <value>_More</value>
   </data>
-	<data name="Name" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
-	<data name="Name Field" xml:space="preserve">
+  <data name="Name Field" xml:space="preserve">
     <value>Name Field</value>
   </data>
-	<data name="NameField" xml:space="preserve">
+  <data name="NameField" xml:space="preserve">
     <value>Name Field</value>
   </data>
-	<data name="NameOfAplication" xml:space="preserve">
+  <data name="NameOfAplication" xml:space="preserve">
     <value>Student Tester</value>
   </data>
-	<data name="NameString" xml:space="preserve">
+  <data name="NameString" xml:space="preserve">
     <value>Name String</value>
   </data>
-	<data name="New" xml:space="preserve">
+  <data name="New" xml:space="preserve">
     <value>_New</value>
   </data>
-	<data name="NewPage" xml:space="preserve">
+  <data name="NewPage" xml:space="preserve">
     <value>New Page</value>
   </data>
-	<data name="No" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
-	<data name="NoProjectLoaded" xml:space="preserve">
+  <data name="NoProjectLoaded" xml:space="preserve">
     <value>No Project Loaded</value>
   </data>
-	<data name="NoScansLoaded" xml:space="preserve">
+  <data name="NoScansLoaded" xml:space="preserve">
     <value>No Scans Loaded</value>
   </data>
-	<data name="notabletoread" xml:space="preserve">
+  <data name="notabletoread" xml:space="preserve">
     <value>Not able to load this file</value>
   </data>
-	<data name="NotDecided" xml:space="preserve">
+  <data name="NotDecided" xml:space="preserve">
     <value>Not Decided</value>
   </data>
-	<data name="NoTools" xml:space="preserve">
+  <data name="NoTools" xml:space="preserve">
     <value>_NoTools</value>
   </data>
-	<data name="notsavedyet" xml:space="preserve">
+  <data name="notsavedyet" xml:space="preserve">
     <value>not saved yet</value>
   </data>
-	<data name="Number" xml:space="preserve">
+  <data name="Number" xml:space="preserve">
     <value>Number</value>
   </data>
-	<data name="Numberofboxes" xml:space="preserve">
+  <data name="Numberofboxes" xml:space="preserve">
     <value>Number of boxes</value>
   </data>
-	<data name="Numberofpages" xml:space="preserve">
+  <data name="Numberofpages" xml:space="preserve">
     <value>Number of pages</value>
   </data>
-	<data name="Numberofquestions" xml:space="preserve">
+  <data name="Numberofquestions" xml:space="preserve">
     <value>Number of questions</value>
   </data>
-	<data name="Numberoftextfields" xml:space="preserve">
+  <data name="Numberoftextfields" xml:space="preserve">
     <value>Number of text fields</value>
   </data>
-	<data name="OK" xml:space="preserve">
+  <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
-	<data name="One" xml:space="preserve">
+  <data name="One" xml:space="preserve">
     <value>_One</value>
   </data>
-	<data name="OnePaged" xml:space="preserve">
+  <data name="OnePaged" xml:space="preserve">
     <value>_One Paged</value>
   </data>
-	<data name="OnePNGtocheck" xml:space="preserve">
+  <data name="OnePNGtocheck" xml:space="preserve">
     <value>_One PNG to check</value>
   </data>
-	<data name="Open" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>_Open</value>
   </data>
-	<data name="Openlistofscans" xml:space="preserve">
+  <data name="Openlistofscans" xml:space="preserve">
     <value>Open list of scans</value>
   </data>
-	<data name="OpenProject" xml:space="preserve">
+  <data name="OpenProject" xml:space="preserve">
     <value>Open Project</value>
   </data>
-	<data name="OriginalDoc" xml:space="preserve">
+  <data name="OriginalDoc" xml:space="preserve">
     <value>Original Doc</value>
   </data>
-	<data name="Overview" xml:space="preserve">
+  <data name="Overview" xml:space="preserve">
     <value>Overview</value>
     <comment>přehled (okno)</comment>
   </data>
-	<data name="Paths" xml:space="preserve">
+  <data name="Paths" xml:space="preserve">
     <value>Paths</value>
   </data>
-	<data name="PDF" xml:space="preserve">
+  <data name="PDF" xml:space="preserve">
     <value>PDF</value>
   </data>
-	<data name="PDFfile" xml:space="preserve">
+  <data name="PDFfile" xml:space="preserve">
     <value>PDF</value>
   </data>
-	<data name="Percents" xml:space="preserve">
+  <data name="Percents" xml:space="preserve">
     <value>Percents</value>
   </data>
-	<data name="Picturesallreadable" xml:space="preserve">
+  <data name="Picturesallreadable" xml:space="preserve">
     <value>Pictures (all readable)</value>
   </data>
-	<data name="PNG" xml:space="preserve">
+  <data name="PNG" xml:space="preserve">
     <value>_PNG</value>
   </data>
-	<data name="Points" xml:space="preserve">
+  <data name="Points" xml:space="preserve">
     <value>Points</value>
   </data>
-	<data name="Print" xml:space="preserve">
+  <data name="Print" xml:space="preserve">
     <value>_Print</value>
   </data>
-	<data name="Printing" xml:space="preserve">
+  <data name="Printing" xml:space="preserve">
     <value>Printing</value>
   </data>
-	<data name="Project" xml:space="preserve">
+  <data name="Project" xml:space="preserve">
     <value>Project</value>
   </data>
-	<data name="ProjectFileName" xml:space="preserve">
+  <data name="ProjectFileName" xml:space="preserve">
     <value>Project File Name</value>
   </data>
-	<data name="ProjectInfo" xml:space="preserve">
+  <data name="ProjectInfo" xml:space="preserve">
     <value>Project Info</value>
   </data>
-	<data name="ProjectLocation" xml:space="preserve">
+  <data name="ProjectLocation" xml:space="preserve">
     <value>Project Location</value>
   </data>
-	<data name="ProjectName" xml:space="preserve">
+  <data name="ProjectName" xml:space="preserve">
     <value>Project</value>
   </data>
-	<data name="Projectversion" xml:space="preserve">
+  <data name="Projectversion" xml:space="preserve">
     <value>Project version</value>
   </data>
-	<data name="question" xml:space="preserve">
+  <data name="question" xml:space="preserve">
     <value>question</value>
   </data>
-	<data name="QuestionEvaluateOrUseOld" xml:space="preserve">
+  <data name="QuestionEvaluateOrUseOld" xml:space="preserve">
     <value>Some works are already evaluated, do you want to evaluate again anyway?</value>
   </data>
-	<data name="Questions" xml:space="preserve">
+  <data name="Questions" xml:space="preserve">
     <value>Questions</value>
   </data>
-	<data name="Read" xml:space="preserve">
+  <data name="Read" xml:space="preserve">
     <value>Read Scans</value>
   </data>
-	<data name="Reload" xml:space="preserve">
+  <data name="Reload" xml:space="preserve">
     <value>Reload</value>
   </data>
-	<data name="Results" xml:space="preserve">
+  <data name="Results" xml:space="preserve">
     <value>Results</value>
     <comment>výsledky (okno)</comment>
   </data>
-	<data name="RightAnswer" xml:space="preserve">
+  <data name="RightAnswer" xml:space="preserve">
     <value>Right Answer</value>
   </data>
-	<data name="RightOverAnswered" xml:space="preserve">
+  <data name="RightOverAnswered" xml:space="preserve">
     <value>Rigth / Evaluated</value>
   </data>
-	<data name="Rotate" xml:space="preserve">
+  <data name="Rotate" xml:space="preserve">
     <value>Rotate</value>
   </data>
-	<data name="RotateAll" xml:space="preserve">
+  <data name="RotateAll" xml:space="preserve">
     <value>Rotate All</value>
   </data>
-	<data name="Save" xml:space="preserve">
+  <data name="Save" xml:space="preserve">
     <value>_Save</value>
   </data>
-	<data name="SaveAs" xml:space="preserve">
+  <data name="SaveAs" xml:space="preserve">
     <value>_Save As</value>
   </data>
-	<data name="SaveAsCtrlShiftS" xml:space="preserve">
+  <data name="SaveAsCtrlShiftS" xml:space="preserve">
     <value>Save As (Ctrl+Shift+S)</value>
   </data>
-	<data name="SaveCtrlS" xml:space="preserve">
+  <data name="SaveCtrlS" xml:space="preserve">
     <value>Save (Ctrl+S)</value>
   </data>
-	<data name="Saved" xml:space="preserve">
+  <data name="Saved" xml:space="preserve">
     <value>Saved</value>
   </data>
-	<data name="savequestion" xml:space="preserve">
+  <data name="savequestion" xml:space="preserve">
     <value>Project is not saved.
 Do you want to save it?</value>
   </data>
-	<data name="Scanner" xml:space="preserve">
+  <data name="Scanner" xml:space="preserve">
     <value>_Scanner</value>
   </data>
-	<data name="SelectScener" xml:space="preserve">
+  <data name="SelectScener" xml:space="preserve">
     <value>You need to select first an scanner device from the list</value>
   </data>
-	<data name="Settings" xml:space="preserve">
+  <data name="Settings" xml:space="preserve">
     <value>_Settings</value>
   </data>
-	<data name="sizeofbox" xml:space="preserve">
+  <data name="sizeofbox" xml:space="preserve">
     <value>size of box</value>
   </data>
-	<data name="spacebetween" xml:space="preserve">
+  <data name="spacebetween" xml:space="preserve">
     <value>space between</value>
   </data>
-	<data name="spacebetweenBoxes" xml:space="preserve">
+  <data name="spacebetweenBoxes" xml:space="preserve">
     <value>Space Between Boxes</value>
   </data>
-	<data name="StudentTesterProjects" xml:space="preserve">
+  <data name="StudentTesterProjects" xml:space="preserve">
     <value>Student Tester Projects</value>
   </data>
-	<data name="succesfullyscanned" xml:space="preserve">
+  <data name="succesfullyscanned" xml:space="preserve">
     <value>succesfully scanned</value>
   </data>
-	<data name="TempFolder" xml:space="preserve">
+  <data name="TempFolder" xml:space="preserve">
     <value>Temp Folder</value>
   </data>
-	<data name="text" xml:space="preserve">
+  <data name="text" xml:space="preserve">
     <value>text</value>
   </data>
-	<data name="TextStrings" xml:space="preserve">
+  <data name="TextStrings" xml:space="preserve">
     <value>Text Strings</value>
   </data>
-	<data name="THIS LANGUAGE" xml:space="preserve">
+  <data name="THIS LANGUAGE" xml:space="preserve">
     <value>English</value>
   </data>
-	<data name="ToogleCorrect" xml:space="preserve">
+  <data name="ToogleCorrect" xml:space="preserve">
     <value>Toogle Correct</value>
   </data>
-	<data name="UndoBox" xml:space="preserve">
+  <data name="UndoBox" xml:space="preserve">
     <value>Undo Box</value>
   </data>
-	<data name="UndoField" xml:space="preserve">
+  <data name="UndoField" xml:space="preserve">
     <value>Undo Field</value>
   </data>
-	<data name="UndoNameField" xml:space="preserve">
+  <data name="UndoNameField" xml:space="preserve">
     <value>Undo Name Field</value>
   </data>
-	<data name="UndoNotCompatible" xml:space="preserve">
+  <data name="UndoNotCompatible" xml:space="preserve">
     <value>Undo is not compatible
  with Delete Page</value>
   </data>
-	<data name="UndoQuestion" xml:space="preserve">
+  <data name="UndoQuestion" xml:space="preserve">
     <value>Undo Question</value>
   </data>
-	<data name="Unedited" xml:space="preserve">
+  <data name="Unedited" xml:space="preserve">
     <value>Unedited</value>
   </data>
-	<data name="Unload" xml:space="preserve">
+  <data name="Unload" xml:space="preserve">
     <value>_Unload</value>
   </data>
-	<data name="unloaded" xml:space="preserve">
+  <data name="unloaded" xml:space="preserve">
     <value>Unloaded</value>
   </data>
-	<data name="Untitled" xml:space="preserve">
+  <data name="Untitled" xml:space="preserve">
     <value>Untitled</value>
   </data>
-	<data name="View" xml:space="preserve">
+  <data name="View" xml:space="preserve">
     <value>_View</value>
   </data>
-	<data name="ViewPage" xml:space="preserve">
+  <data name="ViewPage" xml:space="preserve">
     <value>View Page</value>
   </data>
-	<data name="ViewScan" xml:space="preserve">
+  <data name="ViewScan" xml:space="preserve">
     <value>View scan</value>
   </data>
-	<data name="Warning" xml:space="preserve">
+  <data name="Warning" xml:space="preserve">
     <value>Warning</value>
   </data>
-	<data name="WarningMoreThanOneNamefield" xml:space="preserve">
+  <data name="WarningMoreThanOneNamefield" xml:space="preserve">
     <value>One Name field is alredy added.
 would you like to move it here?</value>
   </data>
-	<data name="WarningnoNameFieldadded" xml:space="preserve">
+  <data name="WarningnoNameFieldadded" xml:space="preserve">
     <value>Warning: no Name Field added!</value>
   </data>
-	<data name="warningScansDontHaveEnaughtPages" xml:space="preserve">
+  <data name="warningScansDontHaveEnaughtPages" xml:space="preserve">
     <value>One or more works don't have enaught pages.</value>
   </data>
-	<data name="widthofbound" xml:space="preserve">
+  <data name="widthofbound" xml:space="preserve">
     <value>width of bound</value>
   </data>
-	<data name="Yes" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
-	<data name="DragLeft" xml:space="preserve">
+  <data name="DragLeft" xml:space="preserve">
     <value>dddddddddd</value>
   </data>
-	<data name="MoreFormats" xml:space="preserve">
+  <data name="MoreFormats" xml:space="preserve">
     <value>More Formats</value>
   </data>
-	<data name="Printer" xml:space="preserve">
+  <data name="Printer" xml:space="preserve">
     <value>Printer</value>
   </data>
-	<data name="SavePDF" xml:space="preserve">
+  <data name="SavePDF" xml:space="preserve">
     <value>Save PDF</value>
   </data>
-	<data name="WithAnswers" xml:space="preserve">
+  <data name="WithAnswers" xml:space="preserve">
     <value>With Answers</value>
   </data>
-	<data name="Pictures" xml:space="preserve">
+  <data name="Pictures" xml:space="preserve">
     <value>Pictures</value>
   </data>
-	<data name="ReadingScans" xml:space="preserve">
+  <data name="ReadingScans" xml:space="preserve">
     <value>Reading Scans</value>
   </data>
-	<data name="readingscansline1" xml:space="preserve">
+  <data name="readingscansline1" xml:space="preserve">
     <value>You have loaded this many files:</value>
   </data>
-	<data name="readingscansline2" xml:space="preserve">
+  <data name="readingscansline2" xml:space="preserve">
     <value>How many pages should each work have?</value>
   </data>
-	<data name="readingscansline3" xml:space="preserve">
+  <data name="readingscansline3" xml:space="preserve">
     <value>Works it will produce:</value>
   </data>
-	<data name="readingscansline4" xml:space="preserve">
+  <data name="readingscansline4" xml:space="preserve">
     <value>Leaving this many unused:</value>
   </data>
-	<data name="readingscansline5" xml:space="preserve">
+  <data name="readingscansline5" xml:space="preserve">
     <value>Invert:</value>
   </data>
-	<data name="RealyReturn" xml:space="preserve">
+  <data name="RealyReturn" xml:space="preserve">
     <value>Realy return?</value>
   </data>
-	<data name="LocatorThickness" xml:space="preserve">
+  <data name="LocatorThickness" xml:space="preserve">
     <value>Locators Thickness</value>
   </data>
-	<data name="About" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
-	<data name="version100" xml:space="preserve">
+  <data name="version100" xml:space="preserve">
     <value>version 1.0.0 (22/5)</value>
-    <comment> </comment>
+  </data>
+  <data name="UseSafeEvaluation" xml:space="preserve">
+    <value>Use safe evaluation</value>
   </data>
 </root>
