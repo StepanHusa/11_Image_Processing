@@ -1837,10 +1837,10 @@ namespace _11_Image_Processing
                     Bitmap crop = pages[pageindex].Crop(Rectangle.Round(newRect));
 
                     //debug feature
-                    //TODO comment
-                    pages[pageindex].DrowRectangle(newRect);
-                    if (questions.IndexOf(question) == 3)
-                        crop.SaveToDebugFolder();
+                    //TODOd comment
+                    //pages[pageindex].DrowRectangle(newRect);
+                    //if (questions.IndexOf(question) == 3)
+                    //    crop.SaveToDebugFolder();
 
                     bool IsCross = crop.IsEdgyInTheCenterRecognize();
 
