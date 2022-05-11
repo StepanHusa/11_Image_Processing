@@ -1096,7 +1096,7 @@ namespace _11_Image_Processing
         {
             var mr = MessageBox.Show(Strings.QuestionEvaluateOrUseOld, Strings.EvaluateOrUseOld, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             if (mr == MessageBoxResult.Cancel) return;
-            if (ST.allResults == null ||  mr == MessageBoxResult.Yes)
+            if (ST.allResults == null ||  mr == MessageBoxResult.Yes) 
             {
                 if (ST.scanPagesInWorks.Count == 0) { MessageBox.Show(Strings.NoScansLoaded); return; }
                 new ControlBeforeEvaluatonW().ShowDialog();
