@@ -967,6 +967,7 @@ namespace _11_Image_Processing
             }
             ReloadWindowContent();
             Menu_View_Main_Click(null, null);
+            saved = false;
 
         }
         private async void Menu_Read_PDF_Click(object sender, RoutedEventArgs e)
@@ -977,24 +978,40 @@ namespace _11_Image_Processing
             List<string> tempScans = new();
             string path;
 
-            foreach (var item in open.FileNames)
-            {
-                var doc = new PdfLoadedDocument(item);
-                var child = doc.DocumentInformation.XmpMetadata.XmlData.FirstChild;
-                for (int j = 0; j < doc.Pages.Count; j++)
-                {
-                    Bitmap bitmap = doc.ExportAsImage(j, ST.dpiEvaluatePdf, ST.dpiEvaluatePdf);
-                    do
-                    {
-                        path = ST.tempDirectoryName+"\\"+Path.GetRandomFileName();
-                        path = Path.ChangeExtension(path, ".bmp");
+            porjectwindow.Visibility = Visibility.Hidden;
+            resultswindiw.Visibility = Visibility.Hidden;
+            editWindow.Visibility = Visibility.Hidden;
+            loadingTextblock.Visibility = Visibility.Visible;
 
-                    } while (File.Exists(path));
-                    bitmap.Save(path);
-                    bitmap.Dispose();
-                    tempScans.Add(path);
+            await Task.Run(() =>
+            {
+
+                foreach (var item in open.FileNames)
+                {
+                    var doc = new PdfLoadedDocument(item);
+                    var child = doc.DocumentInformation.XmpMetadata.XmlData.FirstChild;
+                    for (int j = 0; j < doc.Pages.Count; j++)
+                    {
+                        Bitmap bitmap = doc.ExportAsImage(j, ST.dpiEvaluatePdf, ST.dpiEvaluatePdf);
+                        do
+                        {
+                            path = ST.tempDirectoryName + "\\" + Path.GetRandomFileName();
+                            path = Path.ChangeExtension(path, ".bmp");
+
+                        } while (File.Exists(path));
+                        bitmap.Save(path);
+                        bitmap.Dispose();
+                        tempScans.Add(path);
+                    }
                 }
-            }
+            });
+
+            loadingTextblock.Visibility = Visibility.Hidden;
+            porjectwindow.Visibility = Visibility.Visible;
+            Menu_View_Main_Click(null, null);
+
+
+
             await LoadNumberOfFiles(tempScans.ToArray());
             ReloadWindowContent();
             Menu_View_Main_Click(null, null);
@@ -1088,6 +1105,7 @@ namespace _11_Image_Processing
                 return works;
             });
 
+            saved = false;
         }
 
 

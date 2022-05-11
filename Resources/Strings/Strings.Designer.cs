@@ -683,6 +683,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading files... please wait.
+        /// </summary>
+        public static string LoadingFiles {
+            get {
+                return ResourceManager.GetString("LoadingFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Local.
         /// </summary>
         public static string Local {

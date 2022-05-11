@@ -364,6 +364,7 @@
                 </Grid>
             </Grid>
             <TextBlock x:Name="evaluationTextblock" Text="{x:Static ln:Strings.EvaluateingWorks}" Visibility="Hidden" HorizontalAlignment="Center" FontSize="50" VerticalAlignment="Center"/>
+            <TextBlock x:Name="loadingTextblock" Text="{x:Static ln:Strings.LoadingFiles}" Visibility="Hidden" HorizontalAlignment="Center" FontSize="50" VerticalAlignment="Center"/>
         </Grid>
     </Grid>
     <Window.Resources>

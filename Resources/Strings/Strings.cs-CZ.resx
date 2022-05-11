@@ -667,4 +667,17 @@ Chcete jej přesunout sem? </value>
 	<data name="UseSafeEvaluation" xml:space="preserve">
 		<value>Uplatnit bezpečné vyhodnocování</value>
 	</data>
+	<data name="RemoveScans" xml:space="preserve">
+		<value>Odstranit skeny</value>
+	</data>
+	<data name="SaveScanedPicturesToProject" xml:space="preserve">
+		<value>Ukládat skeny (obrázky) do projektu</value>
+	</data>
+	<data name="SettingsResetsAfterApplicationRestarts" xml:space="preserve">
+		<value>Nasavení se vymaže při zavření aplikace
+S výjimkou jazyka</value>
+	</data>
+	<data name="LoadingFiles" xml:space="preserve">
+		<value>Načítání souborů... Prosím vyčkejte</value>
+	</data>
 </root>

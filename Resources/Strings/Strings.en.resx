@@ -668,6 +668,21 @@ would you like to move it here?</value>
   </data>
 	<data name="version100" xml:space="preserve">
     <value>version 1.0.0 (22/5)</value>
-    <comment> </comment>
+  </data>
+	<data name="UseSafeEvaluation" xml:space="preserve">
+    <value>Use safe evaluation</value>
+  </data>
+	<data name="RemoveScans" xml:space="preserve">
+    <value>Remove Scans</value>
+  </data>
+	<data name="SaveScanedPicturesToProject" xml:space="preserve">
+    <value>Save scaned pictures to project</value>
+  </data>
+	<data name="SettingsResetsAfterApplicationRestarts" xml:space="preserve">
+    <value>Settings resets after application restart.
+Except of language</value>
+  </data>
+	<data name="LoadingFiles" xml:space="preserve">
+    <value>Loading files... please wait</value>
   </data>
 </root>
