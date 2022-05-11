@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -325,6 +326,31 @@ namespace _11_Image_Processing
             positionersColor = cd.Color;
             colorPosits.Background = new SolidColorBrush(baundColorTwo.ColorFromDrawing());
 
+        }
+
+        private void opentempfolder_Click(object sender, RoutedEventArgs e)
+        {
+            var folderPath = ST.tempDirectoryName;
+            if (Directory.Exists(folderPath))
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    Arguments = folderPath,
+                    FileName = "explorer.exe"
+                };
+
+                Process.Start(startInfo);
+            }
+            else
+            {
+                MessageBox.Show(string.Format("{0} Directory does not exist!", folderPath));
+            }
+        }
+
+        private void emptytempfolder_Click(object sender, RoutedEventArgs e)
+        {
+            if(Directory.Exists(ST.tempDirectoryName))
+                Directory.Delete(ST.tempDirectoryName, true);
         }
     }
 }

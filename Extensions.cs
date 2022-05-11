@@ -468,6 +468,7 @@ namespace _11_Image_Processing
                                 string path= FileAndFolderExtensions.GetNewTempBitmapFilename();
                                 File.WriteAllBytes(path, file);
                                 l[i].Add(path);
+                                ST.tempFilesToDelete.Add(path);
                             }
                         }
                         ST.scanPagesInWorks = l;

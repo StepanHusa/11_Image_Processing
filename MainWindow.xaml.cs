@@ -964,6 +964,7 @@ namespace _11_Image_Processing
                 var bm = new Bitmap(open.FileNames[i]);
                 bm.Save(path);
                 ST.scanPagesInWorks[l + i].Add(path);
+                ST.tempFilesToDelete.Add(path);
             }
             ReloadWindowContent();
             Menu_View_Main_Click(null, null);
@@ -1086,6 +1087,7 @@ namespace _11_Image_Processing
                         for (int j = 0; j < da.Item2; j++)
                         {
                             works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
+                            ST.tempFilesToDelete.Add(ImageFiles[ii]);
                             ii++;
                         }
                     }
@@ -1098,6 +1100,8 @@ namespace _11_Image_Processing
                         for (int i = 0; i < da.Item1; i++)
                         {
                             works[i].Add(ImageFiles[ii]); //BMP, GIF, EXIF, JPG, PNG and TIFF
+                            ST.tempFilesToDelete.Add(ImageFiles[ii]);
+
                             ii++;
                         }
                     }

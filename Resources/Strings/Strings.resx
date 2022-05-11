@@ -416,7 +416,7 @@ Unlock in overview.</value>
     <value>_One PNG to check</value>
   </data>
 	<data name="Open" xml:space="preserve">
-    <value>_Open</value>
+    <value>Open</value>
   </data>
 	<data name="Openlistofscans" xml:space="preserve">
     <value>Open list of scans</value>
@@ -684,5 +684,9 @@ Except of language</value>
   </data>
 	<data name="LoadingFiles" xml:space="preserve">
     <value>Loading files... please wait</value>
+  </data>
+	<data name="Empty" xml:space="preserve">
+    <value>Empty</value>
+    <comment>vyprázdnit</comment>
   </data>
 </root>

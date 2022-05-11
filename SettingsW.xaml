@@ -231,6 +231,14 @@
                         <Label Content="{x:Static ln:Strings.SaveScanedPicturesToProject}" Width="200"/>
                         <CheckBox x:Name="savePictures" Width="30" Margin="0,5,0,0"/>
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <Label Content="{x:Static ln:Strings.TempFolder}" Width="200"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="opentempfolder" Content="{x:Static ln:Strings.Open}" Click="opentempfolder_Click"/>
+                            <Button x:Name="emptytempfolder" Content="{x:Static ln:Strings.Empty}" Click="emptytempfolder_Click" Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+
                 </StackPanel>
 
             </TabItem>
