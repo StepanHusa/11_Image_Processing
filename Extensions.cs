@@ -339,17 +339,40 @@ namespace _11_Image_Processing
                     //ST.scanPagesInWorks
                     var l = ST.scanPagesInWorks;
                     if (l == null)
-                        bw.Write(false); //is null
+                    {
+                        bw.Write(false);//is null
+
+                    }
                     else
                     {
-                        bw.Write(true);
-                        bw.Write(l.Count);
-                        for (int i = 0; i < l.Count; i++)
+                        bw.Write(true); 
+
+                        if (ST.saveScanedPicturesToProject)
                         {
-                            bw.Write(l[i].Count);
-                            for (int j = 0; j < l[i].Count; j++)
+                            bw.Write(true);
+                            bw.Write(l.Count);
+                            for (int i = 0; i < l.Count; i++)
                             {
-                                bw.Write(l[i][j]);
+                                bw.Write(l[i].Count);
+                                for (int j = 0; j < l[i].Count; j++)
+                                {
+                                    var file = File.ReadAllBytes(l[i][j]);
+                                    bw.Write(file.Length); //int32
+                                    bw.Write(file);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            bw.Write(false);
+                            bw.Write(l.Count);
+                            for (int i = 0; i < l.Count; i++)
+                            {
+                                bw.Write(l[i].Count);
+                                for (int j = 0; j < l[i].Count; j++)
+                                {
+                                    bw.Write(l[i][j]);
+                                }
                             }
                         }
                     }

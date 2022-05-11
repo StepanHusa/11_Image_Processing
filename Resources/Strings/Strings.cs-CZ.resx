@@ -664,4 +664,7 @@ Chcete jej přesunout sem? </value>
 	<data name="version100" xml:space="preserve">
 		<value>verze 1.0.0 (22/5)</value>
 	</data>
+	<data name="UseSafeEvaluation" xml:space="preserve">
+		<value>Uplatnit bezpečné vyhodnocování</value>
+	</data>
 </root>

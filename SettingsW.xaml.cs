@@ -55,8 +55,9 @@ namespace _11_Image_Processing
         //more
         private float dpiExport = ST.dpiExport;
         private float dpiEvaluatePdf = ST.dpiEvaluatePdf;
-
+        //advenced
         private bool evaluateSafely = ST.evaluateSafely;
+        private bool saveScanedPicturesToProject=ST.saveScanedPicturesToProject;
 
         public SettingsW()
         {
@@ -119,6 +120,7 @@ namespace _11_Image_Processing
             //evaluatedpi.Text = dpiEvaluatePdf.ToString();
             //advanced
             safeevaluationcheckbox.IsChecked = evaluateSafely;
+            savePictures.IsChecked = saveScanedPicturesToProject;
         }
 
 
@@ -273,6 +275,8 @@ namespace _11_Image_Processing
             //advanced
             evaluateSafely = safeevaluationcheckbox.IsChecked.Value;
             ST.evaluateSafely = evaluateSafely;
+            saveScanedPicturesToProject = savePictures.IsChecked.Value;
+            ST.saveScanedPicturesToProject = saveScanedPicturesToProject;
 
             if (restart)
                 MessageBox.Show("Some changes will take effect after restart.");

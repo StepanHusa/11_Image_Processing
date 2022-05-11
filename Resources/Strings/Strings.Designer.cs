@@ -1395,6 +1395,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save scaned pictures to project.
+        /// </summary>
+        public static string SaveScanedPicturesToProject {
+            get {
+                return ResourceManager.GetString("SaveScanedPicturesToProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Scanner.
         /// </summary>
         public static string Scanner {
@@ -1418,6 +1427,16 @@ namespace _11_Image_Processing.Resources.Strings {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings resets after application restart.
+        ///Except of language.
+        /// </summary>
+        public static string SettingsResetsAfterApplicationRestarts {
+            get {
+                return ResourceManager.GetString("SettingsResetsAfterApplicationRestarts", resourceCulture);
             }
         }
         

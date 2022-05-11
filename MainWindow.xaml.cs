@@ -959,7 +959,11 @@ namespace _11_Image_Processing
             for (int i = 0; i < open.FileNames.Length; i++)
             {
                 ST.scanPagesInWorks.Add(new());
-                ST.scanPagesInWorks[l + i].Add(open.FileNames[i]);
+                var path = ST.tempDirectoryName + "\\" + Path.GetRandomFileName();
+                path = Path.ChangeExtension(path, ".bmp");
+                var bm = new Bitmap(open.FileNames[i]);
+                bm.Save(path);
+                ST.scanPagesInWorks[l + i].Add(path);
             }
             ReloadWindowContent();
             Menu_View_Main_Click(null, null);
@@ -1003,7 +1007,17 @@ namespace _11_Image_Processing
             var open = new OpenFileDialog() { Title = Strings.Openlistofscans, Filter = Strings.Picturesallreadable + $"|*.BMP;*.GIF;*.EXIF;*.JPG;*.PNG;*.TIFF|" + Strings.Allfiles + " (*.*)|*.*", Multiselect = true };
             if (open.ShowDialog() == false) return;
 
-            await LoadNumberOfFiles(open.FileNames);
+            string[] sa = new string[open.FileNames.Length];
+            string path;
+            for (int i = 0; i < open.FileNames.Length; i++)
+            {
+                path = ST.tempDirectoryName + "\\" + Path.GetRandomFileName();
+                path = Path.ChangeExtension(path, ".bmp");
+                var bm = new Bitmap(open.FileNames[i]);
+                bm.Save(path);
+                sa[i] = path;
+            }
+            await LoadNumberOfFiles(sa);
             ReloadWindowContent();
             Menu_View_Main_Click(null, null);
 
@@ -1013,7 +1027,18 @@ namespace _11_Image_Processing
             var a = new ScanForm();
             if (a.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
-            await LoadNumberOfFiles(a.tempScans.ToArray());
+            var open = a.tempScans.ToArray();
+            string[] sa = new string[open.Length];
+            string path;
+            for (int i = 0; i < open.Length; i++)
+            {
+                path = ST.tempDirectoryName + "\\" + Path.GetRandomFileName();
+                path = Path.ChangeExtension(path, ".bmp");
+                var bm = new Bitmap(open[i]);
+                bm.Save(path);
+                sa[i] = path;
+            }
+            await LoadNumberOfFiles(sa);
             ReloadWindowContent();
             Menu_View_Main_Click(null, null);
 

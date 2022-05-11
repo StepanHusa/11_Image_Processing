@@ -221,9 +221,16 @@
 
 
             <TabItem Header="{x:Static ln:Strings.Advanced}">
+                <StackPanel>
+                    
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                     <Label Content="{x:Static ln:Strings.UseSafeEvaluation}" Width="150"/>
                     <CheckBox x:Name="safeevaluationcheckbox" Width="30" Margin="0,5,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <Label Content="{x:Static ln:Strings.SaveScanedPicturesToProject}" Width="150"/>
+                        <CheckBox x:Name="savePictures" Width="30" Margin="0,5,0,0"/>
+                    </StackPanel>
                 </StackPanel>
 
             </TabItem>
@@ -252,7 +259,7 @@
             <TextBox x:Name="af"      Grid.Row="6" Grid.Column="1" KeyDown="IfEnterMoveFocus_KeyDown"/>-->
 
         </TabControl>
-
+        <Label Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,20,20" Content="{x:Static ln:Strings.SettingsResetsAfterApplicationRestarts}"/>
         <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20,0,20,20">
             <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogApply_Click" MinWidth="60" Margin="0,0,10,0" Content="{x:Static ln:Strings.Apply}"/>
             <Button IsCancel="True" MinWidth="60" Content="{x:Static ln:Strings.Cancel}"/>
