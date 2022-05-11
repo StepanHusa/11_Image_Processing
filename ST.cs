@@ -90,7 +90,7 @@ namespace _11_Image_Processing
 
         internal static List<RectangleF> positioners = null;
 
-        internal static List<List<string>> scanPagesInWorks = new(); //outside list are the separete works and inside are pages
+        internal static List<List<string>> scanPagesInWorks = new(); //outside list are the separete works and inside are pages NEVER NULL
         internal static Matrix[][] matrixPagesInWorks = null; //outside list are the separete works and inside are pages
 
         //internal static List<List<List<bool>>> resultsInQuestionsInWorks; //list of results

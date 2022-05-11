@@ -672,6 +672,9 @@ would you like to move it here?</value>
   <data name="UseSafeEvaluation" xml:space="preserve">
     <value>Use safe evaluation</value>
   </data>
+  <data name="RemoveScans" xml:space="preserve">
+    <value>Remove Scans</value>
+  </data>
   <data name="SaveScanedPicturesToProject" xml:space="preserve">
     <value>Save scaned pictures to project</value>
   </data>

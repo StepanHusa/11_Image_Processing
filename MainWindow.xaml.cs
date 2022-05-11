@@ -1094,7 +1094,9 @@ namespace _11_Image_Processing
         //evaluate
         private async void Menu_Eavluate_Click(object sender, RoutedEventArgs e)
         {
-            if (ST.allResults == null || MessageBox.Show(Strings.QuestionEvaluateOrUseOld, Strings.EvaluateOrUseOld, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            var mr = MessageBox.Show(Strings.QuestionEvaluateOrUseOld, Strings.EvaluateOrUseOld, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            if (mr == MessageBoxResult.Cancel) return;
+            if (ST.allResults == null ||  mr == MessageBoxResult.Yes)
             {
                 if (ST.scanPagesInWorks.Count == 0) { MessageBox.Show(Strings.NoScansLoaded); return; }
                 new ControlBeforeEvaluatonW().ShowDialog();
@@ -1220,6 +1222,15 @@ namespace _11_Image_Processing
         {
             ReloadWindowContent();
         }
+        private void removeScans_Click(object sender, RoutedEventArgs e)
+        {
+            ST.scanPagesInWorks = new();
+
+            ReloadWindowContent();
+
+        }
+
+
 
         private void ReloadWindowContent()
         {
@@ -1241,6 +1252,10 @@ namespace _11_Image_Processing
                 if (ST.allResults != null) Menu_View_Result.IsEnabled = true;
 
                 reloadButton.IsEnabled = true;
+                if (ST.scanPagesInWorks.Count==0)
+                    removeScans.IsEnabled = false;
+                else
+                    removeScans.IsEnabled = true;
 
 
                 //pdfDocumentView.UpdateLayout();
@@ -1304,6 +1319,7 @@ namespace _11_Image_Processing
             ST.allResults = null;
 
             reloadButton.IsEnabled = false;
+            removeScans.IsEnabled = false;
 
             if (File.Exists(ST.tempFile))
                 File.Delete(ST.tempFile);

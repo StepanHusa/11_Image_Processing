@@ -1286,6 +1286,15 @@ namespace _11_Image_Processing.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove Scans.
+        /// </summary>
+        public static string RemoveScans {
+            get {
+                return ResourceManager.GetString("RemoveScans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Results.
         /// </summary>
         public static string Results {

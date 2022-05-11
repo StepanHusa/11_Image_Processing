@@ -31,7 +31,18 @@ namespace _11_Image_Processing
     public static class FileAndFolderExtensions
     {
         
+        public static string GetNewTempBitmapFilename()
+        {
+            string path;
+            do
+            {
+                path = ST.tempDirectoryName + "\\" + Path.GetRandomFileName();
+                path = Path.ChangeExtension(path, ".bmp");
 
+            } while (File.Exists(path));
+
+            return path;
+        }
         public static void DeleteTempFiles()
         {
             foreach (var file in ST.tempFilesToDelete)

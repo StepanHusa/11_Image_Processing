@@ -224,11 +224,11 @@
                 <StackPanel>
                     
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <Label Content="{x:Static ln:Strings.UseSafeEvaluation}" Width="150"/>
+                    <Label Content="{x:Static ln:Strings.UseSafeEvaluation}" Width="200"/>
                     <CheckBox x:Name="safeevaluationcheckbox" Width="30" Margin="0,5,0,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                        <Label Content="{x:Static ln:Strings.SaveScanedPicturesToProject}" Width="150"/>
+                        <Label Content="{x:Static ln:Strings.SaveScanedPicturesToProject}" Width="200"/>
                         <CheckBox x:Name="savePictures" Width="30" Margin="0,5,0,0"/>
                     </StackPanel>
                 </StackPanel>

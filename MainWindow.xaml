@@ -225,8 +225,11 @@
                     <TextBlock x:Name="loadedScans"         Grid.Row="9" Grid.Column="1" />
                     <Button  x:Name="lockButton"            Grid.Row="10" Grid.Column="1" Click="lockButton_Click" Width="50" HorizontalAlignment="Left" />
 
+                    <StackPanel  HorizontalAlignment="Center"   Grid.Row="20" VerticalAlignment="Bottom" Orientation="Horizontal">
 
-                    <Button Content="{x:Static ln:Strings.Reload}" x:Name="reloadButton" Style="{DynamicResource buttonsStyle}" HorizontalAlignment="Center" Width="100" Height="30" Margin="0,0,0,30" Grid.Row="20" VerticalAlignment="Bottom" IsEnabled="False"  Click="reloadButton_Click"  />
+                        <Button Content="{x:Static ln:Strings.Reload}" x:Name="reloadButton" Style="{DynamicResource buttonsStyle}" Width="80" Margin="0,0,0,30" Height="30" IsEnabled="False"  Click="reloadButton_Click"  />
+                        <Button Content="{x:Static ln:Strings.RemoveScans}" x:Name="removeScans" Style="{DynamicResource buttonsStyle}" Width="80" Height="30" Margin="20,0,0,30" HorizontalAlignment="Center"   Grid.Row="20" VerticalAlignment="Bottom" IsEnabled="False"  Click="removeScans_Click"  />
+                    </StackPanel>
                 </Grid>
                 <StackPanel Grid.Column="0">
 

@@ -338,41 +338,31 @@ namespace _11_Image_Processing
                 {
                     //ST.scanPagesInWorks
                     var l = ST.scanPagesInWorks;
-                    if (l == null)
+                    if (ST.saveScanedPicturesToProject)
                     {
-                        bw.Write(false);//is null
-
+                        bw.Write(true); 
+                        bw.Write(l.Count);
+                        for (int i = 0; i < l.Count; i++)
+                        {
+                            bw.Write(l[i].Count);
+                            for (int j = 0; j < l[i].Count; j++)
+                            {
+                                var file = File.ReadAllBytes(l[i][j]);
+                                bw.Write(file.Length); //int32
+                                bw.Write(file);//byte[length]
+                            }
+                        }
                     }
                     else
                     {
-                        bw.Write(true); 
-
-                        if (ST.saveScanedPicturesToProject)
+                        bw.Write(false);
+                        bw.Write(l.Count);
+                        for (int i = 0; i < l.Count; i++)
                         {
-                            bw.Write(true);
-                            bw.Write(l.Count);
-                            for (int i = 0; i < l.Count; i++)
+                            bw.Write(l[i].Count);
+                            for (int j = 0; j < l[i].Count; j++)
                             {
-                                bw.Write(l[i].Count);
-                                for (int j = 0; j < l[i].Count; j++)
-                                {
-                                    var file = File.ReadAllBytes(l[i][j]);
-                                    bw.Write(file.Length); //int32
-                                    bw.Write(file);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            bw.Write(false);
-                            bw.Write(l.Count);
-                            for (int i = 0; i < l.Count; i++)
-                            {
-                                bw.Write(l[i].Count);
-                                for (int j = 0; j < l[i].Count; j++)
-                                {
-                                    bw.Write(l[i][j]);
-                                }
+                                bw.Write(l[i][j]);
                             }
                         }
                     }
@@ -444,9 +434,27 @@ namespace _11_Image_Processing
                 {
                     //ST.scanPagesInWorks
                     if (r.ReadBoolean() == false)
-                        ST.scanPagesInWorks =null;
+                    {
+
+                        ST.saveScanedPicturesToProject = false;
+                        List<List<string>> l = new();
+                        int len = r.ReadInt32();
+                        for (int i = 0; i < len; i++)
+                        {
+                            l.Add(new());
+                            int lj = r.ReadInt32();
+                            for (int j = 0; j < lj; j++)
+                            {
+                                l[i].Add(r.ReadString());
+                            }
+                        }
+                        ST.scanPagesInWorks = l;
+                    }
+
                     else
                     {
+                        ST.saveScanedPicturesToProject = true;
+
                         List<List<string>> l = new();
                         int len=r.ReadInt32();
                         for (int i = 0; i < len; i++)
@@ -455,7 +463,11 @@ namespace _11_Image_Processing
                             int lj = r.ReadInt32();
                             for (int j = 0; j < lj; j++)
                             {
-                                l[i].Add(r.ReadString());
+                                int filelength = r.ReadInt32();
+                                var file = r.ReadBytes(filelength);
+                                string path= FileAndFolderExtensions.GetNewTempBitmapFilename();
+                                File.WriteAllBytes(path, file);
+                                l[i].Add(path);
                             }
                         }
                         ST.scanPagesInWorks = l;
